@@ -9,6 +9,59 @@ export const MainContainer = styled.div`
   
 `
 
+const FormData = styled.form`
+
+`
+
+export const InputEmailUser = styled.input`
+   background-color: #F7F8FA;
+   color: #969BB8;
+   border: none;
+   font-weight: 500;
+   width: 100%;
+   font-size: 14px;
+   padding: 11px;
+   padding-left: 15px;
+   border-radius: 5px;
+   border: 1px solid #F7F8FA;
+   -webkit-transition: border 0.4s linear;
+   transition: border 0.4s linear;
+   -webkit-letter-spacing: 0.5px;
+   -moz-letter-spacing: 0.5px;
+   -ms-letter-spacing: 0.5px;
+   letter-spacing: 0.5px;
+
+   &:focus {
+      border:1px solid #8866D0;
+  }
+`
+
+
+export const InputMessageUser = styled.textarea`
+   background-color: #F7F8FA;
+   color: #969BB8;
+   font-weight: 500;
+   height: 120px !important;
+   border-radius: 5px;
+   font-size: 14px;
+   width: 100%;
+   padding: 16px;
+   border: none;
+   border: 1px solid #F7F8FA;
+   -webkit-transition: border 0.4s linear;
+   transition: border 0.4s linear;
+   -webkit-letter-spacing: 0.5px;
+   -moz-letter-spacing: 0.5px;
+   -ms-letter-spacing: 0.5px;
+   letter-spacing: 0.5px;
+
+   &:focus {
+      border:1px solid #8866D0;
+  }
+`
+
+
+
 export const Temp = styled.div`
     width: 160%;
     padding-top: 30px;
@@ -395,7 +448,6 @@ export const Container = styled.div`
             border-radius: 10px;
             background: #110035;
             padding: 5px;
-
 
             .apple-icon{
                font-size: 20px;

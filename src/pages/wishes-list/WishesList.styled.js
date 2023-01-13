@@ -1,11 +1,11 @@
 import { Grid, Container } from "@mantine/core";
 import styled from "styled-components";
 
-export const BlogMainSection = styled(Container) `
+export const BlogMainSection = styled(Container)`
     padding-top: 50px;
     padding-left: 100px;
     padding-right: 100px;
-    @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
         padding-left: 15px;
         padding-right: 16px;
     }
@@ -14,7 +14,7 @@ export const BlogMainSection = styled(Container) `
     .instruction h2 {
         font-size: 50px;
         font-weight: 600;
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){font-size: 40px;}
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){font-size: 40px;}
     }
 
     .instruction p {
@@ -37,45 +37,94 @@ export const BlogMainSection = styled(Container) `
     }
 `
 
-export const ButtonSection = styled(Grid) `
+export const ButtonSection = styled(Grid)`
     padding-top:30px;
     display: flex;
     padding-bottom: 30px;
+
+    @media (max-width: 1000px) {
+        flex-direction: column-reverse;
+    padding-bottom: 50px;
+    gap: 18px;
+    }
+
+    .btn-container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        @media(max-width: 1000px){
+            width: 100%;
+        }
+        @media(max-width: 590px){
+            width: 150%;
+            overflow: scroll;
+        }
+    }
+
+    .input-section {
+        @media(min-width: 1000px){
+           width: 49%;
+        }
+ 
+        @media(max-width: 1000px){
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+ 
+         .inp-sect{
+             width: 100%;
+             height: 100%;
+         }
+ 
+     }
 
     .search-filter {
         display: flex;
     }
 
-    @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
         flex-direction: column-reverse;
         gap: 18px;
         padding-bottom: 50px;
     }
     
     .btn-section {
-        width: 44%;
+
         border: 2px solid rgb(229 228 228);
         border-radius:13px;
-        display: flex;
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
-            width:102%;
+        width: 100%;
+        overflow: hidden;
+
+
+
+        @media(min-width: 1000px){
+            width: 47.4%;
         }
 
-        @media (min-width: 769px) and (max-width: 1350px) {
-            overflow: scroll;
-        }
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
-            width: 50%;
-            overflow: scroll;
-        }
-
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media(max-width: 1000px){
             width: 100%;
+        }
+        
+        @media(max-width: 590px){
+            width: 102%;
             overflow: scroll;
         }
-        @media (max-width: 500px) {
-            overflow: scroll;
+
+        .btn-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+
+            @media(max-width: 1000px){
+                width: 100%;
+            }
+
+            @media(max-width: 590px){
+                width: 150%;
+                overflow: scroll;
+            }
         }
     }
 
@@ -86,6 +135,10 @@ export const ButtonSection = styled(Grid) `
         border-radius: 10px;
         background: rgb(222 229 255);
         text-transform: capitalize;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 
     .other-btn-th {
@@ -95,13 +148,39 @@ export const ButtonSection = styled(Grid) `
 
     .other-btn {
         background: white;
+        padding-left: 20px;
+        padding-right: 20px;
         border: none;
         color: black;
         height: 50px;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        margin-left: 25px;
         text-transform: capitalize;
+
+        @media(max-width: 1500px){
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        @media(max-width: 1290px){
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @media(max-width: 1100px){
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        @media(max-width: 1000px){
+            min-width: 70px;
+        }
+
+
+
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+            margin-left: 33px;
+        }
     }
 
     .input-section{
@@ -156,7 +235,11 @@ export const ButtonSection = styled(Grid) `
         padding: 8px;
         margin-left: 30px;
 
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
+        @media (min-width: 375px) and (max-width: 768px) {
+            padding-left: 33px;
+        }
+
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
             margin-left:0px;
             width: 70%; 
             padding: 0px;
@@ -180,7 +263,7 @@ export const ButtonSection = styled(Grid) `
 
 `
 
-export const CardTopSection = styled(Container) `
+export const CardTopSection = styled(Container)`
     background: #0B0023;
     border-radius: 20px;
     padding: 0px !important;
@@ -217,7 +300,7 @@ export const CardTopSection = styled(Container) `
     }
 `
 
-export const BlogCard = styled(Container) `
+export const BlogCard = styled(Container)`
     padding: 0px;
     padding-top: 50px;
     margin: 0;
@@ -250,13 +333,13 @@ export const BlogCard = styled(Container) `
     }
 `
 
-export const PaginationSection = styled(Container) `
+export const PaginationSection = styled(Container)`
     display: flex;
     justify-content: center;
     padding-bottom: 70px;
     padding-top: 50px;
 
-    @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
         padding-left: 0px;
         padding-right: 0px;
     }

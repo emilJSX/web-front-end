@@ -9,6 +9,8 @@ import glasses from '../../../style/icons/glasses.svg'
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { BlogOtherPosts } from './CardResult';
 import { NotFoundSection, BlogMainSection, BlogCard } from './BlogNoResult.Styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const BlogSRNotFound = () => {
     return (
@@ -18,8 +20,9 @@ const BlogSRNotFound = () => {
                 <h2>Search results</h2>
             </div>   
             <Grid>
-                <Grid.Col className='input-col-root' span={12}>
-                    <CustomInput className='inp-sect' placeholder='Coca-cola' />
+                <Grid.Col className='input-col-root' span={12} style={{height: '50px', display: 'flex'}}>
+                    <CustomInput className='inp-sect' placeholder='Coca-cola'/>
+                    <FontAwesomeIcon icon={faSearch} style={{ transform: 'translate(-40px, -8px)' }}/>
                 </Grid.Col>
             </Grid>
 

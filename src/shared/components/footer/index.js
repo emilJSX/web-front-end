@@ -14,7 +14,7 @@ export const Footer = () => {
                 <ul>
                     {
                         headerLists.map(e => (
-                            <li key={e.id}><Link to={'/'} className={'footer-links'}>{e.name}</Link></li>
+                            <li key={e.id}><Link to={e.href} className={'footer-links'}>{e.name}</Link></li>
                         ))
                     }
                 </ul>
@@ -36,24 +36,24 @@ export const Footer = () => {
             <section className="footer-bottom">
                 <div>
                     <p>© WishX 2019 – 2022</p>
-                    <Link to="/">Privacy Policy</Link>
+                    <Link to="/privacy">Privacy Policy</Link>
                 </div>
                 <div className='bottom-connector'></div>
                 <div>
-                    <Link to="/">Terms of Service</Link>
+                    <Link to="/privacy">Terms of Service</Link>
                     <Link to="/">Made with love</Link>
                 </div>
             </section>
 
             <section className="bottom-sm">
                 <div className='private-poice'>
-                    <Link to="/" className='private-police-title'>Privacy Policy</Link>
+                    <Link to="/privacy" className='private-police-title'>Privacy Policy</Link>
                     <div className='bottom-connector'></div>
-                    <Link to="/" className='treams-of-service'>Terms of Service</Link>
+                    <Link to="/privacy" className='treams-of-service'>Terms of Service</Link>
                 </div>
                 <div>
                     <p>© WishX 2019 – 2022</p>
-                    <Link to="/">Made with love</Link>
+                    <Link>Made with love</Link>
                 </div>
             </section>
         </FooterComponent>

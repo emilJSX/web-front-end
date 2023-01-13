@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { MultiSelect } from '@mantine/core';
+import Calendar from 'react-calendar';
+import '../../shared/components/Calendar/calendar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faArrowUpFromBracket, faCheck, faCalenda } from '@fortawesome/free-solid-svg-icons';
-import { FaApple, FaFacebook, FaFileUpload, FaGoogle, FaInstagram, FaTelegram, FaTiktok, FaTwitter, FaUpload, FaWhatsapp } from 'react-icons/fa';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { FaApple, FaFacebook, FaGoogle, FaInstagram, FaTelegram, FaTiktok, FaTwitter, FaUpload, FaWhatsapp } from 'react-icons/fa';
+import { Tab, Tabs, TabPanel } from 'react-tabs';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import moment from "moment";
+import Profile_Picture from '../../assets/images/c041f60c443c14f5849fe6d2a106a7ff.png'
 import Cry_Smyle from '../../style/icons/cry_smyle.jpg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import imageCompression from 'browser-image-compression';
 import {
   ProfileEditing,
   LittleContainer,
@@ -36,6 +41,7 @@ import {
   SosialMediaSelection,
   SaveButton
 } from './MyProfileEdit.styles'
+import axios from 'axios';
 
 const SetProfileEditButtonsEvent = () => {
 
@@ -84,7 +90,6 @@ const OnSetProfileEditPathClick = (clicked) => {
 
 }
 
-
 const SetGenderButtonsClick = () => {
 
   let gender_buttuns = document.querySelectorAll('.gender_buttuns');
@@ -96,24 +101,6 @@ const SetGenderButtonsClick = () => {
   }
 }
 
-
-const OnGenderButtonClick = (clicked) => {
-
-  let element_id = clicked.getAttribute('id');
-
-  switch (element_id) {
-    case 'female':
-      document.querySelector('#female').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;');
-      document.querySelector('#male').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
-      break;
-    case 'male':
-      document.querySelector('#male').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3');
-      document.querySelector('#female').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
-      break;
-  }
-}
-
-
 const SetSaveAndCancelButtonsClick = () => {
   let SaveAndCancel = document.querySelectorAll('.saveAndCancel');
 
@@ -124,21 +111,18 @@ const SetSaveAndCancelButtonsClick = () => {
   }
 }
 
-
-
-
-
 const OnClickSaveOrCancelButton = (clicked) => {
+  clicked.preventDefault()
 
   let saveAndCancelid = clicked.getAttribute('id');
 
   switch (saveAndCancelid) {
     case 'save_button':
       document.querySelector('#save_button').setAttribute('style', 'background: #3800B0; border-radius: 8px; color: #FFFFFF;');
-      document.querySelector('#cancel_button').setAttribute('style', 'background: #FFFFFF; color: #3800B0; border: 1px solid #3800B0;');
+      document.querySelector('#cancel_button').setAttribute('style', 'background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;');
       break;
     case 'cancel_button':
-      document.querySelector('#save_button').setAttribute('style', 'background: #FFFFFF; color: #3800B0; border: 1px solid #3800B0;');
+      document.querySelector('#save_button').setAttribute('style', 'background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;');
       document.querySelector('#cancel_button').setAttribute('style', 'background: #3800B0; border-radius: 8px; color: #FFFFFF;');
       break;
   }
@@ -191,15 +175,32 @@ function MyVerticallyCenteredModal(props) {
 }
 
 
+const OnGenderButtonClick = (clicked) => {
+
+  let element_id = clicked.getAttribute('id');
+  
+  switch (element_id) {
+    case  'female':
+      document.querySelector('#female').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;');
+      document.querySelector('#male').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
+      break;
+      case 'male':
+        document.querySelector('#male').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3');
+        document.querySelector('#female').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
+        break;
+      }
+}
+
+
 
 function DeleteAccountConfirmSmyle(props) {
-
+  
   return (
     <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
+    {...props}
+    size="lg"
+    aria-labelledby="contained-modal-title-vcenter"
+    centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter" >
@@ -221,49 +222,272 @@ function DeleteAccountConfirmSmyle(props) {
 
 
 const ProfileEdit = () => {
-
+  
   const [isOpened, SetOpenOrClose] = useState(false);
   const [countryName, SetCountryName] = useState('Select Country');
   const [password, setPassword] = useState('password');
   const [modalShow, setModalShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
-
+  const [value, onChange] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+  let GetApiDate = value.getDate() + "." + parseInt(value.getMonth()+1) + "." + value.getFullYear();
+  
   const OnSeclectCountry = (country) => {
     SetCountryName(country.innerHTML);
     document.querySelector('.countries-list').setAttribute('style', 'display: none');
     SetOpenOrClose(false);
   }
-
+  
   const setClickOnOptions = () => {
     const options = document.querySelectorAll('.option');
-
+    
     for (const iterator of options) {
       iterator.addEventListener('click', (e) => {
         OnSeclectCountry(e.currentTarget);
       })
     }
   }
-
+  
   useEffect(() => {
     setClickOnOptions();
     SetProfileEditButtonsEvent();
     SetGenderButtonsClick();
     SetSaveAndCancelButtonsClick();
   });
-
-
+  
+  
   const data = [
-    { value: 'react', label: 'React' },
-    { value: 'ng', label: 'Angular' },
-    { value: 'svelte', label: 'Svelte' },
-    { value: 'vue', label: 'Vue' },
-    { value: 'riot', label: 'Riot' },
-    { value: 'next', label: 'Next.js' },
-    { value: 'blitz', label: 'Blitz.js' },
-  ];
+        {
+          label: 'Travel',
+          value: 1,
+        },
+        {
+          label: 'Bussness',
+          value: 2,
+        }
+    ]
+  
+  const getUserToken = localStorage.getItem("UserToken=")
+  // ==============================================UPDATE SOCIAL LINKS===============================================================
+  
+  
+  const [SocialInputs, setSocialInputs] = useState({ facebook: "", instagram: "", twitter: "", tiktok: "", telegram: "", whatsapp: "" })
+  const [getSocialLinksUser, setGetSocialLinksUser] = useState()
+  
+  const UpdateSocialLinkUser = () => {
+    axios.post("https://api.wishx.me/api/v1/profiles/social/links/update",{
+      facebook: SocialInputs.facebook,
+      instagram: SocialInputs.instagram,
+      twitter: SocialInputs.twitter,
+      tiktok: SocialInputs.tiktok,
+      telegram: SocialInputs.telegram,
+      whatsapp: SocialInputs.whatsapp,
+    },{headers: {
+      'Authorization': `Bearer ${getUserToken}`,
+    }}).then((getResultDataUpdateSocialLinks) => {
+      console.log(getResultDataUpdateSocialLinks)
+      toast.success('Successfully added social networks ', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+    }).catch(() => {
+      toast.error('Please check your details', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    })
+  }
+  // =============================================================================================================================
+  
+  // ===============================================GET SOCIAL LINKS==============================================================
+  
+  const handleChangeInput = (e) => {
+    const {name, value} = e.target
+      const result = {...SocialInputs, [name]: value}
+      setSocialInputs(result)
+    }
+    
+    useEffect(() => {
+      axios.get("https://api.wishx.me/api/v1/profiles/social/links", {
+        headers: {
+          'Authorization': `Bearer ${getUserToken}`,
+        },
+      }).then((getUserSocialLinks) => {
+        setGetSocialLinksUser(getUserSocialLinks.data.data)
+      })
+    }, [])
+    
+    useEffect(() => {
+      const {facebook="", instagram="", twitter="", tiktok = "", telegram = "", whatsapp = ""} = getSocialLinksUser || {}
+      setSocialInputs({facebook, instagram, twitter, tiktok, telegram, whatsapp})
+    }, [getSocialLinksUser])
+    
+    // ============================================================================================================================
+    
+    
+    // ===================================================GET USER UPDATE INFO=====================================================
+    
+    // avatar, country, birthday, interests, gender
+    const [getUserInfoProfile, setUserInfoProfile] = useState({ full_name: "", slug: "", about: "", avatar: "", phone: "", email: "", interests: ""})
+    const [getInfoUser, setInfoUser] = useState([])
+    const [getCountryData, setCountryData] = useState("USD")
+    const [getGenderId, setGenderId] = useState()
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectPassport, setselectPassport] = useState(null)
+    const [getCountry, setCountry] = useState()
+    
+    const handleChangeInputInfo = (e) => {
+      const {name, value} = e.target
+      const result = {...getUserInfoProfile, [name]: value}
+      setUserInfoProfile(result)
+    }
+
+    const handleFileSelect = (event) => {
+      setSelectedFile(event.target.files[0])
+    }
+
+    const handleGetPassportFile = (event) => {
+      setselectPassport(event.target.files[0])
+    }
+
+    useEffect(() => {
+      axios.get("https://api.wishx.me/api/v1/profiles/edit", {
+        headers: {
+          'Authorization': `Bearer ${getUserToken}`,
+        },
+      }).then((getUserUpdateInfo) => {
+        setInfoUser(getUserUpdateInfo.data.data)
+        setGenderId(getUserUpdateInfo.data.data.gender.id)
+        setCountryData(getUserUpdateInfo.data.data.country)
+      })
+    }, [])
+    
+    var getIdInterestsApi = []
+    console.log(getIdInterestsApi, "INTER")
+    useEffect(() => {
+      const {full_name="", slug="", about="", avatar="", email="", phone="", interests="" } = getInfoUser || {}
+      setUserInfoProfile({full_name, slug, about, avatar, email, phone, interests})
+      {Object.values(getUserInfoProfile.interests).map((e) => getIdInterestsApi.push(e.id))}
+    }, [getInfoUser])
+
+    console.log(getUserInfoProfile, "AAAA")
+
+
+    // Checked Gender Id for API
+
+    useEffect(() => {
+      if (getGenderId == 1) {
+        document.querySelector('#female').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;');
+        document.querySelector('#male').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
+      } else if (getGenderId == 2) {
+        document.querySelector('#male').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3');
+        document.querySelector('#female').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
+      }
+    }, [])
+ 
+    const [getCountryNameId, setCountryNameId] = useState()
+    const getCountryId = (e) => {
+      const {id} = e.target
+      const result = { id, countryName }
+      setCountryNameId(result)
+    }
+
+
+    // Show Country Name take with id API
+
+    useEffect(() => {
+      var getname = getCountryData?.name
+      SetCountryName(getname)
+    }, [])
+
+
+    const [getInterestsIdApi, setInterestsIdApi] = useState()
+    const getInterestsId  = (item) => {
+      setInterestsIdApi(item)
+    }
+
+    const getCountryIdState = getCountryNameId?.id
+    
+    // ============================================================================================================================
+    
+    // ===================================================UPDATE PROFILE INFORMATION===============================================
+    const handleUpdateInfoProfile = async (event) => {
+      event.preventDefault()
+      const formUpdateData = new FormData();
+      formUpdateData.append("file", selectedFile == null ? getUserInfoProfile.avatar : selectedFile)
+      formUpdateData.append("full_name", getUserInfoProfile.full_name)
+      formUpdateData.append("country", getCountryIdState)
+      formUpdateData.append("gender", getGenderId)
+      formUpdateData.append("dob", "12.01.1992") 
+      formUpdateData.append("username", getUserInfoProfile.slug)
+      formUpdateData.append("interests", getInterestsIdApi)
+      formUpdateData.append("about", getUserInfoProfile.about)
+
+      try {
+          await axios({
+              method: "post",
+              url: "https://api.wishx.me/api/v1/profiles/update",
+              data: formUpdateData,
+              headers: { 'Access-Control-Allow-Origin': '*', xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${getUserToken}`, },
+          }).then((resultUpdate) => {
+              toast.success('Successfully updated ', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+          });
+      } catch (error) {
+          toast.error('Please check your details', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+      }
+  }
+  
+    // ============================================================================================================================
+    
+    // =======================================================VERIFICATION PASSPORT API============================================
+
+    const handleVerifyPassport = async (event) => {
+      event.preventDefault()
+      const formGetPassportData = new FormData();
+      formGetPassportData.append("file", selectPassport)
+
+      try {
+          await axios({
+              method: "post",
+              url: "https://api.wishx.me/api/v1/profiles/verify",
+              data: formGetPassportData,
+              headers: { 'Access-Control-Allow-Origin': '*', xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${getUserToken}`, },
+          }).then((data) => {
+            console.log(data)
+              toast.success('Successfully send passport', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+          });
+      } catch (error) {
+          toast.error('Please check your details', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+      }
+  }
+
+    // ============================================================================================================================
+
+  // ======================================================= GET COUNTRIES ============================================
+
+  useEffect(() => {
+    axios.get("https://api.wishx.me/api/v1/settings/countries/get", {
+      headers: { 'Access-Control-Allow-Origin': '*', xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${getUserToken}`}
+    }).then((getCountry) => {
+     
+      getCountry?.data?.data.map((e) => {
+        setCountry(e)
+      })
+    })
+  }, [])
 
 
 
+  // ==================================================================================================================
+
+    
+    
   return (
     <ProfileEditing>
       <LittleContainer>
@@ -289,80 +513,100 @@ const ProfileEdit = () => {
             </EditingButtons>
             <TabPanel value="personalinfo">
               <Section>
-                <EditingItem>
-                  <ProfilePicture>
-                    <figure className='image-figure'>
-                      <img src='https://s3-alpha-sig.figma.com/img/3d40/3064/c041f60c443c14f5849fe6d2a106a7ff?Expires=1664150400&Signature=LJTYgr98kWZlo7FvMaSK~QFRyyIEckFm3xUIWfYtbZa1x1Pok5uVpRiVgqr6WQ6lrvkACbxhsq39LvwrTRQdYdHZhKoSi~6leHbQH1rUUUA2FRpmwJCdWRlrMkm2VBn~v0AoGyr9-Hd7ZOTxkbms8ssc2gOjB0ymHSxdu1vXBhzWINx-9A8liuAEJjuMz59wxuZbefmj~KxJcfyX2i1NGS7QhNxJIGU4ljSYT5Ov4PzKtmJJQIAzR4InE1r5zlsqxF3bdeHbGCZV9jMfVG9zkYeUQe4PaT3YvfxXh4Qrq40fSOfHBZwdlRI88hY95-Pu8~5ra7IWPV4KmmbgEY49qw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA' className='profile-pucture' />
-                    </figure>
-                    <p className='upload-profile-picture'>Upload profile photo</p>
-                  </ProfilePicture>
-                  <EditingInputs>
-                    <input type='text' required placeholder='Full name' className='editing-inputs'></input>
-                  </EditingInputs>
-                </EditingItem>
-                <GenderButtons>
-                  <button className='gender_buttuns female-button' id='female'>Female</button>
-                  <button className='gender_buttuns male-button' id='male'>Male</button>
-                </GenderButtons>
-                <MainInputs>
-                  <div className='seclect-container'>
-                    <div className='country-selection' onClick={() => {
-                      if (isOpened == false) {
-                        document.querySelector('.countries-list').setAttribute('style', 'display: block');
-                        SetOpenOrClose(true);
-                      } else {
-                        document.querySelector('.countries-list').setAttribute('style', 'display: none');
-                        SetOpenOrClose(false);
-                      }
-                    }}>
-                      <h5 className='country-name'>{countryName}</h5>
-                      <FontAwesomeIcon icon={faChevronDown} />
+                <form onSubmit={handleUpdateInfoProfile}>
+                  <EditingItem>
+                    <ProfilePicture>
+                      <figure className='image-figure'>
+                        <img src={`https://api.wishx.me${getUserInfoProfile.avatar}`} className='profile-pucture' />
+                      </figure>
+                      <div className='content-container' onClick={() => {
+                              const dialog = document.querySelector('.file-uploader');
+                              dialog.click();
+                          }}>
+                          <p className='upload-profile-picture'>Upload profile photo</p>
+                          <input type='file' accept="image/*" onChange={handleFileSelect} className='file-uploader' style={{ display: 'none' }} />
+                          </div>
+                    </ProfilePicture>
+                    <EditingInputs>
+                      <input type='text' name='full_name' value={getUserInfoProfile.full_name}  onChange={handleChangeInputInfo} placeholder='Full name' className='editing-inputs'></input>
+                    </EditingInputs>
+                  </EditingItem>
+                  <GenderButtons>
+                    <button onClick={OnClickSaveOrCancelButton} className='gender_buttuns female-button' id='female'>Female</button>
+                    <button onClick={OnClickSaveOrCancelButton} className='gender_buttuns male-button' id='male'>Male</button>
+                  </GenderButtons>
+                  <MainInputs>
+                    <div className='seclect-container'>
+                      <div className='country-selection' onClick={() => {
+                        if (isOpened == false) {
+                          document.querySelector('.countries-list').setAttribute('style', 'display: block');
+                          SetOpenOrClose(true);
+                        } else {
+                          document.querySelector('.countries-list').setAttribute('style', 'display: none');
+                          SetOpenOrClose(false);
+                        }
+                      }}>
+                        {/* <Select placeholder='Select option'>
+                          <option value='option1'>Option 1</option>
+                          <option value='option2'>Option 2</option>
+                          <option value='option3'>Option 3</option>
+                        </Select> */}
+                        <h5 className='country-name'>{countryName}</h5>
+                        <FontAwesomeIcon icon={faChevronDown} />
+                      </div>
+                      <ul  className='countries-list'>
+                        <li  value="Azerbaijan" onClick={getCountryId} id='1' className='option'>Azerbaijan</li>
+                        <li  value="Turkey" onClick={getCountryId} id='2' className='option'>Turkey</li>
+                        <li  value="United Kingdom" onClick={getCountryId} id='3' className='option'>United Kingdom</li>
+                        <li  value="USA" id='4' onClick={getCountryId} className='option'>USA</li>
+                        <li  value="Ukraine" id='5' onClick={getCountryId} className='option'>Ukraine</li>
+                        <li  value="Germany" id='6' onClick={getCountryId} className='option'>Germany</li>
+                        <li  value="France" id='7' onClick={getCountryId} className='option'>France</li>
+                      </ul>
                     </div>
-                    <ul className='countries-list'>
-                      <li className='option'>Azerbaijan</li>
-                      <li className='option'>Turkey</li>
-                      <li className='option'>United Kingdom</li>
-                      <li className='option'>USA</li>
-                      <li className='option'>Ukraine</li>
-                      <li className='option'>Germany</li>
-                      <li className='option'>France</li>
-                    </ul>
-                  </div>
-                  <div className='email-container'>
-                    <input type='email' required className='info-input-email' placeholder='Email'></input>
-                    <a href='#' className='change-button'>Change</a>
-                  </div>
-                  <div className='email-container'>
-                    <input type='tel' required className='info-input-email' placeholder='Phone Number'></input>
-                    <a href='#' className='change-button'>Change</a>
-                  </div>
-                  <input type='text' className='info_input' placeholder='Date of birth'></input>
-                  <div className='wish-me-input-title'>
-                    <h5 className='wish-me-title'>wish.me/</h5>
-                    <input className='info_input-small' required placeholder='username' />
-                  </div>
-                  <div className='main-title-container'>
-                    <p className="main-title">Select your interests so that our partners give you only relevant gifts (maximum 5):</p>
-                  </div>
-                  <div className='interests-input-container'>
-                    <div className='multi-select'>
-                      <MultiSelect
-                        className='info_input-multi'
-                        data={data}
-                        placeholder="Interests"
-                      />
+                    <div className='email-container'>
+                      <input type='email' onChange={handleChangeInputInfo} value={getUserInfoProfile.email} name='email' className='info-input-email' placeholder='Email'></input>
+                      {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
-                  </div>
-                  <div className='text-area-container'>
-                    <textarea rows={5} cols={5} className='text-area' placeholder='About you' />
-                  </div>
-                  <div className='buttons-container'>
-                    <button className='saveAndCancel save-button' id='save_button'>Save</button>
-                    <button className='saveAndCancel cancel-button' id='cancel_button' onClick={() =>
-                      setModalShow(true)
-                    }>Delete account</button>
-                  </div>
-                </MainInputs>
+                    <div className='email-container'>
+                      <input type='tel' onChange={handleChangeInputInfo} value={getUserInfoProfile.phone} name="phone" className='info-input-email' placeholder='Phone Number'></input>
+                      {/* <a href='#' className='change-button'>Change</a> */}
+                    </div>
+                    <input type='text' value={GetApiDate} readOnly className='info_input'  placeholder='Date of birth' onFocus={() => setShowCalendar(true)}></input>
+                    <Calendar locale='en-EN' next2Label={false} prev2Label={false} onChange={onChange} value={value} className={showCalendar ? "" : "hide"} />
+                    <div className='wish-me-input-title'>
+                      <h5 className='wish-me-title'>wish.me/</h5>
+                      <input type="text" name='slug' value={getUserInfoProfile.slug} onChange={handleChangeInputInfo} className='info_input-small' placeholder='username' />
+                    </div>
+                    <div className='main-title-container'>
+                      <p className="main-title">Select your interests so that our partners give you only relevant gifts (maximum 5):</p>
+                    </div>
+                    <div className='interests-input-container'>
+                      <div className='multi-select'>
+                        <MultiSelect
+                          className='info_input-multi'
+                          data={data}
+                          onChange={getInterestsId}
+                          defaultValue={getIdInterestsApi}
+                          placeholder="Interests"
+
+                          maxSelectedValues={5}
+                        />
+                      </div>
+                    </div>
+                    <div className='text-area-container'>
+                      <textarea rows={5} cols={5} name='about' value={getUserInfoProfile.about} onChange={handleChangeInputInfo} className='text-area' placeholder='About you' />
+                    </div>
+                    <div className='buttons-container'>
+                      <button className='saveAndCancel save-button' type='submit' id='save_button'>Save</button>
+                      <button className='saveAndCancel cancel-button' id='cancel_button' onClick={() =>
+                        setModalShow(true)
+                      }>Delete account</button>
+                      <ToastContainer />
+                    </div>
+                  </MainInputs>
+
+                </form>
               </Section>
             </TabPanel>
             <TabPanel value="passwordlogin">
@@ -409,7 +653,7 @@ const ProfileEdit = () => {
                   <p className='title'>To start fundraising for yourself,
                     you need to pass verification.
                     To <br /> do this, just send a photo of your passport.</p>
-                  <input type='file' name='photo-uploader' id='photo-uploader' />
+                  <input type='file' onChange={handleGetPassportFile} name='photo-uploader' id='photo-uploader' />
                   <PictureDropDown>
                     <div className='upload-icon-and-title' onClick={() => {
                       const dialog = document.querySelector('#photo-uploader');
@@ -419,19 +663,22 @@ const ProfileEdit = () => {
                       <h1 className='upload-picture-title'>Upload picture of Passport</h1>
                     </div>
                   </PictureDropDown>
-                  <div className='upload-picture-treams'>
-                    <h5 className='trems-head-title'>The photo must be</h5>
-                    <ul className='pictures-upload-treams-list'>
-                      <li className='pictures-upload-treams-list-item'>Original. Do not change or edit.</li>
-                      <li className='pictures-upload-treams-list-item'>Light. Make sure there is enought light when shooting</li>
-                      <li className='pictures-upload-treams-list-item'>Clear. All information should be easy to read</li>
-                    </ul>
-                  </div>
-                  <button className='save-to-verification' onClick={() => {
-                    document.querySelector('.picture-upload').setAttribute('style', 'display: none');
-                    document.querySelector('.status-padding').setAttribute('style', 'display: block');
-                    window.scrollTo(0, 0);
-                  }}>Send to verification</button>
+                  <form onSubmit={handleVerifyPassport}>
+                    <div className='upload-picture-treams'>
+                      <h5 className='trems-head-title'>The photo must be</h5>
+                      <ul className='pictures-upload-treams-list'>
+                        <li className='pictures-upload-treams-list-item'>Original. Do not change or edit.</li>
+                        <li className='pictures-upload-treams-list-item'>Light. Make sure there is enought light when shooting</li>
+                        <li className='pictures-upload-treams-list-item'>Clear. All information should be easy to read</li>
+                      </ul>
+                    </div>
+                    <button type='submit' className='save-to-verification' onClick={() => {
+                      document.querySelector('.picture-upload').setAttribute('style', 'display: none');
+                      document.querySelector('.status-padding').setAttribute('style', 'display: block');
+                      window.scrollTo(0, 0);
+                      
+                    }}>Send to verification</button>
+                  </form>
                 </PictureUploadComponents>
                 <StatusPedding className='status-padding'>
                   <h1 className='status-pedding-title'>Status pending</h1>
@@ -455,33 +702,34 @@ const ProfileEdit = () => {
               </PictureUpload>
             </TabPanel>
             <TabPanel value="sociallink">
+              <ToastContainer/>
               <SosialMediaSelection>
                 <div className='sosial-media'>
                   <FaFacebook className='facebook'></FaFacebook>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your Facebook link' />
+                  <input type='text' name='facebook' value={SocialInputs.facebook} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your Facebook link' />
                 </div>
                 <div className='sosial-media'>
                   <FaInstagram className='instagram'></FaInstagram>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your Instagram link' />
+                  <input type='text' name='instagram' value={SocialInputs.instagram} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your Instagram link' />
                 </div>
                 <div className='sosial-media'>
                   <FaTwitter className='twitter'></FaTwitter>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your Twitter link' />
+                  <input type='text' name='twitter' value={SocialInputs.twitter} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your Twitter link' />
                 </div>
                 <div className='sosial-media'>
                   <FaTiktok className='tiktok'></FaTiktok>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your TikTok link' />
+                  <input type='text' name='tiktok' value={SocialInputs.tiktok} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your TikTok link' />
                 </div>
                 <div className='sosial-media'>
                   <FaTelegram className='telegram'></FaTelegram>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your Telegram link' />
+                  <input type='text' name='telegram' value={SocialInputs.telegram} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your Telegram link' />
                 </div>
                 <div className='sosial-media'>
                   <FaWhatsapp className='whatsapp'></FaWhatsapp>
-                  <input type='text' className='sosial-media-intputs' placeholder='Your Whatsapp link' />
+                  <input type='text' name='whatsapp' value={SocialInputs.whatsapp} onChange={handleChangeInput} className='sosial-media-intputs' placeholder='Your Whatsapp link' />
                 </div>
                 <SaveButton>
-                  <button className='save-button'>Save</button>
+                  <button onClick={UpdateSocialLinkUser} className='save-button'>Save</button>
                 </SaveButton>
               </SosialMediaSelection>
             </TabPanel>

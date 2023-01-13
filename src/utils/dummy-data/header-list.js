@@ -2,21 +2,21 @@ export const headerLists = [
     {
         name: 'All wishes',
         id: 1,
-        href: '/all-wishes'
+        href: '/wish-list'
     },
     {
         name: 'How it works',
         id: 2,
-        href: '/how-it-works'
+        href: '/faq'
     },
     {
         name: 'Partners',
         id: 3,
-        href: '/partners'
+        href: '/partners-coupon'
     },
     {
         name: 'Blog',
         id: 4,
-        href: '/blog'
+        href: '/main-blog'
     },
 ]

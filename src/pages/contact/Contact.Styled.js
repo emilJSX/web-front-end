@@ -77,8 +77,8 @@ export const ContactSecondSection = styled(Container) `
     font-weight: 200;
    
     @media screen and (max-width: ${({theme}) => theme.breakPoints.lg}) {
-       padding-top: 200px;
-       padding-bottom: 200px;
+      padding-top: 50px;
+      padding-bottom: 50px;
     }
 
 
@@ -98,5 +98,123 @@ export const ContactSecondSection = styled(Container) `
         height: 50px;
         margin-top: 40px;
     }
+
+`
+
+export const Modal = styled.div`
+   position: fixed;
+   width: 100vw;
+   height: 100vh;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+`
+   
+export const ModalOpacity = styled.div`
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   background: black;
+   opacity: 0.5;
+`
+
+export const ModalSection = styled.div`
+   height: 440px;
+   width: 480px;
+   background: #FFFFFF;
+   border-radius: 32px;
+   overflow: hidden;
+   z-index: 10;
+`
+
+export const ModalHeader = styled.div`
+   height: 20%;
+   width: 100%;
+   display: flex;
+
+   .header-title{
+     height: 100%;
+     width: 90%;
+     transform: translate(0px,20px);
+     text-align: center;
+     font-style: normal;
+     font-weight: 900;
+     font-size: 24px;
+     line-height: 124%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-feature-settings: 'liga';
+     //font-family: 'Steppe';
+   }
+
+   button{
+      height: 100%;
+      width: 10%;
+
+      svg{
+        font-size: 25px;
+      }
+   }
+
+`
+
+export const ModalBody = styled.div`
+  height: 60%;
+  width: 100%;
+
+  .image{
+    height: 60%;
+    width: 100%;
+    padding-left: 50px;
+
+    .cat-image{
+        height: 100%;
+        width: 170px;
+        background: #FFFFFF;
+    }
+  }
+
+  .title{
+    height: 40%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .title-text{
+        display: flex;
+        align-items: center;
+        width: 80%;
+        height: 100%;
+    }
+  }
+  
+`
+
+export const ModalFooter = styled.div`
+  height: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  .close-button{
+    width: 80%;
+    height: 53px;
+    background: #3800B0;
+    border-radius: 8px;
+    font-family: 'Steppe';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-feature-settings: 'liga' off;
+    color: #FFFFFF;
+  }
 
 `

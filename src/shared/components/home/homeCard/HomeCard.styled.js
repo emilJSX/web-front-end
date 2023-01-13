@@ -50,6 +50,7 @@ export const ImgWrapper = styled.img`
 height: 255px;
 width: 100%;
 border-radius: 24px;
+object-fit: cover;
 `
 export const ContentWrapper = styled.div`
 padding: 30px;

@@ -14,7 +14,7 @@ import {
   ImgWrapper,
   ContentWrapper,
   Title,
-  UserWrapper,
+  UserWrapper,  
   UserAbout,
   UserName,
   UserDesc,
@@ -26,8 +26,56 @@ import {
   ProgressWrapper,
   CartContainer
 } from './MyCreatedWishSuccess.Styles';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 const Created_Success_Wish = () => {
+  const navigate = useNavigate();
+  const [GetUserWishData, setGetUserData] = useState([])
+  useEffect(()=> {
+    async function GetUserWishData () {
+      await axios.get("https://api.wishx.me/api/v1/wish/view", {
+        params: {wish_id: state},
+        headers: {
+          'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+        }
+      }).then((GetUserWish)=> {
+        setGetUserData(GetUserWish.data.data)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+    GetUserWishData()
+  
+  })
+
+  const GetUserEditWishPage = () => {
+    navigate("/wish-edit", {state:GetUserWishData })
+  }
+
+  const [getUserName, setUserName] = useState()
+  const { state } = useLocation()
+  const getCopySlug = GetUserWishData.slug
+  const getCopyLinkValue = `wishx.me/${getCopySlug}`
+  const WishCreationImage = GetUserWishData.image
+  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`
+
+  const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
+  useEffect(()=> {
+    axios.get("https://api.wishx.me/api/v1/user",{
+         headers: {
+           'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+         }
+       }).then((datauser) => {
+        setUserName(datauser.data.data.info.full_name)
+       })
+  }, [])
+ 
+  
+
 
   return (
     <MainContainer>
@@ -94,7 +142,7 @@ const Created_Success_Wish = () => {
                 <h5 className='link-label'>Copy link</h5>
                 <div className='cash-quantity-container'>
                   <FontAwesomeIcon icon={faLink} className='link-icon' />
-                  <input type='text' value='wishx.me/wx92141' style={{ background: '#ECEEF7' }} />
+                  <input type='text' value={getCopyLinkValue} style={{ background: '#ECEEF7' }} />
                   <button className='copy-button'>Copy</button>
                   <FontAwesomeIcon icon={faCopy} className='copy-icon' />
                 </div>
@@ -143,14 +191,15 @@ const Created_Success_Wish = () => {
                   <div className="image-container">
                     <button className='congralute-button'>Congralute</button>
                     <div className="image-background"></div>
-                    <ImgWrapper src={ponchik}></ImgWrapper>
+                    <ImgWrapper src={UserGetCreationImgWish}></ImgWrapper>
                   </div>
                   <ContentWrapper>
-                    <Title>Light, fluffy, delicious red velvet donuts.</Title>
+                    <Title>{GetUserWishData.title}</Title>
                     <UserWrapper>
                       <UserAbout>
-                        <UserName>Wade Warren</UserName>
-                        <UserDesc>for birthday on 25 Nov 2022</UserDesc>
+                       
+                        <UserName>{getUserName}</UserName>
+                        <UserDesc>for birthday on {GetUserWishData.date}</UserDesc>
                       </UserAbout>
                       <UserPhoto src={userphoto}></UserPhoto>
                     </UserWrapper>
@@ -160,8 +209,8 @@ const Created_Success_Wish = () => {
                         <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
                       </ProgressWrapper>
                       <Prices>
-                        <LeftPrice>$2,542 raised</LeftPrice>
-                        <RightPrice>$8,558 left</RightPrice>
+                        <LeftPrice> $9 raised</LeftPrice>
+                        <RightPrice>${GetUserWishData.price} left</RightPrice>
                       </Prices>
                     </PriceWrapper>
                   </ContentWrapper>
@@ -169,7 +218,7 @@ const Created_Success_Wish = () => {
               </Grid.Col>
             </Grid>
             <div className='edit-button'>
-              <button>Edit wish</button>
+              <button onClick={GetUserEditWishPage}>Edit wish</button>
             </div>
           </div>
         </div>

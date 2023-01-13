@@ -13,6 +13,14 @@ export const BlogMainSection = styled(Container) `
 
     .input-col-root {
         padding: 0px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        .inp-sect{
+            width: 100%;
+            height: 100%;
+        }
     }
     
     @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {

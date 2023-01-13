@@ -41,7 +41,7 @@ export const Title = styled.div`
 `;
 export const Datediv = styled.div`
 
-    width: 288px;
+    width: 350px;
     height: 56px;
     margin: 35px 0 35px 24px;
     float: left;
@@ -65,6 +65,7 @@ export const Datediv = styled.div`
         border: 1px solid #BFACE9;
         color: #3800B0;
         float: left;
+        cursor: pointer;
         margin-right: 8px;
     }
     .right{
@@ -76,11 +77,12 @@ export const Datediv = styled.div`
         border: 1px solid #BFACE9;
         color: #3800B0;
         float: left;
+        cursor: pointer;
     }
 `;
 export const Dateblue    = styled.div`
 
-    width: 160px;
+    width: 195px;
     height: 56px;
     border-radius: 8px;
     float: left;
@@ -192,7 +194,8 @@ export const Calendar_first_empty = styled.div`
    
    width: 100%;
    height: 20px;
-   display: block;
+   display: flex;
+   margin-top: 10px;
    `;
     export const Photo_cycle = styled.img`
     

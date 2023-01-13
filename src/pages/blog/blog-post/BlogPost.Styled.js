@@ -63,10 +63,6 @@ export const BlogPostSection = styled(Container) `
         }
     }
 
-    .mantine-Image-image {
-        
-    }
-
     .dot-main {
         font-size: 40px;
         margin: 2px;

@@ -102,8 +102,9 @@ export const Name = styled.p`
 
     width: 155px;
     height: 28px;
-    margin: 16px auto 0 auto;
+    text-align: center;
     display: block; 
+    margin: 10px auto;
     font-weight: 600;
     color: #0C0E19;
     font-size: 20px;
@@ -116,7 +117,8 @@ export const Tag = styled.p`
 
     width: 90px;
     height: 20px;
-    margin: 4px auto 0 auto;
+    text-align:center;
+    margin: 5px auto;
     display: block; 
     font-weight: 500;
     color: #0C0E19;

@@ -1,6 +1,6 @@
 import React from "react";
 import AppProvider from "./provider/AppProvider";
-import { Route, Routes } from 'react-router-dom';
+import { redirect, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from "styled-components";
 import { theme } from './style/theme'
 import GlobalStyle from './style/global';
@@ -34,49 +34,49 @@ import Editing_Wish from "./pages/editing-wish";
 import Rating from "./pages/rating";
 import Calendar from "./pages/calendar";
 import Payment from "./pages/payment";
+import ContactsPage from "./pages/contacts/contacts-subscribers";
+import PartnersPage from "./pages/partners/partners-page";
 
 const App = () => {
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
         <Routes>
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/payment" element={<Payment />} /> 
+        <Route path="/calendar" element={<Calendar />} /> {/* + */}
         <Route path="/rating" element={<Rating />} />
-        <Route path="/wish-edit" element={<Editing_Wish />} />
-        <Route path="/creating-wish" element={<Created_Wish />} />
-        <Route path="/creating-wish-success" element={<Created_Success_Wish />} />
+        <Route path="/wish-edit" element={<Editing_Wish />} />  {/* + */}
+        <Route path="/creating-wish" element={<Created_Wish />} /> {/* + */}
+        <Route path="/creating-wish-success" element={<Created_Success_Wish />} /> {/* + */} 
         <Route path="/other-user-wish-complete" element={<Wish_pages_second/>} />
         <Route path='/my-wish-complete' element={<Wish_pages_four/>}/>
         <Route path='/my-wish' element={<Wish_pages_three/>}/>
         <Route path="/other-user-wish" element={<Wish_pages />} />
-        <Route path="/wish-list" element={<WishList/>} />
-        <Route path='/profile-edit' element={<ProfileEdit />} />
-        <Route path="/only-search" element={<Onlysearch/>} />
-        <Route path="/search" element={<Search/>} />
+        <Route path="/wish-list" element={<WishList/>} /> {/* + */}
+        <Route path='/profile-edit' element={<ProfileEdit />} /> {/* + */}
+        <Route path="/only-search" element={<Onlysearch/>} /> 
+        <Route path="/contacts-profile" element={<ContactsPage />} /> {/* + */}
+        <Route path="/search" element={<Search/>} /> {/* + */}
         <Route path="/other-user-profile" element={<OtherUserProfile/>} />
         <Route path="/set-new-password" element={<Finally/>} />
-        <Route path="/my-profile" element={<MyProfile/>} />
+        <Route path="/my-profile" element={<MyProfile/>} /> {/* + */}
           <Route path="/settings" element={<SettingsPage/>} />
-          <Route path="/blog-post" element={<BlogPost/>} />
+          <Route path="/blog-post" element={<BlogPost/>} /> 
           <Route path="/blog-search-result-notfound" element={<BlogSRNotFound />} />
           <Route path="/blog-search-result" element={<BlogSearchResult/>} />
-          <Route path="/blog-category" element={<BlogCategory/>} />
-          <Route path="/main-blog" element={<MainBlog />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/404" element={<ErrorPage />} />
-          <Route path="/faq" element={<FaqPage />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog-category" element={<BlogCategory/>} /> {/* - */}
+          <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
+          <Route path="/privacy" element={<Privacy />} /> {/* + */}
+          <Route path="/404" element={<ErrorPage />} /> {/* + */}
+          <Route path="/faq" element={<FaqPage />} /> {/* + */}
+          <Route path="/contact" element={<Contact />} /> {/* + */}
           <Route index element={<Home />} />  
+          <Route path="/partners-coupon" element={<PartnersPage />} />
           <Route path="home" element={<Home />} >
-          {/* <Route path="blog" element={<Blog />} /> */}
-            {/* <Route path="blog" element={}>
-               <Route path="post" element={} />
-            </Route> */}
           </Route>
-          {/* <Route path="privacy-Policy" element={} /> */}
-          {/* <Route path="profile" element={} /> */}
+          
         </Routes>
       </AppProvider>
     </ThemeProvider>
@@ -84,3 +84,4 @@ const App = () => {
 };
 
 export default App;
+

@@ -102,6 +102,7 @@ export const EditingButtons = styled.div`
   align-items: center;
   justify-content: center;
   overflow-x: auto;
+  z-index: 10;
 
   @media(max-width: 1200px){
    justify-content: center;
@@ -202,6 +203,7 @@ export const ProfilePicture = styled.div`
     .profile-pucture{
       height: 100%;
       width: 100%;
+      object-fit: cover;
       border: 0;
     }
   }
@@ -210,6 +212,7 @@ export const ProfilePicture = styled.div`
    font-family: 'Steppe';
    font-style: normal;
    font-weight: 600;
+   cursor: pointer;
    font-size: 20px;
    line-height: 130%;
    letter-spacing: 0.01em;
@@ -283,8 +286,8 @@ export const GenderButtons = styled.div`
       width: 86px;
       min-width: 86px;
       height: 40px;
-      background: #ECEEF7;
-      border: 2px solid #2D3043;
+      background: #FFFFFF;
+      border: 2px solid #ECEEF7;
       border-radius: 8px;
 
       font-family: 'Steppe';
@@ -298,6 +301,11 @@ export const GenderButtons = styled.div`
 
       @media(max-width: 645px){
          width: 40%;
+      }
+
+      &:focus {
+         background: #ECEEF7 !important;
+         border: 2px solid #2D3043 !important;
       }
    }
 
@@ -313,6 +321,7 @@ export const GenderButtons = styled.div`
       font-weight: 600;
       font-size: 14px;
       line-height: 130%;
+      margin-left: 5px;
       letter-spacing: 0.01em;
       font-feature-settings: 'liga' off;
       color: #444860;
@@ -320,6 +329,11 @@ export const GenderButtons = styled.div`
 
       @media(max-width: 645px){
          width: 40%;
+      }
+
+      &:focus {
+         background: #ECEEF7 !important;
+         border: 2px solid #2D3043 !important;
       }
    }
 
@@ -469,6 +483,8 @@ export const MainInputs = styled.div`
       border: 1px solid black;
       border-radius: 8px;
       background: #F7F8FA;
+      width: 100%;
+      z-index: 10;
       display: none;
 
       .option{
@@ -516,7 +532,7 @@ export const MainInputs = styled.div`
          font-weight: 500;
          font-size: 16px;
          line-height: 140%;
-         color: #8E93AF;
+         color: black;
          width: 100%;
          height: 100%;
          background: #F7F8FA;
@@ -681,7 +697,7 @@ export const MainInputs = styled.div`
          font-weight: 500;
          font-size: 16px;
          line-height: 140%;
-         color: #8E93AF;
+         color: black;
          width: 550px;
          padding-top: 10px;
          height: 180px;
@@ -1296,8 +1312,8 @@ export const StatusPedding = styled.div`
    @media(max-width: 645px){
      display: flex;
      justify-content: center;
-     text-align: center;
-     padding: 0;
+     text-align: start;
+     padding-left: 10px;
      width: 90%;
      font-size: 15px;
    }
@@ -1326,7 +1342,7 @@ export const StatusPedding = styled.div`
       display: flex;
       justify-content: start;
       width: 90%;
-      padding-left: 50px;
+      padding-left: 10px;
    }
 }
 

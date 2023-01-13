@@ -65,27 +65,59 @@ export const FaqContainer = styled(Container) `
         }
     }
 
+    button{
+        height: 45px;
+    }
+
     .first-btn {
-        color: #3800B0;
-        border: 3px solid #3800B0;
+      
+      border: 3px solid #3800B0;
+      border-radius: 5px;
+      width: 100%;
+      margin: 0;
+      background: rgb(222 229 255);
+      font-family: 'Steppe';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 130%;
+      letter-spacing: 0.01em;
+      font-feature-settings: 'liga' off;
+      color: #3800B0;
+
+    }
+
+    .another-btn{
         width: 100%;
         margin: 0;
         background: rgb(222 229 255);
+        font-family: 'Steppe';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 130%;
+        letter-spacing: 0.01em;
+        font-feature-settings: 'liga' off;  
+        background: #FFFFFF;
     }
+    
 
     .another-btn:hover{
         background: rgb(222 229 255);
     }
 
     .faq-sect {
-        margin-top: 10px;
         border: 1px solid rgb(229 228 228);
         position: initial;
         border-radius: 10px;
         box-shadow: none;
+        margin-top: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 20px;
 
         @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
-            //margin-left: -114px !important;
+
             width: 210%;
         }
     }
@@ -99,17 +131,18 @@ export const FaqContainer = styled(Container) `
     .faq {
 
         width:80%;
-
-        // @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
-        //     padding-top:100px;
-        //     padding-right: 0px;
-        // }
     }
 
     .faq-content {
         color: rgba(17, 0, 53, 1);  
-        font-size: 20px;
-        font-weight: 500;
+        font-size: 18px;
+        font-family: 'Steppe';
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        display: flex;
+        align-items: center;
+        font-feature-settings: 'liga'
 
         @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
             font-size: 14px;
@@ -117,7 +150,6 @@ export const FaqContainer = styled(Container) `
     }  
 
     .another-btn {
-        margin-top: 15px;
         background: white;
 
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
@@ -128,9 +160,10 @@ export const FaqContainer = styled(Container) `
     .main-container-sm{
         
         width: 100% !important;
-
+        
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
             display: flex;
+            margin: 0 !important;
         }
  
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
@@ -149,6 +182,7 @@ export const FaqContainer = styled(Container) `
         display: flex;
         justify-content: center;
         overflow: hidden;
+        padding: 0;
     }
 
     .main-container-sm .right-col-sm .faq{

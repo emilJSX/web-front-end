@@ -1,90 +1,164 @@
-import react from 'react'
-import { Grid, Container, Input, Image } from "@mantine/core";
+import react, { useEffect }  from 'react'
+import { Button, Grid, Image } from "@mantine/core";
 import { BlogCard, BlogMainSection, ButtonSection, CardTopSection, PaginationSection } from './BlogMain.Styled'
 import mountn from '../../../style/icons/moutn.jpg'
-import { CustomInput } from '../../../shared/ui/İnput';
+import { Tab, Tabs, TabPanel } from 'react-tabs';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import {CardActionArea, CardActions } from '@mui/material';
 import { BlogDataCard } from './BlogCardData';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-const nextpagination = 'next'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 const MainBlog = () => {
+    
+    const navigate = useNavigate()
+
+
+    const[GetUserCategoryId, setUserCategoryId] = useState()
+    const[GetUserSearch, setUserSearch] = useState()
+    const[DataSkip, setDataSkip] = useState(0)
+    const[getResultApiSearch, setResultApiSearch] = useState()
+
+    useEffect(() => {
+        axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
+            params: {
+                skip:0,
+            },
+        }).then((data) => {
+            setResultApiSearch(data.data.data.list)
+            console.log(data)
+        })
+    }, [])
+
+    const GetUserValueForApi = (e) => {
+        navigate('/blog-search-result', { state: {GetUserSearch, GetUserCategoryId} })
+    }
+
+
+    var setLoadingBlog = []
+    getResultApiSearch?.map((AllBlog) => (
+        AllBlog.partials.map((e) => (
+            setLoadingBlog.push(e)
+        ))
+    ))
+
+    getResultApiSearch?.map((AllBlog) => (
+        console.log(AllBlog)
+    ))
+
+
+
+
+
+
+    const buttonTitles = [{ id: 0, title: 'All' }, { id: 1, title: 'Travel' },
+    { id: 2, title: 'Sport' }, { id: 3, title: 'Gadgets' }, { id: 4, title: 'Foto & Videos' }, { id: 5, title: 'Clothes' }];
+
+    const handleClickGetIDCategory = event => {
+        setUserCategoryId(event.currentTarget.id);
+    };
+
+
     return (
         <BlogMainSection fluid>
             <div className='instruction'>
                 <p>Main {">"} Blog</p>
                 <h2>Blog</h2>
             </div>
-            <ButtonSection>
-                <div className='btn-section'>
-                    <Button className='all-btn'>All</Button>
-                    <Button className='other-btn'>Travel</Button>
-                    <Button className='other-btn'>Sport</Button>
-                    <Button className='other-btn'>Gadgets</Button>
-                    <Button className='other-btn'>Foto {'&'} Video</Button>
-                    <Button className='other-btn'>Clothes</Button>
-                </div>
-                <div className='input-section' style={{ height: "50px" }}>
-                    <CustomInput height={200} className='inp-sect' placeholder='Search by all blog articles' />
-                </div>
-            </ButtonSection>
-            <CardTopSection fluid>
-                <Grid className='grid-root'>
-                    <Grid.Col className='col-root-img' p={0} span={6}>
-                        <Image className='img-section' src={mountn} />
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                        <div className='read-section'>
-                            <p className='top-txt'>May 20</p>
-                            <h2>Everest Base Camp trek, Day 5 - Dingboche to Leboche</h2>
-                            <p className='txt'>
-                                This was my favorite day of hiking! When we left after breakfast, and after I had taken my first diamox pill
-                                {"(I only did half in the morning and half at night)"}, we had about a 20 minute climb behind the village.
-                            </p>
-                            <a href='#'>Read article</a>
+            <Tabs defaultValue="personalinfo">
+                <ButtonSection>
+                    <div className='btn-section'>
+                        <div className='btn-container'>
+                            {buttonTitles.map((title) => (
+                                <Tab value={title.title}>
+                                    <button className={title.id == 0 ? 'all-btn selection-button' : 'other-btn selection-button'}
+                                        onClick={(e) => {
+                                            handleClickGetIDCategory(e),
+                                            document.querySelectorAll('.selection-button').forEach(element => {
+                                                element.id === e.currentTarget.id ? element.className = 'all-btn selection-button' :
+                                                    element.className = 'other-btn selection-button'
+                                            });
+                                        }} id={title.id}>
+                                        {title.title}
+                                    </button>
+                                </Tab>))}
                         </div>
-                    </Grid.Col>
-                </Grid>
-            </CardTopSection>
+                    </div>
+                    <div className='input-section' style={{
+                        height: "50px", display: 'flex',
+                        alignItems: 'center', paddingLeft: '10px', paddingRight: '10px'
+                    }}>
+                        <input type='search' onChange={(e)=>setUserSearch(e.target.value)} className='inp-sect' placeholder='Search by all blog articles'
+                            style={{ borderRadius: '8px', background: '#F7F8FA', paddingLeft: '20px' }} />
+                        <FontAwesomeIcon icon={faSearch} onClick={GetUserValueForApi} style={{ transform: 'translate(-50px, 0px)' }} />
+                    </div>
+                </ButtonSection>
+                <CardTopSection fluid>
+                    <Grid className='grid-root'>
+                        <Grid.Col className='col-root-img' p={0} span={6}>
+                            <Image className='img-section' src={`https://api.wishx.me${setLoadingBlog[0]?.image}`} />
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                            <div className='read-section'>
+                                <p className='top-txt'></p>
+                                <h2>{setLoadingBlog[0]?.title}</h2>
+                                <p className='txt'>
+                                    {setLoadingBlog[0]?.content}
+                                </p>
+                                <a href='#'>Read article</a>
+                            </div>
+                        </Grid.Col>
+                    </Grid>
+                </CardTopSection>
 
                 <BlogCard fluid>
-                    <Grid className='grid-card-root'>
-                        {BlogDataCard.data.map(({ foto, date, category, title, text }) => (
-                            <Grid.Col xs={12} sm={6} md={4} lg={4}>
-                                <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            image={foto}
-                                            height="230px"
-                                            style={{ borderRadius: "20px" }}
-                                        />
-                                        <CardContent style={{padding: "0", paddingTop:"20px"}}>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                <p className='date-category'>{date} - {category}</p>
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                <h1 className='title-card'>{title}</h1>
-                                                <p className='text-card'>{text}</p>
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                    <CardActions className="p-0">
-                                        <a href="#" className="read-article">Read article</a>
-                                    </CardActions>
-                                </Card>
-                            </Grid.Col>
-                        ))}
-                    </Grid>
+                        <TabPanel>
+                            <Grid className='grid-card-root'>
+                                {getResultApiSearch?.map((AllBlog) => (
+                                    <Grid.Col xs={12} sm={6} md={4} lg={4} style={{ display: 'flex', justifyContent: 'center' }}>
+                                        <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
+                                            <CardActionArea>
+                                                <CardMedia
+                                                    component="img"
+                                                    image={`https://api.wishx.me${AllBlog?.thumb}`}
+                                                    height="230px"
+                                                    style={{ borderRadius: "20px" }}
+                                                />
+                                                <CardContent style={{ padding: "0", paddingTop: "20px" }}>
+                                                    <Typography gutterBottom variant="h5" component="div">
+                                                        <p className='date-category'>{AllBlog.date} - category</p>
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        <h1 className='title-card'>{AllBlog?.title}</h1>
+                                                            <p className='text-card'>{AllBlog?.partials[0]?.content}</p>
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                            <CardActions className="p-0">
+                                                <a href="#" className="read-article">Read article</a>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid.Col>
+                                ))}
+                            </Grid>
+                        </TabPanel>
 
                 </BlogCard>
+            </Tabs>
             <PaginationSection>
                 <Stack spacing={2}>
                     <Pagination

@@ -9,7 +9,7 @@ export const SearchInput = ({ iconHave = true, size = 'xl' }) => {
       rightSection={iconHave ? <SearchIcon /> : <></>}
       rightSectionWidth={55}
       size={size}
-      placeholder="Your twitter"
+      placeholder="Search"
     />
   )
 }

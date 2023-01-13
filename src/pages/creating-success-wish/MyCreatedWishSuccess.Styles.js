@@ -825,6 +825,7 @@ padding: 30px;
 
 export const Title = styled.h5`
 font-size: 20px;
+font-weight: bold;
 color: #110035;
 `
 export const UserWrapper = styled.div`

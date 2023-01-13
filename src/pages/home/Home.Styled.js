@@ -8,6 +8,7 @@ export const HomeConatiner = styled(Container)`
   flex-direction: column;
   gap: 50px;
   background-color: ${({ theme }) => theme.colors.primary8};
+
 `;
 
 export const HomeTop = styled(Grid)`
@@ -19,6 +20,7 @@ export const HomeTop = styled(Grid)`
   }
 
   .how-it-works {
+    margin-left: 10px;
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
         display:none;
     }
@@ -102,6 +104,13 @@ export const HomeTop = styled(Grid)`
         color: ${({ theme }) => theme.colors.primary5};
         text-align: center;
         
+        @media (min-width: 1100px) and (max-width: 1284px) {
+          font-size: 55px;
+        }
+
+        @media (min-width: 993px) and (max-width: 1100px) {
+          font-size: 51px;
+        }
       }
 
       @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
@@ -121,6 +130,22 @@ export const HomeTop = styled(Grid)`
     font-size: 14px;
     color: ${({ theme }) => theme.colors.primary5};
     padding-inline-end: 10%;
+
+    @media (min-width: 375px) and (max-width: 768px) {
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      margin-left: 8px;
+      color: #3800B0;
+      padding-inline-end: 14%;
+      margin-top: 6px;
+    }
+
+    p {
+      @media (min-width: 375px) and (max-width: 768px) {
+        width: 73px;
+      }
+    }
 
     #1 {
       display: flex;
@@ -177,6 +202,23 @@ export const HomeTop = styled(Grid)`
       font-size: 20px;
       min-width: 60px;
       margin: 0;
+
+      @media (min-width: 1125px) and (max-width: 1395px) {
+        font-size: 15px;
+      }
+
+      @media (min-width: 1396px) and (max-width: 1462px) {
+        font-size: 14px;
+      }
+
+      
+      @media (min-width: 993px) and (max-width: 1032px) {
+        font-size: 13px;
+      }
+      
+      @media (min-width: 1033px) and (max-width: 1124px) {
+        font-size: 14px;
+      }
     }
 
     div:first-child {
@@ -211,9 +253,9 @@ export const HomeTop = styled(Grid)`
       padding: 0;
     }
   }
+
   .descirbe-input {
     width: 100%;
-
     input {
       font-weight: 600;
       font-size: 20px;
@@ -224,6 +266,14 @@ export const HomeTop = styled(Grid)`
       ::placeholder {
         color: #baa9e2;
       }
+
+      @media (min-width: 1125px) and (max-width: 1395px) {
+        font-size: 15px;
+      }
+
+      @media (min-width: 993px) and (max-width: 1124px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -231,6 +281,118 @@ export const HomeTop = styled(Grid)`
     padding: 12px, 16px;
   }
 `;
+
+
+export const WishCreationInput = styled.input`
+  width: 100%;
+  color: #969BB8;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 16px 24px;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid #F7F8FA;
+
+  &:focus {
+    border: 1px solid red;
+  }
+`
+
+export const WishCreationButton = styled.button`
+
+display:flex;
+align-items:center;
+background-color: #3800B0;
+border: 1px solid #3800B0;
+color: white;
+justify-content: center;
+gap: ${({ size }) => size !== 'm' ? '8px' : '12px'};
+height: ${({ size }) => size == 'm' ? '40px' : '40px'};
+/* padding: ${({ size }) => size == 'm' ? '12px 24px' : '12px 16px'}; */
+padding: ${({ size, variant }) => {
+    if (variant !== 'white') return size == 'm' ? '5px 12px' : '12px 16px';
+    else 0;
+}};
+border-radius: 8px;
+transition: 0.2s all;
+cursor: pointer;
+font-feature-settings: 'liga' off;
+font-weight: 600;
+letter-spacing: 0.01em;
+background-color:${({ variant, theme }) => {
+    if (variant == 'default') return theme.colors.primary5;
+    else if (variant == 'outlined') return 'inherit';
+    else if (variant == 'white') return 'inherit';
+    else return theme.primary5;
+}};
+border: ${({ variant }) => variant !== 'white' ? '1px' : '0px'} solid ${({ variant, theme }) => {
+    if (variant == 'default') return theme.colors.primary5;
+    else if (variant == 'outlined') return theme.colors.primary2;
+    else return theme.primary5;
+}};
+font-size: ${({ size }) => {
+    if (size == 'm') return '14px';
+    if (size == 's') return '13px';
+    if (size == 'xs') return '12px';
+    else return '14px';
+}};
+
+:hover {
+    box-shadow:${({ variant }) => variant == 'default' ? '0px 8px 16px rgba(34, 0, 106, 0.24)' : 'none'};
+    filter:${({ variant }) => variant == 'outlined' ? ' drop-shadow(0px 4px 8px rgba(56, 0, 176, 0.32))' : 'none'};
+    border:${({ variant, theme }) => {
+    if (variant == 'outlined') return `1px solid ${theme.colors.primary3}`;
+    else if (variant == 'default') return `1px solid ${theme.colors.primary6}`;
+    else '0px solid';
+}};
+  background: #30058b;
+  color:${({ variant, theme }) => {
+    if (variant == 'default') return '#fff';
+    else if (variant == 'outlined') return theme.colors.primary5;
+    else if (variant == 'white') return theme.colors.primary3;
+    else return '#fff';
+}};
+    
+
+a{
+    color:${({ variant, theme }) => {
+    if (variant == 'default') return '#fff';
+    else if (variant == 'outlined') return theme.colors.primary5;
+    else if (variant == 'white') return theme.colors.primary3;
+    else return '#fff';
+}}};
+
+ };
+
+ :active {
+    box-shadow:none;
+    filter:none;
+    background-color:${({ variant, theme }) => {
+    if (variant == 'default') return theme.colors.primary7;
+    else if (variant == 'outlined') return 'inherit';
+    else if (variant == 'white') return 'inherit';
+    else return theme.primary7;
+}};
+    
+    border:${({ variant, theme }) => {
+    if (variant == 'outlined') return `1px solid ${theme.colors.primary3}`;
+    else if (variant == 'default') return `1px solid ${theme.colors.primary6}`;
+    else '0px solid';
+}};
+
+    color:${({ variant, theme }) => {
+    if (variant == 'default') return '#fff';
+    else if (variant == 'outlined') return theme.colors.primary5;
+    else if (variant == 'white') return theme.colors.primary6;
+    else return '#fff';
+}};
+
+ }
+
+
+
+`
+
 
 export const HomeCenter = styled.div`
 z-index: 10;
@@ -242,6 +404,7 @@ background: #fff;
 border-top-left-radius: 35px;
 border-top-right-radius: 35px;
 overflow: hidden;
+
 
 
 .promo-view-container {
@@ -497,8 +660,7 @@ overflow: hidden;
                 height: 50%;
                 display: flex;
                 aling-items: center;
-              
-
+                width: 120%;
               }
 
               .summ{
@@ -548,8 +710,6 @@ overflow: hidden;
                 font-size: 24px;
                 line-height: 120%;
                 color: #FFFFFF;
-
-                
               }
             }
 
@@ -676,6 +836,12 @@ export const GifHeader = styled.h5`
 export const WishesText = styled.h2`
   padding-bottom: 50px;
   padding-top: 100px;
+
+  .wishes-text {
+  font-size: 40px;
+  color: #110035;
+  font-weight: bold;
+}
 `
 
 export const WishesBtn = styled(Container)`
@@ -739,7 +905,7 @@ export const PartnersText = styled(Container)`
   .partners-text {
     font-weight: 600;
     font-size: 37px;
-    margin-left: -20%;
+    margin-left: -22%;
     padding-top: 100px;
 
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
@@ -1322,7 +1488,7 @@ export const Item = styled.div`
                         height: 50%;
                         display: flex;
                         aling-items: center;
-                      
+                        width: 200px;
         
                       }
         
@@ -1369,7 +1535,7 @@ export const Item = styled.div`
                         font-size: 20px;
                         line-height: 120%;
                         color: #FFFFFF;
-        
+                        width: 200px;
                         
                       }
                     }

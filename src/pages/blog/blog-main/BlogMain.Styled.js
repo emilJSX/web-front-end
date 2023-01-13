@@ -7,6 +7,51 @@ export const BlogMainSection = styled(Container) `
     overflow-x: hidden;
     padding-right: 130px;
 
+
+    .all-btn {
+        border: 2px solid #3800B0;
+        color: #3800B0;
+        height: 50px;
+        border-radius: 10px;
+        background: rgb(222 229 255);
+        text-transform: capitalize;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    @media(max-width: 1120px){
+        padding-left: 120px;
+        padding-right: 100px;
+    }
+
+    @media(max-width: 1085px){
+        padding-left: 110px;
+        padding-right: 90px;
+    }
+
+    @media(max-width: 1040px){
+        padding-left: 100px;
+        padding-right: 80px;
+    }
+
+    @media(max-width: 1010px){
+        padding-left: 95px;
+        padding-right: 75px;
+    }
+
+    @media(max-width: 990px){
+        padding-left: 80px;
+        padding-right: 60px;
+    }
+
+    @media(max-width: 950px){
+        padding-left: 40px;
+        padding-right: 20px;
+    }
+
+
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
         padding-left:15px;
         padding-right:15px;
@@ -55,15 +100,40 @@ export const BlogMainSection = styled(Container) `
         padding-bottom: 10px;
         font-size: 13px;
     }
+
     .img-section {
         object-fit: cover;
         width: 98%;
         height: auto;
         margin-left: 8px;
 
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
-
+        @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}){
+            height: 100%
         }
+
+        @media (min-width: 430px){
+           width: 99%
+        }
+
+        figure{
+
+           @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}){
+             height: 100%
+           }
+
+           div{
+              @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}){
+                height: 100%
+              }
+
+              img{
+                  @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}){
+                    height: 100% !important;
+                  } 
+              }
+           }
+        }
+
     }
 
     .Mui-selected {
@@ -75,65 +145,136 @@ export const BlogMainSection = styled(Container) `
 `
 
 export const ButtonSection = styled(Grid) `
-    padding-top:30px;
+    padding-top: 30px;
     display: flex;
     padding-bottom: 100px;
 
-    @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
+    @media (max-width: 1000px){
         flex-direction: column-reverse;
-        gap: 18px;
         padding-bottom: 50px;
+        gap: 18px;
     }
+
     
     .btn-section {
+
         border: 2px solid rgb(229 228 228);
         border-radius:13px;
-        padding-right: 35px;
+        width: 100%;
+        overflow: hidden;
 
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
-            display: flex;
+
+
+        @media(min-width: 1000px){
+            width: 47.4%;
+        }
+
+
+        @media(max-width: 1000px){
+            width: 100%;
+        }
+        
+        @media(max-width: 590px){
+            width: 110%;
             overflow: scroll;
-            width: 102%;
-            padding-right: 35px;
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
+        }
+
+        .btn-container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+
+            @media(max-width: 1000px){
+                width: 100%;
+            }
+
+            @media(max-width: 590px){
+                width: 150%;
+                overflow: scroll;
+            }
         }
     }
 
-    .all-btn {
-        border: 2px solid #3800B0;
-        color: #3800B0;
-        height: 50px;
-        border-radius: 10px;
-        background: rgb(222 229 255);
-        text-transform: capitalize;
+
+    button{
+
+        margin: 0 !important;
+
+        @media(max-width: 1520px){
+            font-size: 14px;
+        }
+
+        @media(max-width: 1376px){
+            font-size: 13px;
+        }
+
+        @media(max-width: 1324px){
+            font-size: 12px;
+        }
+
+        @media(max-width: 1250px){
+            font-size: 12px;
+        }
+
+        @media(max-width: 1200px){
+            font-size: 10px;
+        }
     }
+
 
     .other-btn {
         background: white;
+        padding-left: 20px;
+        padding-right: 20px;
         border: none;
         color: black;
         height: 50px;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
-        margin-left: 25px;
         text-transform: capitalize;
+
+        @media(max-width: 1500px){
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        @media(max-width: 1290px){
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @media(max-width: 1100px){
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        @media(max-width: 1000px){
+            min-width: 70px;
+        }
+
+
 
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             margin-left: 33px;
         }
     }
 
-    .inp-sect {
-        width: 232%;
-        padding: 8px;
-        margin-left: 7px;
+    .input-section {
+       @media(min-width: 1000px){
+          width: 49%;
+       }
 
-        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
-            width: 98%;
-            padding: 0px; 
-            margin-left: 0px;
+       @media(max-width: 1000px){
+         width: 100%;
+         display: flex;
+         justify-content: center;
+       }
+
+        .inp-sect{
+            width: 100%;
+            height: 100%;
         }
+
     }
 
 `
@@ -147,7 +288,7 @@ export const CardTopSection = styled(Container) `
 
     .mantine-Image-image {
         height: 400px !important;
-        border-radius: 21px;
+        border-radius: 17px;
     }
 
     .read-section h2 {
@@ -166,6 +307,7 @@ export const CardTopSection = styled(Container) `
         color: #EBE5F7;
         padding-top: 10px;
         padding-bottom: 10px;
+        width: 90%;
 
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             font-size: 15px;

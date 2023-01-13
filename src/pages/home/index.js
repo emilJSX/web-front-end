@@ -9,7 +9,7 @@ import {
   Container,
   Progress,
 } from "@mantine/core";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, redirect, useNavigate } from "react-router-dom";
 import HowItWorks from "../../shared/components/howitworks";
 import {
   Wrapper,
@@ -43,65 +43,56 @@ import {
   InsiderContainer,
   PartnersText,
   Item,
+  WishCreationInput,
+  WishCreationButton,
 } from "./Home.Styled";
-import Autho from '../../shared/LogIn-SingUp/Autho';
-import Autholog from '../../shared/LogIn-SingUp/Autholog';
 import { Carddata } from "./CardData"
 import FaqSection from "../../shared/components/faq";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { sideImages } from "../../utils/dummy-data/main-top-images";
 import { Button } from "../../shared/ui/Button";
 import profile_picture from '../../assets/images/ffb7d96c688377cdff8f8399e25f6508.png';
 import profile_picture1 from '../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png';
 import icon_1 from '../../assets/images/86dd3c4e9ee1a89490042c6a4a8895fb.png';
 import icon_2 from '../../assets/images/d371531b922f3e8c0e8f0dfe4782d86e.png';
-import { ReactComponent as Logo } from "../../style/icons/wl.svg";
-import { ReactComponent as GridIcon } from "../../style/icons/grid-icon.svg";
 import { ReactComponent as ArrowDownIcon } from "../../style/icons/button-icons/arrow-down.svg";
 import { ReactComponent as FireworkIcon } from "../../style/icons/big-star.svg";
 import { CustomInput } from "../../shared/ui/İnput";
-import confettiImage from "../../assets/images/confetti-mask.png";
 import img12 from "../../assets/images/image 12.png";
 import img13 from "../../assets/images/image 13.png";
+import { ReactComponent as Logo } from "../../style/icons/wl.svg";
 import img14 from "../../assets/images/image 14.png";
 import IphoneImage from "../../assets/images/preview@1x.png"
 import { CarouselPartners } from "./PartnersFoto";
 import { SmSliderItem } from "./SmSliderItem";
 import OwlCarousel from 'react-owl-carousel';
 import Carousel from 'react-bootstrap/Carousel';
-//import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-// function MyVerticallyCenteredModal(props) {
-//   return (
-//     <Modal
-//       {...props}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton style={{borderRadius: '50px'}}>
-
-//       </Modal.Header>
-//       <Modal.Body>
-//         <Autholog/>
-//       </Modal.Body>
-//        <Modal.Footer>
-//         <Button onClick={props.onHide}>Close</Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// }
-
-
-
+import { ReactComponent as GridIcon } from '../../style/icons/grid-icon.svg'
+import Autholog from '../../shared/LogIn-SingUp/Autholog';
+import Autho from '../../shared/LogIn-SingUp/Autho'
+import { HomeLoginHeader } from "../../shared/components/HeaderLogin/homeloginheader";
+import HeaderShared from "../../shared/components/HeaderShared";
 const Home = () => {
 
+
+  
   const [modalShow, setModalShow] = useState(false);
+  const [opened, setOpened] = useState(false)
+  const [getWishName, setWishName] = useState("")
+  const GetUserToken = localStorage.getItem("UserToken=")
+  
+  const navigate = useNavigate()
+  
+  function GetWishNameForCreation() {
+
+    if(GetUserToken) {
+      navigate('/creating-wish', {state: getWishName})
+    } else if (!GetUserToken) {
+      setShowes(true)
+    }
+  }
 
   useEffect(() => {
 
@@ -139,8 +130,12 @@ const Home = () => {
   const [show, setShow] = useState(false)
   const [showes, setShowes] = useState(false)
 
+  // GET TOKEN AND LOGIN API START
+
+// GET TOKEN AND LOGIN API END
   return (
     <>
+    
       <HomeConatiner fluid p={0} style={{ overflow: 'hidden' }} className="home-container">
         <HomeTop columns={24} className="home-top">
           <HomeTop.Col lg={3} xl={3} md={3} sm={3} xs={0} className="col-left">
@@ -168,6 +163,7 @@ const Home = () => {
             className="col-center"
             style={{ overflow: 'hidden' }}
           >
+          
             <div className="colCenterHeader" >
               <div id="head-logo">
                 <Logo fill="#3800B0" />
@@ -188,13 +184,7 @@ const Home = () => {
                     <p>All wishes</p>
                   </Box>
                 </MediaQuery>
-                <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-                  <div>
-                    Your wish list.
-                    <br />
-                    Make wishes come true.
-                  </div>
-                </MediaQuery>
+                
               </div>
               <div id="head-end">
                 <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -324,13 +314,13 @@ const Home = () => {
               <div className="colCenterBottom">
                 <div>
                   <p>I wish</p>
-                  <CustomInput
+                  <WishCreationInput
                     placeholder="Describe your wish"
-                    className="descirbe-input"
+                    onChange={(e) => setWishName(e.target.value)}
                   />
                   <p>On my birthday</p>
                 </div>
-                <Button>Create a wish</Button>
+                <WishCreationButton onClick={GetWishNameForCreation}>Create a wish</WishCreationButton>
               </div>
               {/* ---- */}
             </div>

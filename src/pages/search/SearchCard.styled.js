@@ -113,6 +113,7 @@ export const GridBody= styled.div`
 export const ImgWrapper = styled.img`
 height: 321px;
 width: 100%;
+object-fit: cover;
 border-radius: 24px;
 @media (min-width: 375px) and (max-width: 420px){
   width:164px;

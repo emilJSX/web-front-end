@@ -15,66 +15,87 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { ToastContainer, toast } from 'react-toastify';
 import {
     MainContainer,
     Container,
     Hedaer,
     Section
 } from './Main.Styles';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 
-
-function MyVerticallyCenteredModal(props) {
-    return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-            </Modal.Header>
-            <Modal.Body>
-                <h4 style={
-                    {
-                        width: '100%', 
-                        textAlign: 'center',
-                        color: '#110035',
-                        fontFamily: 'Steppe',
-                        fontStyle: 'normal',
-                        fontWeight: '600',
-                        fontSize: '24px',
-                        lineHeight: '120%'
-                    }}>The request has been sent to the moderators for verification</h4>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={props.onHide}>Go to profile</Button>
-            </Modal.Footer>
-        </Modal>
-    );
-}
-
-
+const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
 
 const Editing_Wish = () => {
-
-    const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+    const { state } = useLocation()
     const [isVisibleSetter, setVisibleSetter] = useState(false);
-    const [selectedCash, setSelectedCash] = useState('USD');
+    const [getCurrencyName, setCurrencyName] = useState("")
     const [isVisible, setVisible] = useState('none');
+    const [getUpdateWishData, setUpdateWishData] = useState({ title: "", price: "", currency_id: "", image: "", description: ""})
+    const [selectedCash, setSelectedCash] = useState(String(state?.currency?.name == null) ? getCurrencyName : String(state?.currency?.name), 
+    getUpdateWishData.currency_id == null ? state?.currency?.id : getUpdateWishData.currency_id );
+    console.log(getCurrencyName, "USD VER BLE")
+
+    const handleChangeUpdateWish = (e) => {
+        const {name, value} = e.target
+        const result = {...getUpdateWishData, [name]: value}
+        setUpdateWishData(result)
+    }
+    const navigate = useNavigate()
+
+    const getProfileUrl =()=> {
+        navigate("/my-profile")
+    }
+
+    function MyVerticallyCenteredModal(props) {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                </Modal.Header>
+                <Modal.Body>
+                    <h4 style={
+                        {
+                            width: '100%', 
+                            textAlign: 'center',
+                            color: '#110035',
+                            fontFamily: 'Steppe',
+                            fontStyle: 'normal',
+                            fontWeight: '600',
+                            fontSize: '24px',
+                            lineHeight: '120%'
+                        }}>The request has been sent to the moderators for verification</h4>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={getProfileUrl}>Go to profile</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
+    
+
+    useEffect(() => {
+        const {title="", price="", currency_id="", image="", description=""} = state || {}
+        setUpdateWishData({title, price, currency_id, image, description})
+    }, [state])
 
     const [modalShow, setModalShow] = useState(false);
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
-
-    const CashItems = ({ item }) => {
+    const CashItems = ({ item, id }) => {
         return (
             <li className='cash-selection-block-list-item'
                 onClick={() => {
                     setSelectedCash(item);
+                    // setSelectedCash(item);
                     setVisible('none');
                     setVisibleSetter(false)
+                    setUpdateValuteWish(id)
                 }}
             >
                 {item}
@@ -92,7 +113,7 @@ const Editing_Wish = () => {
         }
     }
 
-    const cash = ['USD', 'EURO', 'GBP', 'TRL', 'AZN'];
+    const cash = ['AZN', 'USD'];
 
     const data = [
         { value: 'react', label: 'React' },
@@ -104,10 +125,86 @@ const Editing_Wish = () => {
         { value: 'blitz', label: 'Blitz.js' },
     ];
 
+    const editWishEditImage = state?.image
+    const GetEditWishImage = `https://api.wishx.me${editWishEditImage}`
+    const GetEditWishProfile = `https://api.wishx.me${getUpdateWishData.image}`
 
+    const [UpdateFile, setUpdateFile] = useState(null);
+    const [UpdateTitleWish, setUpdateTitleWish] = useState("")
+    const [UpdatePriceWish, setUpdatePriceWish] = useState("")
+    const [UpdateValuteWish, setUpdateValuteWish] = useState(1)
+    const [UpdateCategoriesWish, setUpdateCategoriesWish] = useState(1)
+    const [UpdateDateWish, setUpdateDateWish] = useState("11.20.22")
+    const [UpdateOccasionWish, setUpdateOccasionWish] = useState("11-th Birtday")
+    const [CheckedUpdateUrlPublicWish, setUpdateCheckedPublikWish] = useState()
+
+    const handleFileSelect = (event) => {
+        event.preventDefault()
+        setUpdateFile(event.target.files[0])
+    }
+
+    useEffect(() => {
+        axios.get("https://api.wishx.me/api/v1/wish/edit", {
+            params: {
+                wish_id: state
+            },
+            headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`}
+        }).then((resultWishEditProfile) => {
+            const {title="", price="", image="", description="" } = resultWishEditProfile?.data?.data || {}
+
+            const currencyId = resultWishEditProfile?.data?.data.currency.id
+            setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
+
+            const {currency_id} = currencyId || {}
+
+            setUpdateWishData({title, price, currency_id, image, description})
+            console.log(resultWishEditProfile?.data?.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [])
+    
+    // getUpdateWishData.currency_id == null ? +state.currency.id : getUpdateWishData.currency_id
+
+    const handleSubmitUpdateWish = async(event) => {
+        event.preventDefault()
+        const formData = new FormData();
+        // selectedFile == null ? getUserInfoProfile.avatar : selectedFile
+        formData.append("wish_id", state.id == null ? state : state.id)
+        formData.append("file", UpdateFile == null ? getUpdateWishData.image : UpdateFile );
+        formData.append("title", getUpdateWishData.title)
+        formData.append("price", getUpdateWishData.price)
+        // getUpdateWishData.currency_id == null ? state.currency.id : getUpdateWishData.currency_id
+        formData.append("currency_id", 1)
+        formData.append("categories",UpdateCategoriesWish)
+        formData.append("date", "11.20.22")
+        formData.append("occasion", UpdateOccasionWish)
+        formData.append("description", getUpdateWishData.description == null ? state.description : getUpdateWishData.description)
+        formData.append("access", CheckedUpdateUrlPublicWish == null ? state.access : CheckedUpdateUrlPublicWish)
+        
+        try {
+          const response = await axios({
+            method: "post",
+            url: "https://api.wishx.me/api/v1/wish/store",
+            data: formData,
+            headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`, },
+          }).then((result) => {
+            console.log(result)
+            setModalShow(true)
+            toast.success('Successfully updated ', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+          });
+        } catch(error) {
+            toast.error('Please check your details', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+      }
     return (
 
         <MainContainer>
+            <form>
             <Container>
                 <div className='container-insider'>
                     <Hedaer>
@@ -117,12 +214,12 @@ const Editing_Wish = () => {
                     <Section>
                         <h5 className='description-title'>Description</h5>
                         <div className='wish-name'>
-                            <input type='text' placeholder='Enter Wish Name' />
+                            <input type='text' name='title' value={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name' />
                         </div>
                         <div className='cash-set-container'>
                             <div className='cash-set-container-insider'>
                                 <div className='cash-quantity-container'>
-                                    <input type='text' placeholder='Enter Quantity' />
+                                    <input type='text' name='price' value={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity' />
                                 </div>
                                 <div className='cash-type-container'>
                                     <div className='cash-selection' onClick={onCashSelectPush}>
@@ -133,7 +230,7 @@ const Editing_Wish = () => {
 
                                         <div className='cash-selection-block' style={{ display: isVisible }}>
                                             <ul className='cash-selection-block-list'>
-                                                {cash.map((item) => <CashItems key={item} item={item} />)}
+                                                {cash.map((item, index) => <CashItems key={item} item={item} id={index} />)}
                                             </ul>
                                         </div>
                                     </div>
@@ -141,39 +238,7 @@ const Editing_Wish = () => {
                             </div>
                         </div>
                         <div className='text-area'>
-                            <textarea className='text-area-container' placeholder='About'></textarea>
-                        </div>
-                        <div className='multi-select'>
-                            <div className='multi-select-insider'>
-                                <MultiSelect
-                                    className='info_input-multi'
-                                    data={data}
-                                    placeholder="Interests"
-                                    style={{ background: '#F7F8FA' }}
-                                />
-                            </div>
-                        </div>
-                        <div className='date-fo-birth-container'>
-                            <div className='date-fo-birth-container-insider'>
-
-                                <div className='date'>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <Stack spacing={3} style={{ background: '#F7F8FA', border: '0' }}>
-                                            <DesktopDatePicker
-                                                label="Date of Birth"
-                                                inputFormat="MM/DD/YYYY"
-                                                value={value}
-                                                onChange={handleChange}
-                                                renderInput={(params) => <TextField {...params} />}
-
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                </div>
-                                <div className='date-of-birth'>
-                                    <input type='text' placeholder='29-th birthday' />
-                                </div>
-                            </div>
+                            <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} value={getUpdateWishData.description} placeholder='Description'></textarea>
                         </div>
                         <div className='aviable-group'>
                             <FormControl>
@@ -181,9 +246,11 @@ const Editing_Wish = () => {
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     defaultValue="female"
                                     name="radio-buttons-group"
-                                >
-                                    <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                    <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                > 
+                                    
+                                    <FormControlLabel {...CheckedUpdateUrlPublicWish ? checked=true : ""} value="female" onChange={()=> setUpdateCheckedPublikWish(true)} control={<Radio />} label="Available to everyone" />
+                                    <FormControlLabel {...!CheckedUpdateUrlPublicWish ? "" : checked=true} value="male" onChange={()=> setUpdateCheckedPublikWish(false)} control={<Radio />} label="Only available by link" />
+
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -191,9 +258,14 @@ const Editing_Wish = () => {
                 </div>
                 <div className='container-insider-sm'>
                     <div className='content-container'>
-                        <img src={Glasses} className='glasses-img' />
+                        <img src={GetEditWishProfile == null ? GetEditWishImage : GetEditWishProfile } className='glasses-img' />
                         <div className='change-photo-button-container'>
-                            <button className='change-photo-button'>change photo</button>
+                            <input type='file' onChange={handleFileSelect} className='file-uploader' style={{display: 'none'}}/>
+                            <button className='change-photo-button' onClick={(e) => {
+                                e.preventDefault()
+                      const dialog = document.querySelector('.file-uploader');
+                       dialog.click();
+                    }}>change photo</button>
                         </div>
                         <div className='change-photo-button-container'>
                             <button className='delete-photo'>Delete</button>
@@ -203,11 +275,15 @@ const Editing_Wish = () => {
             </Container>
             <Container>
                 <div className='save-changes-button-container'>
-                <Button variant="primary" className='save-changes-button' onClick={() => setModalShow(true)}>
-                 save changes
+                <Button variant="primary" className='save-changes-button' type='submit' onClick={
+                    handleSubmitUpdateWish
+                    }>
+                 Save changes
                 </Button>
                 </div>
+                <ToastContainer />
             </Container>
+            </form>
             <MyVerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)} />

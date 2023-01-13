@@ -4,17 +4,65 @@ import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { useState } from 'react';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Login({ setShow, nextsteplog, backSign, setShowes }) {
-
+    const [passwordUser, setPasswordUser] = useState("");
+    const [emailUser, setEmailUser] = useState("");
     const [shower, setShower] = useState(false)
 
     const clickEmail = () => {
         setShower(!shower)
     }
 
+    const navigate = useNavigate()
+
+    const [getUserAuthToken, setUserAuthToken] = useState()
+
+    const HundleClickToLogin = (click) => {
+        click.preventDefault()
+        axios.get("https://api.wishx.me/sanctum/csrf-cookie").then(() => {
+          axios
+            .post("https://api.wishx.me/api/v1/login", {
+              xsrfHeaderName: 'X-XSRF-TOKEN',
+              email: emailUser,
+              password: passwordUser,
+            }, {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
+                    'content-type': 'application/json',
+                    'Access-Control-Allow-Credentials': true,
+                }
+            })
+            .then((response) => {
+              //set response in local storage
+                localStorage.setItem('user', JSON.stringify(response.data))
+                localStorage.setItem('UserToken=', response.data.data.token)
+                document.cookie = "UserToken=" + response.data.data.token 
+                setUserAuthToken(response.data.data.token)
+                document.cookie = "UserMessage=" + response.data.data.message 
+                console.log(JSON.stringify(response.data))
+                navigate("/my-profile")
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        });
+      }
+
+
+
+        const HandleClickCheckLogin = () => {
+            setTimeout(() => {
+                setShowes(false)
+            },600)
+        }
+      
 
     const [password, setPassword] = useState('password')
 
@@ -47,23 +95,27 @@ function Login({ setShow, nextsteplog, backSign, setShowes }) {
 
             {
                 shower ? (<Dispno>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <Email
-                            placeholder='Email' />
-                    </div>
-                    <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <Password
-                            placeholder='Password'
-                            type={password ? 'password' : 'text'} />
-                        <AiOutlineEye className='eye_button' onClick={() => { setPassword(!password) }}
-                            style={{position: 'absolute'}} />
+                    <form onSubmit={HundleClickToLogin}>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <Email
+                                placeholder='Email'
+                                onChange={(emailUser) => setEmailUser(emailUser.target.value)} />
+                        </div>
+                        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <Password
+                                placeholder='Password'
+                                type={password ? 'password' : 'text'}
+                                onChange={(passwordUser) => setPasswordUser(passwordUser.target.value)} />
+                            <AiOutlineEye className='eye_button' onClick={() => { setPassword(!password) }}
+                                style={{position: 'absolute'}} />
 
-                    </div>
+                        </div>
 
-                    <ForgotPassword onClick={nextsteplog}>Forgot password</ForgotPassword>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                        <ButtonSignUp>Log in</ButtonSignUp>
-                    </div>
+                        <ForgotPassword onClick={nextsteplog}>Forgot password</ForgotPassword>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <ButtonSignUp type='submit' onClick={HandleClickCheckLogin}>Log in</ButtonSignUp>
+                        </div>
+                    </form>
 
                 </Dispno>) : ""
             }

@@ -28,32 +28,86 @@ import { Mainly, Title,Name, Personal, Photo, Searchbar, Searchdiv, Tag } from "
 import {HiBadgeCheck, HiOutlineFilter} from "react-icons/hi"
 import {FiSearch} from "react-icons/fi"
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 
 
 
 
 function Search() {
+  const getUserToken = localStorage.getItem("UserToken=")
 
   const [search, setSearch] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [searchs, setSearchs] = useState("");
   const [filteredCountriesa, setFilteredCountriesa] = useState([]);
 
+  const [getCategoryId,setCategoryId] = useState()
+  console.log(getCategoryId)
+  const[getAllPeopleData, setAllPeopleData] = useState([])
+  const[getAllWishData, setAllWishData] = useState([])
+  const[getSearchValue, setSearchValue] = useState("")
+  console.log(getSearchValue)
+
+
+  const getResultSearchingData = () => {
+    if(getCategoryId == 1) {
+    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
+      params: {
+        skip: 0,
+        search: getSearchValue,
+      },
+      headers: {
+        'Authorization': `Bearer ${getUserToken}`,
+      }
+    }).then((getResultWish) => {
+      setAllWishData(getResultWish.data.data)
+    })
+    }
+
+    if(getCategoryId == 2) {
+      axios.get('https://api.wishx.me/api/v1/profiles/search', {
+        params: {
+          skip: 0,
+          search: getSearchValue,
+        },
+        headers: {
+          'Authorization': `Bearer ${getUserToken}`,
+        }
+      }).then((getResultPeople) => {
+        setAllPeopleData(getResultPeople.data.data)
+      })
+    }
+  }
+
+
   useEffect(() => {
-    setFilteredCountries(
-      Carddata.data.filter((country) =>
-        country.title.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-  }, [search, Carddata.data]);
+    axios.get('https://api.wishx.me/api/v1/profiles/search', {
+      params: {
+        skip: 0,
+      },
+      headers: {
+        'Authorization': `Bearer ${getUserToken}`,
+      }
+    }).then((getResultPeople) => {
+      setAllPeopleData(getResultPeople.data.data)
+    })
+  }, [])
+
+
   useEffect(() => {
-    setFilteredCountriesa(
-      Carddata.person.filter((country) =>
-        country.name.toLowerCase().includes(searchs.toLowerCase())
-      )
-    );
-  }, [searchs, Carddata.person]);
+    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
+      params: {
+        skip: 0,
+      },
+      headers: {
+        'Authorization': `Bearer ${getUserToken}`,
+      }
+    }).then((getResultWish) => {
+      setAllWishData(getResultWish.data.data)
+    })
+  },[])
+
 
 
   return (
@@ -61,23 +115,23 @@ function Search() {
     <Title>Search results</Title>
     <Searchdiv>
     <Searchbar
+    onChange={(e) => setSearchValue(e.target.value)}
         type="text"
         placeholder="Bruno"
-        onChange={(e) => setSearch(e.target.value) || setSearchs(e.target.value)}
       />
-      <FiSearch className="lupa"/>
+      <FiSearch onClick={getResultSearchingData} className="lupa"/>
       <HiOutlineFilter className="filter"/>
       </Searchdiv>
     <Tabs
-      defaultActiveKey="profile"
+      defaultActiveKey="wish"
       id="uncontrolled-tab-example"
       className="mb-3 tabs-choose"
       
     >
-      <Tab eventKey="home" className="tabone tabsfirst" title={(<p>Wishes <span style={{marginLeft:"8px",color:"#160046", opacity:"0.56"}}>8</span></p>) }>
+      <Tab eventKey="wish" className="tabone tabsfirst"  title={(<p id="1" onClick={(e)=>setCategoryId(e.target.id)}>Wishes <span style={{marginLeft:"8px",color:"#160046", opacity:"0.56"}}>8</span></p>) }>
         <GridBody>
         <Grid className="griddiv">
-          {filteredCountries.map(({ url, title, username, userdesc, userphoto, leftprice, rightprice }) => (
+            {getAllWishData.map((getWishData) => (
             // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
               <Wrapper className="cart-item" onMouseOver={(e) => {
                 e.currentTarget.setAttribute('style', 'border: 1px solid #3800B0;');
@@ -89,49 +143,52 @@ function Search() {
                 e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: hidden');
                 e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
               }}>
-                <div className="image-container">
-                  <button className='congralute-button'>Congralute</button>
-                  <div className="image-background"></div>
-                  <ImgWrapper src={url}></ImgWrapper>
-                </div>
-                <ContentWrapper>
-                  <Titles>{title}</Titles>
 
-                  <UserWrapper>
-                    <UserAbout>
-                      <UserName>{username}</UserName>
-                      <UserDesc>{userdesc}</UserDesc>
-                    </UserAbout>
-                    <UserPhoto src={userphoto}></UserPhoto>
-                  </UserWrapper>
+                    <div className="image-container">
+                      <button className='congralute-button'>Congralute</button>
+                      <div className="image-background"></div>
+                      <ImgWrapper src={`https://api.wishx.me${getWishData.image}`}></ImgWrapper>
+                    </div>
+                    <ContentWrapper>
+                      <Titles>{getWishData.title}</Titles>
 
-                  <PriceWrapper>
-                    <ProgressWrapper>
-                      <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
-                    </ProgressWrapper>
-                    <Prices>
-                      <LeftPrice>{leftprice}</LeftPrice>
-                      <RightPrice>{rightprice}</RightPrice>
-                    </Prices>
-                  </PriceWrapper>
-                </ContentWrapper>
+                      <UserWrapper>
+                        <UserAbout>
+                          <UserName>{getWishData.user.full_name}</UserName>
+                          <UserDesc>for birthday on {getWishData.occasion}</UserDesc>
+                        </UserAbout>
+                        <UserPhoto src={getWishData.user.image}></UserPhoto>
+                      </UserWrapper>
+
+                      <PriceWrapper>
+                        <ProgressWrapper>
+                          <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
+                        </ProgressWrapper>
+                        <Prices>
+                          <LeftPrice>${getWishData.donate.received} raised</LeftPrice>
+                          <RightPrice>${getWishData.donate.left} left</RightPrice>
+                        </Prices>
+                      </PriceWrapper>
+                    </ContentWrapper>
               </Wrapper>
             // </Grid.Col>
-          ))}
+            ))}
     </Grid>
           <Loading>Loading</Loading>
         </GridBody>
       </Tab>
-      <Tab eventKey="profile" title={(<p>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>16</span></p>) } className="tabtwo ">
+      <Tab eventKey="profile" title={(<p id="2" onClick={(e)=>setCategoryId(e.target.id)}>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>16</span></p>) } className="tabtwo ">
     <GridBody>
       <Grid className="griddiv">
         {
-          filteredCountriesa.map((index) =>(
+          getAllPeopleData.map((index) =>(
             <Personal>
-              <Photo src={index.img}/>
-              <Name>{index.name}<HiBadgeCheck className="check"/></Name>
-              <Tag>{index.tag}</Tag>
+              <Photo src={`https://api.wishx.me${index.image}`}/>
+              <Name>{index.name}</Name>
+              <Tag>@{index.username}</Tag>
             </Personal>
+
+            //<HiBadgeCheck className="check"/>
           ))
         }
       </Grid>

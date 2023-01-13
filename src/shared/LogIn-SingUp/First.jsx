@@ -4,18 +4,57 @@ import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
 function First({setShow, nextstep, nextsteplog}) {
 
     const[shower, setShower]= useState(false)
+    const[password, setPassword] = useState('password')
+
+    // Register API
+    const[getName, setGetName] = useState("")
+    const[getEmail, setGetEmail] = useState("")
+    const[getPassword, setGetPassword] = useState("")
+    // END Register API
+    
 
     const clickEmail = () =>{
         setShower(!shower)
     }
-    
-    const[password, setPassword] = useState('password')
+
+    // Parsing Extract the Name from an Email Address
+        const HandleGetRegister = (click) => {
+            const get_email = getEmail;
+            const result_getname = get_email.split('@')[0];
+            setGetName(result_getname)
+            click.preventDefault()
+            axios
+              .post("https://api.wishx.me/api/v1/register", {
+                  name: getName,
+                  email: getEmail,
+                  password: getPassword,
+                  confirm_password: getPassword,
+              }, {
+                  headers: {
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Headers': '*',
+                      'content-type': 'application/json',
+                      'Access-Control-Allow-Credentials': true,
+                  }
+              })
+              .then((response) => {
+                  localStorage.setItem('user', JSON.stringify(response.data))
+                  console.log(JSON.stringify(response.data))
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
+        }
+
+
 
     return (
         <Container style={{zIndex: '10', overflow: "hidden"}}>
@@ -45,24 +84,31 @@ function First({setShow, nextstep, nextsteplog}) {
             
              {
                 shower ? (<Dispno>
-                   <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                      <Email 
-                       placeholder='Email' style={{width: '400px'}}/>
-                   </div>
-                   <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                      <Password
-                       placeholder='Password' 
-                       type={password ? 'password' : 'text'} style={{width: '400px'}}/>
-                   </div>
-                 <AiOutlineEye className='eye_button' onClick={() =>{setPassword(!password)}}
-                 style={{float: 'right'}}/>
-                 <div style={{width: '100%', display: 'flex', paddingLeft: '40px', paddingBottom: '12px'}}>
-                   <InputChek type="checkbox" style={{ margin: '0'}}/>
-                   <ParagraphChek style={{marginLeft: '10px'}}>I agree to the terms of use</ParagraphChek>
-                 </div>
-                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                  <ButtonSignUp  onClick={nextstep}>Sign Up</ButtonSignUp>
-                </div>
+                    <form onSubmit={HandleGetRegister}>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                            <Email
+                                placeholder='Email' style={{width: '400px'}}
+                                onChange={(get_useremail) => setGetEmail(get_useremail.target.value) }
+                            />
+                        </div>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                            <Password
+                                placeholder='Password'
+                                onChange={(get_userpassword) => setGetPassword(get_userpassword.target.value)}
+                                type={password ? 'password' : 'text'} style={{width: '400px'}}/>
+                        </div>
+                        <AiOutlineEye className='eye_button' onClick={() =>{setPassword(!password)}}
+                                      style={{float: 'right'}}/>
+                        <div style={{width: '100%', display: 'flex', paddingLeft: '40px', paddingBottom: '12px'}}>
+                            <InputChek type="checkbox" style={{ margin: '0'}}/>
+                            <Link to="/privacy"><ParagraphChek style={{marginLeft: '10px'}}>Terms of use</ParagraphChek></Link>
+                        </div>
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                            <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
+                            {/*onClick={nextstep}*/}
+                        </div>
+                    </form>
+
 
             </Dispno>) : ""
              }

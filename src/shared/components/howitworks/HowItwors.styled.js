@@ -10,7 +10,7 @@ export const HIWContainer = styled(Container)`
     }
 
     .hiw-txt{
-        font-size: 40px !important;
+        font-size: 24px !important;
         height: 30%;
 
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xl}){
@@ -21,7 +21,7 @@ export const HIWContainer = styled(Container)`
     .img-girl {
 
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
-            border-radius: 30px;
+            border-radius: 15px;
         }
         width: 100%;
         height: 100%;
@@ -40,7 +40,7 @@ export const HIWContainer = styled(Container)`
     .grid-two {
         background: #160046;
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
-            border-radius: 30px;
+            border-radius: 16px;
         }
     }
 
