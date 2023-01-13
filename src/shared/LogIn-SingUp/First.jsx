@@ -6,6 +6,7 @@ import { FaApple, FaGoogle } from "react-icons/fa";
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -33,7 +34,7 @@ function First({setShow, nextstep, nextsteplog}) {
             click.preventDefault()
             axios
               .post("https://api.wishx.me/api/v1/register", {
-                  name: getName,
+                  name: getEmail.split("@")[0],
                   email: getEmail,
                   password: getPassword,
                   confirm_password: getPassword,
@@ -48,9 +49,15 @@ function First({setShow, nextstep, nextsteplog}) {
               .then((response) => {
                   localStorage.setItem('user', JSON.stringify(response.data))
                   console.log(JSON.stringify(response.data))
+                  toast.success("Successfuly register", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
               })
               .catch(function (error) {
                 console.error(error);
+                toast.error("Please check credentials", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
               });
         }
 
@@ -58,6 +65,7 @@ function First({setShow, nextstep, nextsteplog}) {
 
     return (
         <Container style={{zIndex: '10', overflow: "hidden"}}>
+            <ToastContainer />
             <Button1 onClick={() => { 
                let body = document.querySelector('body');
                body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
@@ -101,7 +109,7 @@ function First({setShow, nextstep, nextsteplog}) {
                                       style={{float: 'right'}}/>
                         <div style={{width: '100%', display: 'flex', paddingLeft: '40px', paddingBottom: '12px'}}>
                             <InputChek type="checkbox" style={{ margin: '0'}}/>
-                            <Link to="/privacy"><ParagraphChek style={{marginLeft: '10px'}}>Terms of use</ParagraphChek></Link>
+                            <Link target="_blank" to="/privacy"><ParagraphChek style={{marginLeft: '10px'}}>Terms of use</ParagraphChek></Link>
                         </div>
                         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                             <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
