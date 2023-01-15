@@ -454,6 +454,16 @@ export const CardLong = styled.div`
     border: 1px solid #EBE5F7;
     border-radius: 24px;
     margin-left: -69px;
+
+    @media (min-width: 1530px) and (max-width: 2000px) {
+        margin-top: 24px;
+        width: 88%;
+        height: 320px;
+        background: white;
+        border: 1px solid #EBE5F7;
+        border-radius: 24px;
+        margin-left: -134px;
+    }
 }
 
     @media (min-width: 375px) and (max-width: 992px) {
@@ -1149,6 +1159,10 @@ export const MenuScrollCards = styled.div`
     overflow: auto;
     width: 92.7%;
     z-index: 10;
+
+    @media(min-width: 1530px) and (max-width: 2000px) {
+        width: 957px;
+    }
     
 
     @media(max-width: 625px){

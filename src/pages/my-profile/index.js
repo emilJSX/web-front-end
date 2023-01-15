@@ -61,6 +61,8 @@ import { Link, useNavigate } from 'react-router-dom';
 const MyProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
+    const [getJoined, setJoined] = useState()
+    console.log(getJoined)
     var tabs_storage = [
         { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '1'},
         { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '4' },
@@ -92,7 +94,19 @@ const MyProfile = () => {
             }).then((userData) => {
                 const UserInfoProfile = userData.data.data
                 setUserInfoProfile(UserInfoProfile)
+                axios.get("https://api.wishx.me/api/v1/user/other", {
+                    params: {
+                        user_id: userData.data.data.user_id
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${getUserToken}`,
+                        'Access-Control-Allow-Origin' : "*"
+                    }
+                }).then((getJoinedData) => {
+                    setJoined(getJoinedData.data.data.info.joined)
+                })
             })
+
 
     }, [])
 
@@ -144,9 +158,9 @@ const MyProfile = () => {
                                         <DateText>Birthdate</DateText>
                                     </DateSection>
                                     <DisplayDateBirthaySection>
-                                        <Date>5 Nov 1992 <DateText>Birthdate</DateText></Date>
-                                        <Follower>144 <DateText>followers</DateText></Follower>
-                                        <Following>156 <DateText>followings</DateText></Following>
+                                        <Date>{UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
+                                        <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
+                                        <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
                                     </DisplayDateBirthaySection>
                                 
                                     <FollowersSection>
@@ -175,7 +189,7 @@ const MyProfile = () => {
                                         <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                         <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
                                     </MobileBtnSection>
-                                    <Joined>Joined December 2022</Joined>
+                                    <Joined>Joined {getJoined}</Joined>
                                 </LeftSection>
                             </div>
                         </Grid.Col>
@@ -250,7 +264,7 @@ const MyProfile = () => {
                                                     <CardLonger>
                                                         <NotWishes>Yo don’t have any wishes</NotWishes>
                                                         <Buttons>
-                                                            <Buttonleft>Create a wish</Buttonleft>
+                                                            <a href='/creating-wish'><Buttonleft>Create a wish</Buttonleft></a>
                                                             <Buttonright>Explore wishes</Buttonright>
                                                         </Buttons>
                                                         <Glasses src={file1} />
@@ -304,7 +318,7 @@ const MyProfile = () => {
                                                             <Views>8<br /><p className='title'>Gifts</p></Views>
                                                             <Views>$12 <br /><p className='title'>Avg gift amount</p></Views>
                                                         </Seconddiv>
-                                                    <DisplayOnButtonText>for birthday on 25 Nov 2022</DisplayOnButtonText>
+                                                    <DisplayOnButtonText>for birthday on 25 Nov 2022</DisplayOnButtonText>
                                                     <div className='main-button'>
                                                         <Lastdiv>
                                                             <span className='star-card' style={{

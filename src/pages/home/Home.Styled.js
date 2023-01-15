@@ -111,6 +111,10 @@ export const HomeTop = styled(Grid)`
         @media (min-width: 993px) and (max-width: 1100px) {
           font-size: 51px;
         }
+
+        @media (min-width: 375px) and (max-width: 550px) {
+          font-size: 40px;
+        }
       }
 
       @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {

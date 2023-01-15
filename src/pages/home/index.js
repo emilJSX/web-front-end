@@ -76,6 +76,13 @@ import Autho from '../../shared/LogIn-SingUp/Autho'
 import { HomeLoginHeader } from "../../shared/components/HeaderLogin/homeloginheader";
 import HeaderShared from "../../shared/components/HeaderShared";
 const Home = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(localStorage.getItem("UserToken=")) {
+      navigate("/my-profile")
+    }
+  })
 
 
   
@@ -84,7 +91,6 @@ const Home = () => {
   const [getWishName, setWishName] = useState("")
   const GetUserToken = localStorage.getItem("UserToken=")
   
-  const navigate = useNavigate()
   
   function GetWishNameForCreation() {
 
@@ -199,7 +205,7 @@ const Home = () => {
                           <ButtonDefault onClick={
                             () => {
                               let body = document.querySelector('body');
-                              body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+                              body.setAttribute('style', 'overflow-x: hidden');
                               setShowes(!show)
                             }
                           }
@@ -229,7 +235,7 @@ const Home = () => {
                           <ButtonDefault
                             onClick={() => {
                               let body = document.querySelector('body');
-                              body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+                              body.setAttribute('style', 'overflow-x: hidden');
                               setShow(!show)
                             }}
 
@@ -258,7 +264,7 @@ const Home = () => {
                     <ButtonDefault onClick={
                       () => {
                         let body = document.querySelector('body');
-                        body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+                        body.setAttribute('style', 'overflow-x: hidden');
                         setShowes(!show)
                       }
                     }
@@ -285,7 +291,7 @@ const Home = () => {
                     <ButtonDefault
                       onClick={() => {
                         let body = document.querySelector('body');
-                        body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+                        body.setAttribute('style', 'overflow-x: hidden');
                         setShow(!show)
                       }}
 
@@ -594,7 +600,7 @@ const Home = () => {
               </Wrapper>
             </Grid.Col>
           ))}
-          <WishesBtn><Button className="wish-btn">See all wishes</Button>
+          <WishesBtn><a href="/wish-list"><Button className="wish-btn">See all wishes</Button></a>
             <PartnersText>
               <h5 className="partners-text">Get gifts from our partners</h5>
             </PartnersText>
@@ -605,7 +611,7 @@ const Home = () => {
                 </div>
               ))}
             </OwlCarousel>
-            <Button className="partner-btn">See all partners</Button>
+            <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a>
           </WishesBtn>
         </Grid>
         <GridCutoms justify="center">

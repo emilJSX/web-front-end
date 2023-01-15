@@ -42,7 +42,7 @@ function Search() {
   const [searchs, setSearchs] = useState("");
   const [filteredCountriesa, setFilteredCountriesa] = useState([]);
 
-  const [getCategoryId,setCategoryId] = useState()
+  const [getCategoryId,setCategoryId] = useState(1)
   console.log(getCategoryId)
   const[getAllPeopleData, setAllPeopleData] = useState([])
   console.log(getAllPeopleData, "GET ALL PEOPLE")
@@ -51,39 +51,6 @@ function Search() {
   const[getResultWishTotal, setResultWishTotal] = useState()
   const[getResultPeopleTotal, setResultPeopleTotal] = useState()
   console.log(getSearchValue)
-
-
-  const getResultSearchingData = () => {
-    if(getCategoryId == 1) {
-    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
-      params: {
-        skip: 0,
-        search: getSearchValue,
-      },
-      headers: {
-        'Authorization': `Bearer ${getUserToken}`,
-      }
-    }).then((getResultWish) => {
-      setAllWishData(getResultWish.data.data)
-      setResultWishTotal(getResultWish.data.data.total)
-    })
-    }
-
-    if(getCategoryId == 2) {
-      axios.get('https://api.wishx.me/api/v1/profiles/search', {
-        params: {
-          skip: 0,
-          search: getSearchValue,
-        },
-        headers: {
-          'Authorization': `Bearer ${getUserToken}`,
-        }
-      }).then((getResultPeople) => {
-        setAllPeopleData(getResultPeople.data.data)
-        setResultPeopleTotal(getResultPeople.data.data.total)
-      })
-    }
-  }
 
 
   useEffect(() => {
@@ -115,6 +82,35 @@ function Search() {
     })
   },[])
 
+  const getResultSearchingData = () => {
+    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
+      params: {
+        skip: 0,
+        search: getSearchValue,
+      },
+      headers: {
+        'Authorization': `Bearer ${getUserToken}`,
+      }
+    }).then((getResultWish) => {
+      setAllWishData(getResultWish.data.data)
+      setResultWishTotal(getResultWish.data.data.total)
+    })
+
+      axios.get('https://api.wishx.me/api/v1/profiles/search', {
+        params: {
+          skip: 0,
+          search: getSearchValue,
+        },
+        headers: {
+          'Authorization': `Bearer ${getUserToken}`,
+        }
+      }).then((getResultPeople) => {
+        setAllPeopleData(getResultPeople.data.data)
+        setResultPeopleTotal(getResultPeople.data.data.total)
+      })
+  }
+
+
 
 
   return (
@@ -135,7 +131,7 @@ function Search() {
       className="mb-3 tabs-choose"
       
     >
-      <Tab eventKey="wish" className="tabone tabsfirst"  title={(<p id="1" onClick={(e)=>setCategoryId(e.target.id)}>Wishes <span style={{marginLeft:"8px",color:"#160046", opacity:"0.56"}}>{getResultWishTotal}</span></p>) }>
+      <Tab eventKey="wish" className="tabone tabsfirst"  title={(<p>Wishes <span style={{marginLeft:"8px",color:"#160046", opacity:"0.56"}}>{getResultWishTotal}</span></p>) }>
         <GridBody>
         <Grid className="griddiv">
             {getAllWishData?.results?.map((getWishData) => (
@@ -184,7 +180,7 @@ function Search() {
           <Loading>Loading</Loading>
         </GridBody>
       </Tab>
-      <Tab eventKey="profile" title={(<p id="2" onClick={(e)=>setCategoryId(e.target.id)}>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>{getResultPeopleTotal}</span></p>) } className="tabtwo ">
+      <Tab eventKey="profile" title={(<p>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>{getResultPeopleTotal}</span></p>) } className="tabtwo ">
     <GridBody>
       <Grid className="griddiv">
         {

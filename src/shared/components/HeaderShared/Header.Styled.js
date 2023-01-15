@@ -157,6 +157,11 @@ export const CreateWishBtn = styled.button`
     font-weight: 600;
     position: absolute;
     padding: 11px;
+    
+    &::hover {
+        text-decoration: none;
+        color: white;
+    }
 
     @media (min-width: 375px) and (max-width: 1050px) {
         display: none;

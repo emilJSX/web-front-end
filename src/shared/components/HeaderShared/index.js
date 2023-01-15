@@ -38,7 +38,7 @@ export const HeaderShared = ({ toggle }) => {
     return (
         <HeaderContainer>
             <section className='logoSection'>
-                <WishLogo />
+                <a href='/'><WishLogo /></a>
                 <SearchInput iconHave={true} size='xl' />
                 <ul>
                         <li className='all-wishes-btn'><Button variant='white'><Link to="/wish-list">All Wishes</Link></Button></li>
@@ -52,15 +52,15 @@ export const HeaderShared = ({ toggle }) => {
             {(GetUserToken?.length) ? (<>
             <div className='container-mobile-menu'>
                 <CardIcon>
-                    <IoCalendarOutline style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/>
-                    <AiOutlineMessage style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/>
+                    <a href='/calendar'><IoCalendarOutline style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/></a>
+                    <a href=''><AiOutlineMessage style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/></a>
                     <IoNotificationsOutline style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/>
                 </CardIcon>
                 <CreateWishBtn><Link to='/creating-wish'>Create a wish</Link></CreateWishBtn>
                 <Card>
-                        <ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={`https://api.wishx.me/${getUserLoginData?.avatar}`} /></ProfilP>
-                        <ProfilName>{getUserLoginData?.full_name}<FiChevronDown style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px"}}/></ProfilName>
-                        <ProfilWish>{getUserLoginData?.wishes_count} wishes • $567</ProfilWish>
+                        <ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={`https://api.wishx.me/${getUserLoginData?.avatar}` == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `https://api.wishx.me/${getUserLoginData?.avatar}`} /></ProfilP>
+                        <ProfilName>{getUserLoginData?.full_name  == null ? "does not exist" == null : getUserLoginData?.full_name} <FiChevronDown style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px"}}/></ProfilName>
+                        <ProfilWish>{getUserLoginData?.wishes_count} wishes • $0</ProfilWish>
                 </Card>
             </div>
                     </>)
