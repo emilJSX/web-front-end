@@ -1,0 +1,139 @@
+// <div className="colCenterHeader" >
+            //   <div id="head-logo">
+            //     <Logo fill="#3800B0" />
+            //     <Button variant="white">
+            //       <Link className="how-it-works" to="/home/how-it-works">How it works</Link>
+            //     </Button>
+            //   </div>
+            //   <div id="head-center">
+            //     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            //       <Box
+            //         sx={() => ({
+            //           display: "flex",
+            //           alignItems: "center",
+            //           gap: "10px",
+            //         })}
+            //       >
+            //         <GridIcon />
+            //         <p>All wishes</p>
+            //       </Box>
+            //     </MediaQuery>
+                
+            //   </div>
+            //   <div id="head-end">
+            //     <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            //       <Menu className="head-menu">
+            //         <Menu.Item>
+            //           {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : (show ? "" : <div onScroll={false} style={{
+            //             display: 'flex',
+            //             alignItems: 'center'
+            //           }}>
+            //             <Button variant="white" className="log-buttons">
+            //               <button onClick={
+            //                 () => {
+            //                   let body = document.querySelector('body');
+            //                   body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+            //                   setShowes(!show)
+            //                 }
+            //               }
+
+            //                 style={{
+            //                   border: '0',
+            //                   background: '#EBE5F7',
+            //                   color: "#3800B0",
+            //                   fontSize: '14px',
+            //                   fontWeight: '600',
+
+            //                 }}
+            //               >Log In</button>
+            //             </Button>
+
+            //           </div>)}
+
+            //         </Menu.Item>
+            //         <Menu.Item>
+
+            //           {show ? <Autho setShow={setShow} /> : (showes ? "" : <div onScroll={false} style={{
+            //             display: 'flex',
+            //             alignItems: 'center'
+            //           }}>
+
+            //             <Button variant="white" className="log-buttons" >
+            //               <button
+            //                 onClick={() => {
+            //                   let body = document.querySelector('body');
+            //                   body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+            //                   setShow(!show)
+            //                 }}
+
+            //                 style={{
+            //                   border: '0',
+            //                   background: '#EBE5F7',
+            //                   color: "#3800B0",
+            //                   fontSize: '14px',
+            //                   fontWeight: '600',
+
+            //                 }}
+            //               >
+            //                 Sing Up
+            //               </button>
+            //             </Button>
+            //           </div>)}
+            //         </Menu.Item>
+            //       </Menu>
+            //     </MediaQuery>
+
+            //     {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : (show ? "" : <div onScroll={false} style={{
+            //       display: 'flex',
+            //       alignItems: 'center'
+            //     }}>
+            //       <Button variant="white" className="log-buttons">
+            //         <button onClick={
+            //           () => {
+            //             let body = document.querySelector('body');
+            //             body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+            //             setShowes(!show)
+            //           }
+            //         }
+
+            //           style={{
+            //             border: '0',
+            //             background: '#EBE5F7',
+            //             color: "#3800B0",
+            //             fontSize: '14px',
+            //             fontWeight: '600',
+
+            //           }}
+            //         >Log In</button>
+            //       </Button>
+
+            //     </div>)}
+
+            //     {show ? <Autho setShow={setShow} /> : (showes ? "" : <div onScroll={false} style={{
+            //       display: 'flex',
+            //       alignItems: 'center'
+            //     }}>
+
+            //       <Button variant="white" className="log-buttons" >
+            //         <button
+            //           onClick={() => {
+            //             let body = document.querySelector('body');
+            //             body.setAttribute('style', 'overflow-y: hidden; overflow-x: hidden');
+            //             setShow(!show)
+            //           }}
+
+            //           style={{
+            //             border: '0',
+            //             background: '#EBE5F7',
+            //             color: "#3800B0",
+            //             fontSize: '14px',
+            //             fontWeight: '600',
+
+            //           }}
+            //         >
+            //           Sing Up
+            //         </button>
+            //       </Button>
+            //     </div>)}
+            //   </div>
+            // </div>
