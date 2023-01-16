@@ -8,7 +8,6 @@ import airpods_two from '../../style/icons/airpods_two.png'
 import gytar from '../../style/icons/gytar.png'
 import userphoto from '../../style/icons/userphoto.png'
 
-
 export const Carddata = {
     data: [
         {
