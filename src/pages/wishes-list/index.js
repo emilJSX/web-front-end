@@ -37,10 +37,10 @@ const WishList = () => {
         'Authorization': `Bearer ${getUserToken}`,
       }
     }).then((searchResult) => {
-      setAllWishData(searchResult.data.data)
+      setAllWishData(searchResult.data.data.results)
     })
   }
-
+  
   useEffect(() => {
     axios.get("https://api.wishx.me/api/v1/wish/list?skip=0", {
       params: {
@@ -50,7 +50,7 @@ const WishList = () => {
         'Authorization': `Bearer ${getUserToken}`,
       }
     }).then((searchResult) => {
-      setAllWishData(searchResult.data.data)
+      setAllWishData(searchResult.data.data.results)
     })
   }, [])
 
