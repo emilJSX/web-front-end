@@ -16,12 +16,15 @@ import {IoCalendarOutline, IoNotificationsOutline} from 'react-icons/io5'
 import {AiOutlineMessage} from 'react-icons/ai'
 import { useEffect } from 'react'
 import axios from 'axios'
+import Autholog from '../../../shared/LogIn-SingUp/Autholog';
+import { ButtonDefault } from '../../../pages/home/Home.Styled'
 
 
 export const HeaderShared = ({ toggle }) => {
     const [opened, setOpened] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
-
+    const [showes, setShowes] = useState(false)
+    const [show, setShow] = useState(false)
     const GetUserToken = localStorage.getItem("UserToken=")
 
     useEffect(()=> {
@@ -66,7 +69,30 @@ export const HeaderShared = ({ toggle }) => {
                     </>)
                     :
                 (<section className='log-in-out-Section'>
-                    <Button variant='white'><Link to='/log-in'>Log in</Link></Button>
+                    {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : (show ? "" : <div style={{
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}>
+                        <Button variant="white" className="log-buttons">
+                          <ButtonDefault onClick={
+                            () => {
+                              let body = document.querySelector('body');
+                              body.setAttribute('style', 'overflow-x: hidden');
+                              setShowes(!show)
+                            }
+                          }
+
+                            style={{
+                              border: '0',
+                              color: "#3800B0",
+                              fontSize: '14px',
+                              fontWeight: '600',
+
+                            }}
+                          >Log In</ButtonDefault>
+                        </Button>
+
+                      </div>)}
                     <Button><Link to='/creating-wish'>Create a wish</Link></Button>
                 </section>)
             }

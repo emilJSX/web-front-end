@@ -98,7 +98,7 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
-          {getAllWishData.map((getWishList) => (
+          {getAllWishData?.map((getWishList) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
               <Wrapper className="cart-item" onMouseOver={(e) => {
                 e.currentTarget.setAttribute('style', 'border: 1px solid #3800B0;');
@@ -142,9 +142,9 @@ const WishList = () => {
         </Grid>
 
       </BlogCard>
-      <Loading>
+      {/* <Loading>
         Loading
-      </Loading>
+      </Loading> */}
     </BlogMainSection>
   )
 }

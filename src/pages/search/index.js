@@ -50,6 +50,7 @@ function Search() {
   const[getSearchValue, setSearchValue] = useState("")
   const[getResultWishTotal, setResultWishTotal] = useState()
   const[getResultPeopleTotal, setResultPeopleTotal] = useState()
+  const[getInfinityScroll, setInfinityScroll] = useState(0)
   console.log(getSearchValue)
 
 
@@ -82,6 +83,8 @@ function Search() {
     })
   },[])
 
+
+  
   const getResultSearchingData = () => {
     axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
       params: {
@@ -96,7 +99,7 @@ function Search() {
       setResultWishTotal(getResultWish.data.data.total)
     })
 
-      axios.get('https://api.wishx.me/api/v1/profiles/search', {
+    axios.get('https://api.wishx.me/api/v1/profiles/search', {
         params: {
           skip: 0,
           search: getSearchValue,
@@ -108,10 +111,8 @@ function Search() {
         setAllPeopleData(getResultPeople.data.data)
         setResultPeopleTotal(getResultPeople.data.data.total)
       })
-  }
-
-
-
+    }
+    
 
   return (
   <Mainly>
@@ -177,7 +178,7 @@ function Search() {
             // </Grid.Col>
             ))}
     </Grid>
-          <Loading>Loading</Loading>
+          {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
         </GridBody>
       </Tab>
       <Tab eventKey="profile" title={(<p>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>{getResultPeopleTotal}</span></p>) } className="tabtwo ">
@@ -195,7 +196,7 @@ function Search() {
           ))
         }
       </Grid>
-      <Loading>Loading</Loading>
+      {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
     </GridBody>
         </Tab>
     </Tabs>

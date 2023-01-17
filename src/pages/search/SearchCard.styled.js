@@ -181,7 +181,7 @@ export const ProgressWrapper = styled.div`
 margin: 16px 0px;
 `
 export const Loading = styled.p`
-display: none;
+display: block
 @media (min-width: 375px) and (max-width: 420px){
   display: block;
   text-align: center;

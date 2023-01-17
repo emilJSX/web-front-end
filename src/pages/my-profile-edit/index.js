@@ -396,14 +396,13 @@ const ProfileEdit = () => {
       setCountryNameId(result)
     }
 
-
     // Show Country Name take with id API
 
     useEffect(() => {
       var getname = getCountryData?.name
       SetCountryName(getname)
     }, [])
-
+    
 
     const [getInterestsIdApi, setInterestsIdApi] = useState()
     const getInterestsId  = (item) => {
@@ -437,6 +436,9 @@ const ProfileEdit = () => {
               toast.success('Successfully updated ', {
                 position: toast.POSITION.TOP_RIGHT
             });
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
           });
       } catch (error) {
           toast.error('Please check your details', {

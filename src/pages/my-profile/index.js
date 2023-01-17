@@ -73,41 +73,43 @@ const MyProfile = () => {
  
     //     const handler = e => this.setState({ matches: e.matches });
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
+    var getUserToken = localStorage.getItem("UserToken=")
 
     useEffect(() => {
-        var getUserToken = localStorage.getItem("UserToken=")
-        axios.get("https://api.wishx.me/api/v1/wish/get?skip=0", {
-            headers: {
-                'Authorization': `Bearer ${getUserToken}`,
-                'Access-Control-Allow-Origin' : "*"
-            }        
-        }).then((dataUserWish) => {
-            const getUserWishes = dataUserWish.data.data
-            setUserInfoProfile(getUserWishes)
-        })
-
-        axios.get("https://api.wishx.me/api/v1/user", {
-            headers: {
-                'Authorization': `Bearer ${getUserToken}`,
-                'Access-Control-Allow-Origin' : "*"
-            }
-            }).then((userData) => {
-                const UserInfoProfile = userData.data.data
-                setUserInfoProfile(UserInfoProfile)
-                axios.get("https://api.wishx.me/api/v1/user/other", {
-                    params: {
-                        user_id: userData.data.data.user_id
-                    },
-                    headers: {
-                        'Authorization': `Bearer ${getUserToken}`,
-                        'Access-Control-Allow-Origin' : "*"
-                    }
-                }).then((getJoinedData) => {
-                    setJoined(getJoinedData.data.data.info.joined)
+        try {
+            axios.get("https://api.wishx.me/api/v1/user", {
+                headers: {
+                    'Authorization': `Bearer ${getUserToken}`,
+                    'Access-Control-Allow-Origin' : "*"
+                }
+                }).then((userData) => {
+                    const UserInfoProfile = userData.data.data
+                    setUserInfoProfile(UserInfoProfile)
+                    axios.get("https://api.wishx.me/api/v1/user/other", {
+                        params: {
+                            user_id: userData.data.data.user_id
+                        },
+                        headers: {
+                            'Authorization': `Bearer ${getUserToken}`,
+                            'Access-Control-Allow-Origin' : "*"
+                        }
+                    }).then((getJoinedData) => {
+                        setJoined(getJoinedData.data.data.info.joined)
+                    })
                 })
+                
+            axios.get("https://api.wishx.me/api/v1/wish/get", {
+                headers: {
+                    'Authorization': `Bearer ${getUserToken}`,
+                    'Access-Control-Allow-Origin' : "*"
+                }        
+            }).then((dataUserWish) => {
+                const getUserWishes = dataUserWish.data.data
+                setUserInfoProfile(getUserWishes)
             })
-
-
+        } catch {
+            console.log(" ")
+        }
     }, [])
 
     var navigate = useNavigate()

@@ -69,6 +69,12 @@ export const ButtonStyled = styled.button`
         else return '#fff';
     }}};
 
+    a{
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
      };
 
      :active {
