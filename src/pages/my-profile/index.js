@@ -62,7 +62,6 @@ const MyProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
     const [getJoined, setJoined] = useState()
-    console.log(getJoined)
     var tabs_storage = [
         { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '1'},
         { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '4' },
@@ -76,7 +75,6 @@ const MyProfile = () => {
     var getUserToken = localStorage.getItem("UserToken=")
 
     useEffect(() => {
-        try {
             axios.get("https://api.wishx.me/api/v1/user", {
                 headers: {
                     'Authorization': `Bearer ${getUserToken}`,
@@ -107,9 +105,7 @@ const MyProfile = () => {
                 const getUserWishes = dataUserWish.data.data
                 setUserInfoProfile(getUserWishes)
             })
-        } catch {
-            console.log(" ")
-        }
+        
     }, [])
 
     var navigate = useNavigate()
@@ -125,6 +121,10 @@ const MyProfile = () => {
 
     function getContactsFollowsPage() {
         navigate("/contacts-profile")
+    }
+
+    function getWishIdForResultPage(id) {
+        navigate("/my-wish", {state: {id}})
     }
 
         return (
@@ -216,10 +216,10 @@ const MyProfile = () => {
                                                 <CardLong >
                                                     <div className='cont-text'>
                                                         <div className='image-container'>
-                                                            <Imagess src={`https://api.wishx.me/${userDataWish.image}`} />
+                                                            <Imagess id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)} src={`https://api.wishx.me/${userDataWish.image}`} />
                                                         </div>
                                                         <div className='other-container'>
-                                                            <Title>{userDataWish.title}</Title>
+                                                            <Title id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)}>{userDataWish.title}</Title>
                                                             <TargetFinal><Target>Target: ${userDataWish.price}</Target><Final>Final: {userDataWish.date}</Final></TargetFinal>
                                                             <ShowBirtdayInWish>for birthday on {UserInfoProfile?.info?.dob}</ShowBirtdayInWish>
                                                             <UserDesc></UserDesc>
@@ -253,7 +253,7 @@ const MyProfile = () => {
                                                                 </SosialN>
                                                                 <div className='edit-details-btn' style={{ display: "flex"}}>
                                                                     <Edit onClick={(e) => getWishIdEdit(e.target.id)} id={userDataWish.id}>Edit</Edit>
-                                                                    <Details>Details</Details>
+                                                                    <Details id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)}>Details</Details>
                                                                 </div>
                                                             </LastDiv>
                                                         </div>

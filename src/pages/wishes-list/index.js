@@ -7,7 +7,7 @@ import { AiOutlineSearch, AiTwotoneLike } from 'react-icons/ai';
 import { BiSearch } from 'react-icons/bi';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { Carddata } from './Cards';
-import FilterColumns from '../wish-pages/filter/filter';
+import FilterColumns from '../wish-pagess/filter/filter';
 import { FiFilter } from 'react-icons/fi';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -15,14 +15,19 @@ import { useState } from 'react';
 import { Tab } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const WishList = () => {
   const [getAllWishData, setAllWishData] = useState([])
   const [getSearchValue, setSearchValue] = useState("")
   const [getCategoryId, setCategoryId] = useState()
 
-
   const getUserToken = localStorage.getItem("UserToken=")
+  const navigate = useNavigate()
+
+  function getWishIdForResult(slug) {
+    navigate('/other-user-wish', { state: slug })
+  }
 
 
   const GetResultWishesList = () => {
@@ -111,7 +116,7 @@ const WishList = () => {
                 e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
               }}>
                 <div className="image-container">
-                  <button className='congralute-button'>Congralute</button>
+                  <button name={getWishList.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)} className='congralute-button'>Congralute</button>
                   <div className="image-background"></div>
                   <ImgWrapper src={`https://api.wishx.me${getWishList.image}`}></ImgWrapper>
                 </div>

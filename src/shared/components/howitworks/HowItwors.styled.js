@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const HIWContainer = styled(Container)`
     padding: 0px;
-    margin-top: 60px;
+    margin-top: 30px;
 
     .mantine-15pjuqq{
         height: 100%;
@@ -142,4 +142,28 @@ export const HIWContainer = styled(Container)`
 
 export const HiwSliderSection = styled(Container)`
     
+`
+
+export const NavigationTop = styled.p`
+    color: grey;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    padding-bottom : 32px;
+`
+
+export const HowItWorksTxt = styled.h3`
+    color: #0B0023;
+    font-weight: bold;
+    font-size: 56px;
+    padding-bottom : 32px;
+    text-align: center;
+`
+
+export const Description = styled.p`
+    font-size: 18px;
+    font-weight: 400;
+    color: #5D627D;
+    padding-bottom : 32px;
+    text-align: center;
 `

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Birthday, Blue_div, Blue_top_div, Blue_loading_div, Last_title, Left_buttons, Left_div, Left_image, Left_report, Main_page, Main_page_top, Middle_title, Photo, Right_blue_div, Right_div, Right_top_div, Top_title, Blue_button_div, Vashed, Congratulate, Congratulate_button, Product, Product_part, Product_other, All_congrulation, Hbd, Hbd_title, Hbd_name, Hbd_footer, Photos, Hbday, Mcdonalds, Picture, Mcago, Freecofe, Bottom_div, Bottom_div_title, Bottom_div_show, RightBlueDivForThree, PhotoMacDon } from "./Wish-pages.styled";
 import watch from "../../style/icons/handwatch.png"
 import { BsFacebook, BsTwitter, BsTelegram, BsWhatsapp } from 'react-icons/bs';
@@ -38,6 +38,8 @@ import {
 
 } from "@mantine/core";
 import { Right_three_div, Time_div, Time_div_p } from './Add.styled';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function MyVerticallyCenteredModal(props) {
 
@@ -95,7 +97,7 @@ function MyVerticallyCenteredModal(props) {
           </div>
         </Modal.Body>
         <Modal.Footer style={{border: '0'}}>
-          <Button onClick={props.onHide} style={{background: '#3800B0'}}>Delete account</Button>
+          <Button onClick={props.onHide} style={{background: '#3800B0'}}>Send</Button>
         </Modal.Footer>
       </Modal>
     );
@@ -103,15 +105,85 @@ function MyVerticallyCenteredModal(props) {
 
 
 function Wish_pages() {
+    const { state } = useLocation()
+    const navigate = useNavigate();
 
+    const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
     const [modalShow, setModalShow] = useState(false);
+    const [GetUserWishDataResult, setGetUserData] = useState([])
+    const [getUserId, setUserId] = useState()
+    const [getUserName, setUserName] = useState()
+    const [getUserBirthday, setUserBirthday] = useState()
+
+    useEffect(() => {
+
+        axios.get("https://api.wishx.me/api/v1/wish/slug/",{
+        params: {
+            slug: state
+        }
+    }).then((GetUserWish)=> {
+        setGetUserData(GetUserWish?.data?.data)
+        console.log(GetUserWish)
+      }).catch((err) => {
+        console.log("")
+      })
+
+
+        axios.get("https://api.wishx.me/api/v1/user",{
+         headers: {
+           'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+         }
+       }).then((datauser) => {
+        setUserName(datauser.data.data.info)
+        setUserId(datauser.data.data.user_id)
+        console.log(datauser.data.data.user_id, "USER ID")
+       })
+
+    //    axios.get("https://api.wishx.me/api/v1/user/other", {
+    //     params: {
+    //         user_id: getUserId
+    //     },
+    //     headers: {
+    //         'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+    //     }
+    // }).then((getDataDob) => {
+    //     setUserBirthday(getDataDob.data.data.info.dob)
+    // })
+    }, [])
+
+    useEffect(()=> {
+
+    async function GetUserWishData () {
+      await axios.get("https://api.wishx.me/api/v1/wish/show", {
+        params: {
+            wish_id: state?.id 
+        },
+        headers: {
+          'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+        }
+      }).then((GetUserWish)=> {
+        setGetUserData(GetUserWish?.data?.data)
+      }).catch((err) => {
+        console.log("")
+      })
+    }
+    GetUserWishData()
+}, [])
+
+console.log(state)
+
+
+//   Get WISH IMAGE API
+  const WishCreationImage = GetUserWishDataResult.image
+  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`
+//   END
 
     return (
         <Main_page>
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <Left_image src={watch} />
+                        <Left_image src={UserGetCreationImgWish} />
                         <Left_buttons>Share
                             <BsFacebook className="facebook" />
                             <BsTwitter className="twitter" />
@@ -122,7 +194,7 @@ function Wish_pages() {
                             <AiOutlinePlusCircle id="plus" />
                         </Left_buttons>
                         <Button variant="primary" className='save-changes-button' onClick={() => setModalShow(true)}
-                            style={{ border: '0', display: 'flex', justifyContent: 'center' }}>
+                            style={{ border: '0', display: 'none', justifyContent: 'center' }}>
                             <Left_report><IoWarningOutline className="warning" />
                                 Report
                             </Left_report>
@@ -131,33 +203,31 @@ function Wish_pages() {
                     <Right_div>
                         <Right_top_div>
                             <Top_title>
+                                {/* <Photo src={`https://api.wishx.me/${getUserName?.avatar}`} /> */}
                                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
                                 <Birthday>
-                                    Bradley Cooper <span style={{ color: "#8E93AF" }}>for</span> birthday <span style={{ color: "#8E93AF" }}>on</span> 25.10.2022
+                                    <span style={{ fontWeight: "bold"}}>{getUserName?.full_name}</span> <span style={{ color: "#8E93AF" }}>for</span> birthday <span style={{ color: "#8E93AF" }}>on</span> 27.02.2022
                                 </Birthday>
-                                <HiOutlineDotsCircleHorizontal className='dots-menu' />
                                 <IoNotificationsOutline className="notification" />
                             </Top_title>
-                            <Middle_title>Apple Watch Graphite Stainless Steel Case with Milanese Loop</Middle_title>
+                            <Middle_title>{GetUserWishDataResult?.title}</Middle_title>
                             <Last_title>
-                                The stainless steel case is durable and polished to a shiny, mirror-like finish.
-                                The Milanese Loop is made from a smooth stainless steel mesh that’s fully magnetic,
-                                so it’s infinitely adjustable for a perfect fit.
+                                {GetUserWishDataResult?.description}
                             </Last_title>
                         </Right_top_div>
                         <RightBlueDivForThree>
                     <Blue_div>
                         <Blue_top_div>
-                            <p className="raised">$2 542 raised</p>
+                            <p className="raised">${GetUserWishDataResult?.donate?.received}</p>
                             <p className="percant">33%</p>
-                            <p className="left8">$8 558 left</p>
+                            <p className="left8">${GetUserWishDataResult?.donate?.left} left</p>
                         </Blue_top_div>
                         <Blue_loading_div>
                             <div className="colorpart"></div>
                         </Blue_loading_div>
                         <Blue_button_div>
-                            <p className="percant">Target: $10 000</p>
-                            <p className="left8">Final: 25.10.2022</p>
+                            <p className="percant">Target: ${GetUserWishDataResult?.donate?.target}</p>
+                            <p className="left8">Final: {GetUserWishDataResult?.date}</p>
                         </Blue_button_div>
                     </Blue_div>
                     <Time_div>

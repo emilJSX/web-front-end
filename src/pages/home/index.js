@@ -75,27 +75,29 @@ import Autholog from '../../shared/LogIn-SingUp/Autholog';
 import Autho from '../../shared/LogIn-SingUp/Autho'
 import { HomeLoginHeader } from "../../shared/components/HeaderLogin/homeloginheader";
 import HeaderShared from "../../shared/components/HeaderShared";
+import axios from "axios";
 const Home = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(localStorage.getItem("UserToken=")) {
+    if (localStorage.getItem("UserToken=")) {
       navigate("/my-profile")
     }
   })
 
 
-  
+
   const [modalShow, setModalShow] = useState(false);
   const [opened, setOpened] = useState(false)
   const [getWishName, setWishName] = useState("")
+  const [getAllWishData, setAllWishData] = useState([])
   const GetUserToken = localStorage.getItem("UserToken=")
-  
-  
+
+
   function GetWishNameForCreation() {
 
-    if(GetUserToken) {
-      navigate('/creating-wish', {state: getWishName})
+    if (GetUserToken) {
+      navigate('/creating-wish', { state: getWishName })
     } else if (!GetUserToken) {
       setShowes(true)
     }
@@ -133,23 +135,45 @@ const Home = () => {
 
   }, []);
 
+  useEffect(() => {
+    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
+      params: {
+        skip: 0,
+      },
+    }).then((getResultWish) => {
+      setAllWishData(getResultWish.data.data)
+    })
+  }, [])
+
+  function getWishIdForResult(slug) {
+    navigate('/other-user-wish', { state: slug })
+  }
+
+  function getUserSlugForProfile(id) {
+    if (!id) {
+      console.log(" ")
+    } else {
+      navigate('/other-user-profile', {state: id })
+    }
+  }
+
 
   const [show, setShow] = useState(false)
   const [showes, setShowes] = useState(false)
 
   // GET TOKEN AND LOGIN API START
 
-// GET TOKEN AND LOGIN API END
+  // GET TOKEN AND LOGIN API END
   return (
     <>
-    
+
       <HomeConatiner fluid p={0} style={{ overflow: 'hidden' }} className="home-container">
         <HomeTop columns={24} className="home-top">
           <HomeTop.Col lg={3} xl={3} md={3} sm={3} xs={0} className="col-left">
             <div className="leftImageContainer">
               {sideImages.left.map(({ id, url }) => (
                 <Image
-                key={id}
+                  key={id}
                   className="img"
                   radius={24}
                   id={id}
@@ -170,12 +194,12 @@ const Home = () => {
             className="col-center"
             style={{ overflow: 'hidden' }}
           >
-          
+
             <div className="colCenterHeader" >
               <div id="head-logo">
                 <Logo fill="#3800B0" />
                 <Button variant="white">
-                  <Link className="how-it-works" to="/home/how-it-works">How it works</Link>
+                  <Link className="how-it-works" to="/faq">How it works</Link>
                 </Button>
               </div>
               <div id="head-center">
@@ -191,7 +215,7 @@ const Home = () => {
                     <p>All wishes</p>
                   </Box>
                 </MediaQuery>
-                
+
               </div>
               <div id="head-end">
                 <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -226,7 +250,7 @@ const Home = () => {
                     </Menu.Item>
                     <Menu.Item>
 
-                      {show ? <Autho setShow={setShow} /> : (showes ? "" : <div  style={{
+                      {show ? <Autho setShow={setShow} /> : (showes ? "" : <div style={{
                         display: 'flex',
                         alignItems: 'center'
                       }}>
@@ -248,7 +272,7 @@ const Home = () => {
 
                             }}
                           >
-                            Sing Up
+                            Sign Up
                           </ButtonDefault>
                         </Button>
                       </div>)}
@@ -304,7 +328,7 @@ const Home = () => {
 
                       }}
                     >
-                      Sing Up
+                      Sign Up
                     </ButtonDefault>
                   </Button>
                 </div>)}
@@ -355,7 +379,7 @@ const Home = () => {
             <div className="rightImageContainer">
               {sideImages.right.map(({ id, url }) => (
                 <Image
-                key={id}
+                  key={id}
                   className="img"
                   radius={24}
                   id={id}
@@ -376,173 +400,84 @@ const Home = () => {
               <div className="slide-show-container">
                 <div className="slider">
                   <Carousel>
-                    <Carousel.Item interval={5000}>
-                      <div className="insider">
+                    {getAllWishData?.results?.map((getWishData) => (
+                      <Carousel.Item interval={5000}>
+                        <div className="insider">
+                          <div className="slider-content">
+                            <div className="image">
+                              <div className='icon'>
+                                <img id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}  src={`https://api.wishx.me${getWishData.user.image}`} alt="" />
+                              </div>
+                              <img src={`https://api.wishx.me${getWishData.image}`}></img>
+                            </div>
+                            <div className="title">
+                              <div className="top">
+                                <h5 id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}  className="user-name">{getWishData.user.full_name}</h5>
+                                <h5 className="summ">raised ${getWishData.donate.received}</h5>
+                              </div>
+                              <div className="center">
+                                <h5 className="main-subtitle">and get a gift he wished of:</h5>
+                                <h5 className="main-title">{getWishData.title}</h5>
+                              </div>
+                              <div className="bottom">
+                                <a name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)}>
+                                  <h5 name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)} className="bottom-title">View details</h5></a>
+                              </div>
+                            </div>
+                          </div>
 
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_1} alt="" />
+                          <div className="slider-content">
+                            <div className="image">
+                              <div className='icon'>
+                                <img id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)} src={`https://api.wishx.me${getWishData.user.image}`} alt="" />
+                              </div>
+                              <img src={`https://api.wishx.me${getWishData.image}`}></img>
                             </div>
-                            <img src={profile_picture}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_2} alt="" />
-                            </div>
-                            <img src={profile_picture1}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
+                            <div className="title">
+                              <div className="top">
+                                <h5 id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)} className="user-name">{getWishData.user.full_name}</h5>
+                                <h5 className="summ">raised ${getWishData.donate.received}</h5>
+                              </div>
+                              <div className="center">
+                                <h5 className="main-subtitle">and get a gift he wished of:</h5>
+                                <h5 className="main-title">{getWishData.title}</h5>
+                              </div>
+                              <div className="bottom">
+                                <a name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)}>
+                                  <h5 name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)} className="bottom-title">View details</h5></a>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </Carousel.Item>
-                    <Carousel.Item interval={5000}>
-                      <div className="insider">
-
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_1} alt="" />
-                            </div>
-                            <img src={profile_picture}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_2} alt="" />
-                            </div>
-                            <img src={profile_picture1}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Carousel.Item>
-                    <Carousel.Item interval={5000}>
-                      <div className="insider">
-
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_1} alt="" />
-                            </div>
-                            <img src={profile_picture}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="slider-content">
-                          <div className="image">
-                            <div className='icon'>
-                              <img src={icon_2} alt="" />
-                            </div>
-                            <img src={profile_picture1}></img>
-                          </div>
-                          <div className="title">
-                            <div className="top">
-                              <h5 className="user-name">Leslie Alexander</h5>
-                              <h5 className="summ">raised $10,000</h5>
-                            </div>
-                            <div className="center">
-                              <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                              <h5 className="main-title">Apple Watch 7</h5>
-                            </div>
-                            <div className="bottom">
-                              <h5 className="bottom-title">View details</h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Carousel.Item>
+                      </Carousel.Item>
+                    ))}
                   </Carousel>
                 </div>
               </div>
             </div>
             <Item className="slide-show-sm 2xl:px-20 xl:px-20 lg:px-20 md:px-20 sm:px-0 px-0">
               <OwlCarousel className='owl-theme' dots={true} loop autoplay margin={9} nav={false} items={2} style={{ height: '90%' }}>
-                {SmSliderItem.data.map(({ picture, icon, id }) => (
-                  <div className='item' key={picture.id}>
+                {getAllWishData?.results?.map((getWishData) => (
+                  <div className='item' key={getWishData.id}>
                     <div className="slider-content">
                       <div className="image">
                         <div className='icon'>
-                          <img src={icon} alt="" />
+                          <img src={`https://api.wishx.me${getWishData.user.image}`} alt="" />
                         </div>
-                        <img src={picture}></img>
+                        <img id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)} src={`https://api.wishx.me${getWishData.image}`}></img>
                       </div>
                       <div className="title">
                         <div className="top">
-                          <h5 className="user-name">Leslie Alexander</h5>
-                          <h5 className="summ">raised $10,000</h5>
+                          <h5 id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)} className="user-name">{getWishData.user.full_name}</h5>
+                          <h5 className="summ">raised ${getWishData.donate.received}</h5>
                         </div>
                         <div className="center">
-                          <h5 className="main-subtitle">and get a gift she wished of:</h5>
-                          <h5 className="main-title">Apple Watch 7</h5>
+                          <h5 className="main-subtitle">and get a gift he wished of:</h5>
+                          <h5 className="main-title">{getWishData.title}</h5>
                         </div>
                         <div className="bottom">
-                          <h5 className="bottom-title">View details</h5>
+                          <a name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)}>
+                            <h5 name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)} className="bottom-title">View details</h5></a>
                         </div>
                       </div>
                     </div>
@@ -559,9 +494,9 @@ const Home = () => {
           <p className="wishes-text">Popular wishes</p>
         </WishesText>
         <Grid>
-          {Carddata.data.map(({ url, title, username, userdesc, userphoto, leftprice, rightprice }) => (
+        {getAllWishData?.results?.map((getWishData) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
-              <Wrapper key={title.id} className="cart-item" onMouseOver={(e) => {
+              <Wrapper key={getWishData.id} className="cart-item" onMouseOver={(e) => {
                 e.currentTarget.setAttribute('style', 'border: 1px solid #3800B0;');
                 e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: visible');
                 e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: visible');
@@ -572,19 +507,19 @@ const Home = () => {
                 e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
               }}>
                 <div className="image-container">
-                  <ButtonDefault className='congralute-button'>Congralute</ButtonDefault>
+                  <ButtonDefault name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)} className='congralute-button'>Congralute</ButtonDefault>
                   <div className="image-background"></div>
-                  <ImgWrapper src={url}></ImgWrapper>
+                  <ImgWrapper src={`https://api.wishx.me${getWishData.image}`}></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Title>{title}</Title>
+                  <Title name={getWishData.slug} onClick={(e) => getWishIdForResult(e.currentTarget.name)}>{getWishData.title}</Title>
 
                   <UserWrapper>
                     <UserAbout>
-                      <UserName>{username}</UserName>
-                      <UserDesc>{userdesc}</UserDesc>
+                      <UserName id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}>{getWishData.user.full_name}</UserName>
+                      <UserDesc>eqwe</UserDesc>
                     </UserAbout>
-                    <UserPhoto src={userphoto}></UserPhoto>
+                    <UserPhoto  id={getWishData.user.user_id} onClick={(e)=>getUserSlugForProfile(e.target.id)} src={`https://api.wishx.me${getWishData.user.image}`}></UserPhoto>
                   </UserWrapper>
 
                   <PriceWrapper>
@@ -592,8 +527,8 @@ const Home = () => {
                       <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
                     </ProgressWrapper>
                     <Prices>
-                      <LeftPrice>{leftprice}</LeftPrice>
-                      <RightPrice>{rightprice}</RightPrice>
+                      <LeftPrice>${getWishData.donate.received}</LeftPrice>
+                      <RightPrice>${getWishData.donate.left}</RightPrice>
                     </Prices>
                   </PriceWrapper>
                 </ContentWrapper>
@@ -601,7 +536,7 @@ const Home = () => {
             </Grid.Col>
           ))}
           <WishesBtn><a href="/wish-list"><Button className="wish-btn">See all wishes</Button></a>
-            <PartnersText>
+            {/* <PartnersText>
               <h5 className="partners-text">Get gifts from our partners</h5>
             </PartnersText>
             <OwlCarousel className='owl-theme' dots={false} loop autoplay margin={9} nav={true} items={6} >
@@ -611,7 +546,7 @@ const Home = () => {
                 </div>
               ))}
             </OwlCarousel>
-            <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a>
+            <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a> */}
           </WishesBtn>
         </Grid>
         <GridCutoms justify="center">

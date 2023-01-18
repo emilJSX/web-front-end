@@ -29,6 +29,7 @@ import {HiBadgeCheck, HiOutlineFilter} from "react-icons/hi"
 import {FiSearch} from "react-icons/fi"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -43,21 +44,34 @@ function Search() {
   const [filteredCountriesa, setFilteredCountriesa] = useState([]);
 
   const [getCategoryId,setCategoryId] = useState(1)
-  console.log(getCategoryId)
   const[getAllPeopleData, setAllPeopleData] = useState([])
-  console.log(getAllPeopleData, "GET ALL PEOPLE")
   const[getAllWishData, setAllWishData] = useState([])
   const[getSearchValue, setSearchValue] = useState("")
   const[getResultWishTotal, setResultWishTotal] = useState()
   const[getResultPeopleTotal, setResultPeopleTotal] = useState()
   const[getInfinityScroll, setInfinityScroll] = useState(0)
-  console.log(getSearchValue)
+
+  const {state} = useLocation()
+  const navigate = useNavigate()
+
+  function getWishIdForResult(slug) {
+    navigate('/other-user-wish', { state: slug })
+  }
+
+  function getUserSlugForProfile(slug) {
+    if (!slug) {
+      console.log(" ")
+    } else {
+      navigate('/other-user-profile', {state: slug })
+    }
+  }
 
 
   useEffect(() => {
     axios.get('https://api.wishx.me/api/v1/profiles/search', {
       params: {
         skip: 0,
+        search: state,
       },
       headers: {
         'Authorization': `Bearer ${getUserToken}`,
@@ -65,6 +79,7 @@ function Search() {
     }).then((getResultPeople) => {
       setResultPeopleTotal((getResultPeople.data.data.total))
       setAllPeopleData(getResultPeople.data.data)
+      console.log(getResultPeople)
     })
   }, [])
   
@@ -73,6 +88,7 @@ function Search() {
     axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
       params: {
         skip: 0,
+        search: state,
       },
       headers: {
         'Authorization': `Bearer ${getUserToken}`,
@@ -147,9 +163,8 @@ function Search() {
                 e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: hidden');
                 e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
               }}>
-
                     <div className="image-container">
-                      <button className='congralute-button'>Congralute</button>
+                      <button name={getWishData.slug} onClick={(e)=>getWishIdForResult(e.currentTarget.name)} className='congralute-button'>Congralute</button>
                       <div className="image-background"></div>
                       <ImgWrapper src={`https://api.wishx.me${getWishData.image}`}></ImgWrapper>
                     </div>
@@ -158,7 +173,7 @@ function Search() {
 
                       <UserWrapper>
                         <UserAbout>
-                          <UserName>{getWishData.user.full_name}</UserName>
+                          <UserName >{getWishData.user.full_name}</UserName>
                           <UserDesc>for birthday on {getWishData.occasion}</UserDesc>
                         </UserAbout>
                         <UserPhoto src={getWishData.user.image}></UserPhoto>
@@ -188,8 +203,8 @@ function Search() {
           getAllPeopleData?.results?.map((index) =>(
             <Personal>
               <Photo src={`https://api.wishx.me${index?.image}`}/>
-              <Name>{index?.name}</Name>
-              <Tag>@{index?.username}</Tag>
+              <Name id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>{index?.name}</Name>
+              <Tag id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>@{index?.username}</Tag>
             </Personal>
 
             //<HiBadgeCheck className="check"/>

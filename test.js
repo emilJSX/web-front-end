@@ -1,6 +1,6 @@
 import { Grid, Image, Button, Slider, Loader } from '@mantine/core';
 import React, { useEffect, useState } from "react";
-import { Body, ButtonSection, DateSection, LeftSection, CardLong, FollowersSection, Follower, Following, Details, Edit, Final, Date, DateText, Text, TagName, Firstprice, Namesurname, Imagess, LastDiv, Lastprice, Price, SosialN, Target, TargetFinal, Title, SocialSection, Joined, UserDesc, LeftRightPriceDisplay, LeftPrice, RightPrice, MenuScrollCards, DisplayDateBirthaySection, MobileBtnSection, FotoSection, MenuScrollCardsDesktop, MobileTopCoverImageSection, ShowBirtdayInWish } from './Oup.Style'
+import { Body, ButtonSection, DateSection, LeftSection, CardLong, FollowersSection, Follower, Following, Details, Edit, Final, Date, DateText, Text, TagName, Firstprice, Namesurname, Imagess, LastDiv, Lastprice, Price, SosialN, Target, TargetFinal, Title, SocialSection, Joined, UserDesc, LeftRightPriceDisplay, LeftPrice, RightPrice, MenuScrollCards, DisplayDateBirthaySection, MobileBtnSection, FotoSection, MenuScrollCardsDesktop, MobileTopCoverImageSection, ShowBirtdayInWish } from './MyProfile.style'
 import estetika from '../../style/icons/estetika.png'
 import tomcruse from '../../style/icons/tomcruse.png'
 import { Tab, Tabs, TabPanel } from 'react-tabs';
@@ -44,7 +44,7 @@ import {
     Paragraf,
     Paragrap,
     DisplayTopText,
-    DisplayTopImgCard } from './ProfileOther.Styled';
+    DisplayTopImgCard } from './MyprofilSecond.style';
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -54,20 +54,19 @@ import file1 from "../../style/icons/file1.png"
 import { Component } from 'react';
 import instagram from '../../style/icons/instagram.svg'
 import axios from 'axios';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 
-const OtherUserProfile = () => {
+const MyProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
     const [getJoined, setJoined] = useState()
-    console.log(UserInfoProfile)
     var tabs_storage = [
-        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '0'},
-        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '0' },
-        { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '0' }
+        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '1'},
+        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '4' },
+        { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '6' }
     ];
 
 
@@ -76,17 +75,40 @@ const OtherUserProfile = () => {
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
     var getUserToken = localStorage.getItem("UserToken=")
 
-    const {state} = useLocation()
-
     useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/user/other/slug", {
-            params: {
-                slug: state
-            },
-            }).then((userData) => {
-                setUserInfoProfile(userData.data.data)
+            axios.get("https://api.wishx.me/api/v1/user", {
+                headers: {
+                    'Authorization': `Bearer ${getUserToken}`,
+                    'Access-Control-Allow-Origin' : "*"
+                }
+                }).then((userData) => {
+                    const UserInfoProfile = userData.data.data
+                    setUserInfoProfile(UserInfoProfile)
+                    axios.get("https://api.wishx.me/api/v1/user/other", {
+                        params: {
+                            user_id: userData.data.data.user_id
+                        },
+                        headers: {
+                            'Authorization': `Bearer ${getUserToken}`,
+                            'Access-Control-Allow-Origin' : "*"
+                        }
+                    }).then((getJoinedData) => {
+                        setJoined(getJoinedData.data.data.info.joined)
+                    })
+                })
+                
+            axios.get("https://api.wishx.me/api/v1/wish/get", {
+                headers: {
+                    'Authorization': `Bearer ${getUserToken}`,
+                    'Access-Control-Allow-Origin' : "*"
+                }        
+            }).then((dataUserWish) => {
+                const getUserWishes = dataUserWish.data.data
+                setUserInfoProfile(getUserWishes)
             })
+        
     }, [])
+
     var navigate = useNavigate()
 
     function getWishIdEdit(wish_id) {
@@ -127,7 +149,7 @@ const OtherUserProfile = () => {
                                     </DisplayTopImgCard>
 
                                     <Image radius="100px" className="tomcruse" height={80} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
-                                    <Namesurname>{UserInfoProfile?.info?.full_name != null ? UserInfoProfile?.info?.full_name : "FullName does not exist" }</Namesurname> 
+                                    <Namesurname>{UserInfoProfile?.info?.full_name}</Namesurname> 
                                     {/* <HiBadgeCheck className='bluechek' /> */}
                                     <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
                                     <Text>Spec, Child, Chaos and Shadow</Text>
@@ -418,4 +440,4 @@ const OtherUserProfile = () => {
             </Body>
         )
     }
-export default OtherUserProfile;
+export default MyProfile;

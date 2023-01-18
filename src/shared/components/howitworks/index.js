@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Image,Grid} from "@mantine/core"
 import girlfoto from '../../../style/icons/girl.jpg'
-import { HIWContainer, HiwSliderSection } from "./HowItwors.styled.js"
+import { Description, HIWContainer, HiwSliderSection, HowItWorksTxt, NavigationTop } from "./HowItwors.styled.js"
 import OwlCarousel from 'react-owl-carousel'
 import { HIWSliderData } from './HiwSlider'
 import 'owl.carousel/dist/assets/owl.carousel.css'
@@ -12,7 +12,9 @@ const HowItWorks = () => {
 
     return(
         <HIWContainer fluid>
-           
+           <NavigationTop>Main {">"} How it works</NavigationTop>
+           <HowItWorksTxt>How it works</HowItWorksTxt>
+           <Description>The software offers complete campaign <br/> transparency, email tracking, view success</Description>
             <Grid style={{ background: "#160046", borderRadius: "30px"}}  className="grid-hiw">
                     <Grid.Col className="grid-one" xl={6} lg={6} md={12} sm={12} xs={12}>
                         <img className="img-girl" src={girlfoto} />

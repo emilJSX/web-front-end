@@ -1,6 +1,6 @@
 import React from "react";
 import { HiOutlineFilter, HiBadgeCheck} from 'react-icons/hi';
-import '../Wish-pages.styled'
+import '../../wish-pagess/Wish-pages.styled'
 import { Checkbox } from '@mantine/core';
 import { ArrowSectionOne, ArrowSectionOneText, ArrowSectionThree, ArrowSectionThreeText, ArrowSectionTwo, ArrowSectionTwoText, BodyFilter, Gifted, Show, ShowCheckBox, Sort } from "./Filter.styled";
 import { BiUpArrowCircle } from "react-icons/bi";

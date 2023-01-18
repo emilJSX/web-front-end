@@ -12,6 +12,7 @@ export const ButtonStyled = styled.button`
         if (variant !== 'white') return size == 'm' ? '5px 12px' : '12px 16px';
         else 0;
     }};
+
     border-radius: 8px;
     transition: 0.2s all;
     cursor: pointer;
@@ -73,6 +74,10 @@ export const ButtonStyled = styled.button`
         text-decoration: none;
         color: white;
         font-weight: bold;
+
+        :hover {
+            text-decoration: none;
+        }
     }
 
      };

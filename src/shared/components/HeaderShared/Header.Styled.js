@@ -23,8 +23,16 @@ export const HeaderContainer = styled(Header)`
     }
 
     .all-wishes-btn {
+        color: #3800B0;
+        font-weight: 600;
+        font-size: 14px;
         @media (min-width: 768px) and (max-width: 828px) {
             width: 100px;
+        }
+
+        a:hover {
+            color: #3800B0;
+            text-decoration: none;
         }
     }
 
@@ -90,6 +98,42 @@ export const Card = styled.div`
 
     @media(max-width: 992px) {
         display: none;
+    }
+
+    .dropdown-menu-logined {
+        background: #FFFFFF;
+        border-radius: 16px;
+        position: absolute;
+        top: 70px;
+        padding: 15px;
+        padding-top: 5px;
+
+        li {
+            list-style: none;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            
+        }
+    }
+
+
+    .edit-personal-info-btn {
+        color: #3800B0;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .settings-btn {
+        color: #3800B0;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .sign-out-btn {
+        color: #8866D0;
+        font-weight: bold;
+        font-size: 14px;
     }
 `;
 export const ProfilP = styled.span`

@@ -51,9 +51,10 @@ const Created_Wish = () => {
     const [CreationDateWish, setDateWish] = useState("11.20.22")
     const [CreationOccasionWish, setOccasionWish] = useState("22-th Birthday")
     const [CheckedUrlPublicWish, setCheckedPublikWish] = useState()
-
+    
     // end States
-
+    
+    const navigate = useNavigate()
     useEffect(() => {
         setTitleWish(wishCreationTitleHome?.state)
     }, [])
@@ -62,6 +63,10 @@ const Created_Wish = () => {
 
     // Get LocalStorage User Token
     const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
+    
+    if(!GetUserTokenCreationWish) {
+        navigate("/")
+    }
     // end token
     const handleChange = (newValue) => {
         setValue(newValue);
@@ -117,7 +122,6 @@ const Created_Wish = () => {
     }
 
 
-    const navigate = useNavigate()
     const handleSubmitCreateWish = async (event) => {
         event.preventDefault()
         const formData = new FormData();
@@ -162,7 +166,6 @@ const Created_Wish = () => {
     }
     const handleFileSelect = (event) => {
         setSelectedFile(event.target.files[0])
-        console.log(event.target.files[0], "AAAAAAAAAAAAAAA")
     }
     
 

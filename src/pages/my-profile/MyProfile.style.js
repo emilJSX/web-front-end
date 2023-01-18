@@ -462,7 +462,7 @@ export const CardLong = styled.div`
         background: white;
         border: 1px solid #EBE5F7;
         border-radius: 24px;
-        margin-left: -134px;
+        margin-left: -127px;
     }
 }
 
@@ -570,7 +570,7 @@ export const CardLong = styled.div`
 `;
 
 export const Imagess = styled.img`
-
+    cursor: pointer;
     border-radius: 16px;
     height: 100%;
 
@@ -583,7 +583,7 @@ export const Imagess = styled.img`
 `;
 
 export const Title = styled.p`
-
+    cursor: pointer;
     height: 30%;
     width: 100%;
     font-family: sans-serif;
@@ -846,6 +846,7 @@ export const Edit = styled.div`
 export const Details = styled.div`
     background:#3800B0;
     border-radius: 8px;
+    cursor: pointer;
     padding:16.5px 20px;
     font-size: 14px;
     font-family: 'Steppe';

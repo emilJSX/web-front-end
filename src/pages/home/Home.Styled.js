@@ -600,10 +600,13 @@ overflow: hidden;
               right: 12px;
               border: 4px solid #160046;
               border-radius: 24px; 
+              background: #160046;
 
               img{
                 height: 95%;
                 width: 95%;
+                margin-left: 1px;
+                margin-top: 1px;
               }
                 
               @media screen and (max-width: ${({ theme }) => theme.breakPoints.xl}){
@@ -722,6 +725,7 @@ overflow: hidden;
               width: 100%;
               display: flex;
               align-items: center;
+              cursor: pointer;
 
               .bottom-title{
                 color: white;
@@ -1398,6 +1402,10 @@ export const Item = styled.div`
                       left: 20px;
                       bottom: 0;
                       overflow: hidden;
+                      right: 12px;
+                      border: 4px solid #160046;
+                      border-radius: 24px; 
+                      background: #160046;
 
                     }
 

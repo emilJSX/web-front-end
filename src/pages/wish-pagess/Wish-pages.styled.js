@@ -59,7 +59,6 @@ export const Left_image = styled.img`
     width: 100%;
     height: auto;
     background: white;
-    padding: 112.5px;
     border-radius: 24px;
 
     @media (min-width: 375px) and (max-width: 450px){
@@ -175,7 +174,7 @@ export const Right_div = styled.div`
 export const Right_top_div = styled.div`
 
     width: 100%;
-    height: 365px;
+    height: 320px;
     background: white;
     border-radius: 24px;
     @media (min-width: 375px) and (max-width: 450px){
@@ -262,8 +261,8 @@ export const Top_title = styled.div`
 `;
 export const Photo = styled.img`
 
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     margin-top: -4px;
     float: left;
     border-radius: 50%;
@@ -324,14 +323,13 @@ export const Birthday = styled.p`
     export const Middle_title = styled.p`
 
     width: 83%;
-    height: 144px;
-    margin: 24px 48px 0 65px;
+    height: 50px;
+    margin: 24px 48px 0 48px;
     float: left;
     font-family: 'Steppe';
     font-weight: 600;
-    font-size: 40px;
+    font-size: 34px;
     color: #0C0E19;
-    line-height: 120%;
 
     @media (min-width: 375px) and (max-width: 450px){
         width: 277px;
@@ -356,13 +354,12 @@ export const Birthday = styled.p`
 
     width: 83%;
     height: 66px;
-    margin: 16px 48px 0 65px;
+    margin: 16px 48px 0 50px;
     float: left;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
     color: #5D627D;
-    line-height: 160%;
 
     @media (min-width: 375px) and (max-width: 450px){
         width: 295px;
