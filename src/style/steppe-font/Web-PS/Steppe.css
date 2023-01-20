@@ -1,9 +1,55 @@
-/* Webfont: Steppe-Regular */@font-face {
+@font-face {
     font-family: 'Steppe';
-    src: url('Steppe.woff2') format('woff2'), /* Modern Browsers */
-         url('Steppe.otf') format('opentype'); /* Safari, Android, iOS */
+    src: url('../fonts/Web-PS/Steppe-Thin.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-Thin.otf') format('opentype'); /* Safari, Android, iOS */
              font-style: normal;
-    font-weight: normal;
+    font-weight: 300;
     text-rendering: optimizeLegibility;
 }
 
+
+/* Webfont: Steppe-Regular */
+@font-face {
+    font-family: 'Steppe';
+    src: url('../fonts/Web-PS/Steppe-Regular.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-Regular.otf') format('opentype'); /* Safari, Android, iOS */
+             font-style: normal;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Steppe';
+    src: url('../fonts/Web-PS/Steppe-Medium.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-Medium.otf') format('opentype'); /* Safari, Android, iOS */
+             font-style: normal;
+    font-weight: 500;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Steppe';
+    src: url('../fonts/Web-PS/Steppe-SemiBold.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-SemiBold.otf') format('opentype'); /* Safari, Android, iOS */
+             font-style: normal;
+    font-weight: 600;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Steppe';
+    src: url('../fonts/Web-PS/Steppe-Bold.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-Bold.otf') format('opentype'); /* Safari, Android, iOS */
+             font-style: normal;
+    font-weight: 700;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Steppe';
+    src: url('../fonts/Web-PS/Steppe-ExtraBold.woff2') format('woff2'), /* Modern Browsers */
+         url('../fonts/OpenType-PS/Steppe-ExtraBold.otf') format('opentype'); /* Safari, Android, iOS */
+             font-style: normal;
+    font-weight: 900;
+    text-rendering: optimizeLegibility;
+}
