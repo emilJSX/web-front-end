@@ -44,7 +44,6 @@ import {
 import axios from 'axios';
 
 const SetProfileEditButtonsEvent = () => {
-
   const edit_buttons = document.querySelectorAll('.editing-buttons');
 
   for (const iterator of edit_buttons) {
@@ -230,6 +229,7 @@ const ProfileEdit = () => {
   const [confirm, setConfirm] = useState(false);
   const [value, onChange] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+
     
   const OnSeclectCountry = (country) => {
     SetCountryName(country.innerHTML);
@@ -383,7 +383,10 @@ const ProfileEdit = () => {
       const {full_name="", slug="", about="", avatar="", email="", phone="", interests=[]} = getInfoUser || {}
       const {country=""} = getInfoUser?.country?.name || {}
       setUserInfoProfile({full_name, slug, about, country ,avatar, email, phone, interests})
-      SetCountryName(getInfoUser?.country?.name)
+
+      var getCountryData = [getInfoUser?.country?.name, getInfoUser?.country?.id] 
+
+      SetCountryName(getCountryData)
       // onChange(getInfoUser?.dob)
     }, [getInfoUser])
 
@@ -395,6 +398,7 @@ const ProfileEdit = () => {
       const result = { id, countryName }
       setCountryNameId(result)
     }
+
 
     // Show Country Name take with id API
 
@@ -409,7 +413,6 @@ const ProfileEdit = () => {
       setInterestsIdApi(item)
     }
 
-    const getCountryIdState = getCountryNameId?.id
     
     // ============================================================================================================================
     
@@ -419,7 +422,7 @@ const ProfileEdit = () => {
       const formUpdateData = new FormData();
       formUpdateData.append("file", selectedFile == null ? getUserInfoProfile.avatar : selectedFile)
       formUpdateData.append("full_name", getUserInfoProfile.full_name)
-      formUpdateData.append("country", getCountryIdState)
+      formUpdateData.append("country", getCountryNameId?.id)
       formUpdateData.append("gender", getGenderId)
       formUpdateData.append("dob", moment(value).format("DD.MM.YYYY")) 
       formUpdateData.append("username", getUserInfoProfile.slug)
@@ -496,6 +499,8 @@ const ProfileEdit = () => {
 
   }, [])
 
+  console.log(countryName)
+
 
   // ==================================================================================================================
 
@@ -559,7 +564,7 @@ const ProfileEdit = () => {
                           SetOpenOrClose(false);
                         }
                       }}>
-                        <h5 className='country-name'>{countryName}</h5>
+                        <h5 className='country-name'>{countryName[0]}</h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul  className='countries-list'>
