@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.modal-dialog {
+    display: flex;
+    justify-content: center;
+}
+
+
+.modal-content {
+    width: 480px;
+    border-radius: 32px;
+}
+
+.modal-content .modal-header {
+    height: 90px;
+    border: 0;
+}
+
+
+.modal-content .modal-header .modal-title {
+    margin-top: 40px;
+    margin-left: 20px;
+    font-family: 'Steppe';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 124%;
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #110035;
+}
+
+.modal-content .modal-header .btn-close {
+    height: 20px;
+    width: 20px;
+}
+
+.modal-content .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content .modal-body .enter-password-title {
+    width: 90%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 160%;
+    padding-left: 0;
+}
+
+.modal-content .modal-body .info_input {
+    width: 90%;
+    margin: 0;
+    background: #F7F8FA;
+    border-radius: 8px;
+
+}
+
+.modal-content .modal-body .delete-causes-items-container {
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 25px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 160%;
+    font-feature-settings: 'liga' off;
+    color: #110035;
+    margin: 0;
+}
+
+.modal-content .modal-body .delete-causes-items-container .delete-cause-radio-button {
+    border: 0;
+}
+
+.modal-content .modal-body .reson-text-input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-content .modal-body .reson-text-input .info_input {
+    width: 90%;
+    margin: 0;
+    background: #F7F8FA;
+    border-radius: 8px;
+    height: 53px;
+    padding-left: 20px;
+    border: 0;
+}
+
+.modal-content .modal-footer {
+    display: flex;
+    justify-content: center;
+    border: 0;
+
+}
+
+.modal-content .modal-footer button {
+    width: 90%;
+    height: 53px;
+    transform: translate(0px, -10px);
+    background: #3800B0;
+    border-radius: 8px;
+    font-family: 'Steppe';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-feature-settings: 'liga'
+}
+
+.modal-content .modal-body .cry-smyle {
+    width: 100%;
+    padding-left: 20px;
+}
+
+.modal-content .modal-body .cry-smyle .cry-smyle-image {
+    height: 108px;
+    width: 108px;
+}
+
+.modal-content .modal-body .deleted-account-wish-to-user {
+    width: 100%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 160%;
+    font-feature-settings: 'liga' off;
+    color: #110035;
+    margin: 0;
+}
+
+@import "style/pages/home";

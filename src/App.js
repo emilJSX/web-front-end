@@ -16,7 +16,7 @@ import BlogSRNotFound from "./pages/blog/blogsearch-noResult";
 import BlogPost from "./pages/blog/blog-post";
 import SettingsPage from "./pages/settings";
 import "react-datepicker/dist/react-datepicker.css";
-import './index.css'
+import './index.scss'
 import MyProfile from "./pages/my-profile";
 import Finally from "./pages/set-new-password";
 import OtherUserProfile from "./pages/OtherUserProfile";
