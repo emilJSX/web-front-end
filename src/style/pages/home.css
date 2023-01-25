@@ -1,9 +1,9 @@
 .banner__title {
-  @apply text-[48px] leading-[1.1] md:text-[76px] md:leading-[1.2] font-semibold text-center text-white;
+  @apply text-[40px] leading-[1.1] md:text-[76px] md:leading-[1.2] font-semibold text-center text-white md:px-0 px-4;
 }
 
 .banner__container {
-  @apply max-w-[1440px] flex flex-col w-full mx-auto px-4 md:px-8 py-[20px] min-h-[clamp(760px,100vh,120vh)] relative z-[2];
+  @apply max-w-[1440px] flex flex-col w-full mx-auto px-4 md:px-8 py-[20px] min-h-[clamp(860px,100vh,120vh)] relative z-[2];
 }
 
 .banner__bg {
@@ -29,12 +29,12 @@
 }
 
 .banner__mobile__shape--bottom {
-  @apply md:hidden absolute bottom-0 left-[30px] w-full h-[280px];
+  @apply md:hidden absolute bottom-0 left-[30px] w-full h-[305px];
 
   background-image: url("../../assets/svg/shape-mobile-bottom.svg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
 }
 
 .banner__right__content--top {

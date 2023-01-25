@@ -130,7 +130,7 @@ const HomeBanner = ({ showLoginModal, showSignUpModal, createWish }) => {
             </button>
           </div>
         </nav>
-        <div className="flex flex-1 flex-col items-center justify-content-center mt-[8vh]">
+        <div className="flex flex-1 flex-col items-center justify-content-center mt-[4vh] md:mt-[8vh]">
           <div className="flex flex-col md:mb-[30px] -mt-16 md:mt-0 items-center justify-center align-self-center justify-self-center">
             <h1 className="banner__title max-w-[520px]">
               Everything starts with a Wish
