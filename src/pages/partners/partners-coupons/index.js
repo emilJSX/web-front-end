@@ -19,6 +19,10 @@ class Partners extends Component {
         this.onToggle = this.onToggle.bind(this)
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     onToggle(e) {
         this.setState({isClose: !this.state.isClose})
     }

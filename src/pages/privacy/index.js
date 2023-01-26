@@ -3,11 +3,16 @@ import { PrivacyTopContainer, Privacy_policy_text, Terms_text, Shipping_text } f
 import { Image, MediaQuery, Menu, Box, Text } from '@mantine/core';
 import { display } from "styled-system";
 import axios from "axios";
+import { useEffect } from "react";
 const Privacy = () => {
     const [TitleNumberOne, setTitleOne] = useState("")
     const [TitleNumberTwo, setTitleTwo] = useState("")
     const [ContentNumberOne, setContentOne] = useState("")
     const [ContentNumberTwo, setContentTwo] = useState("")
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
 
     axios.get("https://api.wishx.me/api/v1/static_pages/terms/get").then((response_terms) => {
         setTitleOne(response_terms.data.data[0].title)

@@ -52,15 +52,43 @@ function Search() {
   const {state} = useLocation()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  // INFINITY SCROLL 
+  
+  // useEffect(() => {
+  //   const fetchProfileUser = async () => {
+  //     try {
+  //       const res = await axios.get(`https://api.wishx.me/api/v1/profiles/search`,{params: {skip: getInfinityScroll}}).then((getResultScrollingProfile)=> {
+  //         setAllPeopleData(last => [...last, ...getResultScrollingProfile])
+  //       })
+  //   } catch(err) {
+  //     console.log(err)
+  //   }
+  // }
+  //   fetchProfileUser()
+  // }, [getInfinityScroll])
+  
+
+  // const OnclickProfileInfinity = () => {
+  //   setInfinityScroll(getInfinityScroll + 10)
+  // }
+
+  // END INFINITY SCROLL
+
+
+
   function getWishIdForResult(slug) {
-    navigate('/other-user-wish', { state: slug })
+    navigate('/wish/s'+slug, { state: slug })
   }
 
   function getUserSlugForProfile(slug) {
     if (!slug) {
       console.log(" ")
     } else {
-      navigate('/other-user-profile', {state: slug })
+      navigate('/profile/'+slug, {state: slug })
     }
   }
 
@@ -208,7 +236,7 @@ function Search() {
           ))
         }
       </Grid>
-      {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
+      {/* <Loading onClick={OnclickProfileInfinity}>Get More Users</Loading> */}
     </GridBody>
         </Tab>
     </Tabs>

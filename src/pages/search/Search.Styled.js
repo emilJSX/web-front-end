@@ -72,6 +72,7 @@ export const Personal = styled.div`
     width: 206px;
     height: 196px;
     float: left;
+    cursor: pointer;
     margin-right: 12px;
     margin-top: 63px;
     display: block; 
@@ -144,6 +145,7 @@ export const Searchdiv = styled.div`
         color: black;
         background: #F7F8FA;
         float:right;
+        cursor: pointer;
         width: 10%;
         height: 55px;
     }

@@ -103,7 +103,7 @@ export const ButtonSection = styled(Grid)`
 
 
         @media(min-width: 1000px){
-            width: 47.4%;
+            width: 43%;
         }
 
 
@@ -304,6 +304,7 @@ export const BlogCard = styled(Container)`
     padding: 0px;
     padding-top: 50px;
     margin: 0;
+    padding-bottom: 50px;
 
     .date-category {
         color: grey;

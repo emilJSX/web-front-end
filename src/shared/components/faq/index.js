@@ -59,6 +59,10 @@ const ChangeButtonStyleSm = (neededButton) => {
 const FaqSection = () => {
   const [QuestionItem, setQuestionItem] = useState([])
   const [TestingData, setTestingData] = useState([])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   
   
   useEffect(() => {

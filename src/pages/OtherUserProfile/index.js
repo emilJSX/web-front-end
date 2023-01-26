@@ -79,12 +79,17 @@ const OtherUserProfile = () => {
     const {state} = useLocation()
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
+    useEffect(() => {
         axios.get("https://api.wishx.me/api/v1/user/other/slug", {
             params: {
                 slug: state
             },
             }).then((userData) => {
                 setUserInfoProfile(userData.data.data)
+                setJoined(userData.data.data.info.joined)
             })
     }, [])
     var navigate = useNavigate()

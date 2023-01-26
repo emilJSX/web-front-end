@@ -4,7 +4,11 @@ import { SettingSection } from "./Settings.Styled";
 import { NativeSelect } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons';
 import { Button } from '@mantine/core';
+import { useEffect } from "react";
 const SettingsPage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
     return (
         <SettingSection style={{ maxWidth: "500px" }}>
             <div className="top-rule">

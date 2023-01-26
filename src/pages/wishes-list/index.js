@@ -27,7 +27,15 @@ const WishList = () => {
   const navigate = useNavigate()
 
   function getWishIdForResult(slug) {
-    navigate('/other-user-wish', { state: slug })
+    navigate('/wish/'+slug, { state: slug })
+  }
+
+  function getUserSlugForProfile(id) {
+    if (!id) {
+      console.log(" ");
+    } else {
+      navigate("/profile/"+id, { state: id });
+    }
   }
 
 
@@ -126,10 +134,10 @@ const WishList = () => {
 
                   <UserWrapper>
                     <UserAbout>
-                      <UserName>{getWishList.user.full_name}</UserName>
+                      <UserName id={getWishList.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}>{getWishList.user.full_name}</UserName>
                       <UserDesc>{`for birthday on ${getWishList.occasion}`}</UserDesc>
                     </UserAbout>
-                    <UserPhoto src={`https://api.wishx.me${getWishList.user.image}`}></UserPhoto>
+                    <UserPhoto id={getWishList.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)} src={`https://api.wishx.me${getWishList.user.image}`}></UserPhoto>
                   </UserWrapper>
 
                   <PriceWrapper>

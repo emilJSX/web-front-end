@@ -68,6 +68,10 @@ const MyProfile = () => {
         { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '0' }
     ];
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
 
 
     

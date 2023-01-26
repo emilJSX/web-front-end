@@ -107,6 +107,10 @@ function Wish_pages() {
     const [GetUserWishDataResult, setGetUserData] = useState([])
     const {state} = useLocation()
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     useEffect(()=> {
         axios.get("https://api.wishx.me/api/v1/wish/slug/",{
             params: {
@@ -323,7 +327,7 @@ function Wish_pages() {
                     </Right_div>
 
                 </Main_page_top>
-                <Bottom_div>
+                {/* <Bottom_div>
                     <Bottom_div_title>
                         Breadley Cooper’s other wishes
                     </Bottom_div_title>
@@ -373,7 +377,7 @@ function Wish_pages() {
                         </Grid>
                     </GridBody>
                     <Bottom_div_show>Show more wishes</Bottom_div_show>
-                </Bottom_div>
+                </Bottom_div> */}
             </div>
             <MyVerticallyCenteredModal
                 show={modalShow}

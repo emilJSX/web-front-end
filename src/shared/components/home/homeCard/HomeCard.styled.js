@@ -70,6 +70,7 @@ margin: 20px 0px 10px 0px;
 export const UserAbout = styled.div``
 export const UserName = styled.h6`
 font-weight: 600;
+cursor: pointer;
 font-size: 14px;
 padding-top: 17px;
 `
@@ -81,6 +82,8 @@ opacity: 0.72;
 `
 export const UserPhoto = styled.img`
 border-radius: 24px;
+cursor: pointer;
+
 width: 40px;
 height: 40px;
 `

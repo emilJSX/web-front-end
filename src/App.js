@@ -54,13 +54,13 @@ const App = () => {
         <Route path="/other-user-wish-complete" element={<Wish_pages_second/>} />
         <Route path='/my-wish-complete' element={<Wish_pages_four/>}/>
         <Route path='/my-wish' element={<Wish_pages_three/>}/>
-        <Route path="/other-user-wish" element={<Wish_pages />} />
+        <Route path="/wish/:slug" element={<Wish_pages />} />
         <Route path="/wish-list" element={<WishList/>} /> {/* + */}
         <Route path='/profile-edit' element={<ProfileEdit />} /> {/* + */}
         <Route path="/only-search" element={<Onlysearch/>} /> 
         <Route path="/contacts-profile" element={<ContactsPage />} /> {/* + */}
         <Route path="/search" element={<Search/>} /> {/* + */}
-        <Route path="/other-user-profile" element={<OtherUserProfile/>} />
+        <Route path="/profile/:slug" element={<OtherUserProfile/>} />
         <Route path="/set-new-password" element={<Finally/>} />
         <Route path="/my-profile" element={<MyProfile/>} /> {/* + */}
           <Route path="/settings" element={<SettingsPage/>} />

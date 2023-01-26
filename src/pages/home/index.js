@@ -164,14 +164,14 @@ const Home = () => {
 
 
     function getWishIdForResult(slug) {
-    navigate("/other-user-wish", { state: slug });
+    navigate("/wish/"+slug, { state: slug });
   }
 
   function getUserSlugForProfile(id) {
     if (!id) {
       console.log(" ");
     } else {
-      navigate("/other-user-profile", { state: id });
+      navigate("/profile/"+id, { state: id });
     }
   }
 

@@ -7,8 +7,13 @@ import { HIWSliderData } from './HiwSlider'
 import 'owl.carousel/dist/assets/owl.carousel.css'
 import 'owl.carousel/dist/assets/owl.theme.default.css'
 import axios from "axios";
+import { useEffect } from "react";
 
 const HowItWorks = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
 
     return(
         <HIWContainer fluid>
