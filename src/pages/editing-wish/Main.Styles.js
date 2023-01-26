@@ -133,9 +133,9 @@ export const Hedaer = styled.div`
    padding-bottom: 20px;
 
    .path-title{
+      color: grey;
        height: 50px;
        padding-left: 50px;
-       color: #0B0023;
        font-family: 'Inter';
        font-style: normal;
        font-weight: 400;
@@ -143,6 +143,7 @@ export const Hedaer = styled.div`
        line-height: 160%;
        font-feature-settings: 'liga';
        margin: 0;
+       margin-left: 5px;
    }
 
    .edit-wish-title{
