@@ -34,6 +34,11 @@ export const Container = styled.div`
       display: flex;
       align-items: center;
 
+      @media (min-width: 768px) and (max-width: 2000px) {
+         margin-left: 45px;
+         margin-top: 30px;
+      }
+
       @media(max-width: 768px){
          width: 100%;
       }
