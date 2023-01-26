@@ -16,6 +16,7 @@ import { Tab } from 'react-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as SearchIcon } from '../../style/icons/search-icon.svg'
 
 const WishList = () => {
   const [getAllWishData, setAllWishData] = useState([])
@@ -97,7 +98,7 @@ const WishList = () => {
         }}>
           <input type='search' onChange={(e) => setSearchValue(e.target.value)} className='inp-sect' placeholder='Search by all blog articles'
             style={{ borderRadius: '8px', background: '#F7F8FA', paddingLeft: '20px' }} />
-          <FontAwesomeIcon icon={faSearch} onClick={GetResultWishesList} style={{ transform: 'translate(-50px, 0px)' }} />
+          <SearchIcon onClick={GetResultWishesList} style={{ transform: 'translate(-50px, 0px)' }} />
         </div>
       </ButtonSection>
 

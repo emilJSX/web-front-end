@@ -7,6 +7,7 @@ export const FooterComponent = styled(Footer)`
     flex-direction:column;
     justify-content:space-between;
     height:656px;
+    border: none;
 
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
         height:887px;

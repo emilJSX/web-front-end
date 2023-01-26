@@ -18,6 +18,7 @@ const SettingsPage = () => {
                 data={['English', 'Turkish', 'Azerbaijan']}
                 rightSection={<IconChevronDown size={14} />}
                 rightSectionWidth={40}
+                className="selection"
             />
             <NativeSelect pt={20}
             style={{fontFamily: 'Steppe'}}
@@ -26,12 +27,14 @@ const SettingsPage = () => {
                 data={['UTC+4:00']}
                 rightSection={<IconChevronDown size={14} />}
                 rightSectionWidth={40}
+                className="selection"
             />
             <NativeSelect pt={20}
             style={{fontFamily: 'Steppe'}}
                 label="Date format"
                 placeholder="DD:MM:YYYY"
                 data={['DD:MM:YYYY']}
+                className="selection"
                 rightSection={<IconChevronDown size={14} />}
                 rightSectionWidth={40}
             />

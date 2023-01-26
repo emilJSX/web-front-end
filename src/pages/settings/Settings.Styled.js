@@ -12,10 +12,11 @@ export const SettingSection = styled(Container)`
 
     .setting-txt {
         color: #0B0023;
-        font-size: 43px;
+        font-size: 56px;
         padding-bottom: 70px;
-        font-weight: 600;
         padding-top: 15px;
+        font-weight: 600;
+        padding-top: 30px;
     }
 
     .save-btn {
@@ -23,6 +24,14 @@ export const SettingSection = styled(Container)`
         color: white;
         border-radius: 10px;
         height: 50px;
+    }
+    
+    .mantine-NativeSelect-input {
+        font-size: 13px;
+        background: #F7F8FA !important; 
+        border: none !important;
+        border-radius: 8px !important; 
+        height: 58px !important;
     }
 
 `

@@ -166,7 +166,7 @@ export const ButtonSection = styled(Grid) `
 
 
         @media(min-width: 1000px){
-            width: 47.4%;
+            width: 45%;
         }
 
 
@@ -188,8 +188,12 @@ export const ButtonSection = styled(Grid) `
                 width: 100%;
             }
 
+            li{
+                font-size: 14px;
+            }
+
             @media(max-width: 590px){
-                width: 150%;
+                width: 112%;
                 overflow: scroll;
             }
         }
@@ -249,7 +253,7 @@ export const ButtonSection = styled(Grid) `
         }
 
         @media(max-width: 1000px){
-            min-width: 70px;
+            min-width: 49px;
         }
 
 
@@ -358,6 +362,12 @@ export const BlogCard = styled(Container) `
         font-size: 30px;
     }
 
+    .card-blog {
+        &:hover {
+            background: white !important;
+        }
+    }
+ 
     .text-card {
         padding-bottom: 15px;
         padding-top: 10px;

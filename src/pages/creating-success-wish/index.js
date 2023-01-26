@@ -5,6 +5,14 @@ import { FaFacebook, FaInstagram, FaTelegram, FaTwitter, FaWhatsapp } from 'reac
 import { Grid, Progress } from "@mantine/core";
 import ponchik from '../../style/icons/poncik.png';
 import userphoto from '../../style/icons/userphoto.png'
+import navigationArrowIcon from '../../style/navigationIcons/arrow-right.png'
+import copyIcon from '../../style/navigationIcons/copy.png'
+import linkIcon from '../../style/navigationIcons/link-2.png'
+import RedoIcon from '../../style/navigationIcons/redo.png'
+import sendIcon from '../../style/navigationIcons/send-2.png'
+import smsIcon from '../../style/navigationIcons/sms.png'
+
+
 import {
   MainContainer,
   Container,
@@ -93,14 +101,14 @@ const Created_Success_Wish = () => {
                   <div className="image-container">
                     <button className='congralute-button'>Congralute</button>
                     <div className="image-background"></div>
-                    <ImgWrapper style={{ objectFit: 'cover'}} src={ponchik}></ImgWrapper>
+                    <ImgWrapper style={{ objectFit: 'cover'}} src={UserGetCreationImgWish}></ImgWrapper>
                   </div>
                   <ContentWrapper>
-                    <Title>Light, fluffy, delicious red velvet donuts.</Title>
+                    <Title>{GetUserWishData.title}</Title>
                     <UserWrapper>
                       <UserAbout>
-                        <UserName>Wade Warren</UserName>
-                        <UserDesc>for birthday on 25 Nov 2022</UserDesc>
+                        <UserName>{getUserName}</UserName>
+                        <UserDesc>for birthday on {GetUserWishData.date}</UserDesc>
                       </UserAbout>
                       <UserPhoto src={userphoto}></UserPhoto>
                     </UserWrapper>
@@ -111,7 +119,7 @@ const Created_Success_Wish = () => {
                       </ProgressWrapper>
                       <Prices>
                         <LeftPrice>$2,542 raised</LeftPrice>
-                        <RightPrice>$8,558 left</RightPrice>
+                        <RightPrice>${GetUserWishData.price}  left</RightPrice>
                       </Prices>
                     </PriceWrapper>
                   </ContentWrapper>
@@ -142,19 +150,19 @@ const Created_Success_Wish = () => {
               <div className='cash-set-container-insider'>
                 <h5 className='link-label'>Copy link</h5>
                 <div className='cash-quantity-container'>
-                  <FontAwesomeIcon icon={faLink} className='link-icon' />
+                  <img src={linkIcon} className='link-icon' />
                   <input type='text' value={getCopyLinkValue} style={{ background: '#ECEEF7' }} />
-                  <button className='copy-button'>Copy</button>
-                  <FontAwesomeIcon icon={faCopy} className='copy-icon' />
+                  <button  className='copy-button'>Copy</button>
+                  <img src={copyIcon} className='copy-icon' />
                 </div>
               </div>
             </div>
             <div className='text-area'>
               <div className='text-area-insider'>
                 <h5 className='invite-label'>Invite</h5>
-                <input type='text' placeholder='Emails, comma separated' />
-                <FontAwesomeIcon icon={faEnvelope} className='envelope-icon' />
-                <FaTelegram className='telegram-icon' />
+                <input type='text' style={{paddingTop: "5px" }} placeholder='Emails, comma separated' />
+                <img src={smsIcon} className='envelope-icon' />
+                <img src={sendIcon} className='telegram-icon' />
               </div>
             </div>
             <div className='multi-select'>
@@ -210,7 +218,7 @@ const Created_Success_Wish = () => {
                         <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
                       </ProgressWrapper>
                       <Prices>
-                        <LeftPrice> $9 raised</LeftPrice>
+                        <LeftPrice> $0 raised</LeftPrice>
                         <RightPrice>${GetUserWishData.price} left</RightPrice>
                       </Prices>
                     </PriceWrapper>

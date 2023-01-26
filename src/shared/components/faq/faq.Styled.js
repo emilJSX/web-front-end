@@ -36,6 +36,10 @@ export const FaqContainer = styled(Container) `
         margin-top: 12px;
         display: grid;
 
+        @media (min-width: 992px) and (max-width: 1200px) {
+            width: 66%;
+        }
+
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
             display: inline-flex;
             overflow: scroll;
@@ -49,6 +53,10 @@ export const FaqContainer = styled(Container) `
         padding-bottom: 30px;
         font-size: 37px;
         font-weight: 600;
+
+        @media (min-width: 992px) and (max-width: 1200px) {
+            padding-top: 400px;
+        }
 
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
             text-align: center;
@@ -71,11 +79,11 @@ export const FaqContainer = styled(Container) `
 
     .first-btn {
       
-      border: 3px solid #3800B0;
+      border: 2px solid #3800B0;
       border-radius: 5px;
       width: 100%;
       margin: 0;
-      background: rgb(222 229 255);
+      background: #EBE5F7;
       font-family: 'Steppe';
       font-style: normal;
       font-weight: 600;
@@ -257,6 +265,10 @@ export const FaqContainer = styled(Container) `
 
 export const ImageSector = styled(Container)`
     width: 60%;
+    position: absolute;
+    width: 18%;
+    margin-top: 140px;
+    left: 26px;
 
     .foto_faq {
         width: 100%;

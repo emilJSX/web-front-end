@@ -94,8 +94,8 @@ export const HeaderShared = ({ toggle }) => {
                 </CardIcon>
                 <CreateWishBtn><Link to='/creating-wish'>Create a wish</Link></CreateWishBtn>
                 <Card>
-                        <a href='/my-profile'><ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={`https://api.wishx.me${getUserLoginData?.avatar}` == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `https://api.wishx.me${getUserLoginData?.avatar}`} /></ProfilP></a>
-                        <a href='/my-profile'><ProfilName>{getUserLoginData?.full_name  == null ? "does not exist" == null : getUserLoginData?.full_name}</ProfilName></a><FiChevronDown onClick={toggleOptions} style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px", position: "absolute", top: "22px", left: "51px"}}/>
+                        <a href='/my-profile'><ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={getUserLoginData?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `https://api.wishx.me${getUserLoginData?.avatar}` } /></ProfilP></a>
+                        <a href='/my-profile'><ProfilName>{getUserLoginData?.full_name  == null ? "does not exist" : getUserLoginData?.full_name}</ProfilName></a><FiChevronDown onClick={toggleOptions} style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px", position: "absolute", top: "22px", left: "51px"}}/>
                         <ProfilWish>{getUserLoginData?.wishes_count} wishes • $0</ProfilWish>
                 <div className='dropdown-menu-logined' style={{ display: !getOpenedMenu ? "none" : "block" }}>
                   <div className='body-menu-logined'>

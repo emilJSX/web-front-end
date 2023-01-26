@@ -168,6 +168,8 @@ export const EditingButtons = styled.div`
       border-bottom: 2px solid #EBE5F7;
       border-right: 2px solid #EBE5F7;
       border-radius: 8px;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
    }
 
 `

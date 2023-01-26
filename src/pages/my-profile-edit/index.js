@@ -44,6 +44,7 @@ import {
 import axios from 'axios';
 
 const SetProfileEditButtonsEvent = () => {
+
   const edit_buttons = document.querySelectorAll('.editing-buttons');
 
   for (const iterator of edit_buttons) {
@@ -229,7 +230,6 @@ const ProfileEdit = () => {
   const [confirm, setConfirm] = useState(false);
   const [value, onChange] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-
     
   const OnSeclectCountry = (country) => {
     SetCountryName(country.innerHTML);
@@ -383,10 +383,7 @@ const ProfileEdit = () => {
       const {full_name="", slug="", about="", avatar="", email="", phone="", interests=[]} = getInfoUser || {}
       const {country=""} = getInfoUser?.country?.name || {}
       setUserInfoProfile({full_name, slug, about, country ,avatar, email, phone, interests})
-
-      var getCountryData = [getInfoUser?.country?.name, getInfoUser?.country?.id] 
-
-      SetCountryName(getCountryData)
+      SetCountryName(getInfoUser?.country?.name)
       // onChange(getInfoUser?.dob)
     }, [getInfoUser])
 
@@ -398,7 +395,6 @@ const ProfileEdit = () => {
       const result = { id, countryName }
       setCountryNameId(result)
     }
-
 
     // Show Country Name take with id API
 
@@ -413,6 +409,7 @@ const ProfileEdit = () => {
       setInterestsIdApi(item)
     }
 
+    const getCountryIdState = getCountryNameId?.id
     
     // ============================================================================================================================
     
@@ -420,13 +417,13 @@ const ProfileEdit = () => {
     const handleUpdateInfoProfile = async (event) => {
       event.preventDefault()
       const formUpdateData = new FormData();
-      formUpdateData.append("file", selectedFile == null ? getUserInfoProfile.avatar : selectedFile)
+      formUpdateData.append("file", selectedFile != null ? selectedFile : getUserInfoProfile.avatar)
       formUpdateData.append("full_name", getUserInfoProfile.full_name)
-      formUpdateData.append("country", getCountryNameId?.id)
+      formUpdateData.append("country", 1)
       formUpdateData.append("gender", getGenderId)
-      formUpdateData.append("dob", moment(value).format("DD.MM.YYYY")) 
+      formUpdateData.append("dob", "22.09.1998" )  // moment(value).format("DD.MM.YYYY") Bu ishleyen  versiyadir test ucun static date atmisham
       formUpdateData.append("username", getUserInfoProfile.slug)
-      formUpdateData.append("interests", getInterestsIdApi == null ? idInterestsApi : getInterestsIdApi )
+      formUpdateData.append("interests", getInterestsIdApi != null ? getInterestsIdApi : 1  )
       formUpdateData.append("about", getUserInfoProfile.about)
 
       try {
@@ -439,9 +436,9 @@ const ProfileEdit = () => {
               toast.success('Successfully updated ', {
                 position: toast.POSITION.TOP_RIGHT
             });
-            setTimeout(() => {
-              window.location.reload()
-            }, 2000)
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 2000)
           });
       } catch (error) {
           toast.error('Please check your details', {
@@ -498,8 +495,6 @@ const ProfileEdit = () => {
   }
 
   }, [])
-
-  console.log(countryName)
 
 
   // ==================================================================================================================
@@ -564,7 +559,7 @@ const ProfileEdit = () => {
                           SetOpenOrClose(false);
                         }
                       }}>
-                        <h5 className='country-name'>{countryName[0]}</h5>
+                        <h5 className='country-name'>{countryName}</h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul  className='countries-list'>

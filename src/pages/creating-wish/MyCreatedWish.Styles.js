@@ -109,7 +109,7 @@ export const Temp = styled.div`
             ul{
                 margin: 0; 
                 width: 100%;
-                padding-left: 60px;
+                padding-left: 41px;
 
                 li{
                     padding-top: 10px;
@@ -229,6 +229,8 @@ export const Container = styled.div`
       
       .content-container{
          width: 90%;
+         border: 2px dotted #5c00ba54;
+         margin-top: 40px;
          height: 280px;
          display: flex;
          flex-direction: column;
@@ -520,6 +522,10 @@ export const Hedaer = styled.div`
 
 export const Section = styled.div`
    width: 100%;
+
+   .multiselect-interest input{
+      height: 46px;
+   }
 
    .description-title{
       padding-left: 50px;

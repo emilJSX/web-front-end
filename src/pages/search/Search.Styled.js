@@ -145,6 +145,7 @@ export const Searchdiv = styled.div`
         background: #F7F8FA;
         float:right;
         width: 10%;
+        height: 55px;
     }
     .filter{
         display:none;

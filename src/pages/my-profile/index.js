@@ -62,31 +62,34 @@ const MyProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
     const [getJoined, setJoined] = useState()
+    var testNumber = 1222
     var tabs_storage = [
-        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '1'},
-        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '4' },
-        { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '6' }
+        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: UserInfoProfile?.wishes?.active?.length},
+        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: UserInfoProfile?.wishes?.complete?.length },
+        { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '0' }
     ];
 
 
- 
+
+    
+    
     //     const handler = e => this.setState({ matches: e.matches });
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
-    var getUserToken = localStorage.getItem("UserToken=")
-
+    const getUserToken = localStorage.getItem("UserToken=")
+    
     useEffect(() => {
-            axios.get("https://api.wishx.me/api/v1/user", {
-                headers: {
-                    'Authorization': `Bearer ${getUserToken}`,
-                    'Access-Control-Allow-Origin' : "*"
+        axios.get("https://api.wishx.me/api/v1/user", {
+            headers: {
+                'Authorization': `Bearer ${getUserToken}`,
+                'Access-Control-Allow-Origin' : "*"
                 }
-                }).then((userData) => {
-                    const UserInfoProfile = userData.data.data
-                    setUserInfoProfile(UserInfoProfile)
-                    axios.get("https://api.wishx.me/api/v1/user/other", {
-                        params: {
-                            user_id: userData.data.data.user_id
-                        },
+            }).then((userData) => {
+                const UserInfoProfile = userData.data.data
+                setUserInfoProfile(UserInfoProfile)
+                axios.get("https://api.wishx.me/api/v1/user/other", {
+                    params: {
+                        user_id: userData.data.data.user_id
+                    },
                         headers: {
                             'Authorization': `Bearer ${getUserToken}`,
                             'Access-Control-Allow-Origin' : "*"
@@ -94,33 +97,39 @@ const MyProfile = () => {
                     }).then((getJoinedData) => {
                         setJoined(getJoinedData.data.data.info.joined)
                     })
+                }).catch((err)=> {
+                    console.log(err)
                 })
                 
-            axios.get("https://api.wishx.me/api/v1/wish/get", {
-                headers: {
-                    'Authorization': `Bearer ${getUserToken}`,
-                    'Access-Control-Allow-Origin' : "*"
+                axios.get("https://api.wishx.me/api/v1/wish/get", {
+                    headers: {
+                        'Authorization': `Bearer ${getUserToken}`,
+                        'Access-Control-Allow-Origin' : "*"
                 }        
             }).then((dataUserWish) => {
                 const getUserWishes = dataUserWish.data.data
                 setUserInfoProfile(getUserWishes)
             })
+            
+        }, [])
         
-    }, [])
+        var navigate = useNavigate()
+        
+        function getWishesListRoute() {
+            navigate('/wish-list')
+        }
 
-    var navigate = useNavigate()
-
-    function getWishIdEdit(wish_id) {
-        const GetProfileWishId = wish_id
-        navigate('/wish-edit', {state: GetProfileWishId})
-    }
-
-    const getWithProfileToEdit =()=> {
-        navigate('/profile-edit')
-    }
-
-    function getContactsFollowsPage() {
-        navigate("/contacts-profile")
+        function getWishIdEdit(wish_id) {
+            const GetProfileWishId = wish_id
+            navigate('/wish-edit', {state: GetProfileWishId})
+        }
+        
+        const getWithProfileToEdit =()=> {
+            navigate('/profile-edit')
+        }
+        
+        function getContactsFollowsPage() {
+            navigate("/contacts-profile")
     }
 
     function getWishIdForResultPage(id) {
@@ -148,19 +157,19 @@ const MyProfile = () => {
                                     <DisplayTopImgCard>
                                         <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
                                     </DisplayTopImgCard>
-
-                                    <Image radius="100px" className="tomcruse" height={80} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
-                                    <Namesurname>{UserInfoProfile?.info?.full_name}</Namesurname> 
+                                    
+                                    <Image radius="100px" className="tomcruse" height={80} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
+                                    <Namesurname>{UserInfoProfile?.info?.full_name == null ? "Does not exist" : UserInfoProfile?.info?.full_name}</Namesurname> 
                                     {/* <HiBadgeCheck className='bluechek' /> */}
-                                    <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
+                                    <TagName>@ {UserInfoProfile?.info?.slug == null ? "Does not exist" : UserInfoProfile?.info?.slug}</TagName>
                                     <Text>Spec, Child, Chaos and Shadow</Text>
 
                                     <DateSection>
-                                        <Date>{UserInfoProfile?.info?.dob}</Date>
+                                        <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob }</Date>
                                         <DateText>Birthdate</DateText>
                                     </DateSection>
                                     <DisplayDateBirthaySection>
-                                        <Date>{UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
+                                        <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
                                         <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
                                         <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
                                     </DisplayDateBirthaySection>
@@ -267,7 +276,7 @@ const MyProfile = () => {
                                                         <NotWishes>Yo don’t have any wishes</NotWishes>
                                                         <Buttons>
                                                             <a href='/creating-wish'><Buttonleft>Create a wish</Buttonleft></a>
-                                                            <Buttonright>Explore wishes</Buttonright>
+                                                            <Buttonright onClick={getWishesListRoute}>Explore wishes</Buttonright>
                                                         </Buttons>
                                                         <Glasses src={file1} />
                                                     </CardLonger>
@@ -341,7 +350,7 @@ const MyProfile = () => {
                                                         <NotWishes>Yo don’t have any wishes</NotWishes>
                                                         <Buttons>
                                                             <Buttonleft>Create a wish</Buttonleft>
-                                                            <Buttonright>Explore wishes</Buttonright>
+                                                            <Buttonright onClick={getWishesListRoute}>Explore wishes</Buttonright>
                                                         </Buttons>
                                                         <Glasses src={file1} />
                                                 </CardLonger>
@@ -402,7 +411,7 @@ const MyProfile = () => {
                                                     <NotWishes>Yo don’t have any wishes</NotWishes>
                                                     <Buttons>
                                                         <Buttonleft>Create a wish</Buttonleft>
-                                                        <Buttonright>Explore wishes</Buttonright>
+                                                        <Buttonright onClick={getWishesListRoute}>Explore wishes</Buttonright>
                                                     </Buttons>
                                                     <Glasses src={file1} />
                                                 </CardLonger>

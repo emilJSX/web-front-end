@@ -205,11 +205,13 @@ export const Title = styled.h3`
 export const Paragraph = styled.p`
  
     font-style: normal;
+    display: flex;
+    width: 250px;
+    gap: 8px;
     font-weight: 400;
     font-size: 13px;
     color: #110035;
     text-align: start;
-    display: block;
     margin: 11px 250px 0 40px;
     font-family: sans-serif;
     @media (max-width: 480px) {
@@ -408,9 +410,9 @@ export const Password = styled.input`
 export const InputChek = styled.input`
 
     color: black;
+    border: 2px solid #8E93AF;
     margin: 14px 370px 14px 0;   
-    border: 1.5px solid #8E93AF;
-    border-radius: 6px;
+    border-radius: 8px !important;
     width: 20px;
     height: 20px;
 

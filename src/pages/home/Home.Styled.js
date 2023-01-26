@@ -1015,7 +1015,8 @@ export const InsiderContainer = styled(Container)`
 
             @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
               font-family: 'Steppe';
-              font-size: 27px;
+              font-size: 40px;
+              width: 318px;
             }
 
             @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
@@ -1075,7 +1076,8 @@ export const InsiderContainer = styled(Container)`
 
 
             @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
-              font-size: 10px;
+              font-size: 13px;
+              width: 320px;
             }
 
             @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){

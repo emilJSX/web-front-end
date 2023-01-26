@@ -268,7 +268,7 @@ export const Pass = styled.a`
 export const CardLonger = styled.div`
     margin-top: 24px;
     width: 98%;
-    height: 325px;
+    height: 375px;
     border-radius: 24px;
     margin-bottom: 64px;
     @media(max-width: 480px){

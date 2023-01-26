@@ -15,7 +15,7 @@ const HowItWorks = () => {
            <NavigationTop>Main {">"} How it works</NavigationTop>
            <HowItWorksTxt>How it works</HowItWorksTxt>
            <Description>The software offers complete campaign <br/> transparency, email tracking, view success</Description>
-            <Grid style={{ background: "#160046", borderRadius: "30px"}}  className="grid-hiw">
+            <Grid style={{ background: "#160046", borderRadius: "30px", height: "730px"}}  className="grid-hiw">
                     <Grid.Col className="grid-one" xl={6} lg={6} md={12} sm={12} xs={12}>
                         <img className="img-girl" src={girlfoto} />
                     </Grid.Col>

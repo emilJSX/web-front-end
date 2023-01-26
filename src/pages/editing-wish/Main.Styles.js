@@ -169,6 +169,10 @@ export const Section = styled.div`
       color: #0B0023;
    }
 
+   .multiselect-interest input {
+      height: 46px;
+   }
+
    .wish-name{
      padding-top: 20px;
      padding-left: 50px;
@@ -188,7 +192,7 @@ export const Section = styled.div`
         background: #F7F8FA;
         border-radius: 8px;
         padding-left: 30px;
-        color: #8E93AF;
+        color: black;
 
         @media(max-width: 768px){
           width: 90%;
@@ -228,7 +232,7 @@ export const Section = styled.div`
               background: #F7F8FA;
               border-radius: 8px;
               padding-left: 30px;
-              color: #8E93AF;
+              color: black;
               border: 0;
             }
           }
@@ -247,16 +251,17 @@ export const Section = styled.div`
               .cash-selection{
                  position: relative;
                  height: 100%;
-                 width: 100%;
+                 width: 106%;
                  display: flex;
                  background: #F7F8FA;
                  border-radius: 8px;
 
                  .cash-type{
                     display: flex;
-                    justify-content: center;
                     align-items: center; 
-                    height: 100%;
+                    padding-left: 15px;
+                    width: 100%;
+                    font-weight: 500;
                     width: 80%;
                     margin: 0;
                  }
@@ -265,6 +270,7 @@ export const Section = styled.div`
                      height: 100%;
                      width: 20%;
                      display: flex;
+                     padding-right
                      justify-content: center;
                      align-items: center;
                      

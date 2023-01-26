@@ -143,7 +143,6 @@ export const CartContainer = styled.div`
 
    .cover{
       width: 90%;
-      background: #EBE5F7;
       border-radius: 32px;
       padding-top: 100px;
       padding-bottom: 100px;
@@ -264,7 +263,7 @@ export const Hedaer = styled.div`
    .path-title{
        height: 50px;
        padding-left: 50px;
-       color: #0B0023;
+       color: #a59fb3;
        font-family: 'Inter';
        font-style: normal;
        font-weight: 400;
@@ -365,6 +364,7 @@ export const Section = styled.div`
             font-style: normal;
             font-weight: 500;
             font-size: 13px;
+            padding-bottom: 5px;
             line-height: 140%;
             font-feature-settings: 'liga' off;
             color: #0B0023;
@@ -390,6 +390,9 @@ export const Section = styled.div`
             .copy-icon{
                 color: #3800B0;
                 transform: translate(-30px, 0px);
+                width: 22px;
+                margin-left: -14px;
+                cursor: pointer;
             }
 
             .link-icon{
@@ -399,7 +402,6 @@ export const Section = styled.div`
 
             .copy-button{
                 position: absolute;
-                background: #F7F8FA;
                 transform: translate(-70px, 0px);
                 font-family: 'Steppe';
                 font-style: normal;
@@ -537,6 +539,7 @@ export const Section = styled.div`
                 font-family: 'Steppe';
                 font-style: normal;
                 font-weight: 500;
+                padding-bottom: 5px;
                 font-size: 13px;
                 line-height: 140%;
                 font-feature-settings: 'liga' off;
@@ -572,6 +575,7 @@ export const Section = styled.div`
                 position: absolute;
                 transform: translate(-20px, 12px);
                 font-size: 20px;
+                cursor: pointer;
                 color: #3800B0;
                 right: 0;
 
@@ -833,7 +837,7 @@ height: 80px;
 display: flex;
 align-items: center;
 justify-content: space-between;
-margin: 20px 0px 10px 0px;
+margin: 20px 0px 30px 0px;
 `
 export const UserAbout = styled.div`
   height: 100%;

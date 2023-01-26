@@ -19,7 +19,7 @@ export const HIWContainer = styled(Container)`
     }
 
     .img-girl {
-
+        object-fit: cover;
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
             border-radius: 15px;
         }

@@ -30,7 +30,7 @@ import {FiSearch} from "react-icons/fi"
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { ReactComponent as SearchIcon } from '../../style/icons/search-icon.svg'
 
 
 
@@ -139,7 +139,7 @@ function Search() {
         type="text"
         placeholder="Bruno"
       />
-      <FiSearch onClick={getResultSearchingData} className="lupa"/>
+      <SearchIcon onClick={getResultSearchingData} className="lupa"/>
       <HiOutlineFilter className="filter"/>
       </Searchdiv>
     <Tabs

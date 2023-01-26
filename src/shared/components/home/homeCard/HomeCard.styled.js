@@ -59,6 +59,7 @@ padding: 30px;
 export const Title = styled.h5`
 font-size: 20px;
 color: #110035;
+font-weight: bold;
 `
 export const UserWrapper = styled.div`
 display: flex;
@@ -70,6 +71,7 @@ export const UserAbout = styled.div``
 export const UserName = styled.h6`
 font-weight: 600;
 font-size: 14px;
+padding-top: 17px;
 `
 export const UserDesc = styled.p`
 color: #110035;

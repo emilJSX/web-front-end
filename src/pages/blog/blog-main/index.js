@@ -19,6 +19,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as SearchIcon } from '../../../style/icons/search-icon.svg'
 
 
 
@@ -26,8 +27,6 @@ import { useNavigate } from 'react-router-dom';
 const MainBlog = () => {
     
     const navigate = useNavigate()
-
-
     const[GetUserCategoryId, setUserCategoryId] = useState()
     const[GetUserSearch, setUserSearch] = useState()
     const[DataSkip, setDataSkip] = useState(0)
@@ -59,11 +58,6 @@ const MainBlog = () => {
     getResultApiSearch?.map((AllBlog) => (
         console.log(AllBlog)
     ))
-
-
-
-
-
 
     const buttonTitles = [{ id: 0, title: 'All' }, { id: 1, title: 'Travel' },
     { id: 2, title: 'Sport' }, { id: 3, title: 'Gadgets' }, { id: 4, title: 'Foto & Videos' }, { id: 5, title: 'Clothes' }];
@@ -104,7 +98,7 @@ const MainBlog = () => {
                     }}>
                         <input type='search' onChange={(e)=>setUserSearch(e.target.value)} className='inp-sect' placeholder='Search by all blog articles'
                             style={{ borderRadius: '8px', background: '#F7F8FA', paddingLeft: '20px' }} />
-                        <FontAwesomeIcon icon={faSearch} onClick={GetUserValueForApi} style={{ transform: 'translate(-50px, 0px)' }} />
+                        <SearchIcon onClick={GetUserValueForApi} style={{ transform: 'translate(-50px, 0px)' }} />
                     </div>
                 </ButtonSection>
                 <CardTopSection fluid>
@@ -130,19 +124,19 @@ const MainBlog = () => {
                             <Grid className='grid-card-root'>
                                 {getResultApiSearch?.map((AllBlog) => (
                                     <Grid.Col xs={12} sm={6} md={4} lg={4} style={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
-                                            <CardActionArea>
+                                        <Card className='card-blog' sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
+                                            <CardActionArea className='card-blog'>
                                                 <CardMedia
                                                     component="img"
                                                     image={`https://api.wishx.me${AllBlog?.thumb}`}
                                                     height="230px"
                                                     style={{ borderRadius: "20px" }}
                                                 />
-                                                <CardContent style={{ padding: "0", paddingTop: "20px" }}>
-                                                    <Typography gutterBottom variant="h5" component="div">
-                                                        <p className='date-category'>{AllBlog.date} - category</p>
+                                                <CardContent className='card-blog' style={{ padding: "0", paddingTop: "20px" }}>
+                                                    <Typography className='card-blog' gutterBottom variant="h5" component="div">
+                                                        <p className='date-category'>{AllBlog.date} - Travel</p>
                                                     </Typography>
-                                                    <Typography variant="body2" color="text.secondary">
+                                                    <Typography className='card-blog' variant="body2" color="text.secondary">
                                                         <h1 className='title-card'>{AllBlog?.title}</h1>
                                                             <p className='text-card'>{AllBlog?.partials[0]?.content}</p>
                                                     </Typography>
@@ -160,17 +154,7 @@ const MainBlog = () => {
                 </BlogCard>
             </Tabs>
             <PaginationSection>
-                <Stack spacing={2}>
-                    <Pagination
-                        count={10}
-                        renderItem={(item) => (
-                            <PaginationItem
-                                components={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
-                                {...item}
-                            />
-                        )}
-                    />
-                </Stack>
+                <h1 style={{color: "#3800B0", fontWeight: "bold"}}>Show More</h1>
             </PaginationSection>
         </BlogMainSection>
     )

@@ -517,7 +517,7 @@ const Home = () => {
                   <UserWrapper>
                     <UserAbout>
                       <UserName id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}>{getWishData.user.full_name}</UserName>
-                      <UserDesc>eqwe</UserDesc>
+                      <UserDesc>for birthday on {getWishData.date}</UserDesc>
                     </UserAbout>
                     <UserPhoto  id={getWishData.user.user_id} onClick={(e)=>getUserSlugForProfile(e.target.id)} src={`https://api.wishx.me${getWishData.user.image}`}></UserPhoto>
                   </UserWrapper>
@@ -527,8 +527,8 @@ const Home = () => {
                       <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
                     </ProgressWrapper>
                     <Prices>
-                      <LeftPrice>${getWishData.donate.received}</LeftPrice>
-                      <RightPrice>${getWishData.donate.left}</RightPrice>
+                      <LeftPrice>${getWishData.donate.received} raised</LeftPrice>
+                      <RightPrice>${getWishData.donate.left} left</RightPrice>
                     </Prices>
                   </PriceWrapper>
                 </ContentWrapper>
@@ -585,19 +585,19 @@ const Home = () => {
       </Container>
       <HowItWorks />
       <FaqSection />
-
+    <div style={{ backgroundColor: "#0b0023", borderTopLeftRadius: "37px", borderTopRightRadius: "37px" }} className="inside-background">
       <InsiderContainer fluid className="promote-bottom">
         <div className="insider-lg">
           <div className="title">
             <div className="top">
               <p className="top-title">
-                Application
-                that <br /> makes sense
+                Applications
+                that makes <br /> sense
               </p>
             </div>
             <div className="bottom">
               <p className="bottom-title">
-                The software offers complete campaign transparency, email tracking, view success and click-through rates, custom reports, and the ability to manage subscribers and un-subscribers
+              The software offers complete campaign <br /> transparency, email tracking, view success and <br /> click-through rates, custom reports, and the <br /> ability to manage subscribers and un- <br />subscribers
               </p>
             </div>
           </div>
@@ -630,6 +630,8 @@ const Home = () => {
           </div>
         </div>
       </InsiderContainer>
+
+    </div>
     </>
   );
 };

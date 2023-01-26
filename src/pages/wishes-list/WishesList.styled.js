@@ -56,8 +56,12 @@ export const ButtonSection = styled(Grid)`
             width: 100%;
         }
         @media(max-width: 590px){
-            width: 150%;
+            width: 145%;
             overflow: scroll;
+        }
+
+        li {
+            font-size: 14px;
         }
     }
 
@@ -122,7 +126,7 @@ export const ButtonSection = styled(Grid)`
             }
 
             @media(max-width: 590px){
-                width: 150%;
+                width: 138%;
                 overflow: scroll;
             }
         }
@@ -177,10 +181,6 @@ export const ButtonSection = styled(Grid)`
         }
 
 
-
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
-            margin-left: 33px;
-        }
     }
 
     .input-section{

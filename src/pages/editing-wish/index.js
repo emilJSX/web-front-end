@@ -34,9 +34,10 @@ const Editing_Wish = () => {
     const [getCurrencyName, setCurrencyName] = useState("")
     const [isVisible, setVisible] = useState('none');
     const [getUpdateWishData, setUpdateWishData] = useState({ title: "", price: "", currency_id: "", image: "", description: ""})
-    const [selectedCash, setSelectedCash] = useState(String(state?.currency?.name == null) ? getCurrencyName : String(state?.currency?.name), 
+    const [selectedCash, setSelectedCash] = useState(String(state?.currency?.name == null) ? "USD" : String(state?.currency?.name), 
     getUpdateWishData.currency_id == null ? state?.currency?.id : getUpdateWishData.currency_id );
-    console.log(getCurrencyName, "USD VER BLE")
+
+    var idInterestsApi = []
 
     const handleChangeUpdateWish = (e) => {
         const {name, value} = e.target
@@ -113,18 +114,14 @@ const Editing_Wish = () => {
         }
     }
 
-    const cash = ['AZN', 'USD'];
+    const cash = ['USD'];
 
     const data = [
-        { value: 'react', label: 'React' },
-        { value: 'ng', label: 'Angular' },
-        { value: 'svelte', label: 'Svelte' },
-        { value: 'vue', label: 'Vue' },
-        { value: 'riot', label: 'Riot' },
-        { value: 'next', label: 'Next.js' },
-        { value: 'blitz', label: 'Blitz.js' },
-    ];
-
+        {
+            label: 'Travel',
+            value: 1,
+        },
+    ]
     const editWishEditImage = state?.image
     const GetEditWishImage = `https://api.wishx.me${editWishEditImage}`
     const GetEditWishProfile = `https://api.wishx.me${getUpdateWishData.image}`
@@ -133,7 +130,7 @@ const Editing_Wish = () => {
     const [UpdateTitleWish, setUpdateTitleWish] = useState("")
     const [UpdatePriceWish, setUpdatePriceWish] = useState("")
     const [UpdateValuteWish, setUpdateValuteWish] = useState(1)
-    const [UpdateCategoriesWish, setUpdateCategoriesWish] = useState(1)
+    const [UpdateCategoriesWish, setUpdateCategoriesWish] = useState()
     const [UpdateDateWish, setUpdateDateWish] = useState("11.20.22")
     const [UpdateOccasionWish, setUpdateOccasionWish] = useState("11-th Birtday")
     const [CheckedUpdateUrlPublicWish, setUpdateCheckedPublikWish] = useState()
@@ -154,11 +151,13 @@ const Editing_Wish = () => {
 
             const currencyId = resultWishEditProfile?.data?.data.currency.id
             setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
+            resultWishEditProfile.data.data.categories.map((e) => (
+                idInterestsApi.push(e.id)
+             ))
 
             const {currency_id} = currencyId || {}
 
             setUpdateWishData({title, price, currency_id, image, description})
-            console.log(resultWishEditProfile?.data?.data)
         }).catch((err) => {
             console.log(err)
         })
@@ -201,6 +200,10 @@ const Editing_Wish = () => {
             });
         }
       }
+
+      const getInterestsId  = (item) => {
+        setUpdateCategoriesWish(item)
+      }
     return (
 
         <MainContainer>
@@ -212,7 +215,7 @@ const Editing_Wish = () => {
                         <h1 className='edit-wish-title'>Edit the wish</h1>
                     </Hedaer>
                     <Section>
-                        <h5 className='description-title'>Description</h5>
+                        <h5 className='description-title'>{getUpdateWishData.title}</h5>
                         <div className='wish-name'>
                             <input type='text' name='title' value={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name' />
                         </div>
@@ -239,6 +242,18 @@ const Editing_Wish = () => {
                         </div>
                         <div className='text-area'>
                             <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} value={getUpdateWishData.description} placeholder='Description'></textarea>
+                        </div>
+
+                        <div className='multi-select'>
+                            <div className='multi-select-insider'>
+                                <MultiSelect
+                                    className="multiselect-interest"
+                                    data={data}
+                                    onChange={getInterestsId}
+                                    defaultValue={idInterestsApi}
+                                    placeholder="Interests"
+                                />
+                            </div>
                         </div>
                         <div className='aviable-group'>
                             <FormControl>
@@ -268,7 +283,7 @@ const Editing_Wish = () => {
                     }}>change photo</button>
                         </div>
                         <div className='change-photo-button-container'>
-                            <button className='delete-photo'>Delete</button>
+                            <button type='button' className='delete-photo'>Delete</button>
                         </div>
                     </div>
                 </div>

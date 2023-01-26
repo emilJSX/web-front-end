@@ -115,7 +115,7 @@ const Created_Wish = () => {
             setVisibleSetter(false);
         }
     }
-    const cash = ['AZN', 'USD'];
+    const cash = ['USD'];
 
     const HandleClickGeCashId = (cash_id) => {
         console.log(cash_id)
@@ -231,6 +231,7 @@ const Created_Wish = () => {
                             <div className='multi-select'>
                                 <div className='multi-select-insider'>
                                 <MultiSelect
+                                    className="multiselect-interest"
                                     data={data}
                                     onChange={getInterestsId}
                                     placeholder="Interests"
