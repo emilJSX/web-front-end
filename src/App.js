@@ -17,6 +17,7 @@ import BlogPost from "./pages/blog/blog-post";
 import SettingsPage from "./pages/settings";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.css'
+import './style/pages/home.css';
 import MyProfile from "./pages/my-profile";
 import Finally from "./pages/set-new-password";
 import OtherUserProfile from "./pages/OtherUserProfile";
