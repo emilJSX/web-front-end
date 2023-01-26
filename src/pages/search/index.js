@@ -37,12 +37,10 @@ import { ReactComponent as SearchIcon } from '../../style/icons/search-icon.svg'
 
 function Search() {
   const getUserToken = localStorage.getItem("UserToken=")
-
   const [search, setSearch] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [searchs, setSearchs] = useState("");
   const [filteredCountriesa, setFilteredCountriesa] = useState([]);
-
   const [getCategoryId,setCategoryId] = useState(1)
   const[getAllPeopleData, setAllPeopleData] = useState([])
   const[getAllWishData, setAllWishData] = useState([])
@@ -128,7 +126,6 @@ function Search() {
         setResultPeopleTotal(getResultPeople.data.data.total)
       })
     }
-    
 
   return (
   <Mainly>

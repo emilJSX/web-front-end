@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LoginSocialFacebook } from 'reactjs-social-login';
+import { FacebookLoginButton } from 'react-social-login-buttons';
 
 
 function Login({ setShow, nextsteplog, backSign, setShowes }) {
@@ -77,7 +79,17 @@ function Login({ setShow, nextsteplog, backSign, setShowes }) {
             <Paragraph>Not a user?<Button2 onClick={backSign}>Sign up</Button2></Paragraph>
             <Facebook>
                 <BsFacebook style={{ fontSize: "22px", color: "white", marginRight: '10px' }} />
-                <FacebookP>Facebook</FacebookP>
+                <LoginSocialFacebook
+                    appId='488149573514075'
+                    onResolve={(responseFb) => {
+                        console.log(responseFb)
+                    }}
+                    onReject={(error) => {
+                        console.log(error)
+                    }}
+                >
+                    <FacebookP>Facebook</FacebookP>     
+                </LoginSocialFacebook>
             </Facebook>
             <Goapp>
                 <Google>

@@ -62,7 +62,6 @@ const MyProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
     const [getJoined, setJoined] = useState()
-    var testNumber = 1222
     var tabs_storage = [
         { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: UserInfoProfile?.wishes?.active?.length},
         { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: UserInfoProfile?.wishes?.complete?.length },
