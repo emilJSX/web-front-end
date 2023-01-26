@@ -52,6 +52,7 @@ import {
   WishCreationInput,
   WishCreationButton,
   ButtonDefault,
+  SeeAllWish,
 } from "./Home.Styled";
 import { Carddata } from "./CardData";
 import FaqSection from "../../shared/components/faq";
@@ -137,6 +138,8 @@ const Home = () => {
   //   return () => clearInterval(interval);
   // }, []);
 
+  const [getPopularWish, setPopularWish] = useState([])
+
   useEffect(() => {
     axios
       .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
@@ -147,9 +150,20 @@ const Home = () => {
       .then((getResultWish) => {
         setAllWishData(getResultWish.data.data);
       });
+
+      axios.get("https://api.wishx.me/api/v1/wish/popular", {
+        params: {
+          skip: 0
+        }
+      }).then((getPopularWish) => {
+        setPopularWish(getPopularWish.data.data.results)
+      }).catch(() => {
+        console.log(" ")
+      })
   }, []);
 
-  function getWishIdForResult(slug) {
+
+    function getWishIdForResult(slug) {
     navigate("/other-user-wish", { state: slug });
   }
 
@@ -420,7 +434,7 @@ const Home = () => {
           <p className="wishes-text">Popular wishes</p>
         </WishesText>
         <Grid>
-          {getAllWishData?.results?.map((getWishData) => (
+          {getPopularWish?.map((getWishData) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
               <Wrapper
                 key={getWishData.id}
@@ -504,9 +518,7 @@ const Home = () => {
             </Grid.Col>
           ))}
           <WishesBtn>
-            <a href="/wish-list">
-              <Button className="wish-btn">See all wishes</Button>
-            </a>
+            
             {/* <PartnersText>
               <h5 className="partners-text">Get gifts from our partners</h5>
             </PartnersText>
@@ -520,6 +532,7 @@ const Home = () => {
             <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a> */}
           </WishesBtn>
         </Grid>
+          <a href="/wish-list"><SeeAllWish className="see-all-btn">See all wishes</SeeAllWish></a>
         <GridCutoms justify="center">
           <Grid.Col>
             <GifHeader>We help desires come true</GifHeader>

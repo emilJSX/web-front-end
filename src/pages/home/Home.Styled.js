@@ -9,7 +9,39 @@ export const HomeConatiner = styled(Container)`
   gap: 50px;
   background-color: ${({ theme }) => theme.colors.primary8};
 
+  .see-all-btn {
+    width: 100%;
+    background: white;
+    border: 1px solid #cdaaff;
+    padding: 9px;
+    border-radius: 8px;
+    color: #3800B0;
+    margin-top: 50px;
+    &:hover {
+      text-decoration: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+}
+
+}
+
 `;
+
+
+export const SeeAllWish = styled.button`
+  width: 100%;
+  background: white;
+  border: 1px solid #cdaaff;
+  padding: 9px;
+  border-radius: 8px;
+  color: #3800B0;
+  margin-top: 50px;
+  
+    &:hover {
+      text-decoration: none;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+`
 
 export const HomeTop = styled(Grid)`
   /* padding-top:24px; */
@@ -855,11 +887,6 @@ export const WishesText = styled.h2`
 export const WishesBtn = styled(Container)`
   width: 100%;
   padding-top: 30px;
-  .wish-btn {
-    width: 100%;
-    background: white;
-    color: #3800B0;
-  }
 
   .partner-btn {
     width: 100%;
