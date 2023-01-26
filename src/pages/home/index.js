@@ -180,8 +180,11 @@ const Home = () => {
     setShow(!show);
   };
 
+
   return (
     <>
+    {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
+    {show ? <Autho setShow={setShow} /> : null}
       <HomeConatiner
         fluid
         p={0}
