@@ -631,84 +631,6 @@ const ProfileEdit = () => {
     formUpdateData.append("about", getUserInfoProfile.about);
 
     try {
-<<<<<<< HEAD
-      if (getGenderId == 1) {
-        document.querySelector('#male').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3');
-        document.querySelector('#female').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
-      } else if (getGenderId == 2) {
-        document.querySelector('#female').setAttribute('style', ' background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;');
-        document.querySelector('#male').setAttribute('style', 'background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0');
-      }
-    } catch {
-      console.log(" ")
-    }
-    
-    
-    useEffect(() => {
-      const {full_name="", slug="", about="", avatar="", email="", phone="", interests=[]} = getInfoUser || {}
-      const {country=""} = getInfoUser?.country?.name || {}
-      setUserInfoProfile({full_name, slug, about, country ,avatar, email, phone, interests})
-      SetCountryName(getInfoUser?.country?.name)
-      // onChange(getInfoUser?.dob)
-    }, [getInfoUser])
-
-
-
-    const [getCountryNameId, setCountryNameId] = useState()
-    const getCountryId = (e) => {
-      const {id} = e.target
-      const result = { id, countryName }
-      setCountryNameId(result)
-    }
-
-    // Show Country Name take with id API
-
-    useEffect(() => {
-      var getname = getCountryData?.name
-      SetCountryName(getname)
-    }, [])
-    
-
-    const [getInterestsIdApi, setInterestsIdApi] = useState()
-    const getInterestsId  = (item) => {
-      setInterestsIdApi(item)
-    }
-
-    const getCountryIdState = getCountryNameId?.id
-    
-    // ============================================================================================================================
-    
-    // ===================================================UPDATE PROFILE INFORMATION===============================================
-    const handleUpdateInfoProfile = async (event) => {
-      event.preventDefault()
-      const formUpdateData = new FormData();
-      formUpdateData.append("file", selectedFile != null ? selectedFile : getUserInfoProfile.avatar)
-      formUpdateData.append("full_name", getUserInfoProfile.full_name)
-      formUpdateData.append("country", 1)
-      formUpdateData.append("gender", getGenderId)
-      formUpdateData.append("dob", "22.09.1998" )  // moment(value).format("DD.MM.YYYY") Bu ishleyen  versiyadir test ucun static date atmisham
-      formUpdateData.append("username", getUserInfoProfile.slug)
-      formUpdateData.append("interests", getInterestsIdApi != null ? getInterestsIdApi : 1  )
-      formUpdateData.append("about", getUserInfoProfile.about)
-
-      try {
-          await axios({
-              method: "post",
-              url: "https://api.wishx.me/api/v1/profiles/update",
-              data: formUpdateData,
-              headers: { 'Access-Control-Allow-Origin': '*', xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${getUserToken}`, },
-          }).then((resultUpdate) => {
-              toast.success('Successfully updated ', {
-                position: toast.POSITION.TOP_RIGHT
-            });
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 2000)
-          });
-      } catch (error) {
-          toast.error('Please check your details', {
-            position: toast.POSITION.TOP_RIGHT
-=======
       await axios({
         method: "post",
         url: "https://api.wishx.me/api/v1/profiles/update",
@@ -721,7 +643,6 @@ const ProfileEdit = () => {
       }).then((resultUpdate) => {
         toast.success("Successfully updated ", {
           position: toast.POSITION.TOP_RIGHT,
->>>>>>> 6c5fbe2c7d0258391c07ea9edaf9ee6cac78001f
         });
         setTimeout(() => {
           window.location.reload();
