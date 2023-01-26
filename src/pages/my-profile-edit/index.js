@@ -822,7 +822,7 @@ const ProfileEdit = () => {
                           }
                         }}
                       >
-                        <h5 className="country-name">{countryName}</h5>
+                        <h5 className="country-name">{countryName ? countryName : "Select the country"}</h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul className="countries-list">
