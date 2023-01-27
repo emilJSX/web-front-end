@@ -104,7 +104,7 @@ const WishList = () => {
           height: "50px", display: 'flex',
           alignItems: 'center', paddingLeft: '10px', paddingRight: '10px'
         }}>
-          <input type='search' onChange={(e) => setSearchValue(e.target.value)} className='inp-sect' placeholder='Search by all blog articles'
+          <input type='search' onChange={(e) => setSearchValue(e.target.value)} className='inp-sect' placeholder='Search by wishes'
             style={{ borderRadius: '8px', background: '#F7F8FA', paddingLeft: '20px' }} />
           <SearchIcon onClick={GetResultWishesList} style={{ transform: 'translate(-50px, 0px)' }} />
         </div>

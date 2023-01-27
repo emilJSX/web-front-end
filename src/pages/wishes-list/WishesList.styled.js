@@ -66,8 +66,12 @@ export const ButtonSection = styled(Grid)`
     }
 
     .input-section {
-        @media(min-width: 1000px){
-           width: 49%;
+        width: 50%;
+        @media(min-width: 992px) and (max-width: 1332px){
+           width: 625px;
+           padding-left: 0px !important;
+           padding-right: 0px !important;
+           margin-top: 20px;
         }
  
         @media(max-width: 1000px){
@@ -79,6 +83,10 @@ export const ButtonSection = styled(Grid)`
          .inp-sect{
              width: 100%;
              height: 100%;
+
+             @media (min-width: 992px) and (max-width:1332px) {
+                width: 600px;
+             }
          }
  
      }
@@ -103,7 +111,10 @@ export const ButtonSection = styled(Grid)`
 
 
         @media(min-width: 1000px){
-            width: 43%;
+            width: 574px;
+            position: relative;
+            left: 28px;
+        
         }
 
 
