@@ -43,7 +43,7 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 const WishList = () => {
   const [getAllWishData, setAllWishData] = useState([]);
   const [getSearchValue, setSearchValue] = useState("");
-  const [getCategoryId, setCategoryId] = useState();
+  const [getCategoryId, setCategoryId] = useState(null);
 
   const getUserToken = localStorage.getItem("UserToken=");
   const navigate = useNavigate();
@@ -104,12 +104,13 @@ const WishList = () => {
   }
 
   const GetResultWishesList = () => {
+    setLoading(true);
     axios
-      .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
+      .get("https://api.wishx.me/api/v1/wish/list", {
         params: {
           skip: 0,
-          search: getSearchValue,
-          category_id: +getCategoryId,
+          ...(getSearchValue && { search: getSearchValue }),
+          ...(getCategoryId && { category_id: +getCategoryId }),
         },
         headers: {
           Authorization: `Bearer ${getUserToken}`,
@@ -117,7 +118,12 @@ const WishList = () => {
       })
       .then((searchResult) => {
         setAllWishData(searchResult.data.data.results);
-      });
+        setSkip(0);
+        setIsFirstLoad(false);
+        setHasNextPage(!searchResult.data.data.last);
+      }).finally(() => {
+        setLoading(false);
+      })
   };
 
   // useEffect(() => {
