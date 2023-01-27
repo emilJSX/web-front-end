@@ -445,11 +445,15 @@ overflow: hidden;
 
 .promo-view-container {
   background-color: ${({ theme }) => theme.colors.primary7};
-  height: 800px;
   border-radius: 32px;
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 160px 24px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    padding: 48px 16px;
+  }
 
 
   .background{
@@ -463,6 +467,12 @@ overflow: hidden;
     p{
        color: white;
        font-size: 50px;
+
+       @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+        text-align: center;
+        font-size: 32px;
+        font-weight: 600;
+      }
     }
   }
  
