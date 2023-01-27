@@ -1139,15 +1139,30 @@ export const LeftRightPriceDisplay = styled.div`
 `
 
 export const LeftPrice = styled.p`
-    text-align: left;
-    margin-top: 14px;
+text-align: left;
+margin-top: 14px;
+font-size: 13px;
+color: #646a83;
+font-weight: 400;
+
+@media (min-width: 375px) and (max-width: 500px) {
+    margin-top: 2px;
+}
 `
 
 export const RightPrice = styled.p`
     text-align: end;
     margin-right: 15px;
-    margin-top: -13px;
+    color: #646a83;
+    margin-top: -22px;
+    font-size: 13px;
    
+    @media (min-width: 375px) and (max-width: 500px) {
+        margin-top: -4px;
+        font-size: 13px;
+        position: absolute;
+        right: 50px;
+    }
 `
 
 export const MenuScrollCards = styled.div`

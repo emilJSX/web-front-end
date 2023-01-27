@@ -1094,6 +1094,11 @@ export const ButtonSection = styled.div`
         border-radius: 8px;
         font-weight: 600;
         height: 60px;
+
+        @media (min-width: 992px) and (max-width: 1340px) {
+            padding: 0px;
+            font-size: 13.5px;
+        }
     }
 
     .unfollow-btn {
@@ -1108,8 +1113,12 @@ export const ButtonSection = styled.div`
         font-weight: 600;
         width: 45%;
         height: 60px;
-        border: 1px solid #c7bcf5
+        border: 1px solid #c7bcf5;
 
+        @media (min-width: 992px) and (max-width: 1340px) {
+            padding: 0px;
+            font-size: 13.5px;
+        }
     
     }
 
@@ -1145,7 +1154,8 @@ export const Joined = styled.p `
 `;
 
 export const UserDesc = styled.p`
-    display: none;
+    font-size: 12px;
+    margin-top: 5px;
     
     @media(max-width: 480px){
         height: 10px;
@@ -1180,7 +1190,6 @@ export const LeftPrice = styled.p`
 
 export const RightPrice = styled.p`
     @media (min-width: 375px) and (max-width: 992px) {
-        position: absolute;
         float: right;
         right: 64px;
     }
@@ -1345,4 +1354,106 @@ export const ShowBirtdayInWish = styled.p`
         font-size: 11px;
         color: #110035;
     }
+`
+
+
+export const Wrapper = styled.div`
+background: #FFFFFF;
+border: 1px solid #EBE5F7;
+border-radius: 24px;
+width: 300px;
+
+.image-container{
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+   .image-background {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      opacity: 0.5;
+      background: black;
+      z-index: 1;
+      display:flex;
+      justify-content: center;
+      align-items:center;
+      border-radius: 24px;
+      visibility: hidden;
+    }
+
+        .congralute-button{
+          position: absolute;
+          width: 50%;
+          height: 60px;
+          background: white;
+          z-index: 2;
+          border: 0;
+          border-radius: 8px;
+          visibility: hidden;
+          
+          &:hover{
+            background: #EBE5F7;
+            box-shadow: 0px 5px 10px 2px rgba(10, 10, 10, 10);
+          }
+        }
+    }
+
+}
+
+`
+export const ImgWrapper = styled.img`
+height: 255px;
+width: 100%;
+border-radius: 24px;
+`
+export const ContentWrapper = styled.div`
+padding: 30px;
+`
+
+export const UserWrapper = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin: 20px 0px 10px 0px;
+`
+export const UserAbout = styled.div``
+export const UserName = styled.h6`
+font-weight: 600;
+font-size: 14px;
+
+@media (min-width: 375px) and (max-width: 992px) {
+    width: 320px;
+    margin-top: 29px;
+}
+`
+export const UserPhoto = styled.img`
+border-radius: 24px;
+width: 40px;
+height: 40px;
+
+@media (min-width: 375px) and (max-width: 992px) {
+    position: absolute;
+    border-radius: 24px;
+    width: 40px;
+    height: 40px;
+    left: 256px;
+    margin-top: 15px;
+}
+`
+
+export const PriceWrapper = styled.div``
+export const Prices = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
+color: #110035;
+opacity: 0.72;
+font-weight: 400;
+font-size: 13px;
+`
+export const ProgressWrapper = styled.div`
+margin: 16px 0px;
 `

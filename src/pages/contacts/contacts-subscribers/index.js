@@ -76,7 +76,7 @@ const ContactsPage = () => {
            }
              axios(confing).then((data)=>console.log(data)).catch((err) => {
                 if(err) {
-                    alert("You have already subscribed to this user!")
+                    alert("You have already unsubscribed to this user!")
                 }
              })
     }

@@ -1,6 +1,6 @@
-import { Grid, Image, Button, Slider, Loader } from '@mantine/core';
+import { Grid, Image, Button, Slider, Loader, Progress } from '@mantine/core';
 import React, { useEffect, useState } from "react";
-import { Body, ButtonSection, DateSection, LeftSection, CardLong, FollowersSection, Follower, Following, Details, Edit, Final, Date, DateText, Text, TagName, Firstprice, Namesurname, Imagess, LastDiv, Lastprice, Price, SosialN, Target, TargetFinal, Title, SocialSection, Joined, UserDesc, LeftRightPriceDisplay, LeftPrice, RightPrice, MenuScrollCards, DisplayDateBirthaySection, MobileBtnSection, FotoSection, MenuScrollCardsDesktop, MobileTopCoverImageSection, ShowBirtdayInWish } from './Oup.Style'
+import { Body, ButtonSection, DateSection, LeftSection, CardLong, FollowersSection, Follower, Following, Details, Edit, Final, Date, DateText, Text, TagName, Firstprice, Namesurname, Imagess, LastDiv, Lastprice, Price, SosialN, Target, TargetFinal, Title, SocialSection, Joined, UserDesc, LeftRightPriceDisplay, LeftPrice, RightPrice, MenuScrollCards, DisplayDateBirthaySection, MobileBtnSection, FotoSection, MenuScrollCardsDesktop, MobileTopCoverImageSection, ShowBirtdayInWish, ImgWrapper, ContentWrapper, UserWrapper, UserAbout, UserName, UserPhoto, PriceWrapper, ProgressWrapper, Prices, Wrapper } from './Oup.Style'
 import estetika from '../../style/icons/estetika.png'
 import tomcruse from '../../style/icons/tomcruse.png'
 import { Tab, Tabs, TabPanel } from 'react-tabs';
@@ -70,32 +70,44 @@ const OtherUserProfile = () => {
     const getUserToken = localStorage.getItem("UserToken=")
 
     var tabs_storage = [
-        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '0'},
-        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '0' },
+        { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: UserInfoProfile?.wishes?.active?.length},
+        { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: UserInfoProfile?.wishes?.complete?.length },
         { value: 'con', id: '3', className: 'tabname tabButton', title: 'Congratulations', spanTitle: '0' }
     ];
-
-
- 
+    
+    
+    
     //     const handler = e => this.setState({ matches: e.matches });
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
     const {state} = useLocation()
-
+    const [displayFollow, setdisplayFollow] = useState("block")
+    const [displayUnfollow, setdisplayUnfollow] = useState("none")
+    
     useEffect(() => {
         window.scrollTo(0, 0)
+
+        if(UserInfoProfile?.contacts?.followedStatus == false) {
+            setdisplayFollow("block")
+            setdisplayUnfollow("none")
+        } else if (UserInfoProfile?.contacts?.followedStatus == true){
+            setdisplayFollow("none")
+            setdisplayUnfollow("block")
+        }
       }, [])
 
     useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/user/other/slug", {
-            params: {
-                slug: state
-            },
-            }).then((userData) => {
-                console.log(userData)
-                setUserInfoProfile(userData.data.data)
-                setJoined(userData.data.data.info.joined)
-            })
+            axios.get("https://api.wishx.me/api/v1/user/other/slug", {
+                params: {
+                    slug: state
+                },
+                }).then((userData) => {
+                    console.log(userData)
+                    setUserInfoProfile(userData.data.data)
+                    setJoined(userData.data.data.info.joined)
+                })
     }, [])
+
+
     var navigate = useNavigate()
 
     function getWishIdEdit(wish_id) {
@@ -112,13 +124,14 @@ const OtherUserProfile = () => {
     }
 
     function getWishIdForResultPage(id) {
-        navigate("/my-wish", {state: {id}})
+        navigate("/wish/"+id, {state: {id}})
     }
 
     // Follow API
 
     const [show, setShow] = useState(false);
     const [showes, setShowes] = useState(false);
+
 
     const FollowButton = (getUserId) => {
         if (localStorage.getItem("UserToken=")) {
@@ -130,17 +143,38 @@ const OtherUserProfile = () => {
                 'Content-Type': 'application/json',
             }
            }
-             axios(confing).then((data)=>{console.log(data)})
+             axios(confing).then((data)=>{
+                console.log(data)
+                setdisplayFollow("none")
+                setdisplayUnfollow("block")
+            })
         } else {
             setShowes(true);
         }
     }
+
+    const UnfollowButton = (getUserId) => {
+        if (localStorage.getItem("UserToken=")) {
+            let confing = {
+                method:'get',
+                url: `https://api.wishx.me/api/v1/unfollow?user_id=${+getUserId}`,
+                headers: {
+                    'Authorization': `Bearer ${getUserToken}`, 
+                    'Content-Type': 'application/json',
+                }
+               }
+                 axios(confing).then((data)=>{
+                    console.log(data)
+                    setdisplayUnfollow("block")
+                    setdisplayFollow("none")
+                })
+        } else {
+            setShowes(true);
+        }
+
+    }
     
     // END FOLLOW API
-
-    var luxonDate 
-    console.log(luxonDate, "AAAAAA")
-
 
         return (
             <Body>
@@ -171,11 +205,11 @@ const OtherUserProfile = () => {
                                     <Text>Spec, Child, Chaos and Shadow</Text>
 
                                     <DateSection>
-                                        <Date>{UserInfoProfile?.info?.dob}</Date>
+                                        <Date>{DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat("dd MMMM yyyy")}</Date>
                                         <DateText>Birthdate</DateText>
                                     </DateSection>
                                     <DisplayDateBirthaySection>
-                                        <Date>{UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
+                                        <Date>{DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat("dd MMMM yyyy")} <DateText>Birthdate</DateText></Date>
                                         <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
                                         <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
                                     </DisplayDateBirthaySection>
@@ -198,8 +232,8 @@ const OtherUserProfile = () => {
                                         </a>
                                     </SocialSection>
                                     <ButtonSection>
-                                        <button onClick={FollowButton} className='follow-btn'>Follow</button>
-                                        <button className='unfollow-btn'>Unfollow</button>
+                                        <button id={UserInfoProfile?.user_id} style={{ display: displayFollow }} onClick={(e)=>FollowButton(e.target.id)} className='follow-btn'>Follow</button>
+                                        <button id={UserInfoProfile?.user_id} style={{ display: displayUnfollow }} onClick={(e)=>UnfollowButton(e.target.id)} className='unfollow-btn'>Unfollow</button>
                                         <button className='message-btn'>Message</button>
                                     </ButtonSection>
                                     <MobileBtnSection>
@@ -225,58 +259,47 @@ const OtherUserProfile = () => {
                                 </MenuScrollCards>
 
                                 <TabPanel value="act" className='tab-panel'>
-                                    <Grid className='cart-div'>
-                                        
-                                        {
+                                <Grid className='grid-root-active-wishes'>
+                                    
+                                {
                                         wait ? UserInfoProfile?.wishes?.active.length !== 0 ? UserInfoProfile?.wishes?.active?.map((userDataWish) => (
-                                                <CardLong >
-                                                    <div className='cont-text'>
-                                                        <div className='image-container'>
-                                                            <Imagess id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)} src={`https://api.wishx.me/${userDataWish.image}`} />
-                                                        </div>
-                                                        <div className='other-container'>
-                                                            <Title id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)}>{userDataWish.title}</Title>
-                                                            <TargetFinal><Target>Target: ${userDataWish.price}</Target><Final>Final: {userDataWish.date}</Final></TargetFinal>
-                                                            <ShowBirtdayInWish>for birthday on {UserInfoProfile?.info?.dob}</ShowBirtdayInWish>
-                                                            <UserDesc></UserDesc>
-                                                            <Slider className='loading' defaultValue={40} disabled />
-                                                            <LeftRightPriceDisplay>
-                                                                <LeftPrice>${userDataWish.price}</LeftPrice>
-                                                                <RightPrice>#145</RightPrice>
-                                                            </LeftRightPriceDisplay>
-                                                            <Price><Firstprice></Firstprice><Lastprice></Lastprice></Price>
-                                                            <LastDiv>
-                                                                <SosialN>
-                                                                    <div style={{ color: "#3800B0", fontWeight: "bold" }}>Share</div>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.facebook}>
-                                                                        <BsFacebook className='Facebook' />
-                                                                    </a>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.twitter}>
-                                                                        <BsTwitter className='twitter' />
-                                                                    </a>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.telegram}>
-                                                                        <FaTelegram className='telegram' />
-                                                                    </a>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.whatsapp}>
-                                                                        <BsWhatsapp className='whatsapp' />
-                                                                    </a>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.facebook}>
-                                                                        <IoMailOutline className='mail' />
-                                                                    </a>
-                                                                    <a target="_blank" href={UserInfoProfile?.social?.facebook}>
-                                                                        <RiLinksFill className='link' />
-                                                                    </a>
-                                                                </SosialN>
-                                                                <div className='edit-details-btn' style={{ display: "flex"}}>
-                                                                    <Edit onClick={(e) => getWishIdEdit(e.target.id)} id={userDataWish.id}>Edit</Edit>
-                                                                    <Details id={userDataWish.id} onClick={(e)=>getWishIdForResultPage(e.target.id)}>Details</Details>
-                                                                </div>
-                                                            </LastDiv>
-                                                        </div>
-                                                    </div>
-                                                </CardLong>
-                                         ))
-                                             :
+                                            <Grid.Col style={{ marginTop: "10px"}} className='col-root-cards' xl={4} lg={4} md={4} sm={6} xs={12}>
+                                                <Wrapper className="cart-item" onMouseOver={(e) => {
+                                                    e.currentTarget.setAttribute('style', 'border: 1px solid #3800B0;');
+                                                    e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: visible');
+                                                    e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: visible');
+
+                                                }} onMouseOut={(e) => {
+                                                    e.currentTarget.setAttribute('style', 'border: 1px solid #EBE5F7;')
+                                                    e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: hidden');
+                                                    e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
+                                                }}>
+                                                    <ImgWrapper id={userDataWish.slug} onClick={(e)=>getWishIdForResultPage(e.target.id)} src={`https://api.wishx.me/${userDataWish.image}`}></ImgWrapper>
+                                                    <ContentWrapper>
+                                                        <Title id={userDataWish.slug} onClick={(e)=>getWishIdForResultPage(e.target.id)}>{userDataWish.title}</Title>
+
+                                                        <UserWrapper>
+                                                            <UserAbout>
+                                                                <UserName>{UserInfoProfile?.info?.full_name != null ? UserInfoProfile?.info?.full_name : "FullName does not exist" }</UserName>
+                                                                <UserDesc >for birthday on {DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat("dd MMMM yyyy")}</UserDesc>
+                                                            </UserAbout>
+                                                            <UserPhoto src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
+                                                        </UserWrapper>
+
+                                                        <PriceWrapper>
+                                                            <ProgressWrapper>
+                                                                <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
+                                                            </ProgressWrapper>
+                                                            <Prices>
+                                                                <LeftPrice>${userDataWish.price} raised</LeftPrice>
+                                                                <RightPrice>$32 left</RightPrice>
+                                                            </Prices>
+                                                        </PriceWrapper>
+                                                    </ContentWrapper>
+                                                </Wrapper>
+                                            </Grid.Col>
+                                                ))
+                                                :
                                                 (<div>
                                                     <CardLonger>
                                                         <NotWishes>User doesn’t have any wishes</NotWishes>
@@ -311,9 +334,9 @@ const OtherUserProfile = () => {
                                                     </Division> */}
                                                 </div>
                                                 ) : <Loader size="xl" />
-
-                                        }
+                                            }
                                     </Grid>
+                                    
                                 </TabPanel>
                                 <TabPanel value="com" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} className='tab-panel'>
                                     {

@@ -78,8 +78,6 @@ function Search() {
 
   // END INFINITY SCROLL
 
-
-
   function getWishIdForResult(slug) {
     navigate('/wish/s'+slug, { state: slug })
   }
