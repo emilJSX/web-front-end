@@ -84,6 +84,12 @@ import { HomeLoginHeader } from "../../shared/components/HeaderLogin/homeloginhe
 import HeaderShared from "../../shared/components/HeaderShared";
 import axios from "axios";
 import HomeBanner from "./HomeBanner";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { A11y, Navigation, Pagination } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -138,7 +144,7 @@ const Home = () => {
   //   return () => clearInterval(interval);
   // }, []);
 
-  const [getPopularWish, setPopularWish] = useState([])
+  const [getPopularWish, setPopularWish] = useState([]);
 
   useEffect(() => {
     axios
@@ -151,32 +157,36 @@ const Home = () => {
         setAllWishData(getResultWish.data.data);
       });
 
-      axios.get("https://api.wishx.me/api/v1/wish/popular", {
+    axios
+      .get("https://api.wishx.me/api/v1/wish/popular", {
         params: {
-          skip: 0
-        }
-      }).then((getPopularWish) => {
-        setPopularWish(getPopularWish.data.data.results)
-      }).catch(() => {
-        console.log(" ")
+          skip: 0,
+        },
       })
+      .then((getPopularWish) => {
+        setPopularWish(getPopularWish.data.data.results);
+      })
+      .catch(() => {
+        console.log(" ");
+      });
   }, []);
 
-
-    function getWishIdForResult(slug) {
-    navigate("/wish/"+slug, { state: slug });
+  function getWishIdForResult(slug) {
+    navigate("/wish/" + slug, { state: slug });
   }
 
   function getUserSlugForProfile(id) {
     if (!id) {
       console.log(" ");
     } else {
-      navigate("/profile/"+id, { state: id });
+      navigate("/profile/" + id, { state: id });
     }
   }
 
   const [show, setShow] = useState(false);
   const [showes, setShowes] = useState(false);
+
+  const [swiper, setSwiper] = useState(null);
 
   // GET TOKEN AND LOGIN API START
 
@@ -194,11 +204,10 @@ const Home = () => {
     setShow(!show);
   };
 
-
   return (
     <>
-    {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
-    {show ? <Autho setShow={setShow} /> : null}
+      {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
+      {show ? <Autho setShow={setShow} /> : null}
       <HomeConatiner
         fluid
         p={0}
@@ -219,140 +228,104 @@ const Home = () => {
             <div className="background">
               <p className="title">Recent wishes come true</p>
             </div>
-            <div className="slide-show">
-              <div className="slide-show-container">
-                <div className="slider">
-                  <Carousel>
-                    {getAllWishData?.results?.map((getWishData) => (
-                      <Carousel.Item interval={5000}>
-                        <div className="insider">
-                          <div className="slider-content">
-                            <div className="image">
-                              <div className="icon">
-                                <img
-                                  id={getWishData.user.username}
-                                  onClick={(e) =>
-                                    getUserSlugForProfile(e.target.id)
-                                  }
-                                  src={`https://api.wishx.me${getWishData.user.image}`}
-                                  alt=""
-                                />
-                              </div>
-                              <img
-                                src={`https://api.wishx.me${getWishData.image}`}
-                              ></img>
-                            </div>
-                            <div className="title">
-                              <div className="top">
-                                <h5
-                                  id={getWishData.user.username}
-                                  onClick={(e) =>
-                                    getUserSlugForProfile(e.target.id)
-                                  }
-                                  className="user-name"
-                                >
-                                  {getWishData.user.full_name}
-                                </h5>
-                                <h5 className="summ">
-                                  raised ${getWishData.donate.received}
-                                </h5>
-                              </div>
-                              <div className="center">
-                                <h5 className="main-subtitle">
-                                  and get a gift he wished of:
-                                </h5>
-                                <h5 className="main-title">
-                                  {getWishData.title}
-                                </h5>
-                              </div>
-                              <div className="bottom">
-                                <a
-                                  name={getWishData.slug}
-                                  onClick={(e) =>
-                                    getWishIdForResult(e.currentTarget.name)
-                                  }
-                                >
-                                  <h5
-                                    name={getWishData.slug}
-                                    onClick={(e) =>
-                                      getWishIdForResult(e.currentTarget.name)
-                                    }
-                                    className="bottom-title"
-                                  >
-                                    View details
-                                  </h5>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="slider-content">
-                            <div className="image">
-                              <div className="icon">
-                                <img
-                                  id={getWishData.user.username}
-                                  onClick={(e) =>
-                                    getUserSlugForProfile(e.target.id)
-                                  }
-                                  src={`https://api.wishx.me${getWishData.user.image}`}
-                                  alt=""
-                                />
-                              </div>
-                              <img
-                                src={`https://api.wishx.me${getWishData.image}`}
-                              ></img>
-                            </div>
-                            <div className="title">
-                              <div className="top">
-                                <h5
-                                  id={getWishData.user.username}
-                                  onClick={(e) =>
-                                    getUserSlugForProfile(e.target.id)
-                                  }
-                                  className="user-name"
-                                >
-                                  {getWishData.user.full_name}
-                                </h5>
-                                <h5 className="summ">
-                                  raised ${getWishData.donate.received}
-                                </h5>
-                              </div>
-                              <div className="center">
-                                <h5 className="main-subtitle">
-                                  and get a gift he wished of:
-                                </h5>
-                                <h5 className="main-title">
-                                  {getWishData.title}
-                                </h5>
-                              </div>
-                              <div className="bottom">
-                                <a
-                                  name={getWishData.slug}
-                                  onClick={(e) =>
-                                    getWishIdForResult(e.currentTarget.name)
-                                  }
-                                >
-                                  <h5
-                                    name={getWishData.slug}
-                                    onClick={(e) =>
-                                      getWishIdForResult(e.currentTarget.name)
-                                    }
-                                    className="bottom-title"
-                                  >
-                                    View details
-                                  </h5>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+            <div className="wish__slider__wrapper">
+              <Swiper
+                spaceBetween={24}
+                slidesPerView={2}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                  },
+                  768: {
+                    slidesPerView: 1,
+                    spaceBetween: 24,
+                  },
+                  1024: {
+                    slidesPerView: 2,
+                    spaceBetween: 24,
+                  },
+                }}
+                modules={[Pagination, A11y]}
+                a11y={{
+                  enabled: true,
+                }}
+                pagination={{
+                  clickable: true,
+                }}
+                setWrapperSize={true}
+                onSwiper={(swiper) => setSwiper(swiper)}
+              >
+                {getAllWishData?.results?.map((getWishData) => (
+                  <SwiperSlide className="wish__slider__slide">
+                    <div className="wish__slider">
+                      <div className="wish__slider__left">
+                        <img
+                          className="wish__slider__image"
+                          src={`https://api.wishx.me${getWishData.image}`}
+                        />
+                        <img
+                          className="wish__slider__icon"
+                          id={getWishData.user.username}
+                          onClick={(e) => getUserSlugForProfile(e.target.id)}
+                          src={`https://api.wishx.me${getWishData.user.image}`}
+                          alt=""
+                        />
+                      </div>
+                      <div className="wish__slider__right">
+                        <div className="wish__slider__top">
+                          <h5
+                            id={getWishData.user.username}
+                            onClick={(e) => getUserSlugForProfile(e.target.id)}
+                            className="wish__slider__top--title"
+                          >
+                            {getWishData.user.full_name}
+                          </h5>
+                          <h5 className="wish__slider__top--subtitle">
+                            raised ${getWishData.donate.received}
+                          </h5>
                         </div>
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
-                </div>
-              </div>
+                        <div className="wish__slider__center">
+                          <h5 className="wish__slider__top--subtitle">
+                            and get a gift he wished of:
+                          </h5>
+                          <h5 className="wish__slider__top--heading">
+                            {getWishData.title}
+                          </h5>
+                        </div>
+                        <div className="wish__slider__link">
+                          <Link
+                            name={getWishData.slug}
+                            // onClick={(e) =>
+                              // getWishIdForResult(e.currentTarget.name)
+                            // }
+                            to={{
+                              pathname: "/wish/" + getWishData.slug,
+                              state: getWishData.slug,
+                            }}
+                          >
+                            View details
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              {swiper && (
+                <>
+                  <button
+                    className="wish__slider--prev"
+                    onClick={() => swiper.slidePrev()}
+                  ></button>
+                  <button
+                    className="wish__slider--next"
+                    onClick={() => swiper.slideNext()}
+                  ></button>
+                </>
+              )}
             </div>
-            <Item className="slide-show-sm 2xl:px-20 xl:px-20 lg:px-20 md:px-20 sm:px-0 px-0">
+            {/* <Item className="slide-show-sm 2xl:px-20 xl:px-20 lg:px-20 md:px-20 sm:px-0 px-0">
               <OwlCarousel
                 className="owl-theme"
                 dots={true}
@@ -421,7 +394,7 @@ const Home = () => {
                   </div>
                 ))}
               </OwlCarousel>
-            </Item>
+            </Item> */}
           </div>
         </HomeCenter>
       </HomeConatiner>
@@ -491,7 +464,12 @@ const Home = () => {
 
                   <UserWrapper>
                     <UserAbout>
-                      <UserName id={getWishData.user.username} onClick={(e)=>getUserSlugForProfile(e.target.id)}>{getWishData.user.full_name}</UserName>
+                      <UserName
+                        id={getWishData.user.username}
+                        onClick={(e) => getUserSlugForProfile(e.target.id)}
+                      >
+                        {getWishData.user.full_name}
+                      </UserName>
                       <UserDesc>for birthday on {getWishData.date}</UserDesc>
                     </UserAbout>
                     <UserPhoto
@@ -509,7 +487,9 @@ const Home = () => {
                       />
                     </ProgressWrapper>
                     <Prices>
-                      <LeftPrice>${getWishData.donate.received} raised</LeftPrice>
+                      <LeftPrice>
+                        ${getWishData.donate.received} raised
+                      </LeftPrice>
                       <RightPrice>${getWishData.donate.left} left</RightPrice>
                     </Prices>
                   </PriceWrapper>
@@ -518,7 +498,6 @@ const Home = () => {
             </Grid.Col>
           ))}
           <WishesBtn>
-            
             {/* <PartnersText>
               <h5 className="partners-text">Get gifts from our partners</h5>
             </PartnersText>
@@ -532,7 +511,9 @@ const Home = () => {
             <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a> */}
           </WishesBtn>
         </Grid>
-          <a href="/wish-list"><SeeAllWish className="see-all-btn">See all wishes</SeeAllWish></a>
+        <a href="/wish-list">
+          <SeeAllWish className="see-all-btn">See all wishes</SeeAllWish>
+        </a>
         <GridCutoms justify="center">
           <Grid.Col>
             <GifHeader>We help desires come true</GifHeader>
@@ -569,53 +550,62 @@ const Home = () => {
       </Container>
       <HowItWorks />
       <FaqSection />
-    <div style={{ backgroundColor: "#0b0023", borderTopLeftRadius: "37px", borderTopRightRadius: "37px" }} className="inside-background">
-      <InsiderContainer fluid className="promote-bottom">
-        <div className="insider-lg">
-          <div className="title">
-            <div className="top">
-              <p className="top-title">
-                Applications
-                that makes <br /> sense
-              </p>
+      <div
+        style={{
+          backgroundColor: "#0b0023",
+          borderTopLeftRadius: "37px",
+          borderTopRightRadius: "37px",
+        }}
+        className="inside-background"
+      >
+        <InsiderContainer fluid className="promote-bottom">
+          <div className="insider-lg">
+            <div className="title">
+              <div className="top">
+                <p className="top-title">
+                  Applications that makes <br /> sense
+                </p>
+              </div>
+              <div className="bottom">
+                <p className="bottom-title">
+                  The software offers complete campaign <br /> transparency,
+                  email tracking, view success and <br /> click-through rates,
+                  custom reports, and the <br /> ability to manage subscribers
+                  and un- <br />
+                  subscribers
+                </p>
+              </div>
             </div>
-            <div className="bottom">
-              <p className="bottom-title">
-              The software offers complete campaign <br /> transparency, email tracking, view success and <br /> click-through rates, custom reports, and the <br /> ability to manage subscribers and un- <br />subscribers
-              </p>
-            </div>
-          </div>
-          <div className="content">
-            <div className="box">
-              <div className="left">
-                <div className="top">
-                  <div className="top-insider">
-                    <i className="fa-brands fa-apple"></i>
-                    <h5 className="download-content">Download from</h5>
+            <div className="content">
+              <div className="box">
+                <div className="left">
+                  <div className="top">
+                    <div className="top-insider">
+                      <i className="fa-brands fa-apple"></i>
+                      <h5 className="download-content">Download from</h5>
 
-                    <h1 className="apple-title">App Store</h1>
+                      <h1 className="apple-title">App Store</h1>
+                    </div>
+                  </div>
+                  <div className="bottom">
+                    <div className="bottom-insider">
+                      <i className="fa-brands fa-google-play"></i>
+                      <h5 className="download-content">Download from</h5>
+
+                      <h1 className="apple-title">Google Play</h1>
+                    </div>
                   </div>
                 </div>
-                <div className="bottom">
-                  <div className="bottom-insider">
-                    <i className="fa-brands fa-google-play"></i>
-                    <h5 className="download-content">Download from</h5>
-
-                    <h1 className="apple-title">Google Play</h1>
+                <div className="right">
+                  <div className="central">
+                    <img src={IphoneImage} className="iphone-image" />
                   </div>
                 </div>
               </div>
-              <div className="right">
-                <div className="central">
-                  <img src={IphoneImage} className="iphone-image" />
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </InsiderContainer>
-
-    </div>
+        </InsiderContainer>
+      </div>
     </>
   );
 };
