@@ -4,9 +4,6 @@ import { Layout } from '../shared/components/layout';
 import { store } from '../store/index.js'
 
 const AppProvider = ({ children }) => {
-    useEffect(() => {
-        window.scrollTo(0, 0)
-      }, [])
     return (
         <Provider store={store}>
             <Layout>

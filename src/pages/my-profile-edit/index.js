@@ -610,6 +610,49 @@ const ProfileEdit = () => {
   }, [])
 
 
+  function Full_Name_Error() {
+    toast.error("You didn't write Full Name", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function Gender_Error() {
+    toast.error("You don't select Gender", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function Country_Error() {
+    toast.error("You don't select Country", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function Dob_Error() {
+    toast.error("You don't select your Birthday", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function UserName_Error() {
+    toast.error("You didn't write User Name", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function About_Error() {
+    toast.error("You didn't write About information", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+  function Interests_Error() {
+    toast.error("You don't select Interests", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
+
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================

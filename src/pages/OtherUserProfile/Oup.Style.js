@@ -949,6 +949,7 @@ export const Namesurname = styled.h1`
     width: 100%;
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     //text-align: center;
     font-size: 21px;
@@ -1081,6 +1082,36 @@ export const ButtonSection = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    gap: 28px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    .follow-btn {
+        background: #3800B0;
+        padding: 20px;
+        color: white;
+        width: 45%;
+        border-radius: 8px;
+        font-weight: 600;
+        height: 60px;
+    }
+
+    .unfollow-btn {
+        display: none;
+    }
+
+    .message-btn {
+        background: white;
+        color: #3800B0;
+        padding: 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        width: 45%;
+        height: 60px;
+        border: 1px solid #c7bcf5
+
+    
+    }
 
     .second-btn {
         margin: 12px 7px 12px 11px;
@@ -1100,8 +1131,9 @@ export const ButtonSection = styled.div`
 export const Joined = styled.p `
     width: 100%;
     text-align: center;
-    font-weight: 600;
-    font-size: 13px;
+    font-weight: 400;
+    font-family: sans-serif !important;
+    font-size: 14px;
     color: #5D627D;
     padding-bottom: 24px;
 

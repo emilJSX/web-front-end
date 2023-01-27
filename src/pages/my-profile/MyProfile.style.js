@@ -471,13 +471,13 @@ export const CardLong = styled.div`
     }
 
     @media(max-width: 1100px) and (min-width: 1000px){
-        height: 260px;
+        height: 310px;
         width: 93%;
         margin-left: -52px;
     }
 
     @media(min-width: 1100px) and (max-width: 1400px){
-        height: 300px;
+        height: 335px;
         width: 93%;
         margin-left: -52px;
     }
@@ -1100,8 +1100,9 @@ export const ButtonSection = styled.div`
 export const Joined = styled.p `
     width: 100%;
     text-align: center;
-    font-weight: 600;
-    font-size: 13px;
+    font-family: sans-serif !important;
+    font-weight: 400;
+    font-size: 14px;
     color: #5D627D;
     padding-bottom: 24px;
 
@@ -1124,7 +1125,6 @@ export const UserDesc = styled.p`
 `
 
 export const LeftRightPriceDisplay = styled.div`
-    display: none;
     gap: 50px;
     height: 40px;
     font-size: 10px;
@@ -1135,23 +1135,19 @@ export const LeftRightPriceDisplay = styled.div`
         align-items: center;
     }
     
-    @media (min-width:480px) and (max-width: 992px) {
-        display: flex;
-        align-items: center;
-        padding-top: 10px !important;
-    }
+    
 `
 
 export const LeftPrice = styled.p`
-
+    text-align: left;
+    margin-top: 14px;
 `
 
 export const RightPrice = styled.p`
-    @media (min-width: 375px) and (max-width: 992px) {
-        position: absolute;
-        float: right;
-        right: 64px;
-    }
+    text-align: end;
+    margin-right: 15px;
+    margin-top: -13px;
+   
 `
 
 export const MenuScrollCards = styled.div`

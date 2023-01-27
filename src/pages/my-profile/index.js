@@ -54,6 +54,7 @@ import { Component } from 'react';
 import instagram from '../../style/icons/instagram.svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 
 
@@ -71,9 +72,6 @@ const MyProfile = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
       }, [])
-
-
-
     
     
     //     const handler = e => this.setState({ matches: e.matches });
@@ -139,6 +137,8 @@ const MyProfile = () => {
         navigate("/my-wish", {state: {id}})
     }
 
+    console.log(UserInfoProfile)
+
         return (
             <Body>
                 <div className='main-container'>
@@ -203,7 +203,7 @@ const MyProfile = () => {
                                         <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                         <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
                                     </MobileBtnSection>
-                                    <Joined>Joined {getJoined}</Joined>
+                                    <Joined>Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
                                 </LeftSection>
                             </div>
                         </Grid.Col>

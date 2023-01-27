@@ -55,7 +55,7 @@ function First({setShow, nextstep, nextsteplog}) {
                   toast.success("Successfuly register", {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                navigate('/my-profile')
+                navigate('/profile-edit')
               })
               .catch(function (error) {
                 toast.error("Please check credentials", {

@@ -271,11 +271,13 @@ export const CardLonger = styled.div`
     height: 365px;
     border-radius: 24px;
     margin-bottom: 64px;
-    @media(max-width: 480px){
-        width: 343px;
-        height: 144px;
+    @media(max-width: 992px){
+        width: 247px;
+        height: 150px;
         border-radius: 16px;
-        margin: 16px 16px 0 16px;
+        margin: 16px 48px 0 98px;
+        padding-bottom: 370px;
+        padding-top: 63px;
     }
  
   
@@ -287,12 +289,37 @@ export const NotWishes = styled.p`
     float: right;
     font-weight: 600;
     font-family: revert;
-    font-size: 40px;
+    font-size: 33px;
+    padding-top: 15px;
     color: #6033C0;
+
+    @media (min-width: 375px) and (max-width: 992px) {
+        width: 279px;
+        height: 48px;
+        float: right;
+        font-weight: 600;
+        font-size: 25px;
+        color: #6033C0;
+        margin-top: -43px;
+        text-align: center;
+    }
 `;
 export const Buttons = styled.div`
 width: 400px;
 height: 56px;
+
+
+
+@media (min-width: 375px) and (max-width: 992px) {
+    display: grid;
+    width: 0px;
+    height: 0px;
+
+    a {
+        margin-right: 3px;
+    }
+}
+
 
 `;
 export const Buttonleft = styled.button`
@@ -306,6 +333,11 @@ export const Buttonleft = styled.button`
     font-size: 14px;
     margin-top: 35px;
     margin-left: 34px;
+
+    @media (min-width: 375px) and (max-width: 992px) {
+        margin-top: 60px;
+        margin-left: 33px;
+    }
 `;
 export const Buttonright = styled.button`
     width: 144px;
@@ -324,6 +356,13 @@ export const Glasses = styled.img`
     margin-left: 85px;
     margin-top: 125px;
 
+
+    @media (min-width: 375px) and (max-width: 992px){ 
+        width: 150px;
+        height: 130px;
+        margin-left: 38px;
+        margin-top: 225px;
+    }
 `;
 
 export const Division = styled.div`

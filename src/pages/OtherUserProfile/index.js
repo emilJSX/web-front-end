@@ -55,6 +55,9 @@ import { Component } from 'react';
 import instagram from '../../style/icons/instagram.svg'
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Autholog from '../../shared/LogIn-SingUp/Autholog';
+import Autho from '../../shared/LogIn-SingUp/Autho';
+import { DateTime } from 'luxon';
 
 
 
@@ -63,7 +66,9 @@ const OtherUserProfile = () => {
     const [wait, setWait] = useState(true)
     const [UserInfoProfile, setUserInfoProfile] = useState()
     const [getJoined, setJoined] = useState()
-    console.log(UserInfoProfile)
+
+    const getUserToken = localStorage.getItem("UserToken=")
+
     var tabs_storage = [
         { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: '0'},
         { value: 'com', id: '2', className: 'tabname tabButton', title: 'Complete wishes', spanTitle: '0' },
@@ -74,8 +79,6 @@ const OtherUserProfile = () => {
  
     //     const handler = e => this.setState({ matches: e.matches });
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
-    var getUserToken = localStorage.getItem("UserToken=")
-
     const {state} = useLocation()
 
     useEffect(() => {
@@ -88,6 +91,7 @@ const OtherUserProfile = () => {
                 slug: state
             },
             }).then((userData) => {
+                console.log(userData)
                 setUserInfoProfile(userData.data.data)
                 setJoined(userData.data.data.info.joined)
             })
@@ -111,8 +115,37 @@ const OtherUserProfile = () => {
         navigate("/my-wish", {state: {id}})
     }
 
+    // Follow API
+
+    const [show, setShow] = useState(false);
+    const [showes, setShowes] = useState(false);
+
+    const FollowButton = (getUserId) => {
+        if (localStorage.getItem("UserToken=")) {
+            let confing = {
+            method:'get',
+            url: `https://api.wishx.me/api/v1/follow?user_id=${+getUserId}`,
+            headers: {
+                'Authorization': `Bearer ${getUserToken}`, 
+                'Content-Type': 'application/json',
+            }
+           }
+             axios(confing).then((data)=>{console.log(data)})
+        } else {
+            setShowes(true);
+        }
+    }
+    
+    // END FOLLOW API
+
+    var luxonDate 
+    console.log(luxonDate, "AAAAAA")
+
+
         return (
             <Body>
+                {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
+                {show ? <Autho setShow={setShow} /> : null}
                 <div className='main-container'>
                     <div>
                         <FotoSection fluid>
@@ -165,15 +198,16 @@ const OtherUserProfile = () => {
                                         </a>
                                     </SocialSection>
                                     <ButtonSection>
-                                        <Button className='second-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
+                                        <button onClick={FollowButton} className='follow-btn'>Follow</button>
+                                        <button className='unfollow-btn'>Unfollow</button>
+                                        <button className='message-btn'>Message</button>
                                     </ButtonSection>
                                     <MobileBtnSection>
-                                        <Button className='mobile-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
                                         <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
                                         <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                         <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
                                     </MobileBtnSection>
-                                    <Joined>Joined {getJoined}</Joined>
+                                    <Joined>Joined  {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
                                 </LeftSection>
                             </div>
                         </Grid.Col>
@@ -243,13 +277,12 @@ const OtherUserProfile = () => {
                                                 </CardLong>
                                          ))
                                              :
-
                                                 (<div>
                                                     <CardLonger>
-                                                        <NotWishes>Yo don’t have any wishes</NotWishes>
+                                                        <NotWishes>User doesn’t have any wishes</NotWishes>
                                                         <Buttons>
-                                                            <a href='/creating-wish'><Buttonleft>Create a wish</Buttonleft></a>
-                                                            <Buttonright>Explore wishes</Buttonright>
+                                                            <Buttonleft>Message user</Buttonleft>
+                                                            <a href='/wish-list'><Buttonright>Explore wishes</Buttonright></a>
                                                         </Buttons>
                                                         <Glasses src={file1} />
                                                     </CardLonger>
