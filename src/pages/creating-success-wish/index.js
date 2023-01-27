@@ -60,6 +60,10 @@ const Created_Success_Wish = () => {
   
   }, [])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const GetUserEditWishPage = () => {
     navigate("/wish-edit", {state:GetUserWishData })
   }

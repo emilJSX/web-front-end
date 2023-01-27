@@ -57,6 +57,8 @@ export const Container = styled.div`
          img{
             width: 100%;
             height: 200px;
+            border-radius: 8px;
+            margin-top: 40px;
                
             @media(max-width: 768px){
                max-width: 400px;

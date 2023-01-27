@@ -39,6 +39,10 @@ const Editing_Wish = () => {
 
     var idInterestsApi = []
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     const handleChangeUpdateWish = (e) => {
         const {name, value} = e.target
         const result = {...getUpdateWishData, [name]: value}
