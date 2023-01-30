@@ -1,42 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Birthday, Blue_div, Blue_top_div, Blue_loading_div, Last_title, Left_buttons, Left_div, Left_image, Left_report, Main_page, Main_page_top, Middle_title, Photo, Right_blue_div, Right_div, Right_top_div, Top_title, Blue_button_div, Vashed, Congratulate, Congratulate_button, Product, Product_part, Product_other, All_congrulation, Hbd, Hbd_title, Hbd_name, Hbd_footer, Photos, Hbday, Mcdonalds, Picture, Mcago, Freecofe, Bottom_div, Bottom_div_title, Bottom_div_show, ActiveMac, PhotoMacDon } from "./Wish-pages.styled";
-import watch from "../../style/icons/handwatch.png"
 import { BsFacebook, BsTwitter, BsTelegram, BsWhatsapp } from 'react-icons/bs';
-import { IoMailOutline, IoNotificationsOutline, IoWarningOutline } from 'react-icons/io5';
+import { IoMailOutline, IoWarningOutline } from 'react-icons/io5';
 import { RiLinksFill } from 'react-icons/ri';
-import { HiOutlineFilter, HiBadgeCheck, HiOutlineDotsCircleHorizontal } from 'react-icons/hi';
+import { HiOutlineFilter, HiBadgeCheck} from 'react-icons/hi';
 import { BiLike } from 'react-icons/bi';
 import { AiOutlinePlusCircle, AiTwotoneLike } from 'react-icons/ai';
-import { Carddata } from "../search/CardData"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import {
-    Wrapper,
-    ImgWrapper,
-    ContentWrapper,
-    Titles,
-    UserWrapper,
-    UserAbout,
-    UserName,
-    UserDesc,
-    UserPhoto,
-    PriceWrapper,
-    Prices,
-    LeftPrice,
-    RightPrice,
-    ProgressWrapper,
-    GridBody,
-} from "../search/SearchCard.styled";
-import {
-    Grid,
-    Progress,
-
-} from "@mantine/core";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 

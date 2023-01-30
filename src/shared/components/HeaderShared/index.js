@@ -5,7 +5,7 @@ import { Card, CardIcon, CreateWishBtn, HeaderContainer, ProfilName, ProfilP, Pr
 import { ReactComponent as WishLogo } from '../../../style/icons/wish-x-logo-1.svg'
 import { allwish, headerLists } from '../../../utils/dummy-data/header-list'
 import { SearchInput } from '../search-bar'
-import { Box, Burger, MediaQuery } from '@mantine/core'
+import { Box, Burger, Loader, MediaQuery } from '@mantine/core'
 import { DotsToggle } from '../../ui/dots-toggle-menu'
 import { ReactComponent as StarsIcon } from '../../../style/icons/small-stars.svg'
 import { ReactComponent as GridIcon } from '../../../style/icons/grid-icon.svg'
@@ -26,7 +26,7 @@ export const HeaderShared = ({ toggle }) => {
     const [showes, setShowes] = useState(false)
     const [show, setShow] = useState(false)
     const GetUserToken = localStorage.getItem("UserToken=")
-
+    const [wait, setWait] = useState(true)
     const [getOpenedMenu, setOpenedMenu] = useState(false)
     const navigate = useNavigate()
     const toggleOptions = () => {
@@ -93,9 +93,10 @@ export const HeaderShared = ({ toggle }) => {
                     <IoNotificationsOutline style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/>
                 </CardIcon>
                 <CreateWishBtn><Link to='/creating-wish'>Create a wish</Link></CreateWishBtn>
+                
                 <Card>
-                        <a href='/my-profile'><ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={getUserLoginData?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `https://api.wishx.me${getUserLoginData?.avatar}` } /></ProfilP></a>
-                        <a href='/my-profile'><ProfilName>{getUserLoginData?.full_name  == null ? "does not exist" : getUserLoginData?.full_name}</ProfilName></a><FiChevronDown onClick={toggleOptions} style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px", position: "absolute", top: "22px", left: "51px"}}/>
+                        <a href='/my-profile'><ProfilP><img style={{borderRadius: "50%", width: "45px", objectFit: "cover" , marginTop: "-9.99px", height: "45px"}} src={getUserLoginData?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `${getUserLoginData.avatar}` } /></ProfilP></a>
+                        <a href='/my-profile'><ProfilName>{getUserLoginData?.full_name  == null ?  "does not exist" : getUserLoginData?.full_name}</ProfilName></a><FiChevronDown onClick={toggleOptions} style={{marginLeft: "110px", fontSize:"20px", marginTop:"-8px", position: "absolute", top: "22px", left: "51px"}}/>
                         <ProfilWish>{getUserLoginData?.wishes_count} wishes • $0</ProfilWish>
                 <div className='dropdown-menu-logined' style={{ display: !getOpenedMenu ? "none" : "block" }}>
                   <div className='body-menu-logined'>
@@ -110,6 +111,7 @@ export const HeaderShared = ({ toggle }) => {
 
             </div>
                     </>)
+                    
                     :
                 (<section className='log-in-out-Section'>
                     {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : (show ? "" : <div style={{

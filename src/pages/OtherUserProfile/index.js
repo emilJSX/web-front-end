@@ -64,7 +64,7 @@ import { DateTime } from 'luxon';
 
 const OtherUserProfile = () => {
     const [wait, setWait] = useState(true)
-    const [UserInfoProfile, setUserInfoProfile] = useState()
+    const [UserInfoProfile, setUserInfoProfile] = useState([])
     const [getJoined, setJoined] = useState()
 
     const getUserToken = localStorage.getItem("UserToken=")
@@ -82,17 +82,10 @@ const OtherUserProfile = () => {
     const {state} = useLocation()
     const [displayFollow, setdisplayFollow] = useState("block")
     const [displayUnfollow, setdisplayUnfollow] = useState("none")
-    
+
     useEffect(() => {
         window.scrollTo(0, 0)
 
-        if(UserInfoProfile?.contacts?.followedStatus == false) {
-            setdisplayFollow("block")
-            setdisplayUnfollow("none")
-        } else if (UserInfoProfile?.contacts?.followedStatus == true){
-            setdisplayFollow("none")
-            setdisplayUnfollow("block")
-        }
       }, [])
 
     useEffect(() => {
@@ -101,7 +94,6 @@ const OtherUserProfile = () => {
                     slug: state
                 },
                 }).then((userData) => {
-                    console.log(userData)
                     setUserInfoProfile(userData.data.data)
                     setJoined(userData.data.data.info.joined)
                 })
@@ -132,27 +124,6 @@ const OtherUserProfile = () => {
     const [show, setShow] = useState(false);
     const [showes, setShowes] = useState(false);
 
-
-    const FollowButton = (getUserId) => {
-        if (localStorage.getItem("UserToken=")) {
-            let confing = {
-            method:'get',
-            url: `https://api.wishx.me/api/v1/follow?user_id=${+getUserId}`,
-            headers: {
-                'Authorization': `Bearer ${getUserToken}`, 
-                'Content-Type': 'application/json',
-            }
-           }
-             axios(confing).then((data)=>{
-                console.log(data)
-                setdisplayFollow("none")
-                setdisplayUnfollow("block")
-            })
-        } else {
-            setShowes(true);
-        }
-    }
-
     const UnfollowButton = (getUserId) => {
         if (localStorage.getItem("UserToken=")) {
             let confing = {
@@ -172,6 +143,27 @@ const OtherUserProfile = () => {
             setShowes(true);
         }
 
+    }
+
+
+    const FollowButton = (getUserId) => {
+        if (localStorage.getItem("UserToken=")) {
+            let confing = {
+            method:'get',
+            url: `https://api.wishx.me/api/v1/follow?user_id=${+getUserId}`,
+            headers: {
+                'Authorization': `Bearer ${getUserToken}`, 
+                'Content-Type': 'application/json',
+            }
+           }
+             axios(confing).then((data)=>{
+                console.log(data)
+                setdisplayFollow("none")
+                setdisplayUnfollow("block")
+            })
+        } else {
+            setShowes(true);
+        }
     }
     
     // END FOLLOW API
@@ -198,7 +190,7 @@ const OtherUserProfile = () => {
                                         <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
                                     </DisplayTopImgCard>
 
-                                    <Image radius="100px" className="tomcruse" height={80} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
+                                    <Image radius="100px" className="tomcruse" height={80} src={`${UserInfoProfile?.info?.avatar}`} />
                                     <Namesurname>{UserInfoProfile?.info?.full_name != null ? UserInfoProfile?.info?.full_name : "FullName does not exist" }</Namesurname> 
                                     {/* <HiBadgeCheck className='bluechek' /> */}
                                     <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
@@ -266,13 +258,9 @@ const OtherUserProfile = () => {
                                             <Grid.Col style={{ marginTop: "10px"}} className='col-root-cards' xl={4} lg={4} md={4} sm={6} xs={12}>
                                                 <Wrapper className="cart-item" onMouseOver={(e) => {
                                                     e.currentTarget.setAttribute('style', 'border: 1px solid #3800B0;');
-                                                    e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: visible');
-                                                    e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: visible');
 
                                                 }} onMouseOut={(e) => {
                                                     e.currentTarget.setAttribute('style', 'border: 1px solid #EBE5F7;')
-                                                    e.currentTarget.children[0].children[0].setAttribute('style', 'visibility: hidden');
-                                                    e.currentTarget.children[0].children[1].setAttribute('style', 'visibility: hidden');
                                                 }}>
                                                     <ImgWrapper id={userDataWish.slug} onClick={(e)=>getWishIdForResultPage(e.target.id)} src={`https://api.wishx.me/${userDataWish.image}`}></ImgWrapper>
                                                     <ContentWrapper>
@@ -283,7 +271,7 @@ const OtherUserProfile = () => {
                                                                 <UserName>{UserInfoProfile?.info?.full_name != null ? UserInfoProfile?.info?.full_name : "FullName does not exist" }</UserName>
                                                                 <UserDesc >for birthday on {DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat("dd MMMM yyyy")}</UserDesc>
                                                             </UserAbout>
-                                                            <UserPhoto src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
+                                                            <UserPhoto src={`${UserInfoProfile?.info?.avatar}`} />
                                                         </UserWrapper>
 
                                                         <PriceWrapper>
@@ -412,7 +400,7 @@ const OtherUserProfile = () => {
                                     }
                                 </TabPanel>
                                 <TabPanel value="con" className='tab-panel-2'>
-                                    {
+                                    {/* {
                                         (Carddata.data) ? (Carddata.data.map((index) => (
 
                                             <CardSecond>
@@ -470,7 +458,7 @@ const OtherUserProfile = () => {
                                             </div>
                                             )
 
-                                    }
+                                    } */}
                                 </TabPanel>
                             </Tabs>
                         </Grid.Col>

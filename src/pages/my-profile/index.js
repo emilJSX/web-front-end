@@ -72,6 +72,8 @@ const MyProfile = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
       }, [])
+
+
     
     
     //     const handler = e => this.setState({ matches: e.matches });
@@ -137,8 +139,6 @@ const MyProfile = () => {
         navigate("/my-wish", {state: {id}})
     }
 
-    console.log(UserInfoProfile)
-
         return (
             <Body>
                 <div className='main-container'>
@@ -149,64 +149,69 @@ const MyProfile = () => {
                             {/* {!this.state.matches && <Image id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />} */}
                         </FotoSection>
                     </div>
+                    
                     <Grid className='main-grid'>
+                        {
+                            wait && UserInfoProfile?.info != null ? 
+                            <Grid.Col className='col-one' xl={3} lg={3} md={3} sm={12} xs={12}>
+                                <div className='leftsection-style'>
+                                    <MobileTopCoverImageSection>
+                                        <img id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />
+                                    </MobileTopCoverImageSection>
+                                    <LeftSection>
+                                        <DisplayTopImgCard>
+                                            <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={`${UserInfoProfile?.info?.avatar}`} />
+                                        </DisplayTopImgCard>
+                                        
+                                        <Image radius="100px" className="tomcruse" height={80} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `${UserInfoProfile?.info?.avatar}`} />
+                                        <Namesurname>{UserInfoProfile?.info?.full_name == null ? "Does not exist" : UserInfoProfile?.info?.full_name}</Namesurname> 
+                                        {/* <HiBadgeCheck className='bluechek' /> */}
+                                        <TagName>@ {UserInfoProfile?.info?.slug == null ? "Does not exist" : UserInfoProfile?.info?.slug}</TagName>
+                                        <Text>Spec, Child, Chaos and Shadow</Text>
 
-                        <Grid.Col className='col-one' xl={3} lg={3} md={3} sm={12} xs={12}>
-                            <div className='leftsection-style'>
-                                <MobileTopCoverImageSection>
-                                    <img id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />
-                                </MobileTopCoverImageSection>
-                                <LeftSection>
-                                    <DisplayTopImgCard>
-                                        <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
-                                    </DisplayTopImgCard>
+                                        <DateSection>
+                                            <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob }</Date>
+                                            <DateText>Birthdate</DateText>
+                                        </DateSection>
+                                        <DisplayDateBirthaySection>
+                                            <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
+                                            <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
+                                            <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
+                                        </DisplayDateBirthaySection>
                                     
-                                    <Image radius="100px" className="tomcruse" height={80} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `https://api.wishx.me/${UserInfoProfile?.info?.avatar}`} />
-                                    <Namesurname>{UserInfoProfile?.info?.full_name == null ? "Does not exist" : UserInfoProfile?.info?.full_name}</Namesurname> 
-                                    {/* <HiBadgeCheck className='bluechek' /> */}
-                                    <TagName>@ {UserInfoProfile?.info?.slug == null ? "Does not exist" : UserInfoProfile?.info?.slug}</TagName>
-                                    <Text>Spec, Child, Chaos and Shadow</Text>
+                                        <FollowersSection>
+                                            <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <br /> <span style={{ fontSize: "12px" }}>followers</span></Follower>
+                                            <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows}  <br /> <span style={{ fontSize: "12px" }}>followings</span></Following>
+                                        </FollowersSection>
+                                        {/* <SocialSection>
+                                            <a href={UserInfoProfile?.social?.facebook} target="_blank"><BsFacebook style={{
+                                                color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
+                                                alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
+                                            }} /> </a>
+                                            <a href={UserInfoProfile?.social?.instagram} target="_blank">
+                                                <Image src={instagram} style={{
+                                                    color: "#2D008D", fontSize: "23px", height: '100%',
+                                                    display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
+                                                }} />
 
-                                    <DateSection>
-                                        <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob }</Date>
-                                        <DateText>Birthdate</DateText>
-                                    </DateSection>
-                                    <DisplayDateBirthaySection>
-                                        <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
-                                        <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
-                                        <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
-                                    </DisplayDateBirthaySection>
-                                
-                                    <FollowersSection>
-                                        <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <br /> <span style={{ fontSize: "12px" }}>followers</span></Follower>
-                                        <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows}  <br /> <span style={{ fontSize: "12px" }}>followings</span></Following>
-                                    </FollowersSection>
-                                    <SocialSection>
-                                        <a href={UserInfoProfile?.social?.facebook} target="_blank"><BsFacebook style={{
-                                            color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
-                                            alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
-                                        }} /> </a>
-                                        <a href={UserInfoProfile?.social?.instagram} target="_blank">
-                                            <Image src={instagram} style={{
-                                                color: "#2D008D", fontSize: "23px", height: '100%',
-                                                display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
-                                            }} />
+                                            </a>
+                                        </SocialSection> */}
+                                        <ButtonSection>
+                                            <Button className='second-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
+                                        </ButtonSection>
+                                        <MobileBtnSection>
+                                            <Button className='mobile-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
+                                            <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
+                                            <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
+                                            <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
+                                        </MobileBtnSection>
+                                        <Joined>Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
+                                    </LeftSection>
+                                </div>
+                            </Grid.Col>
 
-                                        </a>
-                                    </SocialSection>
-                                    <ButtonSection>
-                                        <Button className='second-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
-                                    </ButtonSection>
-                                    <MobileBtnSection>
-                                        <Button className='mobile-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
-                                        <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
-                                        <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
-                                        <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
-                                    </MobileBtnSection>
-                                    <Joined>Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
-                                </LeftSection>
-                            </div>
-                        </Grid.Col>
+                             : <Loader style={{ margin: "20 auto"}} size="lg" />
+                        }
 
                         <Grid.Col xl={7} lg={7} md={7} sm={12} xs={12} className='col-two'>
                             <Tabs defaultValue="com" className='tabs'>
@@ -386,7 +391,7 @@ const MyProfile = () => {
                                     }
                                 </TabPanel>
                                 <TabPanel value="con" className='tab-panel-2'>
-                                    {
+                                    {/* {
                                         (Carddata.data) ? (Carddata.data.map((index) => (
 
                                             <CardSecond>
@@ -444,7 +449,7 @@ const MyProfile = () => {
                                             </div>
                                             )
 
-                                    }
+                                    } */}
                                 </TabPanel>
                             </Tabs>
                         </Grid.Col>

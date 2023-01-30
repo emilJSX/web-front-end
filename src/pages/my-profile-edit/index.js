@@ -339,7 +339,7 @@ const ProfileEdit = () => {
   const [password, setPassword] = useState("password");
   const [modalShow, setModalShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState();
   const [showCalendar, setShowCalendar] = useState(false);
 
   const OnSeclectCountry = (country) => {
@@ -483,6 +483,7 @@ const ProfileEdit = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectPassport, setselectPassport] = useState(null);
   const [getCountry, setCountry] = useState();
+
 
   const handleChangeInputInfo = (e) => {
     const { name, value } = e.target;
@@ -786,11 +787,11 @@ const ProfileEdit = () => {
                     Verification
                   </button>
                 </Tab>
-                <Tab value="sociallink">
+                {/* <Tab value="sociallink">
                   <button className="editing-buttons" id="editing-buttons4">
                     Social links
                   </button>
-                </Tab>
+                </Tab> */}
               </div>
             </EditingButtons>
             <TabPanel value="personalinfo">
@@ -800,7 +801,7 @@ const ProfileEdit = () => {
                     <ProfilePicture>
                       <figure className="image-figure">
                         <img
-                          src={`https://api.wishx.me${getUserInfoProfile.avatar}`}
+                          src={getUserInfoProfile.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : getUserInfoProfile.avatar}
                           className="profile-pucture"
                         />
                       </figure>
@@ -909,13 +910,15 @@ const ProfileEdit = () => {
                     </div>
                     <input
                       type="text"
-                      value={moment(value).format("DD.MM.YYYY")}
-                      readOnly
+                      // value={moment(value).format("DD.MM.YYYY")}
+                      
+                      value={getUserInfoProfile.dob}
                       className="info_input"
-                      placeholder="Date of birth"
-                      onFocus={() => setShowCalendar(true)}
+                      placeholder="Date of birth (dd.mm.yyyy)"
+                      onChange={(e) => onChange(e.target.value)}
+                      // onFocus={() => setShowCalendar(true)}
                     ></input>
-                    <Calendar
+                    {/* <Calendar
                       locale="en-EN"
                       closeCalendar={true}
                       next2Label={false}
@@ -923,7 +926,7 @@ const ProfileEdit = () => {
                       onChange={onChange}
                       value={value}
                       className={showCalendar ? "" : "hide"}
-                    />
+                    /> */}
                     <div className="wish-me-input-title">
                       <h5 className="wish-me-title">wish.me/</h5>
                       <input
