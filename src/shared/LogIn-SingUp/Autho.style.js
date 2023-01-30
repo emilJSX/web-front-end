@@ -395,7 +395,7 @@ export const Password = styled.input`
     padding: 16px;
     border: none;
     width: 367px;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px;
     background: #F7F8FA;
     font-family: sans-serif;
     margin: 12px 40px 0 40px;
