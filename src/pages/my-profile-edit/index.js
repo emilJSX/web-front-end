@@ -605,53 +605,6 @@ const ProfileEdit = () => {
     setInterestsIdApi(item);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
-
-  function Full_Name_Error() {
-    toast.error("You didn't write Full Name", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Gender_Error() {
-    toast.error("You don't select Gender", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Country_Error() {
-    toast.error("You don't select Country", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Dob_Error() {
-    toast.error("You don't select your Birthday", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function UserName_Error() {
-    toast.error("You didn't write User Name", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function About_Error() {
-    toast.error("You didn't write About information", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Interests_Error() {
-    toast.error("You don't select Interests", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
 
   // ============================================================================================================================
 
@@ -704,7 +657,7 @@ const ProfileEdit = () => {
 
   // ============================================================================================================================
 
-  // =======================================================VERIFICATION PASSPORT API===========================================
+  // =======================================================VERIFICATION PASSPORT API============================================
 
   const handleVerifyPassport = async (event) => {
     event.preventDefault();
@@ -739,7 +692,7 @@ const ProfileEdit = () => {
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
   const [getCountryList, setCountryList] = useState([]);
-  
+
   useEffect(() => {
     try {
       axios({
@@ -786,11 +739,11 @@ const ProfileEdit = () => {
                     Verification
                   </button>
                 </Tab>
-                <Tab value="sociallink">
+                {/* <Tab value="sociallink">
                   <button className="editing-buttons" id="editing-buttons4">
                     Social links
                   </button>
-                </Tab>
+                </Tab> */}
               </div>
             </EditingButtons>
             <TabPanel value="personalinfo">
@@ -800,7 +753,7 @@ const ProfileEdit = () => {
                     <ProfilePicture>
                       <figure className="image-figure">
                         <img
-                          src={`https://api.wishx.me${getUserInfoProfile.avatar}`}
+                          src={getUserInfoProfile.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `${getUserInfoProfile.avatar}`}
                           className="profile-pucture"
                         />
                       </figure>
@@ -869,7 +822,7 @@ const ProfileEdit = () => {
                           }
                         }}
                       >
-                        <h5 className="country-name">{countryName ? countryName : "Select the country"}</h5>
+                        <h5 className="country-name">{countryName}</h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul className="countries-list">

@@ -268,7 +268,7 @@ const Home = () => {
                           className="wish__slider__icon"
                           id={getWishData.user.username}
                           onClick={(e) => getUserSlugForProfile(e.target.id)}
-                          src={`https://api.wishx.me${getWishData.user.image}`}
+                          src={`${getWishData.user.image}`}
                           alt=""
                         />
                       </div>

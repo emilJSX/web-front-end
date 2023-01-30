@@ -148,20 +148,19 @@ export const EditingButtons = styled.div`
    }
 
    #editing-buttons1{
-      background: #EBE5F7;
-      border: 2px solid #3800B0;
-      border-radius: 8px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
    }
 
-   #editing-buttons2{
-      border-top: 2px solid #EBE5F7;
-      border-bottom: 2px solid #EBE5F7;
-   }
+   // #editing-buttons2{
+   //    border-top: 2px solid #EBE5F7;
+   //    border-bottom: 2px solid #EBE5F7;
+   // }
 
-   #editing-buttons3{
-      border-top: 2px solid #EBE5F7;
-      border-bottom: 2px solid #EBE5F7;
-   }
+    #editing-buttons3{
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
 
    #editing-buttons4{
       border-top: 2px solid #EBE5F7;

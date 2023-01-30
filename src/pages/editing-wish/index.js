@@ -229,11 +229,12 @@ const Editing_Wish = () => {
                                     <input type='text' name='price' value={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity' />
                                 </div>
                                 <div className='cash-type-container'>
-                                    <div className='cash-selection' onClick={onCashSelectPush}>
+                                    <div className='cash-selection' >
+                                    {/* onClick={onCashSelectPush} */}
                                         <label className='cash-type'>{selectedCash}</label>
-                                        <div className='icon'>
+                                        {/* <div className='icon'>
                                             <FontAwesomeIcon icon={faChevronDown} />
-                                        </div>
+                                        </div> */}
 
                                         <div className='cash-selection-block' style={{ display: isVisible }}>
                                             <ul className='cash-selection-block-list'>

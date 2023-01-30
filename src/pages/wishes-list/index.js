@@ -267,7 +267,7 @@ const WishList = () => {
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Title>{getWishList.title}</Title>
+                  <Title id={getWishList.slug} onClick={(e) => getWishIdForResult(e.currentTarget.id)}>{getWishList.title}</Title>
 
                   <UserWrapper>
                     <UserAbout>
@@ -282,7 +282,7 @@ const WishList = () => {
                     <UserPhoto
                       id={getWishList.user.username}
                       onClick={(e) => getUserSlugForProfile(e.target.id)}
-                      src={`https://api.wishx.me${getWishList.user.image}`}
+                      src={`${getWishList.user.image}`}
                     ></UserPhoto>
                   </UserWrapper>
 

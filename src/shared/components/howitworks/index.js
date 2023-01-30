@@ -10,8 +10,16 @@ import axios from "axios";
 import { useEffect } from "react";
 
 const HowItWorks = () => {
-
+    const getUserToken = localStorage.getItem("UserToken=");
     useEffect(() => {
+        axios.get("/api/v1/static_pages/faq/get", {
+            headers: {
+                Authorization: `Bearer ${getUserToken}`,
+            }
+        }).then((getDataHIW) => {
+            console.log(getDataHIW, "getDataHIW")
+        })
+
         window.scrollTo(0, 0)
       }, [])
 
