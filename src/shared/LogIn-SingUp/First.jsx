@@ -54,7 +54,7 @@ function First({ setShow, nextstep, nextsteplog }) {
   };
 
   // Parsing Extract the Name from an Email Address
-  const HandleGetRegister = ({ email, passowrd }) => {
+  const HandleGetRegister = ({ email, password }) => {
     const result_getname = email.split("@")[0];
     setGetName(result_getname);
     axios
@@ -63,7 +63,7 @@ function First({ setShow, nextstep, nextsteplog }) {
         {
           name: email.split("@")[0],
           email: email,
-          password: passowrd,
+          password: password,
           confirm_password: password,
         },
         {
