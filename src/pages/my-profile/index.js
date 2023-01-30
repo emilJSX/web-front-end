@@ -199,12 +199,12 @@ const MyProfile = () => {
                                         <ButtonSection>
                                             <Button className='second-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
                                         </ButtonSection>
-                                        <MobileBtnSection>
+                                        {/* <MobileBtnSection>
                                             <Button className='mobile-btn' onClick={getWithProfileToEdit}>Edit profile</Button>
                                             <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
                                             <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                             <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
-                                        </MobileBtnSection>
+                                        </MobileBtnSection> */}
                                         <Joined>Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
                                     </LeftSection>
                                 </div>

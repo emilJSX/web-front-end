@@ -339,7 +339,7 @@ const ProfileEdit = () => {
   const [password, setPassword] = useState("password");
   const [modalShow, setModalShow] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [value, onChange] = useState();
+  const [value, onChange] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
 
   const OnSeclectCountry = (country) => {
@@ -484,7 +484,6 @@ const ProfileEdit = () => {
   const [selectPassport, setselectPassport] = useState(null);
   const [getCountry, setCountry] = useState();
 
-
   const handleChangeInputInfo = (e) => {
     const { name, value } = e.target;
     const result = { ...getUserInfoProfile, [name]: value };
@@ -606,53 +605,6 @@ const ProfileEdit = () => {
     setInterestsIdApi(item);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
-
-  function Full_Name_Error() {
-    toast.error("You didn't write Full Name", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Gender_Error() {
-    toast.error("You don't select Gender", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Country_Error() {
-    toast.error("You don't select Country", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Dob_Error() {
-    toast.error("You don't select your Birthday", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function UserName_Error() {
-    toast.error("You didn't write User Name", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function About_Error() {
-    toast.error("You didn't write About information", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
-  function Interests_Error() {
-    toast.error("You don't select Interests", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  }
-
 
   // ============================================================================================================================
 
@@ -705,7 +657,7 @@ const ProfileEdit = () => {
 
   // ============================================================================================================================
 
-  // =======================================================VERIFICATION PASSPORT API===========================================
+  // =======================================================VERIFICATION PASSPORT API============================================
 
   const handleVerifyPassport = async (event) => {
     event.preventDefault();
@@ -740,7 +692,7 @@ const ProfileEdit = () => {
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
   const [getCountryList, setCountryList] = useState([]);
-  
+
   useEffect(() => {
     try {
       axios({
@@ -801,7 +753,7 @@ const ProfileEdit = () => {
                     <ProfilePicture>
                       <figure className="image-figure">
                         <img
-                          src={getUserInfoProfile.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : getUserInfoProfile.avatar}
+                          src={getUserInfoProfile.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `${getUserInfoProfile.avatar}`}
                           className="profile-pucture"
                         />
                       </figure>
@@ -870,7 +822,7 @@ const ProfileEdit = () => {
                           }
                         }}
                       >
-                        <h5 className="country-name">{countryName ? countryName : "Select the country"}</h5>
+                        <h5 className="country-name">{countryName}</h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul className="countries-list">
@@ -910,15 +862,13 @@ const ProfileEdit = () => {
                     </div>
                     <input
                       type="text"
-                      // value={moment(value).format("DD.MM.YYYY")}
-                      
-                      value={getUserInfoProfile.dob}
+                      value={moment(value).format("DD.MM.YYYY")}
+                      readOnly
                       className="info_input"
-                      placeholder="Date of birth (dd.mm.yyyy)"
-                      onChange={(e) => onChange(e.target.value)}
-                      // onFocus={() => setShowCalendar(true)}
+                      placeholder="Date of birth"
+                      onFocus={() => setShowCalendar(true)}
                     ></input>
-                    {/* <Calendar
+                    <Calendar
                       locale="en-EN"
                       closeCalendar={true}
                       next2Label={false}
@@ -926,7 +876,7 @@ const ProfileEdit = () => {
                       onChange={onChange}
                       value={value}
                       className={showCalendar ? "" : "hide"}
-                    /> */}
+                    />
                     <div className="wish-me-input-title">
                       <h5 className="wish-me-title">wish.me/</h5>
                       <input

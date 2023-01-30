@@ -267,7 +267,7 @@ const WishList = () => {
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Title>{getWishList.title}</Title>
+                  <Title id={getWishList.slug} onClick={(e) => getWishIdForResult(e.currentTarget.id)}>{getWishList.title}</Title>
 
                   <UserWrapper>
                     <UserAbout>

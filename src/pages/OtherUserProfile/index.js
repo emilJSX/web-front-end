@@ -228,11 +228,11 @@ const OtherUserProfile = () => {
                                         <button id={UserInfoProfile?.user_id} style={{ display: displayUnfollow }} onClick={(e)=>UnfollowButton(e.target.id)} className='unfollow-btn'>Unfollow</button>
                                         <button className='message-btn'>Message</button>
                                     </ButtonSection>
-                                    <MobileBtnSection>
+                                    {/* <MobileBtnSection>
                                         <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
                                         <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                         <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
-                                    </MobileBtnSection>
+                                    </MobileBtnSection> */}
                                     <Joined>Joined  {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}</Joined>
                                 </LeftSection>
                             </div>
