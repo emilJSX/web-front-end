@@ -25,6 +25,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { Controller, useForm } from "react-hook-form";
 
 const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
 
@@ -38,6 +39,16 @@ const Editing_Wish = () => {
     getUpdateWishData.currency_id == null ? state?.currency?.id : getUpdateWishData.currency_id );
 
     var idInterestsApi = []
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm({
+        reValidateMode: "onChange",
+        mode: "all",
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -211,7 +222,6 @@ const Editing_Wish = () => {
     return (
 
         <MainContainer>
-            <form>
             <Container>
                 <div className='container-insider'>
                     <Hedaer>
@@ -220,60 +230,100 @@ const Editing_Wish = () => {
                     </Hedaer>
                     <Section>
                         <h5 className='description-title'>{getUpdateWishData.title}</h5>
-                        <div className='wish-name'>
-                            <input type='text' name='title' value={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name' />
-                        </div>
-                        <div className='cash-set-container'>
-                            <div className='cash-set-container-insider'>
-                                <div className='cash-quantity-container'>
-                                    <input type='text' name='price' value={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity' />
-                                </div>
-                                <div className='cash-type-container'>
-                                    <div className='cash-selection' >
-                                    {/* onClick={onCashSelectPush} */}
-                                        <label className='cash-type'>{selectedCash}</label>
-                                        {/* <div className='icon'>
+                        <form onSubmit={handleSubmit(handleSubmitUpdateWish)}>
+                            <div className='wish-name'>
+                                <input type='text' name='title' value={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name'
+                                       {...register("title", {
+                                           required: "Wish title is required!",
+                                       })}
+                                />
+                            </div>
+                            {errors.title ? (
+                              <p className="mx-14 -mt-2 text-red-500 text-xs">
+                                  {errors.title.message}
+                              </p>
+                            ) : null}
+                            <div className='cash-set-container'>
+                                <div className='cash-set-container-insider'>
+                                    <div className='cash-quantity-container'>
+                                        <input type='text' name='price' value={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity'
+                                               {...register("price", { required: "Price is required!" })}
+                                        />
+                                    </div>
+                                    <div className='cash-type-container'>
+                                        <div className='cash-selection' >
+                                            {/* onClick={onCashSelectPush} */}
+                                            <label className='cash-type'>{selectedCash}</label>
+                                            {/* <div className='icon'>
                                             <FontAwesomeIcon icon={faChevronDown} />
                                         </div> */}
 
-                                        <div className='cash-selection-block' style={{ display: isVisible }}>
-                                            <ul className='cash-selection-block-list'>
-                                                {cash.map((item, index) => <CashItems key={item} item={item} id={index} />)}
-                                            </ul>
+                                            <div className='cash-selection-block' style={{ display: isVisible }}>
+                                                <ul className='cash-selection-block-list'>
+                                                    {cash.map((item, index) => <CashItems key={item} item={item} id={index} />)}
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className='text-area'>
-                            <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} value={getUpdateWishData.description} placeholder='Description'></textarea>
-                        </div>
-
-                        <div className='multi-select'>
-                            <div className='multi-select-insider'>
-                                <MultiSelect
-                                    className="multiselect-interest"
-                                    data={data}
-                                    onChange={getInterestsId}
-                                    defaultValue={idInterestsApi}
-                                    placeholder="Interests"
-                                />
+                            {errors.price ? (
+                              <p className="mx-14 -mt-2 text-red-500 text-xs">
+                                  {errors.price.message}
+                              </p>
+                            ) : null}
+                            <div className='text-area'>
+                                <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} value={getUpdateWishData.description} placeholder='Description'
+                                          {...register("description", {
+                                              required: "Description is required!",
+                                          })}
+                                ></textarea>
                             </div>
-                        </div>
-                        <div className='aviable-group'>
-                            <FormControl>
-                                <RadioGroup
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    defaultValue="female"
-                                    name="radio-buttons-group"
-                                > 
-                                    
-                                    <FormControlLabel {...CheckedUpdateUrlPublicWish ? checked=true : ""} value="female" onChange={()=> setUpdateCheckedPublikWish(true)} control={<Radio />} label="Available to everyone" />
-                                    <FormControlLabel {...!CheckedUpdateUrlPublicWish ? "" : checked=true} value="male" onChange={()=> setUpdateCheckedPublikWish(false)} control={<Radio />} label="Only available by link" />
+                            {errors.description ? (
+                              <p className="mx-14 -mt-2 text-red-500 text-xs">
+                                  {errors.description.message}
+                              </p>
+                            ) : null}
+                            <div className='multi-select'>
+                                <div className='multi-select-insider'>
+                                    <Controller
+                                      name="interests"
+                                      control={control}
+                                      rules={{ required: "Interests are required!" }}
+                                      defaultValue={idInterestsApi}
+                                      render={({ field }) => (
+                                        <MultiSelect
+                                          className="multiselect-interest"
+                                          data={data}
+                                          onChange={getInterestsId}
+                                          defaultValue={idInterestsApi}
+                                          placeholder="Interests"
+                                          {...field}
+                                        />
+                                      )}
+                                    />
+                                </div>
+                            </div>
+                            {errors.interests ? (
+                              <p className="mx-14 -mt-2 text-red-500 text-xs">
+                                  {errors.interests.message}
+                              </p>
+                            ) : null}
+                            <div className='aviable-group'>
+                                <FormControl>
+                                    <RadioGroup
+                                      aria-labelledby="demo-radio-buttons-group-label"
+                                      defaultValue="female"
+                                      name="radio-buttons-group"
+                                    >
 
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
+                                        <FormControlLabel {...CheckedUpdateUrlPublicWish ? checked=true : ""} value="female" onChange={()=> setUpdateCheckedPublikWish(true)} control={<Radio />} label="Available to everyone" />
+                                        <FormControlLabel {...!CheckedUpdateUrlPublicWish ? "" : checked=true} value="male" onChange={()=> setUpdateCheckedPublikWish(false)} control={<Radio />} label="Only available by link" />
+
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+                        </form>
                     </Section>
                 </div>
                 <div className='container-insider-sm'>
@@ -296,14 +346,13 @@ const Editing_Wish = () => {
             <Container>
                 <div className='save-changes-button-container'>
                 <Button variant="primary" className='save-changes-button' type='submit' onClick={
-                    handleSubmitUpdateWish
+                    handleSubmit(handleSubmitUpdateWish)
                     }>
                  Save changes
                 </Button>
                 </div>
                 <ToastContainer />
             </Container>
-            </form>
             <MyVerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)} />
