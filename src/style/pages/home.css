@@ -40,7 +40,7 @@
 .banner__right__content--top {
   @apply hidden md:flex absolute top-0 right-0 w-[42%] h-[50%] z-[1] min-w-[320px];
 
-  background-image: url("../../assets/svg/guitar.svg");
+  background-image: url("../../assets/svg/guitar.png");
   background-repeat: no-repeat;
   background-size: clamp(250px, 80%, 80%);
   background-position: right;
@@ -106,7 +106,7 @@
 .banner__left__content--bottom {
   @apply absolute bottom-[-45px] left-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
 
-  background-image: url("../../assets/svg/Group\ 12.png");
+  background-image: url("../../assets/svg/banner-girl.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: left;
