@@ -4,6 +4,7 @@ import { Image, MediaQuery, Menu, Box, Text } from '@mantine/core';
 import { display } from "styled-system";
 import axios from "axios";
 import { useEffect } from "react";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 const Privacy = () => {
     const [TitleNumberOne, setTitleOne] = useState("")
     const [TitleNumberTwo, setTitleTwo] = useState("")
@@ -23,7 +24,16 @@ const Privacy = () => {
     return (
         <PrivacyTopContainer>
             <div className="topsection">
-                <p>Main {">"} Privacy Policy</p>
+                {/*<p>Main {">"} Privacy Policy</p>*/}
+                <CustomBreadcrumb margins="my-0" links={[
+                  {
+                    title: 'Main',
+                    to: '/'
+                  },
+                  {
+                    title: 'Privacy Policy',
+                  },
+                ]} />
             </div>
             <Privacy_policy_text>
                 <p>Privacy Policy</p>

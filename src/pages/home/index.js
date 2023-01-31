@@ -401,7 +401,7 @@ const Home = () => {
       <Container
         size="xl"
         style={{ overflow: "hidden" }}
-        className="products-container"
+        className="products-container mb-[50px] md:mb-[150px]"
       >
         <WishesText>
           <p className="wishes-text">Popular wishes</p>
@@ -548,7 +548,7 @@ const Home = () => {
           </Grid.Col>
         </GridCutoms>
       </Container>
-      <HowItWorks />
+      <HowItWorks isHome={true} />
       <FaqSection />
       <div
         style={{
@@ -563,16 +563,15 @@ const Home = () => {
             <div className="title">
               <div className="top">
                 <p className="top-title">
-                  Applications that makes <br /> sense
+                  Applications that makes sense
                 </p>
               </div>
               <div className="bottom">
                 <p className="bottom-title">
-                  The software offers complete campaign <br /> transparency,
-                  email tracking, view success and <br /> click-through rates,
-                  custom reports, and the <br /> ability to manage subscribers
-                  and un- <br />
-                  subscribers
+                  The software offers complete campaign transparency,
+                  email tracking, view success and click-through rates,
+                  custom reports, and the ability to manage subscribers
+                  and un-subscribers
                 </p>
               </div>
             </div>

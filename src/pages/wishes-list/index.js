@@ -39,6 +39,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import useInfiniteScroll from "react-infinite-scroll-hook";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 const WishList = () => {
   const [getAllWishData, setAllWishData] = useState([]);
@@ -157,7 +158,17 @@ const WishList = () => {
   return (
     <BlogMainSection fluid>
       <div className="instruction">
-        <p>Main {">"} Wishes</p>
+        {/*<p>Main {">"} Wishes</p>*/}
+        <CustomBreadcrumb margins="mb-8" links={[
+          {
+            title: 'Main',
+            to: '/'
+          },
+          {
+            title: 'Wishes',
+            to: '/wish-list'
+          },
+        ]} />
         <h2>Wishes</h2>
       </div>
       <ButtonSection>

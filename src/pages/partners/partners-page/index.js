@@ -7,14 +7,24 @@ import { HiBadgeCheck, HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from 'react-icons/bs';
 import { Carddata } from "./CardData";
 import { MdVerified } from "react-icons/md";
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 const PartnersPage = () => {
     return (
         <PartnersPageContainer>
             <MacBigFotoSection src={macfoto} />
 
-            <PartnersPageManagment>Main {'>'} Partners {'>'} McDonalds</PartnersPageManagment>
-
+            {/*<PartnersPageManagment>Main {'>'} Partners {'>'} McDonalds</PartnersPageManagment>*/}
+            <CustomBreadcrumb links={[
+                {
+                    title: 'Main',
+                    to: '/'
+                },
+                {
+                    title: 'Partners',
+                    to: "/partners-coupon"
+                }
+            ]} />
             <McDondaltsTxtImgSection>
                 <McDonaldsImg src={maclittle} />
                 <McDonaldsTopTxt>McDonalds</McDonaldsTopTxt>

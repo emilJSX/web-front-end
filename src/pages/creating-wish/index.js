@@ -22,6 +22,7 @@ import axios from "axios";
 import { MultiSelect } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 const Created_Wish = () => {
   const [value, setValue] = useState();
@@ -174,7 +175,19 @@ const Created_Wish = () => {
       <Container>
         <div className="container-insider">
           <Hedaer>
-            <p className="path-title">Main {">"} Create Wish</p>
+            {/*<p className="path-title">Main {">"} Create Wish</p>*/}
+            <p className="path-title">
+              <CustomBreadcrumb margins="mt-0 mb-8" links={[
+                {
+                  title: 'Main',
+                  to: '/'
+                },
+                {
+                  title: 'Create Wish',
+                  to: "/creating-wish"
+                }
+              ]} />
+            </p>
             <h1 className="edit-wish-title">Creating Wish</h1>
           </Hedaer>
           <Temp>

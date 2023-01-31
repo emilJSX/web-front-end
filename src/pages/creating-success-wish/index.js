@@ -22,7 +22,7 @@ import {
   ImgWrapper,
   ContentWrapper,
   Title,
-  UserWrapper,  
+  UserWrapper,
   UserAbout,
   UserName,
   UserDesc,
@@ -38,6 +38,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 
 const Created_Success_Wish = () => {
@@ -57,7 +58,7 @@ const Created_Success_Wish = () => {
       })
     }
     GetUserWishData()
-  
+
   }, [])
 
   useEffect(() => {
@@ -86,8 +87,8 @@ const Created_Success_Wish = () => {
         console.log(datauser)
        })
   }, [])
- 
-  
+
+
 
 
   return (
@@ -95,7 +96,22 @@ const Created_Success_Wish = () => {
       <Container>
         <div className='container-insider'>
           <Hedaer>
-            <p className='path-title'>Main {'>'} Create Wish {'>'} Success</p>
+            {/*<p className='path-title'>Main {'>'} Create Wish {'>'} Success</p>*/}
+            <p className='path-title'>
+              <CustomBreadcrumb links={[
+                {
+                  title: 'Main',
+                  to: '/'
+                },
+                {
+                  title: 'Create Wish',
+                  to: "/creating-wish"
+                },
+                {
+                  title: 'Success',
+                },
+              ]} />
+            </p>
             <h1 className='edit-wish-title'>Ready</h1>
           </Hedaer>
           <CartContainer>
@@ -210,7 +226,7 @@ const Created_Success_Wish = () => {
                     <Title>{GetUserWishData.title}</Title>
                     <UserWrapper>
                       <UserAbout>
-                       
+
                         <UserName>{getUserName}</UserName>
                         <UserDesc>for birthday on {GetUserWishData.date}</UserDesc>
                       </UserAbout>

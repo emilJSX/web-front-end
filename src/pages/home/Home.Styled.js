@@ -1013,29 +1013,38 @@ export const InsiderContainer = styled(Container)`
       }
 
       .title{
-        height: 100%;
-        width: 40%;
+          height: 100%;
+          width: 40%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 70px 0;
+
+          @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+              padding: 0;
+          }
 
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
           width: 100%;
           height: auto;
+            margin-bottom: 80px;
         }
         
         .top{
-          height: 50%;
+          //height: 50%;
           width: 100%;
           display: flex;
-          justify-content: center;
-          align-items: center;
+          //justify-content: center;
+          //align-items: center;
 
           @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-            height: 200px;
+            //height: 200px;
             align-items: center;
           }
 
           .top-title{
             margin: 0;
-            width: 50%;
+            //width: 50%;
 
             font-family: 'Steppe';
             font-style: normal;
@@ -1059,23 +1068,15 @@ export const InsiderContainer = styled(Container)`
             @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
               font-family: 'Steppe';
               font-size: 80px;
-              width: 90%;
+              //width: 90%;
               align-items: end;
               text-align:center;
             }
 
             @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
               font-family: 'Steppe';
-              font-size: 70px;
-              width: 90%;
-              text-align:center;
-              align-items: center;
-            }
-
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
-              font-family: 'Steppe';
-              font-size: 45px;
-              width: 90%;
+              font-size: 32px;
+              width: 100%;
               text-align:center;
               align-items: center;
             }
@@ -1084,25 +1085,25 @@ export const InsiderContainer = styled(Container)`
         }
 
         .bottom{
-          height: 50%;
+          //height: 50%;
           width: 100%;
           display:flex;
-          justify-content: center;
-          align-items:center;
-          padding-bottom: 20px;
+          //justify-content: center;
+          //align-items:center;
+          //padding-bottom: 20px;
            
           @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-            height: 600px;
+            //height: 600px;
             align-items: start;
           }
 
           @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
-            height: 600px;
+            //height: 600px;
             align-items: start;
           }
 
           .bottom-title{
-            width: 60%;
+            width: 100%;
             margin-left: 60px;
             font-family: 'Inter';
             font-style: normal;
@@ -1133,7 +1134,7 @@ export const InsiderContainer = styled(Container)`
               order: 1;
               align-self: stretch;
               flex-grow: 0;
-              width: 90%;
+              //width: 90%;
               align-items:start;
              
               padding-top: 50px;
@@ -1145,7 +1146,7 @@ export const InsiderContainer = styled(Container)`
               font-style: normal;
               font-weight: 400;
               font-size: 30px;
-              width: 90%;
+              //width: 90%;
               align-items:start;
              
               padding-top: 50px;
@@ -1157,20 +1158,21 @@ export const InsiderContainer = styled(Container)`
               font-family: 'Inter';
               font-style: normal;
               font-weight: 400;
-              font-size: 30px;
-              width: 90%;
+              font-size: 16px;  
+              line-height: 25.6px;
+              width: 100%;
               align-items:start;
             }
-
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 25px;
-              width: 90%;
-              align-items:start;
-              text-align: center;   
-            }
+            //
+            // @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+            //   font-family: 'Inter';
+            //   font-style: normal;
+            //   font-weight: 400;
+            //   font-size: 25px;
+            //   width: 90%;
+            //   align-items:start;
+            //   text-align: center;   
+            // }
           }
         }
       }

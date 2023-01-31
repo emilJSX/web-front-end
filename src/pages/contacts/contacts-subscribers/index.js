@@ -13,6 +13,7 @@ import { FacebookFriendsDataCard } from "./FacebookFriends";
 import axios from "axios";
 import { useState } from "react";
 import { Loader } from "@mantine/core";
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 const ContactsPage = () => {
 
@@ -117,7 +118,22 @@ const ContactsPage = () => {
 
     return (
         <ContactsMainContainer>
-            <ContactsNavigator> Main {">"} Profile {'>'} Contacts </ContactsNavigator>
+            {/*<ContactsNavigator> Main {">"} Profile {'>'} Contacts </ContactsNavigator>*/}
+            <CustomBreadcrumb
+              margins="mt-10 mb-0"
+              links={[
+              {
+                title: 'Main',
+                to: '/'
+              },
+              {
+                title: 'Profile',
+              },
+              {
+                title: 'Contacts',
+              },
+            ]}
+            />
             <ContactsTxt>Contacts</ContactsTxt>
             <Tabs defaultValue="followers">
                 <TabTopContainer>

@@ -48,7 +48,7 @@ export const HIWContainer = styled(Container)`
         font-size: 20px;
         color: white;
         text-align: center;
-        padding-top: 30px;
+        padding-top: 52px;
     }
 
     .counter {
@@ -67,6 +67,10 @@ export const HIWContainer = styled(Container)`
         font-weight: 500;
         text-align: center;
         padding-bottom: 30px;
+
+      @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+        padding-bottom: 0;
+      }
     }
 
     .text-sect {
@@ -144,12 +148,15 @@ export const HiwSliderSection = styled(Container)`
     
 `
 
-export const NavigationTop = styled.p`
+export const NavigationTop = styled.div`
     color: grey;
     font-weight: 400;
     font-size: 14px;
     text-align: center;
     padding-bottom : 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export const HowItWorksTxt = styled.h3`

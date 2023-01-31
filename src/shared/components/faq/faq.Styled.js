@@ -7,10 +7,14 @@ export const FaqContainer = styled(Container) `
 
     height: auto;
 
+  @media screen and (min-width: ${({ theme }) => theme.breakPoints.sm}) {
+    padding-top: 80px;
+  }
+
     .main-container{
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-           display: none;
-        }
+        // @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+        //    display: none;
+        // }
 
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
             display: flex;
@@ -32,19 +36,30 @@ export const FaqContainer = styled(Container) `
         
         margin-left: 100px;
         padding: 0;
-        width: 60%;
         margin-top: 12px;
         display: grid;
 
         @media (min-width: 992px) and (max-width: 1200px) {
-            width: 66%;
+            //width: 66%;
         }
 
+      @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+        margin: 0 83px;
+        display: inline-flex;
+        overflow: scroll;
+        width: auto;
+      }
+
+      @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {        
+        margin: 0 0 0 16px;
+        width: calc(100% + 2px);
+      }
+
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
-            display: inline-flex;
-            overflow: scroll;
-            width: 346%;
-            margin-left: 0px;
+            //display: inline-flex;
+            //overflow: scroll;
+            //width: 346%;
+            //margin-left: 0px;
         }
     }
 
@@ -54,9 +69,13 @@ export const FaqContainer = styled(Container) `
         font-size: 37px;
         font-weight: 600;
 
-        @media (min-width: 992px) and (max-width: 1200px) {
-            padding-top: 400px;
-        }
+        //@media (min-width: 992px) and (max-width: 1200px) {
+        //    padding-top: 400px;
+        //}
+
+      @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+        padding-left: 16px
+      }
 
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
             text-align: center;
@@ -124,10 +143,10 @@ export const FaqContainer = styled(Container) `
         padding-bottom: 15px;
         padding-left: 20px;
 
-        @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
-
-            width: 210%;
-        }
+        // @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
+        //
+        //     width: 210%;
+        // }
     }
     
     }
@@ -137,8 +156,12 @@ export const FaqContainer = styled(Container) `
     }
 
     .faq {
-
         width:80%;
+      
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+          width: 100%;
+          padding: 0 16px;
+        }
     }
 
     .faq-content {
@@ -265,11 +288,15 @@ export const FaqContainer = styled(Container) `
 
 export const ImageSector = styled(Container)`
     width: 60%;
-    position: absolute;
-    width: 18%;
-    margin-top: 140px;
-    left: 26px;
+    //position: absolute;
+    //width: 18%;
+    //margin-top: 140px;
+    //left: 26px;
 
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: none;
+  }
+  
     .foto_faq {
         width: 100%;
     }

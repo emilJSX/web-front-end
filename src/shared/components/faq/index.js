@@ -28,7 +28,7 @@ const ChangeButtonStyle = (neededButton) => {
 }
 
 const NavigatorSection = ({ button, data, idbtn }) => {
-  
+
   const buttonClass = ['faq-button first-btn', 'faq-button another-btn'];
   
   return (
@@ -143,7 +143,7 @@ const FaqSection = () => {
       <h1 className="faq-txt">FAQ</h1>
       <Tabs defaultValue="return-refunds">
         <Grid className="main-container">
-          <Grid.Col xl={4} lg={4} md={4} sm={4} span={4} className='left-col'>
+          <Grid.Col md={4} className='left-col flex flex-col justify-between'>
             <div className="navigator-section">
               {TestingData.map((item, index) => (
                 <Tab value={index} >
@@ -155,7 +155,7 @@ const FaqSection = () => {
               <img className="foto_faq" src={foto} />
             </ImageSector>
           </Grid.Col>
-          <Grid.Col xl={8} lg={8} md={8} sm={8} xs={8} span={6} className="right-col">
+          <Grid.Col md={8} className="right-col">
             <div className="faq">
               
               {TestingData.map((mapItems, index) => (

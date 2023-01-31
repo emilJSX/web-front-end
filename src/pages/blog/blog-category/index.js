@@ -17,6 +17,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
+import React from "react";
 const BlogCategory = () => {
     const navigate = useNavigate()
 
@@ -68,7 +70,16 @@ const BlogCategory = () => {
     return (
         <BlogMainSection fluid>
             <div className='instruction'>
-                <p>Main {">"} Blog {">"} Travel</p>
+                {/*<p>Main {">"} Blog {">"} Travel</p>*/}
+                <CustomBreadcrumb margins="mt-0 mb-8" links={[
+                    {
+                        title: 'Main',
+                        to: '/'
+                    },
+                    {
+                        title: 'Blog',
+                    }
+                ]} />
                 <h2>Travel articles</h2>
             </div>
             <Tabs defaultValue="personalinfo">
