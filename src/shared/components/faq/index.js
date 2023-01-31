@@ -28,8 +28,7 @@ const ChangeButtonStyle = (neededButton) => {
 }
 
 const NavigatorSection = ({ button, data, idbtn }) => {
-  console.log(button, data, idbtn, "HEREE")
-  
+
   const buttonClass = ['faq-button first-btn', 'faq-button another-btn'];
   
   return (

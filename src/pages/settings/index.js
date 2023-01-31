@@ -5,6 +5,7 @@ import { NativeSelect } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons';
 import { Button } from '@mantine/core';
 import { useEffect } from "react";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 const SettingsPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -12,7 +13,21 @@ const SettingsPage = () => {
     return (
         <SettingSection style={{ maxWidth: "500px" }}>
             <div className="top-rule">
-                <p>Main {">"} Profile {">"} Settings </p>
+                {/*<p>Main {">"} Profile {">"} Settings </p>*/}
+              <CustomBreadcrumb margins="my-0" links={[
+                {
+                  title: 'Main',
+                  to: '/'
+                },
+                {
+                  title: 'Profile',
+                  to: '/my-profile'
+                },
+                {
+                  title: 'Settings',
+                  to: '/settings'
+                },
+              ]} />
                 <h1 className="setting-txt">Settings</h1>
             </div>
 

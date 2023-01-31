@@ -16,13 +16,30 @@ import telegram from '../../../style/icons/telegram.svg'
 import whatsapp from '../../../style/icons/whatsapp.svg'
 import sms from '../../../style/icons/sms.svg'
 import link from '../../../style/icons/link-2.svg'
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 const BlogPost = () => {
     return (
         <>
             <BlogPostSection>
                 <div className="rule-section">
-                    <p>Main {">"} Blog {">"} Travel {">"} Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola</p>
+                    {/*<p>Main {">"} Blog {">"} Travel {">"} </p>*/}
+                    <CustomBreadcrumb links={[
+                        {
+                            title: 'Main',
+                            to: '/'
+                        },
+                        {
+                            title: 'Blog',
+                            to: "/blog-main"
+                        },
+                        {
+                            title: 'Travel',
+                        },
+                        {
+                            title: 'Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola',
+                        },
+                    ]} />
                 </div>
                 <div className="main-txt">
                     <h1>Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola</h1>

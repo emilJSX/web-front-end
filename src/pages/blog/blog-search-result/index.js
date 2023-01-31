@@ -20,6 +20,8 @@ import glasses from '../../../style/icons/glasses.svg'
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
+import React from "react";
 
 const BlogSearchResult = () => {
     // Get result search and category in Main Blog for use result blog
@@ -77,7 +79,20 @@ const BlogSearchResult = () => {
         <>
             <BlogMainSection fluid>
                 <div className='instruction'>
-                    <p>Main {">"} Blog {">"} Search results</p>
+                    {/*<p>Main {">"} Blog {">"} Search results</p>*/}
+                    <CustomBreadcrumb margins="mt-0 mb-8" links={[
+                        {
+                            title: 'Main',
+                            to: '/'
+                        },
+                        {
+                            title: 'Blog',
+                            to: "/blog-main"
+                        },
+                        {
+                            title: 'Search results',
+                        },
+                    ]} />
                     <h2>Search results</h2>
                 </div>
                 

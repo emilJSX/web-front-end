@@ -12,11 +12,26 @@ import fb from '../../style/icons/facebook.svg'
 import twitter from '../../style/icons/twitter.svg'
 import telegram from '../../style/icons/telegram.svg'
 import whatsapp from '../../style/icons/whatsapp.svg'
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 function Rating() {
     return(
         <BodyRating>
-            <Topprovide>Main {">"} Profile {">"} Rating {'&'} Affiliate</Topprovide>
+            {/*<Topprovide>Main {">"} Profile {">"} Rating {'&'} Affiliate</Topprovide>*/}
+            <Topprovide>
+                <CustomBreadcrumb margins="my-0" links={[
+                    {
+                        title: 'Main',
+                        to: '/'
+                    },
+                    {
+                        title: 'Profile',
+                    },
+                    {
+                        title: 'Rating & Affiliate',
+                    },
+                ]} />
+            </Topprovide>
             <TopRatingTxt>Rating {"&"} Affiliate</TopRatingTxt>
 
             <RatingContainer fluid>

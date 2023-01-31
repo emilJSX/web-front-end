@@ -10,6 +10,7 @@ import 'owl.carousel/dist/assets/owl.carousel.css'
 import 'owl.carousel/dist/assets/owl.theme.default.css'
 import axios from "axios";
 import { useEffect } from "react";
+import CustomBreadcrumb from "../breadcrumb";
 
 const HowItWorks = ({ isHome = false }) => {
     const getUserToken = localStorage.getItem("UserToken=");
@@ -29,7 +30,18 @@ const HowItWorks = ({ isHome = false }) => {
         <HIWContainer fluid>
           {!isHome ? (
             <>
-              <NavigationTop>Main {">"} How it works</NavigationTop>
+              <NavigationTop>
+                <CustomBreadcrumb links={[
+                  {
+                    title: 'Main',
+                    to: '/'
+                  },
+                  {
+                    title: 'How it works',
+                    to: "/faq"
+                  }
+                ]} />
+              </NavigationTop>
               <HowItWorksTxt>How it works</HowItWorksTxt>
               <Description>The software offers complete campaign <br/> transparency, email tracking, view success</Description>
             </>

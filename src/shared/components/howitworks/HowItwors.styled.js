@@ -148,12 +148,15 @@ export const HiwSliderSection = styled(Container)`
     
 `
 
-export const NavigationTop = styled.p`
+export const NavigationTop = styled.div`
     color: grey;
     font-weight: 400;
     font-size: 14px;
     text-align: center;
     padding-bottom : 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export const HowItWorksTxt = styled.h3`

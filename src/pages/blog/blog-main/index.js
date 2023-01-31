@@ -20,6 +20,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../../style/icons/search-icon.svg'
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
+import React from "react";
 
 
 
@@ -70,7 +72,17 @@ const MainBlog = () => {
     return (
         <BlogMainSection fluid>
             <div className='instruction'>
-                <p>Main {">"} Blog</p>
+                {/*<p>Main {">"} Blog</p>*/}
+                <CustomBreadcrumb margins="mt-0 mb-8" links={[
+                    {
+                        title: 'Main',
+                        to: '/'
+                    },
+                    {
+                        title: 'Blog',
+                        to: "/main-blog"
+                    }
+                ]} />
                 <h2>Blog</h2>
             </div>
             <Tabs defaultValue="personalinfo">

@@ -11,12 +11,26 @@ import { BlogOtherPosts } from './CardResult';
 import { NotFoundSection, BlogMainSection, BlogCard } from './BlogNoResult.Styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 const BlogSRNotFound = () => {
     return (
         <BlogMainSection fluid>
             <div className='instruction'>
-                <p>Main {">"} Blog {">"} Search results</p>
+                {/*<p>Main {">"} Blog {">"} Search results</p>*/}
+                <CustomBreadcrumb margins="mt-0 mb-8" links={[
+                  {
+                    title: 'Main',
+                    to: '/'
+                  },
+                  {
+                    title: 'Blog',
+                    to: "/blog-main"
+                  },
+                  {
+                    title: 'Search results',
+                  },
+                ]} />
                 <h2>Search results</h2>
             </div>   
             <Grid>

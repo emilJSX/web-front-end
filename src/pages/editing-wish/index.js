@@ -26,6 +26,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Controller, useForm } from "react-hook-form";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
 
@@ -225,7 +226,17 @@ const Editing_Wish = () => {
             <Container>
                 <div className='container-insider'>
                     <Hedaer>
-                        <p className='path-title'>Main {'>'} Edit Wish</p>
+                        <p className='path-title'>
+                            <CustomBreadcrumb links={[
+                                {
+                                    title: 'Main',
+                                    to: '/'
+                                },
+                                {
+                                    title: 'Edit Wish',
+                                }
+                            ]} />
+                        </p>
                         <h1 className='edit-wish-title'>Edit the wish</h1>
                     </Hedaer>
                     <Section>

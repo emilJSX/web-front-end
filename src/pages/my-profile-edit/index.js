@@ -57,6 +57,7 @@ import {
   SaveButton,
 } from "./MyProfileEdit.styles";
 import axios from "axios";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -717,8 +718,22 @@ const ProfileEdit = () => {
     <ProfileEditing>
       <LittleContainer>
         <Header>
+          {/*<p className="top-buttons">*/}
+          {/*  Main {">"} Profile {">"} Edit Profile Information*/}
+          {/*</p>*/}
           <p className="top-buttons">
-            Main {">"} Profile {">"} Edit Profile Information
+            <CustomBreadcrumb links={[
+              {
+                title: 'Main',
+                to: '/'
+              },
+              {
+                title: 'Profile',
+              },
+              {
+                title: 'Edit Profile Information',
+              },
+            ]} />
           </p>
           <h1 className="main-page-title">Edit Information</h1>
           <Tabs defaultValue="personalinfo">

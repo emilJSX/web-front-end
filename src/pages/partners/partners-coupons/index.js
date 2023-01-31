@@ -10,6 +10,7 @@ import { BlueMainSection, BlueSectionDescription, BlueSectionText, CloseSVG, Clo
 import { PartnersInfo } from "./PartnersData";
 import { Component } from "react";
 import { PartnersInfoTwo } from "./PartnersCardTwoTest";
+import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 
 class Partners extends Component {
@@ -31,6 +32,15 @@ class Partners extends Component {
         return (
             <PartnersMainContainer fluid>
                 <PartnersManagment>Main {">"} Partners</PartnersManagment>
+                {/*<CustomBreadcrumb links={[*/}
+                {/*    {*/}
+                {/*        title: 'Main',*/}
+                {/*        to: '/'*/}
+                {/*    },*/}
+                {/*    {*/}
+                {/*        title: 'Partners',*/}
+                {/*    },*/}
+                {/*]} />*/}
                 <PartnersTxt>Partners</PartnersTxt>
     
                 <Tabs defaultValue="all">

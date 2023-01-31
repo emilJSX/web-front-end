@@ -11,6 +11,7 @@ import { useState } from "react";
 import { InputComponentContactUsEmail } from "../../shared/ui/İnput/Input.Styled";
 import axios from "axios";
 import { InputEmailUser, InputMessageUser } from "../creating-wish/MyCreatedWish.Styles";
+import CustomBreadcrumb from "../../shared/components/breadcrumb";
 
 
 
@@ -82,7 +83,19 @@ const Contact = () => {
             <Grid className="grid-contact-top">
                 <Grid.Col style={{marginBottom: "8px"}} className="contact-top" xl={6} lg={6} md={6} sm={12} xs={12}>
                     <div className="toggle">
-                        <p>Main {">"} Contact Us</p>
+                        {/*<p>Main {">"} Contact Us</p>*/}
+                      <p className="flex items-center justify-center">
+                        <CustomBreadcrumb margins="mb-0 mt-10" color="#fff" links={[
+                          {
+                            title: 'Main',
+                            to: '/'
+                          },
+                          {
+                            title: 'Contact Us',
+                            to: "/contact"
+                          },
+                        ]} />
+                      </p>
                     </div>
                     <div className="content">
                         <h2>Contact us</h2>
