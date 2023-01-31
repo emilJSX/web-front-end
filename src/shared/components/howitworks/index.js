@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {Image,Grid} from "@mantine/core"
 import girlfoto from '../../../style/icons/girl.jpg'
+import LeftArrow from "../../../assets/svg/arrow-left.svg"
+import RightArrow from "../../../assets/svg/arrow-right.svg"
 import { Description, HIWContainer, HiwSliderSection, HowItWorksTxt, NavigationTop } from "./HowItwors.styled.js"
 import OwlCarousel from 'react-owl-carousel'
 import { HIWSliderData } from './HiwSlider'
@@ -9,7 +11,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css'
 import axios from "axios";
 import { useEffect } from "react";
 
-const HowItWorks = () => {
+const HowItWorks = ({ isHome = false }) => {
     const getUserToken = localStorage.getItem("UserToken=");
     useEffect(() => {
         axios.get("/api/v1/static_pages/faq/get", {
@@ -25,17 +27,33 @@ const HowItWorks = () => {
 
     return(
         <HIWContainer fluid>
-           <NavigationTop>Main {">"} How it works</NavigationTop>
-           <HowItWorksTxt>How it works</HowItWorksTxt>
-           <Description>The software offers complete campaign <br/> transparency, email tracking, view success</Description>
-            <Grid style={{ background: "#160046", borderRadius: "30px", height: "730px"}}  className="grid-hiw">
+          {!isHome ? (
+            <>
+              <NavigationTop>Main {">"} How it works</NavigationTop>
+              <HowItWorksTxt>How it works</HowItWorksTxt>
+              <Description>The software offers complete campaign <br/> transparency, email tracking, view success</Description>
+            </>
+          ) : null}
+            <Grid style={{ background: "#160046", borderRadius: "30px", minHeight: "730px"}}  className="grid-hiw">
                     <Grid.Col className="grid-one" xl={6} lg={6} md={12} sm={12} xs={12}>
                         <img className="img-girl" src={girlfoto} />
                     </Grid.Col>
                     <Grid.Col className="grid-two" xl={6} lg={6} md={12} sm={12} xs={12}>
                             <HiwSliderSection>
                                 <p className="hiw-txt">How it works</p>
-                                <OwlCarousel  className='owl-theme' dots={false} loop autoplay margin={9} nav={true} items={1} >
+                                <OwlCarousel
+                                  className='owl-theme'
+                                  dots={false}
+                                  loop
+                                  autoplay
+                                  margin={9}
+                                  nav={true}
+                                  items={1}
+                                  navText={[
+                                      `<img src="${LeftArrow}" alt=""/>`,
+                                      `<img src="${RightArrow}" alt=""/>`,
+                                  ]}
+                                >
                                     {HIWSliderData.data.map(({ title, txt, count }) => (
                                     <div className='item'>
                                         <p className="counter">{count}</p>
