@@ -1,25 +1,29 @@
-import { Container, Button1 } from "./Autho.style";
+import { Container, Button1 } from "../Login/Login.Styled";
 import { BiX } from "react-icons/bi";
 import { CgTrash } from "react-icons/cg";
 import { RiFileDownloadLine } from "react-icons/ri";
-import { ButtonCon, ButtonLater, DivImg, Image, List, ListtoList, MainDiv, Paragraph, Title, Upload } from "./Fiveth.style";
+import { ButtonCon, ButtonLater, DivImg, Image, List, ListtoList, MainDiv, Paragraph, Title, Upload } from "./Pasport.Styled";
+import TestImage from '../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png';
+import TestImage1 from '../../assets/images/86dd3c4e9ee1a89490042c6a4a8895fb.png';
 
-
-export default function Sixth({setShow, setShowes,nextstep}) {
+export default function PasportRegister({setShow, setShowes,nextstep}) {
     return(
-        <Container>
-            <Button1 onClick={() => { setShow(false) || setShowes(false)}}><BiX style={{ fontSize: "20px" }} /></Button1>
+        <Container style={{zIndex: '10'}}>
+            <Button1 onClick={() => { 
+                   let body = document.querySelector('body');
+                   body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
+                setShow(false) || setShowes(false)}}><BiX style={{ fontSize: "20px" }} /></Button1>
             <Title>You have successfully registered</Title>
             <Paragraph>But in order to start raising funds for yourself, you need to pass verification. Just send a photo of your passport.</Paragraph>
             <MainDiv>
-                <RiFileDownloadLine className="upload_fiveth"/>
+                <RiFileDownloadLine className="upload_fiveth" style={{height: '50px', width: '50px'}}/>
                 <Upload>Upload photo of passport</Upload>
             </MainDiv>
             <DivImg>
                 <CgTrash className="trash"/>
                 <CgTrash className="trash2"/>
-                <Image src="https://scontent.fgyd20-1.fna.fbcdn.net/v/t39.30808-6/301187479_5490751787679431_3613677571604259600_n.jpg?stp=dst-jpg_p180x540&_nc_cat=110&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=wiz0inYpUF4AX8YCpJn&_nc_ht=scontent.fgyd20-1.fna&oh=00_AT_ncFBXmmNgmvN0-Peb_i5V1KGnFHXxCZP6cO1aRj88yw&oe=630A9A0F"/>
-                <Image src="https://scontent.fgyd20-2.fna.fbcdn.net/v/t39.30808-6/301375556_5631863283537541_66070249954002251_n.jpg?stp=dst-jpg_p180x540&_nc_cat=107&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=gMZIp1E68L0AX9UGeLP&_nc_ht=scontent.fgyd20-2.fna&oh=00_AT9eSUaseAeBstqjhr0woEIcdadSEQ1zq-AgG0Xx094s-A&oe=630B747B"/>
+                <Image src={TestImage}/>
+                <Image src={TestImage1}/>
             </DivImg>
             <List>
                 The photo must be:

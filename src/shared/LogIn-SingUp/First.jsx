@@ -57,10 +57,12 @@ function First({ setShow, nextstep, nextsteplog }) {
   const HandleGetRegister = ({ email, password }) => {
     const result_getname = email.split("@")[0];
     setGetName(result_getname);
+
     axios
       .post(
         "https://api.wishx.me/api/v1/register",
         {
+          // otp: 
           name: email.split("@")[0],
           email: email,
           password: password,
@@ -83,14 +85,17 @@ function First({ setShow, nextstep, nextsteplog }) {
         toast.success("Successfuly register", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        navigate("/profile-edit");
+        // navigate("/profile-edit"); ===========================
       })
       .catch(function (error) {
         toast.error("Please check credentials", {
           position: toast.POSITION.TOP_RIGHT,
         });
       });
+
+      
   };
+
 
   return (
     <Container style={{ zIndex: "10", overflow: "hidden" }}>
