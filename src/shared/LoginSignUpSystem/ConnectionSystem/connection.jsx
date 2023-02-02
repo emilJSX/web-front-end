@@ -68,6 +68,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [showInterests, setShowInterests] = useState(false)
     const [showVerification, setShowVerification] = useState(false)
 
+
+
     // 0 - Sign Up
     // 1 - Email OTP
     // 2 - Your Information
@@ -133,31 +135,52 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
 
     };
     
-    if (getUserNameValue?.length >= 6) {
-        axios({
-            method: "get",
-            url: "https://api.wishx.me/api/v1/username/check",
-            params: { username: String(getUserNameValue) }
-        }).then(function (responseCheckUsername) {
-            getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
-            setUserNameErrorMessage("")
-            setUserNameAviableMessage(responseCheckUsername.data.message)
-        }).catch(function (err) {
-            setUserNameAviableMessage("")
-            setUserNameErrorMessage("UserName is not aviable")
-        })
+    const checkUsername = () => { 
+        if (cancelToken.current !== null) { 
+            cancelToken.current.cancel("Operation canceled due to new request") 
+        } 
+ 
+        cancelToken.current = axios.CancelToken.source() 
+ 
+        axios({ 
+            method: "get", 
+            url: "https://api.wishx.me/api/v1/username/check", 
+            params: { username: String(getUserNameValue) }, 
+            cancelToken: cancelToken.current.token 
+        }).then(function (responseCheckUsername) { 
+            getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null 
+            setUserNameErrorMessage("") 
+            setUserNameAviableMessage(responseCheckUsername.data.message) 
+        }).catch(function (err) { 
+            setUserNameAviableMessage("") 
+            setUserNameErrorMessage("UserName is not aviable") 
+        }) 
     }
-        
+    
+       const debounce = (func, delay) => { 
+           let debounceTimer 
+           return function () { 
+               const context = this 
+               const args = arguments 
+               clearTimeout(debounceTimer) 
+               debounceTimer = setTimeout(() => func.apply(context, args), delay) 
+           } 
+       } 
+    
+    
+       // check username with debounce 
+       const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current; 
+    
+       useEffect(() => { 
+        if (getUserNameValue?.length >= 6) { 
+            checkUsername(); 
+        } else {
+            setUserNameAviableMessage("") 
+            setUserNameErrorMessage("") 
 
-
-    // check username with debounce
-    const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current;
-
-    useEffect(() => {
-        if (getUserNameValue?.length >= 6) {
-            debouncedCheckUsername()
         }
     }, [getUserNameValue])
+        
 
     // ======================= END SIGN UP CONFIG ================================
 
@@ -170,32 +193,17 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [getUserFullName, setUserFullName] = useState("")
     const ref = useRef();
 
-    // Country List API
-    const getCountryId = (e) => {
-        console.log(e, "COUNTRY")
-
-        const { id } = e.target;
-        const result = { id, countryName };
-        setCountryNameId(result);
-    };
-
-
-    // End Country List API
 
     // UPDATE PROFILE API
 
-    const handleUpdateInfoProfile = async (event) => {
-        getCountryListInfo()
-        const getCountryIdState = getCountryNameId?.id;
-        console.log(getCountryIdState,"HERE id")
+    const handleUpdateInfoProfile = (event) => {
         const formUpdateData = new FormData();
 
         formUpdateData.append("full_name", getUserFullName);
-        formUpdateData.append("phone", getUserPhoneNumber)
-        formUpdateData.append("country", getCountryIdState);
+        formUpdateData.append("phone", getUserPhoneNumber);
+        formUpdateData.append("country", getCountryNameId);
         formUpdateData.append("dob", getUserBirthday);
-        try {
-            await axios({
+             axios({
                 method: "post",
                 url: "https://api.wishx.me/api/v1/profiles/update",
                 data: formUpdateData,
@@ -207,10 +215,10 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
             }).then((resultUpdate) => {
                 console.log(resultUpdate)
                 setTabIndex(3)
+            }).catch((err) => {
+                console.log(err)
             })
-        } catch {
-            console.log("")
-        }
+       
 
 
     };
@@ -234,7 +242,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                 "https://api.wishx.me/api/v1/register",
                 {
                     otp: otpEmailCode,
-                    name: getEmail.split("@")[0],
+                    name: getUserNameValue,   //getEmail.split("@")[0]
                     email: getEmail,
                     password: getPassword,
                     confirm_password: getPassword,
@@ -257,7 +265,6 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                     document.cookie = "UserToken=" + GetResultRegisterToken;
                     setTabIndex(2)
 
-                    useEffect(()=> {
                         try {
                             axios({
                                 method: "get",
@@ -271,9 +278,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                                 setCountryList(getCountry.data.data);
                             });
                         } catch (error) {
-                            console.log("");
+                            console.log(error);
                         }
-                    }, [])
                 }
             })
             
@@ -450,7 +456,12 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                                         placeholder='Username'
                                         style={{ width: "400px", marginTop: "13px" }}
                                         required
-                                        onChange={(e) => setUserNameValue(e.target.value)}
+                                        onChange={
+
+                                            debounce((e) => { 
+                                                setUserNameValue(e.target.value) 
+                                            }, 500)
+                                        }
                                     />
 
                                     {userNameAviableMessage &&
@@ -585,15 +596,15 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                                 setregisterModal(false)
                             }}><BiX style={{ fontSize: "20px" }} /></Button1>
                             <Title>Your information</Title>
-                            <Selects>
+                            <Selects onChange={(e)=>setCountryNameId(e.target.value)}>
                                 <Options selected disabled >Select Country</Options>
                                 {getCountryList.map((data) => (
                                     <>
-                                        <Options id={data.id} onclick={(e)=>getCountryId(e.currentTarget.id)}  value={data.name}>{data.name}</Options>
+                                        <Options value={data.id} >{data.name}</Options>
                                     </>
                                 ))}
                             </Selects>
-                            <Number id='number' type='number' required onChange={(e) => setUserPhoneNumber(e.target.value)} placeholder='Phone number' />
+                            <Number id='number' type='text' required onChange={(e) => setUserPhoneNumber(e.target.value)} placeholder='Phone number' />
                             <Number id='number' type='text' required onChange={(e) => setUserFullName(e.target.value)} placeholder='Full name' />
                             <Number className='mb-3' required id='number' type='text'
                                 placeholder='Date of birth (expample: 12.09.2023)'
