@@ -134,20 +134,49 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     };
 
 
-    if (getUserNameValue?.length >= 6) {
-        axios({
-            method: "get",
-            url: "https://api.wishx.me/api/v1/username/check",
-            params: { username: String(getUserNameValue) }
-        }).then(function (responseCheckUsername) {
-            getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
-            setUserNameErrorMessage("")
-            setUserNameAviableMessage(responseCheckUsername.data.message)
-        }).catch(function (err) {
-            setUserNameAviableMessage("")
-            setUserNameErrorMessage("UserName is not aviable")
-        })
-    }
+      const debounce = (func, wait, immediate = false) => {
+        let timeout;
+        console.log("HERE")
+      
+        return function executedFunction() {
+          let context = this;
+          let args = arguments;
+      
+          let later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+      
+          let callNow = immediate && !timeout;
+      
+          clearTimeout(timeout);
+      
+          timeout = setTimeout(later, wait);
+      
+          if (callNow) func.apply(context, args);
+        };
+      };
+
+      debounce(() => {
+        console.log("CHECKING")
+          if (getUserNameValue?.length >= 6) {
+              axios({
+                  method: "get",
+                  url: "https://api.wishx.me/api/v1/username/check",
+                  params: { username: String(getUserNameValue) }
+              }).then(function (responseCheckUsername) {
+                  getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
+                  setUserNameErrorMessage("")
+                  setUserNameAviableMessage(responseCheckUsername.data.message)
+              }).catch(function (err) {
+                  setUserNameAviableMessage("")
+                  setUserNameErrorMessage("UserName is not aviable")
+              })
+          }
+      }, 300) 
+        
+
+
 
     // ======================= END SIGN UP CONFIG ================================
 
@@ -156,8 +185,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [getCountryList, setCountryList] = useState([]);
     const [getCountryNameId, setCountryNameId] = useState();
     const [getUserPhoneNumber, setUserPhoneNumber] = useState()
-    const [getUserBirthday, setUserBirthday] = useState()
-    const [getUserFullName, setUserFullName] = useState()
+    const [getUserBirthday, setUserBirthday] = useState("")
+    const [getUserFullName, setUserFullName] = useState("")
     const ref = useRef();
 
     // Country List API
@@ -169,21 +198,22 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
         setCountryNameId(result);
     };
 
-
-    try {
-        axios({
-            method: "get",
-            url: "https://api.wishx.me/api/v1/settings/countries/get",
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                xsrfHeaderName: "X-XSRF-TOKEN",
-                Authorization: `Bearer ${getUserToken}`,
-            },
-        }).then((getCountry) => {
-            setCountryList(getCountry.data.data);
-        });
-    } catch (error) {
-        console.log("");
+    const getCountryListInfo = () => {
+        try {
+            axios({
+                method: "get",
+                url: "https://api.wishx.me/api/v1/settings/countries/get",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    xsrfHeaderName: "X-XSRF-TOKEN",
+                    Authorization: `Bearer ${getUserToken}`,
+                },
+            }).then((getCountry) => {
+                setCountryList(getCountry.data.data);
+            });
+        } catch (error) {
+            console.log("");
+        }
     }
 
     // End Country List API
@@ -191,13 +221,14 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     // UPDATE PROFILE API 
 
     const handleUpdateInfoProfile = async (event) => {
+        getCountryListInfo()
         const getCountryIdState = getCountryNameId?.id;
         console.log(getCountryIdState,"HERE id")
         const formUpdateData = new FormData();
 
         formUpdateData.append("full_name", getUserFullName);
         formUpdateData.append("phone", getUserPhoneNumber)
-        formUpdateData.append("country", 16);
+        formUpdateData.append("country", getCountryIdState);
         formUpdateData.append("dob", getUserBirthday);
         try {
             await axios({
@@ -364,6 +395,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             onClick={() => {
                                 let body = document.querySelector("body");
                                 body.setAttribute("style", "overflow-y: scroll; overflow-x: hidden");
+                                localStorage.removeItem("UserToken=");
                                 setregisterModal(false);
                             }}
                         >
@@ -434,7 +466,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                                     )}
 
                                     <Username
-                                        placeholder='username'
+                                        placeholder='Username'
                                         style={{ width: "400px", marginTop: "13px" }}
                                         required
                                         onChange={(e) => setUserNameValue(e.target.value)}
@@ -528,7 +560,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             <Button1 onClick={() => {
                                 let body = document.querySelector('body');
                                 body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
-                                setEmailOtpModal(false)
+                                localStorage.removeItem("UserToken=");
+                                setregisterModal(false);
                             }}><BiX style={{ fontSize: "20px" }} /></Button1>
                             <Title>Confirm your email </Title>
                             <Paragraph>Enter the code we sent to your email </Paragraph>
@@ -567,7 +600,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             <Button1 onClick={() => {
                                 let body = document.querySelector('body');
                                 body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
-                                // setShow(false) || setShowes(false)
+                                localStorage.removeItem("UserToken=");
+                                setregisterModal(false)
                             }}><BiX style={{ fontSize: "20px" }} /></Button1>
                             <Title>Your information</Title>
                             <Selects>
@@ -603,7 +637,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             <Button1 onClick={() => {
                                 let body = document.querySelector('body');
                                 body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
-                                // setShow(false) || setShowes(false)
+                                localStorage.removeItem("UserToken=");
+                                setregisterModal(false);
                             }}><BiX style={{ fontSize: "20px" }} /></Button1>
                             <Title>Choose your interests</Title>
                             <Paragraph>Partners will send you gifts based on your interests<Time>Max 5</Time></Paragraph>
@@ -640,7 +675,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             <Button1 onClick={() => {
                                 let body = document.querySelector('body');
                                 body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
-                                // setShow(false) || setShowes(false)
+                                localStorage.removeItem("UserToken=");
+                                setregisterModal(false)
                             }}><BiX style={{ fontSize: "20px" }} /></Button1>
                             <Title>You have successfully registered</Title>
                             <Paragraph>But in order to start raising funds for yourself, you need to pass verification. Just send a photo of your passport.</Paragraph>
@@ -688,7 +724,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                         <Button1 onClick={() => {
                             let body = document.querySelector('body');
                             body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
-                            // setShow(false) || setShowes(false)
+                            localStorage.removeItem("UserToken=");
+                            setregisterModal(false)
                         }}><BiX style={{ fontSize: "20px" }} /></Button1>
                         <Title>Verification</Title>
                         <Paragraph>Thank you, the photo has been sent to the moderators for verification. The status will be visible in your account.</Paragraph>

@@ -159,6 +159,10 @@ export const Container = styled.div`
             font-size: 14px;
             font-family: system-ui;
             font-weight: 600;
+
+            @media (min-width: 375px) and (max-width: 480px) {
+                width: 88%;
+            }
         }
 
     }
@@ -247,7 +251,7 @@ export const Container = styled.div`
         .otp_input input{
           height: 56px;
           float: left;
-          font-size: 60px;
+          font-size: 30px;
           border: none;
           background-color:#F7F8FA;
           border-radius: 8px  ;
