@@ -87,7 +87,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [getPassword, setGetPassword] = useState("");
     const [getUserNameValue, setUserNameValue] = useState()
 
-
+    const cancelToken = useRef(null);
 
     // END Register API
     const [emailErrorMessage, setErrorMessage] = useState("")
@@ -133,50 +133,49 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
 
     };
 
+    const checkUsername = () => {
+     if (getUserNameValue?.length >= 6) {
+        if (cancelToken.current !== null) {
+            cancelToken.current.cancel("Operation canceled due to new request")
+        }
 
-      const debounce = (func, wait, immediate = false) => {
-        let timeout;
-        console.log("HERE")
-      
-        return function executedFunction() {
-          let context = this;
-          let args = arguments;
-      
-          let later = function () {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-          };
-      
-          let callNow = immediate && !timeout;
-      
-          clearTimeout(timeout);
-      
-          timeout = setTimeout(later, wait);
-      
-          if (callNow) func.apply(context, args);
-        };
-      };
+        cancelToken.current = axios.CancelToken.source()
 
-      debounce(() => {
-        console.log("CHECKING")
-          if (getUserNameValue?.length >= 6) {
-              axios({
-                  method: "get",
-                  url: "https://api.wishx.me/api/v1/username/check",
-                  params: { username: String(getUserNameValue) }
-              }).then(function (responseCheckUsername) {
-                  getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
-                  setUserNameErrorMessage("")
-                  setUserNameAviableMessage(responseCheckUsername.data.message)
-              }).catch(function (err) {
-                  setUserNameAviableMessage("")
-                  setUserNameErrorMessage("UserName is not aviable")
-              })
-          }
-      }, 300) 
-        
+        axios({
+            method: "get",
+            url: "https://api.wishx.me/api/v1/username/check",
+            params: { username: String(getUserNameValue) },
+            cancelToken: cancelToken.current.token
+        }).then(function (responseCheckUsername) {
+            getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
+            setUserNameErrorMessage("")
+            setUserNameAviableMessage(responseCheckUsername.data.message)
+        }).catch(function (err) {
+            setUserNameAviableMessage("")
+            setUserNameErrorMessage("UserName is not aviable")
+        })
+     }
+    }
+
+    const debounce = (func, delay) => {
+        let debounceTimer
+        return function () {
+            const context = this
+            const args = arguments
+            clearTimeout(debounceTimer)
+            debounceTimer = setTimeout(() => func.apply(context, args), delay)
+        }
+    }
 
 
+    // check username with debounce
+    const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current;
+
+    useEffect(() => {
+        if (getUserNameValue?.length >= 6) {
+            debouncedCheckUsername()
+        }
+    }, [getUserNameValue])
 
     // ======================= END SIGN UP CONFIG ================================
 
@@ -218,7 +217,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
 
     // End Country List API
 
-    // UPDATE PROFILE API 
+    // UPDATE PROFILE API
 
     const handleUpdateInfoProfile = async (event) => {
         getCountryListInfo()
