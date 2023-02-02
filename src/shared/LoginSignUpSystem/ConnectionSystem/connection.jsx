@@ -193,29 +193,29 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const handleUpdateInfoProfile = async (event) => {
         const getCountryIdState = getCountryNameId?.id;
         console.log(getCountryIdState,"HERE id")
-        // const formUpdateData = new FormData();
+        const formUpdateData = new FormData();
 
-        // formUpdateData.append("full_name", getUserFullName);
-        // formUpdateData.append("phone", getUserPhoneNumber)
-        // formUpdateData.append("country", getCountryIdState);
-        // formUpdateData.append("dob", getUserBirthday);
-        // try {
-        //     await axios({
-        //         method: "post",
-        //         url: "https://api.wishx.me/api/v1/profiles/update",
-        //         data: formUpdateData,
-        //         headers: {
-        //             "Access-Control-Allow-Origin": "*",
-        //             xsrfHeaderName: "X-XSRF-TOKEN",
-        //             Authorization: `Bearer ${getUserToken}`,
-        //         },
-        //     }).then((resultUpdate) => {
-        //         console.log(resultUpdate)
-        //         setTabIndex(3)
-        //     })
-        // } catch {
-        //     console.log("")
-        // }
+        formUpdateData.append("full_name", getUserFullName);
+        formUpdateData.append("phone", getUserPhoneNumber)
+        formUpdateData.append("country", 16);
+        formUpdateData.append("dob", getUserBirthday);
+        try {
+            await axios({
+                method: "post",
+                url: "https://api.wishx.me/api/v1/profiles/update",
+                data: formUpdateData,
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    xsrfHeaderName: "X-XSRF-TOKEN",
+                    Authorization: `Bearer ${getUserToken}`,
+                },
+            }).then((resultUpdate) => {
+                console.log(resultUpdate)
+                setTabIndex(3)
+            })
+        } catch {
+            console.log("")
+        }
 
 
     };
@@ -261,8 +261,6 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                     localStorage.setItem("UserToken=", GetResultRegisterToken);
                     document.cookie = "UserToken=" + GetResultRegisterToken;
                     setTabIndex(2)
-                } else {
-                    setErrorOtpMail(response.data.message)
                 }
             }).catch((err) => {
                 setErrorOtpMail("Wrong code, please check again ")
