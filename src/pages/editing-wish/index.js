@@ -309,7 +309,7 @@ const Editing_Wish = () => {
                                           onChange={getInterestsId}
                                           defaultValue={idInterestsApi}
                                           placeholder="Interests"
-                                          {...field}
+                                        //   {...field}
                                         />
                                       )}
                                     />
