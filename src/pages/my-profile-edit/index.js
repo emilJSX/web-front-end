@@ -495,6 +495,8 @@ const ProfileEdit = () => {
     setSelectedFile(event.target.files[0]);
   };
 
+  console.log(idInterestsApi, "INTERESTS")
+
   const handleGetPassportFile = (event) => {
     setselectPassport(event.target.files[0]);
   };
@@ -712,8 +714,7 @@ const ProfileEdit = () => {
     }
   }, []);
 
-  // ==================================================================================================================
-
+  // =================================================================================================================
   return (
     <ProfileEditing>
       <LittleContainer>

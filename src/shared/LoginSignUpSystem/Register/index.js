@@ -28,8 +28,14 @@ import {
   import { Link, useNavigate } from "react-router-dom";
   import { ToastContainer, toast } from "react-toastify";
   import { useForm } from "react-hook-form";
+import EmailConfirm from "../PhoneNumber";
+
+
+
+
+
   
-  function SignUpSystem({ setShow, nextsteplog }) {
+  function SignUpSystem({ setShow, nextsteplog, setregisterModal, setEmailConfirmModal }) {
     const [shower, setShower] = useState(false);
     const [password, setPassword] = useState("password");
   
@@ -37,7 +43,9 @@ import {
     const [getName, setGetName] = useState("");
     const [getEmail, setGetEmail] = useState("");
     const [getPassword, setGetPassword] = useState("");
+
     // END Register API
+    const [emailErrorMessage, setErrorMessage] = useState("")
   
     const navigate = useNavigate();
   
@@ -52,21 +60,29 @@ import {
     const clickEmail = () => {
       setShower(!shower);
     };
-  
+
     // Parsing Extract the Name from an Email Address
     const HandleGetRegister = ({ email, password }) => {
       const result_getname = email.split("@")[0];
       setGetName(result_getname);
-  
-      axios
+
+      axios({
+        method: "get",
+        url: "https://api.wishx.me/api/v1/registration/get-code",
+        params: {email: getEmail}
+      }).then(function (response) {
+        console.log(response, "OTP CODE")
+        getEmailConfirm()
+        // ==================================================
+        axios
         .post(
           "https://api.wishx.me/api/v1/register",
           {
             // otp: 
-            name: email.split("@")[0],
-            email: email,
-            password: password,
-            confirm_password: password,
+            name: getEmail.split("@")[0],
+            email: getEmail,
+            password: getPassword,
+            confirm_password: getPassword,
           },
           {
             headers: {
@@ -82,21 +98,14 @@ import {
           var GetResultRegisterToken = String(getUserToken);
           localStorage.setItem("UserToken=", GetResultRegisterToken);
           document.cookie = "UserToken=" + GetResultRegisterToken;
-          toast.success("Successfuly register", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          // navigate("/profile-edit"); ===========================
         })
-        .catch(function (error) {
-          toast.error("Please check credentials", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        });
-  
+        // ==================================================
+      }).catch((err) => {
+        setErrorMessage("The email has already been taken.")
         
+      })
     };
-  
-  
+    
     return (
       <Container style={{ zIndex: "10", overflow: "hidden" }}>
         <ToastContainer />
@@ -104,7 +113,7 @@ import {
           onClick={() => {
             let body = document.querySelector("body");
             body.setAttribute("style", "overflow-y: scroll; overflow-x: hidden");
-            setShow(false);
+            setregisterModal(false);
           }}
         >
           <BiX style={{ fontSize: "20px" }} />
@@ -160,6 +169,13 @@ import {
                   }
                 />
               </div>
+
+
+              {emailErrorMessage &&
+              <p className="mx-14 mt-2 text-red-500 text-xs">
+              The email has already been taken.
+              </p>
+              }
               {errors.email && (
                 <p className="mx-14 mt-2 text-red-500 text-xs">
                   {errors.email.message}

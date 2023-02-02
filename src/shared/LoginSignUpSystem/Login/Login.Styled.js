@@ -28,6 +28,141 @@ export const OpacityBlog = styled.div`
 
 export const Container = styled.div`
 
+.country-selection{
+    padding-left: 15px;
+    padding-right: 25px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-family: 'Steppe';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    color: #8E93AF;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    height: 50px;
+    background: #F7F8FA;
+    border: 0;
+    margin-top: 40px;
+    margin-left: 40px;
+    border-radius: 6px;    
+
+      .country-name{
+        font-size: 14px;
+        margin: 0;
+      }
+
+      @media (max-width: 1200px) {
+        padding-left: 25px;
+        padding-right: 25px;
+         width: 100%;
+      }
+   }
+
+   .countries-list{
+    height: 190px;
+    overflow-y: auto;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 40px;
+    width: 550px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background: #F7F8FA;
+    width: 26%;
+    z-index: 10;
+      display: none;
+
+      .option{
+         height: 40px;
+         display: flex;
+         align-items: center;
+         padding-left: 30px;
+         font-family: 'Steppe';
+         font-style: normal;
+         font-weight: 500;
+         font-size: 18px;
+         line-height: 140%;
+         color: #8E93AF;
+      }
+
+      .option:hover{
+         background: gray;
+         color: white;
+         cursor: pointer;
+      }
+
+      @media (max-width: 645px) {
+         width: 90%;
+      }
+   }
+
+    .multi-select{
+      height: 80px;
+      width: 67%;
+      display: flex;
+      align-items: center;
+
+
+      .info_input-multi{
+          width: 100%;
+         div{
+              background: #F7F8FA;
+
+            @media(max-width: 645px){
+              max-width: 90%;
+            }
+
+            div{
+
+               div{
+
+                     input{
+                       width: 550px;
+                       height: 100%;
+                       @media(max-width: 645px){
+                        width: 330px;
+                       }
+                     }
+
+                  height: 53px;
+                  border: 0;
+                  background: #F7F8FA;
+
+               }
+            }
+         }
+   
+         @media (max-width: 645px) {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+         }
+      }
+   }
+
+    .otpsend-btn {
+        margin-left: 40px;
+
+        button {
+            width: 400px;
+            height: 56px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 40px;
+            background: #3800B0;
+            color: white;
+            font-size: 14px;
+            font-family: system-ui;
+            font-weight: 600;
+        }
+
+    }
+
     width: 480px;
     margin-top: 0px;
     height: auto;
@@ -54,6 +189,7 @@ export const Container = styled.div`
             z-index: 9;
             color: #3800B0;
           }
+
     }
 
 
@@ -84,7 +220,7 @@ export const Container = styled.div`
       .otp_input input{
         height: 56px;
         float: left;
-        font-size: 91px;
+        font-size: 30px;
         border: none;
         background-color:#F7F8FA;
         border-radius: 8px  ;
@@ -168,6 +304,10 @@ export const Container = styled.div`
         z-index: 9;
         color: #3800B0;
         transform: translate(-100px, -5px)
+        position: relative;
+        margin-left: 30px;
+        margin-top: -6px;
+        position: absolute;
     }
 
     .trash2{

@@ -38,7 +38,7 @@ export const Paragraph = styled.p`
 export const Time = styled.span`
 
     color: #5D627D;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     display: block;    
     font-family: system-ui;
@@ -56,7 +56,7 @@ export const Interest = styled.div`
 
     width: 400px;
     height: 80px;
-    margin: 61px 40px 24px 40px;
+    margin: 0px 40px 24px 40px;
     background: none;
     @media (max-width: 480px) {
         width: 279px;

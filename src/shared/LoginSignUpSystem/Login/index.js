@@ -31,11 +31,14 @@ import {
   import { FacebookLoginButton } from "react-social-login-buttons";
   import { useForm } from "react-hook-form";
   
-  function LoginSystem({ setShow, nextsteplog, backSign, setShowes }) {
+  function LoginSystem({ nextsteplog, backSign, setShowes }) {
     const [passwordUser, setPasswordUser] = useState("");
     const [emailUser, setEmailUser] = useState("");
+
+    // Login Modal Open
     const [shower, setShower] = useState(false);
-  
+    // END MODAL LOGIN
+
     const { register, handleSubmit, formState } = useForm({
       reValidateMode: "onChange",
     });
@@ -49,8 +52,6 @@ import {
     const [getUserAuthToken, setUserAuthToken] = useState();
   
     const HundleClickToLogin = ({ email, password }) => {
-      // console.log(e, formState);
-      // click.preventDefault();
       axios.get("https://api.wishx.me/sanctum/csrf-cookie").then((res) => {
         axios
           .post(
@@ -85,12 +86,6 @@ import {
       });
     };
   
-    const HandleClickCheckLogin = () => {
-      // setTimeout(() => {
-      //   setShowes(false);
-      // }, 600);
-    };
-  
     const [password, setPassword] = useState("password");
   
     return (
@@ -99,7 +94,7 @@ import {
           onClick={() => {
             let body = document.querySelector("body");
             body.setAttribute("style", "overflow-y: scroll; overflow-x: hidden");
-            setShow(false) || setShowes(false);
+            setShowes(false);
           }}
         >
           <BiX style={{ fontSize: "20px" }} />
@@ -146,8 +141,6 @@ import {
               <div
                 style={{
                   width: "100%",
-                  // display: "flex",
-                  // justifyContent: "center",
                 }}
               >
                 <div className="flex justify-center">
@@ -173,8 +166,6 @@ import {
                 style={{
                   position: "relative",
                   width: "100%",
-                  // display: "flex",
-                  // justifyContent: "center",
                 }}
               >
                 <div className="relative flex justify-center">
@@ -216,7 +207,6 @@ import {
               >
                 <ButtonSignUp
                   type="submit"
-                  //   onClick={HundleClickToLogin}
                 >
                   Log in
                 </ButtonSignUp>

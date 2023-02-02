@@ -45,7 +45,7 @@
   .otp_input input{
     height: 56px;
     float: left;
-    font-size: 91px;
+    font-size: 30px;
     border: none;
     background-color:#F7F8FA;
     border-radius: 8px  ;
@@ -106,7 +106,7 @@
       .otp_input input{
         height: 56px;
         float: left;
-        font-size: 60px;
+        font-size: 20px;
         border: none;
         background-color:#F7F8FA;
         border-radius: 8px  ;

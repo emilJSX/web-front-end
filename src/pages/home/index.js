@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { Login_ConnectionSystem, SignUp_ConnectionSystem } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 import {
   Image,
   MediaQuery,
@@ -113,37 +114,6 @@ const Home = () => {
     }
   }
 
-  // useEffect(() => {
-  //   let counter_top = 1;
-  //   let counter_bottom = 1;
-
-  //   const leftImageContainer = document.querySelector(".leftImageContainer");
-  //   const rightImageContainer = document.querySelector(".rightImageContainer");
-
-  //   const interval = setInterval(() => {
-  //     leftImageContainer.setAttribute(
-  //       "style",
-  //       `transform: translate(0, -${counter_top}00px)`
-  //     );
-  //     rightImageContainer.setAttribute(
-  //       "style",
-  //       `transform: translate(0, ${counter_bottom}00px)`
-  //     );
-
-  //     if (counter_top < 3) {
-  //       ++counter_top;
-  //     } else {
-  //       counter_top = 0;
-  //     }
-  //     if (counter_bottom < 3) {
-  //       ++counter_bottom;
-  //     } else {
-  //       counter_bottom = 0;
-  //     }
-  //   }, 3000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   const [getPopularWish, setPopularWish] = useState([]);
 
   useEffect(() => {
@@ -184,13 +154,18 @@ const Home = () => {
   }
 
   const [show, setShow] = useState(false);
+
+
+  // Login Modal Open
   const [showes, setShowes] = useState(false);
+  // END MODAL LOGIN
+
+  // Register Models Open
+  const [registerModal, setregisterModal] = useState(false)
+  const [emailConfirmModal, setEmailOtpModal] = useState(false)
+  // END MODAL REGISTER
 
   const [swiper, setSwiper] = useState(null);
-
-  // GET TOKEN AND LOGIN API START
-
-  // GET TOKEN AND LOGIN API END
 
   const showLoginModal = () => {
     let body = document.querySelector("body");
@@ -201,13 +176,21 @@ const Home = () => {
   const showSignUpModal = () => {
     let body = document.querySelector("body");
     body.setAttribute("style", "overflow-x: hidden");
-    setShow(!show);
+    setregisterModal(!show);
   };
+
+  const showEmailConfirm = () => {
+    let body = document.querySelector("body");
+    body.setAttribute("style", "overflow-x: hidden");
+    setEmailOtpModal(!show)
+  }
+
+
 
   return (
     <>
-      {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
-      {show ? <Autho setShow={setShow} /> : null}
+      {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : null}
+      {registerModal ? <SignUp_ConnectionSystem setEmailOtpModal={setEmailOtpModal}  /> : null}
       <HomeConatiner
         fluid
         p={0}
@@ -217,6 +200,7 @@ const Home = () => {
         <HomeBanner
           showLoginModal={showLoginModal}
           showSignUpModal={showSignUpModal}
+          showEmailConfirm={showEmailConfirm}
           createWish={GetWishNameForCreation}
         />
         <HomeCenter
@@ -325,76 +309,6 @@ const Home = () => {
                 </>
               )}
             </div>
-            {/* <Item className="slide-show-sm 2xl:px-20 xl:px-20 lg:px-20 md:px-20 sm:px-0 px-0">
-              <OwlCarousel
-                className="owl-theme"
-                dots={true}
-                loop
-                autoplay
-                margin={9}
-                nav={false}
-                items={2}
-                style={{ height: "90%" }}
-              >
-                {getAllWishData?.results?.map((getWishData) => (
-                  <div className="item" key={getWishData.id}>
-                    <div className="slider-content">
-                      <div className="image">
-                        <div className="icon">
-                          <img
-                            src={`https://api.wishx.me${getWishData.user.image}`}
-                            alt=""
-                          />
-                        </div>
-                        <img
-                          id={getWishData.user.username}
-                          onClick={(e) => getUserSlugForProfile(e.target.id)}
-                          src={`https://api.wishx.me${getWishData.image}`}
-                        ></img>
-                      </div>
-                      <div className="title">
-                        <div className="top">
-                          <h5
-                            id={getWishData.user.username}
-                            onClick={(e) => getUserSlugForProfile(e.target.id)}
-                            className="user-name"
-                          >
-                            {getWishData.user.full_name}
-                          </h5>
-                          <h5 className="summ">
-                            raised ${getWishData.donate.received}
-                          </h5>
-                        </div>
-                        <div className="center">
-                          <h5 className="main-subtitle">
-                            and get a gift he wished of:
-                          </h5>
-                          <h5 className="main-title">{getWishData.title}</h5>
-                        </div>
-                        <div className="bottom">
-                          <a
-                            name={getWishData.slug}
-                            onClick={(e) =>
-                              getWishIdForResult(e.currentTarget.name)
-                            }
-                          >
-                            <h5
-                              name={getWishData.slug}
-                              onClick={(e) =>
-                                getWishIdForResult(e.currentTarget.name)
-                              }
-                              className="bottom-title"
-                            >
-                              View details
-                            </h5>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </OwlCarousel>
-            </Item> */}
           </div>
         </HomeCenter>
       </HomeConatiner>
@@ -475,7 +389,7 @@ const Home = () => {
                     <UserPhoto
                       id={getWishData.user.user_id}
                       onClick={(e) => getUserSlugForProfile(e.target.id)}
-                      src={`https://api.wishx.me${getWishData.user.image}`}
+                      src={`${getWishData.user.image}`}
                     ></UserPhoto>
                   </UserWrapper>
 
@@ -498,17 +412,6 @@ const Home = () => {
             </Grid.Col>
           ))}
           <WishesBtn>
-            {/* <PartnersText>
-              <h5 className="partners-text">Get gifts from our partners</h5>
-            </PartnersText>
-            <OwlCarousel className='owl-theme' dots={false} loop autoplay margin={9} nav={true} items={6} >
-              {CarouselPartners.data.map(({ url }) => (
-                <div key={url.id} className='item'>
-                  <Image src={url} className="partner-img" />
-                </div>
-              ))}
-            </OwlCarousel>
-            <a href="/partners-coupon"><Button className="partner-btn">See all partners</Button></a> */}
           </WishesBtn>
         </Grid>
         <a href="/wish-list">

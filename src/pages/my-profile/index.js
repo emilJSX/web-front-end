@@ -151,8 +151,7 @@ const MyProfile = () => {
                     </div>
                     
                     <Grid className='main-grid'>
-                        {
-                            wait && UserInfoProfile?.info != null ? 
+                       
                             <Grid.Col className='col-one' xl={3} lg={3} md={3} sm={12} xs={12}>
                                 <div className='leftsection-style'>
                                     <MobileTopCoverImageSection>
@@ -164,17 +163,17 @@ const MyProfile = () => {
                                         </DisplayTopImgCard>
                                         
                                         <Image radius="100px" className="tomcruse" height={80} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `${UserInfoProfile?.info?.avatar}`} />
-                                        <Namesurname>{UserInfoProfile?.info?.full_name == null ? "Does not exist" : UserInfoProfile?.info?.full_name}</Namesurname> 
+                                        <Namesurname>{UserInfoProfile?.info?.full_name}</Namesurname> 
                                         {/* <HiBadgeCheck className='bluechek' /> */}
-                                        <TagName>@ {UserInfoProfile?.info?.slug == null ? "Does not exist" : UserInfoProfile?.info?.slug}</TagName>
+                                        <TagName> @{UserInfoProfile?.info?.slug}</TagName>
                                         <Text>Spec, Child, Chaos and Shadow</Text>
 
                                         <DateSection>
-                                            <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob }</Date>
+                                            <Date>{UserInfoProfile?.info?.dob }</Date>
                                             <DateText>Birthdate</DateText>
                                         </DateSection>
                                         <DisplayDateBirthaySection>
-                                            <Date>{UserInfoProfile?.info?.dob == null ? "Does not exist" : UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
+                                            <Date>{UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText></Date>
                                             <Follower onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.followers} <DateText>followers</DateText></Follower>
                                             <Following onClick={getContactsFollowsPage}>{UserInfoProfile?.contacts?.follows} <DateText>followings</DateText></Following>
                                         </DisplayDateBirthaySection>
@@ -210,8 +209,6 @@ const MyProfile = () => {
                                 </div>
                             </Grid.Col>
 
-                             : <Loader style={{ margin: "20 auto"}} size="lg" />
-                        }
 
                         <Grid.Col xl={7} lg={7} md={7} sm={12} xs={12} className='col-two'>
                             <Tabs defaultValue="com" className='tabs'>

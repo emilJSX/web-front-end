@@ -137,6 +137,7 @@ export const Image = styled.img`
 
     width: 40px;
     height: 40px;
+    position: absolute;
     float: left;
     margin-right: 24px;
     z-index: 0;

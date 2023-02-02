@@ -125,9 +125,10 @@ export const Container = styled.div`
          height: 60px;
           width: 100%;
           display: flex;
-          justify-content: center;
           align-items: center;
           padding-top: 30px;
+          justify-content: flex-start;
+            margin-left: 25px;
 
           @media (min-width: 480px) {
             margin-right:120px;
@@ -168,6 +169,8 @@ export const Container = styled.div`
         z-index: 9;
         color: #3800B0;
         transform: translate(-100px, -5px)
+        position: absolute;
+        margin-left: 125px;
     }
 
     .trash2{
@@ -387,6 +390,24 @@ export const Emails = styled.input`
 
     }
     `;
+
+
+    export const Username = styled.input`
+    font-size: 14px;
+    margin: 0 40px 0 40px;
+    display: flex;
+    padding: 16px;
+    border: none;
+    width: 368px;
+    border-radius: 8px;
+    background: #F7F8FA;
+    font-family: sans-serif;
+    @media (max-width: 480px) {
+        width: 247px;
+        margin: 12px 32px 0 32px
+
+    }
+`;
 
 export const Password = styled.input`
     position: relative;

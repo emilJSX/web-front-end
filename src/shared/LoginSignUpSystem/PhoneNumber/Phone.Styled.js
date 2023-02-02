@@ -16,17 +16,17 @@ export const Title = styled.h3`
 export const Paragraph = styled.p`
 
     font-family: system-ui;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     text-align: left;
     display: block;
-    width: 400px;
+    width: 416px;
     height: 42px;
-    margin: 16px 40px 0 40px;
+    margin: 20px 40px 0 40px;
     color: #110035;
     @media (max-width: 480px) {
         margin: 16px 32px 0 32px;
-        width: 279px; 
+        width: 300px; 
 
     }
 
