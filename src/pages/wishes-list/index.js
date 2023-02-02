@@ -224,7 +224,7 @@ const WishList = () => {
           />
           <SearchIcon
             onClick={GetResultWishesList}
-            style={{ transform: "translate(-50px, 0px)" }}
+            style={{ transform: "translate(-50px, 0px)", cursor: "pointer" }}
           />
         </div>
       </ButtonSection>

@@ -10,6 +10,12 @@ export const MacBigFotoSection = styled.img`
     height: 280px;
     width: 100%;
     object-fit: cover;
+  
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    min-width: calc(100% + 32px);
+    margin: 0 -16px;
+    height: auto;
+  }
 `
 
 export const PartnersPageManagment = styled.p`
@@ -24,24 +30,34 @@ export const McDonaldsTopTxt = styled.p`
     font-weight: 600;
     color: #0B0023;
 
-    @media (min-width: 375px) and (max-width: 500px) {
-        font-size: 35px;
-    }
+  @media screen and (max-width: ${({theme}) => theme.breakPoints.sm}) {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 110%;
+  }
+
 `
 
 export const McDonaldsImg = styled.img`
     border-radius: 50%;
     width: 80px;
 
-    @media (min-width: 375px) and (max-width: 500px) {
-        width: 50px;
-    }
+  @media screen and (max-width: ${({theme}) => theme.breakPoints.sm}) {
+    width: 40px;
+    height: 40px;
+  }
+
 `
 
 export const McDondaltsTxtImgSection = styled.div`
     display: flex;
     gap: 30px;
     padding-top: 30px;
+  
+  @media screen and (max-width: ${({theme}) => theme.breakPoints.sm}) {
+    padding-top: 0;
+    gap: 16px;
+  }
 `
 
 export const TextCounsIconsSection = styled.div`
@@ -52,6 +68,10 @@ export const Text = styled.p`
     font-size: 13px;
     font-weight: 400;
     color: #0B0023;
+
+  @media screen and (max-width: ${({theme}) => theme.breakPoints.sm}) {
+    color: #5D627D;
+  }
 `
 
 export const GiftGivenSection = styled.div`
@@ -130,6 +150,11 @@ export const Name = styled.p`
     color: #0C0E19;
     
     font-weight: 600;
+
+  @media screen and (max-width: ${({theme}) => theme.breakPoints.sm}) {
+    font-size: 16px;
+    line-height: 1.2;
+  }
 `
 export const Tag  = styled.p`
     font-size: 14px;

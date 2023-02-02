@@ -87,7 +87,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [getPassword, setGetPassword] = useState("");
     const [getUserNameValue, setUserNameValue] = useState()
 
-
+    const cancelToken = useRef(null);
 
     // END Register API
     const [emailErrorMessage, setErrorMessage] = useState("")
@@ -150,6 +150,14 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
         
 
 
+    // check username with debounce
+    const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current;
+
+    useEffect(() => {
+        if (getUserNameValue?.length >= 6) {
+            debouncedCheckUsername()
+        }
+    }, [getUserNameValue])
 
     // ======================= END SIGN UP CONFIG ================================
 
@@ -174,7 +182,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
 
     // End Country List API
 
-    // UPDATE PROFILE API 
+    // UPDATE PROFILE API
 
     const handleUpdateInfoProfile = async (event) => {
         getCountryListInfo()

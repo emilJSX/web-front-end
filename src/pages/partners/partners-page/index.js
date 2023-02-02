@@ -65,7 +65,7 @@ const PartnersPage = () => {
                 <CardDataMainDiv>
                     <Grid>
                         {Carddata.usersdata.map(({ picture, title, tag })=> (
-                            <Grid.Col sm={4} md={3} lg={3}>
+                            <Grid.Col sm={4} md={3} lg={3} span={6}>
                                 <CardDataContainer>
                                     <Picture src={picture} />
                                     <Name>{title} <MdVerified style={{ float: 'right', color: "#1A76F2" }} /></Name>
