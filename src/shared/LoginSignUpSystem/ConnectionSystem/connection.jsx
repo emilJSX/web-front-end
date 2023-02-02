@@ -60,7 +60,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const getUserToken = localStorage.getItem("UserToken=");
 
     // MODAL CONFIGURATION =============
-    const [tabIndex, setTabIndex] = useState(5);
+    const [tabIndex, setTabIndex] = useState(0);
 
     const [showSignUp, setShowSignUp] = useState(false)
     const [showOtp, setShowOtp] = useState(false)
