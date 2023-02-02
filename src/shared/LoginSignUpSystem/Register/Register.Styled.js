@@ -491,7 +491,7 @@ export const ButtonSignUp = styled.button`
     font-family: system-ui;
     font-weight: 600;
     @media (max-width: 480px) {
-        margin: 0px 0px 32px 0px;   
+        margin: 30px 0px 32px 0px;   
         width: 279px;
     }
 `
