@@ -102,7 +102,8 @@ const Created_Wish = () => {
 
   const [getInterestsIdApi, setInterestsIdApi] = useState();
   const getInterestsId = (item) => {
-    setInterestsIdApi(item);
+    console.log(item, "INTERETESRS")
+    // setInterestsIdApi(item);
   };
 
   const onCashSelectPush = () => {
