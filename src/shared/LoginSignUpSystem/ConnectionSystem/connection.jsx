@@ -132,48 +132,21 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
         })
 
     };
-
-
-      const debounce = (func, wait, immediate = false) => {
-        let timeout;
-        console.log("HERE")
-      
-        return function executedFunction() {
-          let context = this;
-          let args = arguments;
-      
-          let later = function () {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-          };
-      
-          let callNow = immediate && !timeout;
-      
-          clearTimeout(timeout);
-      
-          timeout = setTimeout(later, wait);
-      
-          if (callNow) func.apply(context, args);
-        };
-      };
-
-      debounce(() => {
-        console.log("CHECKING")
-          if (getUserNameValue?.length >= 6) {
-              axios({
-                  method: "get",
-                  url: "https://api.wishx.me/api/v1/username/check",
-                  params: { username: String(getUserNameValue) }
-              }).then(function (responseCheckUsername) {
-                  getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
-                  setUserNameErrorMessage("")
-                  setUserNameAviableMessage(responseCheckUsername.data.message)
-              }).catch(function (err) {
-                  setUserNameAviableMessage("")
-                  setUserNameErrorMessage("UserName is not aviable")
-              })
-          }
-      }, 300) 
+    
+    if (getUserNameValue?.length >= 6) {
+        axios({
+            method: "get",
+            url: "https://api.wishx.me/api/v1/username/check",
+            params: { username: String(getUserNameValue) }
+        }).then(function (responseCheckUsername) {
+            getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
+            setUserNameErrorMessage("")
+            setUserNameAviableMessage(responseCheckUsername.data.message)
+        }).catch(function (err) {
+            setUserNameAviableMessage("")
+            setUserNameErrorMessage("UserName is not aviable")
+        })
+    }
         
 
 
@@ -198,23 +171,6 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
         setCountryNameId(result);
     };
 
-    const getCountryListInfo = () => {
-        try {
-            axios({
-                method: "get",
-                url: "https://api.wishx.me/api/v1/settings/countries/get",
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    xsrfHeaderName: "X-XSRF-TOKEN",
-                    Authorization: `Bearer ${getUserToken}`,
-                },
-            }).then((getCountry) => {
-                setCountryList(getCountry.data.data);
-            });
-        } catch (error) {
-            console.log("");
-        }
-    }
 
     // End Country List API
 
@@ -292,10 +248,27 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                     localStorage.setItem("UserToken=", GetResultRegisterToken);
                     document.cookie = "UserToken=" + GetResultRegisterToken;
                     setTabIndex(2)
+
+                    useEffect(()=> {
+                        try {
+                            axios({
+                                method: "get",
+                                url: "https://api.wishx.me/api/v1/settings/countries/get",
+                                headers: {
+                                    "Access-Control-Allow-Origin": "*",
+                                    xsrfHeaderName: "X-XSRF-TOKEN",
+                                    Authorization: `Bearer ${getUserToken}`,
+                                },
+                            }).then((getCountry) => {
+                                setCountryList(getCountry.data.data);
+                            });
+                        } catch (error) {
+                            console.log("");
+                        }
+                    }, [])
                 }
-            }).catch((err) => {
-                setErrorOtpMail("Wrong code, please check again ")
             })
+            
     }
 
     const handleChange = (otp) => {
