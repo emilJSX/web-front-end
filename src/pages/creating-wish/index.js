@@ -305,7 +305,7 @@ const Created_Wish = () => {
                         onChange={getInterestsId}
                         placeholder="Interests"
                         value={getInterestsIdApi}
-                        {...field}
+                        // {...field}
                       />
                     )}
                   />
