@@ -141,5 +141,9 @@
     line-height: 160%;
     font-feature-settings: 'liga' off;
     color: #110035;
-    margin: 0;
+}
+
+.react-tabs__tab {
+    padding: 0 !important;
+    bottom: 0 !important;
 }

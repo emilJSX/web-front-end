@@ -2,12 +2,12 @@ import { Grid, Container } from "@mantine/core";
 import styled from "styled-components";
 
 export const PrivacyTopContainer = styled(Container)`
-    padding: 25px;
+    padding: 25px 25px 80px;
     width: 37%;
-    padding-bottom: 80px;
 
     @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
         width:100%;
+        padding: 24px 16px 56px;
     }
 
     @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}) and (max-width:${({theme})=> theme.breakPoints.lg}){
