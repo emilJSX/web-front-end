@@ -159,7 +159,7 @@ const MyProfile = () => {
                                     </MobileTopCoverImageSection>
                                     <LeftSection>
                                         <DisplayTopImgCard>
-                                            <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={`${UserInfoProfile?.info?.avatar}`} />
+                                            <Image radius="100px" style={{ border: '3px solid white !important;' }} id='tomcrusemobile' className="tomcrusemobile" height={85} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `${UserInfoProfile?.info?.avatar}`} />
                                         </DisplayTopImgCard>
                                         
                                         <Image radius="100px" className="tomcruse" height={80} src={UserInfoProfile?.info?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" :  `${UserInfoProfile?.info?.avatar}`} />
