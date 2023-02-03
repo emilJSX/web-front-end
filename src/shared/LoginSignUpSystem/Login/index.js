@@ -34,6 +34,8 @@ import {
   function LoginSystem({ nextsteplog, backSign, setShowes }) {
     const [passwordUser, setPasswordUser] = useState("");
     const [emailUser, setEmailUser] = useState("");
+    
+    const [getErrorLogin, setErrorLogin] = useState()
 
     // Login Modal Open
     const [shower, setShower] = useState(false);
@@ -78,10 +80,15 @@ import {
             setUserAuthToken(response.data.data.token);
             document.cookie = "UserMessage=" + response.data.data.message;
             console.log(JSON.stringify(response.data));
+            setErrorLogin("")
             navigate("/my-profile");
           })
           .catch(function (error) {
-            console.error(error);
+            setErrorLogin("Email or password is wrong")
+
+            setTimeout(() => {
+              setErrorLogin(" ")
+            }, 5000)
           });
       });
     };
@@ -159,6 +166,12 @@ import {
                 {formState.errors.email && (
                   <p className="mx-14 mt-2 text-red-500 text-xs">
                     {formState.errors.email.message}
+                  </p>
+                )}
+
+                {getErrorLogin && (
+                  <p className="mx-14 mt-2 text-red-500 text-xs">
+                    {getErrorLogin}
                   </p>
                 )}
               </div>

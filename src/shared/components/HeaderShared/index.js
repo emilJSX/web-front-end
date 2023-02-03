@@ -18,11 +18,13 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import Autholog from '../../../shared/LogIn-SingUp/Autholog';
 import { ButtonDefault } from '../../../pages/home/Home.Styled'
+import { Login_ConnectionSystem, SignUp_ConnectionSystem } from '../../LoginSignUpSystem/ConnectionSystem/connection'
 
 
 export const HeaderShared = ({ toggle }) => {
     const [opened, setOpened] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
+    const [LoginModal, setLoginModal] = useState(false)
     const [showes, setShowes] = useState(false)
     const [show, setShow] = useState(false)
     const GetUserToken = localStorage.getItem("UserToken=")
@@ -42,6 +44,7 @@ export const HeaderShared = ({ toggle }) => {
       }
     }
 
+    
     useEffect(()=> {
         axios.get("https://api.wishx.me/api/v1/user", {
             headers: {
@@ -114,7 +117,7 @@ export const HeaderShared = ({ toggle }) => {
                     
                     :
                 (<section className='log-in-out-Section'>
-                    {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : (show ? "" : <div style={{
+                    {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : (show ? "" : <div style={{
                         display: 'flex',
                         alignItems: 'center'
                       }}>

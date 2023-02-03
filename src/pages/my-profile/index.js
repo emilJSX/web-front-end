@@ -139,14 +139,14 @@ const MyProfile = () => {
         navigate("/my-wish", {state: {id}})
     }
 
+    console.log(UserInfoProfile, "USER INFO PROFILE")
+
         return (
             <Body>
                 <div className='main-container'>
                     <div>
                         <FotoSection fluid>
                         <img id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />
-                            {/* {this.state.matches && <Image id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />} */}
-                            {/* {!this.state.matches && <Image id='rainbow' radius="lg" className='rainbow' src={estetika} height={300} />} */}
                         </FotoSection>
                     </div>
                     

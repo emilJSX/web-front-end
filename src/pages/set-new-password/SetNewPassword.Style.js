@@ -13,7 +13,8 @@ export const Titles = styled.p`
     text-align: start;
     @media (max-width: 480px) {
         width: 343px;
-        margin: 12px 2px 0 2px
+        margin: 12px 2px 0 2px;
+        font-size: 40px;
     }
 `;
 export const EAdress = styled.p`
@@ -27,18 +28,19 @@ export const EAdress = styled.p`
     @media (max-width: 480px) {
         text-align: start;
         width: 343px;
-        margin:32px 2px 24px 2px
+        margin:32px 2px 24px 2px;
+        font-size: 20px;
 
     }
 `;
 export const Div = styled.div`
 
 width: 436px;   
-margin-top: 50px;
+margin-top: 15px;
 @media (max-width: 480px) {
     width: 343px;
-    height: 300px;
-    margin: 24px 2px 0 2px
+    height: 227px;
+    margin: 0px 2px 0 2px;
 }
 `;
 export const Passworde = styled.input`
@@ -57,7 +59,7 @@ export const Passworde = styled.input`
     @media (max-width: 480px) {
         width: 311px;
         border-radius: 8px;
-        margin: 12px 2px 0 2px
+        margin: 12px auto 0px auto;
 
 
         .otp_input_div{
@@ -157,6 +159,17 @@ export const PasswordContainer = styled.div`
     }
   }
 
+  .otp-container {
+    margin-top: 70px;
+
+    h3 {
+      font-weigth: bold;
+      font-size: 20px;
+      padding-bottom: 30px;
+      text-align:center;
+    }
+  }
+
   .eadress{
     @media (max-width: 480px){
         height: 100px;
@@ -173,11 +186,62 @@ export const PasswordContainer = styled.div`
 
   .eyes_button{
     @media (max-width: 480px){
-        transform: translate(300px, -65px);
+      transform: translate(300px,-35px);
     }
 
     @media (min-width: 480px){
-        transform: translate(380px, -65px);
+      transform: translate(380px,-60px);
+    }
+  }
+
+  .otp_input_div{
+    width: 400px;
+    float: left;
+    margin: 0 40px 40px 40px;
+    height: 60px;
+  }
+  .otp_input{
+    width: 50px;
+    display: flex;
+    justify-content: center !important;
+  }
+  .otp_input input{
+    height: 35px;
+    float: left;
+    font-size: 30px;
+    border: none;
+    background-color:#F7F8FA;
+    border-radius: 8px  ;
+    font-family: monospace;
+  
+  }
+  .otp_input input:hover{
+    border: 1px solid #8866D0;
+  }
+  .otp_input input:focus{
+    outline: 1px solid #8866D0;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .otp_input_div{
+      width: 280px;
+      margin: 22px 32px 32px 32px;
+      height: 60px;
+    }
+    .otp_input{
+      width: 40px;
+      justify-content: center;
+    }
+    .otp_input input{
+      height: 32px;
+      width: 1.5em !important;
+      float: left;
+      font-size: 20px;
+      border: none;
+      background-color:#F7F8FA;
+      border-radius: 8px  ;
+      font-family: monospace;
+    
     }
   }
 `
