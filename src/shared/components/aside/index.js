@@ -14,7 +14,7 @@ export const AsideComponent = ({ hidden }) => {
     const [show, setShow] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
     // const [isShow,setisShow] = useState(false);
-    
+    const navigate = useNavigate()
 
     const GetUserToken = localStorage.getItem("UserToken=")
 
