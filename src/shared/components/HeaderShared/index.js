@@ -21,7 +21,7 @@ import { ButtonDefault } from '../../../pages/home/Home.Styled'
 import { Login_ConnectionSystem, SignUp_ConnectionSystem } from '../../LoginSignUpSystem/ConnectionSystem/connection'
 
 
-export const HeaderShared = ({ toggle }) => {
+export const HeaderShared = () => {
     const [opened, setOpened] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
     const [LoginModal, setLoginModal] = useState(false)
@@ -32,7 +32,8 @@ export const HeaderShared = ({ toggle }) => {
     const [getOpenedMenu, setOpenedMenu] = useState(false)
     const navigate = useNavigate()
     const toggleOptions = () => {
-      setOpenedMenu(!getOpenedMenu);
+      // setOpenedMenu(!getOpenedMenu);
+      console.log('----')
     };
 
     function GetWishNameForCreation() {
@@ -153,7 +154,7 @@ export const HeaderShared = ({ toggle }) => {
                 <div>
                     <div className='dots-icon'>
                         <GridIcon />
-                        <DotsToggle toggleDots={toggle?.open} setToggleDots={toggle?.setOpen} />
+                        <DotsToggle  />
                     </div>
                 </div>
             </MediaQuery>

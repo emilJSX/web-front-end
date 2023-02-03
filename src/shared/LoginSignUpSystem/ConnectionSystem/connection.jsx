@@ -44,9 +44,13 @@ import { ButtonCon, ButtonLater, DivImg, Image, List, ListtoList, MainDiv, Uploa
 import { RiFileDownloadLine } from 'react-icons/ri';
 import { LoginSocialFacebook } from 'reactjs-social-login';
 import { Paragraphs, Seconds, Send } from '../PasswordRecoveryMessage/RecoveryMessage.Styled';
+import { loginControll } from '../../../store/slices/counterSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-
+const {loginStepper} = useSelector(state => state.counter);//isShow
+    const setIsShown = () => dispatch(loginControll())//setIsShow
+    const dispatch = useDispatch()
 
 export function Login_ConnectionSystem({ setShowes }) {
     const navigate = useNavigate();
@@ -238,6 +242,7 @@ export function Login_ConnectionSystem({ setShowes }) {
             {/* ============================= LOGIN MODAL ================================== */}
             <TabPanel>
 
+                {loginStepper ? 
                 <Main>
                     <OpacityBlog></OpacityBlog>
                     <Container style={{ zIndex: "10" }}>
@@ -252,7 +257,7 @@ export function Login_ConnectionSystem({ setShowes }) {
                         </Button1>
                         <Title>Log in</Title>
                         <Paragraph>
-                            Not a user?<Button2>Sign up</Button2>
+                            Not a user?<Button2 onClick={setIsShown(true)}>Sign up</Button2>
                         </Paragraph>
                         <Facebook>
                             <BsFacebook
@@ -375,6 +380,8 @@ export function Login_ConnectionSystem({ setShowes }) {
                         )}
                     </Container>
                 </Main>
+                : null}
+
             </TabPanel>
             {/* ============================= END LOGIN MODAL =================================== */}
 
@@ -843,6 +850,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
         <Tabs selectedIndex={tabIndex}>
             {/* ================================== SIGN UP ================================== */}
             <TabPanel>
+            {!loginStepper ? 
                 <Main>
                     <OpacityBlog></OpacityBlog>
 
@@ -1015,6 +1023,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                     </Container>
 
                 </Main>
+                :null}
 
             </TabPanel>
             {/* ================================== END SIGN UP ==================================*/}

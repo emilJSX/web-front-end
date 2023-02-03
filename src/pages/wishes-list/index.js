@@ -56,6 +56,8 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
+  const [getCategory, setCategory] = useState()
+
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
     hasNextPage: hasNextPage,
@@ -127,20 +129,13 @@ const WishList = () => {
       })
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
-  //       params: {
-  //         skip: 0,
-  //       },
-  //       headers: {
-  //         Authorization: `Bearer ${getUserToken}`,
-  //       },
-  //     })
-  //     .then((searchResult) => {
-  //       setAllWishData(searchResult.data.data.results);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("https://api.wishx.me/api/v1/blog/categories/get")
+      .then((resultCategory) => {
+        setCategory(resultCategory.data);
+      });
+  }, []);
 
   const buttonTitles = [
     { id: 0, title: "All" },

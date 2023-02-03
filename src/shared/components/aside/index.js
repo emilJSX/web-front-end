@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { CustomAside } from './Aside.Styled'
 import { ReactComponent as FishSVG } from '../../../style/icons/fish-in-aside.svg'
 import { asideLinkLogined, asideLinks } from '../../../utils/dummy-data/aside-links'
 import { Button } from '../../ui/Button'
 import { Login_ConnectionSystem } from '../../LoginSignUpSystem/ConnectionSystem/connection'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { drawerControll, loginControll } from '../../../store/slices/counterSlice'
+import { useDrawer } from '../../../hooks/useDrawer'
 export const AsideComponent = ({ hidden }) => {
     const [showes, setShowes] = useState(false)
     const [show, setShow] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
-    const [toggleOpen, setToggleOpen] = useState(false)
-
-    const navigate = useNavigate()
+    // const [isShow,setisShow] = useState(false);
+    
 
     const GetUserToken = localStorage.getItem("UserToken=")
+
+    // onClik = () =>{setShow(!show)}
 
     useEffect(() => {
         axios.get("https://api.wishx.me/api/v1/user", {
@@ -26,9 +30,9 @@ export const AsideComponent = ({ hidden }) => {
             setUserLoginData(userData.data.data.info)
         })
     }, [])
-
+console.log({hidden})
     function LogoutApi() {
-        hidden={hidden}
+        useDrawer()
         axios.post("https://api.wishx.me/api/v1/logout", {}, {
             headers: {
                 'Authorization': `Bearer ${GetUserToken}`,
@@ -51,14 +55,14 @@ export const AsideComponent = ({ hidden }) => {
                     <div className="aside-container">
                         <ul>
                             <img style={{width: "50px"}} src={getUserLoginData?.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `${getUserLoginData.avatar}` } />
-                            <a onClick={hidden={hidden}} href='/my-profile'><li className="login-aside-element">{getUserLoginData?.full_name  == null ?  "does not exist" : getUserLoginData?.full_name}</li></a>
-                            <a onClick={hidden={hidden}} className="login-aside-element" href='/my-profile'><li >My wishes</li></a>
-                            <a onClick={hidden={hidden}} className="login-aside-element" href='/profile-edit'><li >Edit personal info</li></a>
-                            <a onClick={hidden={hidden}} className="login-aside-element" href='/settings'><li>Settings</li></a>
+                            <a href='/my-profile'><li className="login-aside-element">{getUserLoginData?.full_name  == null ?  "does not exist" : getUserLoginData?.full_name}</li></a>
+                            <a  className="login-aside-element" href='/my-profile'><li >My wishes</li></a>
+                            <a className="login-aside-element" href='/profile-edit'><li >Edit personal info</li></a>
+                            <a className="login-aside-element" href='/settings'><li>Settings</li></a>
                             <hr className='hr-aside' />
                             {
                                 asideLinkLogined.map((e, i) => (
-                                    <li><Link onClick={hidden={hidden}} to={e.href} className="aside-link-element"><p>{e.name}</p></Link></li>
+                                    <li><Link to={e.href} className="aside-link-element"><p>{e.name}</p></Link></li>
                                 ))
                             }
                              <p className='sign-out' onClick={LogoutApi}> Sign out </p>
@@ -73,7 +77,7 @@ export const AsideComponent = ({ hidden }) => {
                             
                             {
                                 asideLinks.map((e, i) => (
-                                    <li><Link onClick={hidden={hidden}} to={e.href} className="aside-link-element"><p>{e.name}</p></Link></li>
+                                    <li><Link to={e.href} className="aside-link-element"><p>{e.name}</p></Link></li>
                                 ))
                             }
                             {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : (show ? "" : <p className='log-in' onClick={
