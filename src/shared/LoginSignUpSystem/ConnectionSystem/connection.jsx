@@ -51,6 +51,8 @@ export function Login_ConnectionSystem({ setShowes }) {
     
     const [getEmailRecovery, setEmailRecovery] = useState("")
     const [changeLoginSystemTab, setLoginSystemTab] = useState(0)
+    const [getRegModal, setregisterModal] = useState(false)
+    
 
     // Login Modal - 0
     // Recovery Password - 1
@@ -58,6 +60,10 @@ export function Login_ConnectionSystem({ setShowes }) {
 
     const getNewPasswordPage = () => {
         navigate("/set-new-password", {state: {userRecovery_email: getEmailRecovery}})
+    }
+
+    function getSignUpModal() {
+        setLoginSystemTab(3)
     }
     
     // ============================== LOGIN CONFIG ========================================
@@ -250,7 +256,7 @@ export function Login_ConnectionSystem({ setShowes }) {
                         </Button1>
                         <Title>Log in</Title>
                         <Paragraph>
-                            Not a user?<Button2 >Sign up</Button2>
+                            Not a user?<Button2>Sign up</Button2>
                         </Paragraph>
                         <Facebook>
                             <BsFacebook
@@ -431,13 +437,18 @@ export function Login_ConnectionSystem({ setShowes }) {
 
             </TabPanel>
             {/* =============================== END PASSOWORD RECOVERY MESSAGE MODAL ========================== */}
+
+            {/* <TabPanel>
+                {getRegModal ? <SignUp_ConnectionSystem setregisterModal={setregisterModal} />:null}
+            </TabPanel> */}
         </Tabs>
     )
 }
 
 export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) {
 
-    const getUserToken = localStorage.getItem("UserToken=");
+    const getUserToken = localStorage.getItem("UserToken=")
+
 
     // MODAL CONFIGURATION =============
     const [tabIndex, setTabIndex] = useState(0);
@@ -477,6 +488,9 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [userNameAviableMessage, setUserNameAviableMessage] = useState("")
     const [userNameCheckLength, setUsernameCheckLength] = useState()
 
+    const USERNAME_REGEX = new RegExp("^[A-Za-z0-9]*$");
+    const [getUsernameRegex, setUsernameRegex] = useState()
+
     const navigate = useNavigate();
 
     const getProfileUrl = () => {
@@ -496,7 +510,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     };
 
     // Parsing Extract the Name from an Email Address
-    const HandleGetRegister = ({ email, password }) => {
+    const HandleGetRegister = ({ email, password, username }) => {
         const result_getname = email.split("@")[0];
         setGetName(result_getname);
 
@@ -532,7 +546,12 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
             getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null
             setUserNameErrorMessage("")
             getUserNameValue?.length < 6 ? setUserNameErrorMessage("Username has 6 simvols") : null
-            setUserNameAviableMessage(responseCheckUsername.data.message)
+            if(!USERNAME_REGEX.test(getUserNameValue)) {
+                setUserNameAviableMessage("")
+                setUsernameRegex("In username not be used symbols ")
+            } else {
+                setUserNameAviableMessage(responseCheckUsername.data.message)
+            }
         }).catch(function (err) {
             setUserNameAviableMessage("")
             setUserNameErrorMessage("UserName is not aviable")
@@ -553,15 +572,24 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     // check username with debounce 
     const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current;
 
+
     useEffect(() => {
+        if (!USERNAME_REGEX.test(getUserNameValue)){
+            setUsernameRegex("In username not be used symbols ")
+            setUserNameAviableMessage("")
+        } else {
+            setUsernameRegex("")
+        }
         if (getUserNameValue?.length >= 6) {
             setUsernameCheckLength("")
+            setUsernameRegex("")
             checkUsername();
         } else if (getUserNameValue?.length <= 6) {
             setUsernameCheckLength("Username must be 6 simovols")
         }
         else {
             setUserNameAviableMessage("")
+            setUsernameRegex("")
             setUserNameErrorMessage("")
             setUsernameCheckLength("")
         }
@@ -575,7 +603,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     const [getCountryList, setCountryList] = useState([]);
     const [getCountryNameId, setCountryNameId] = useState();
     const [getUserPhoneNumber, setUserPhoneNumber] = useState()
-    const [getUserBirthday, setUserBirthday] = useState("")
+    const [getUserBirthday, setUserBirthday] = useState(String)
     const [getUserFullName, setUserFullName] = useState("")
     const ref = useRef();
 
@@ -583,30 +611,26 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
     // UPDATE PROFILE API
 
     const handleUpdateInfoProfile = (event) => {
-        const formUpdateData = new FormData();
-
-        formUpdateData.append("full_name", getUserFullName);
-        formUpdateData.append("phone", getUserPhoneNumber);
-        formUpdateData.append("country", getCountryNameId);
-        formUpdateData.append("dob", getUserBirthday);
-        axios({
-            method: "post",
-            url: "https://api.wishx.me/api/v1/profiles/update",
-            data: formUpdateData,
+        event.preventDefault()
+        axios.post("https://api.wishx.me/api/v1/profiles/update",{
+            full_name: getUserFullName,
+            phone: getUserPhoneNumber,
+            country: getCountryNameId,
+            dob: getUserBirthday
+        },{
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                xsrfHeaderName: "X-XSRF-TOKEN",
+                "Access-Control-Allow-Headers": "*",
+                "content-type": "application/json",
+                "Access-Control-Allow-Credentials": true,
                 Authorization: `Bearer ${getUserToken}`,
-            },
+            }, 
         }).then((resultUpdate) => {
             console.log(resultUpdate)
-            setTabIndex(3)
+            // setTabIndex(3)
         }).catch((err) => {
             console.log(err)
         })
-
-
-
     };
 
 
@@ -751,6 +775,8 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                         console.log(error);
                     }
                 }
+            }).catch((err)=>{
+                setErrorOtpMail("OTP code is wrong")
             })
 
     }
@@ -926,13 +952,20 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                                         placeholder='Username'
                                         style={{ width: "400px", marginTop: "13px" }}
                                         required
-                                        onChange={
 
+                                        onChange={
                                             debounce((e) => {
+                                                if(e)
                                                 setUserNameValue(e.target.value)
                                             }, 500)
                                         }
                                     />
+
+                                    {getUsernameRegex &&
+                                        <p className="mx-14 mt-2 text-red-500 text-xs">
+                                            {getUsernameRegex}
+                                        </p>
+                                    }
 
                                     {userNameCheckLength &&
                                         <p className="mx-14 mt-2 text-red-500 text-xs">
@@ -1066,7 +1099,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                 <Main>
                     <OpacityBlog></OpacityBlog>
                     <Container style={{ zIndex: '10' }}>
-                        <form onSubmit={handleSubmit(handleUpdateInfoProfile)}>
+                        <form>
                             <Button1 onClick={() => {
                                 let body = document.querySelector('body');
                                 body.setAttribute('style', 'overflow-y: scroll; overflow-x: hidden');
@@ -1086,10 +1119,10 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
                             <Number id='number' type='text' required onChange={(e) => setUserFullName(e.target.value)} placeholder='Full name' />
                             <Number className='mb-3' required id='number' type='text'
                                 placeholder='Date of birth (expample: 12.09.2023)'
-                                onChange={(e) => setUserBirthday(e.target.value)}
+                                onChange={(e) => setUserBirthday(String(e.target.value))}
                             />
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                <ButtonSignUp type='submit'>Continue</ButtonSignUp>
+                                <ButtonSignUp onClick={handleUpdateInfoProfile}>Continue</ButtonSignUp>
                             </div>
                         </form>
 
