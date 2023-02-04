@@ -31,9 +31,9 @@ export const HeaderShared = () => {
     const [wait, setWait] = useState(true)
     const [getOpenedMenu, setOpenedMenu] = useState(false)
     const navigate = useNavigate()
+    
     const toggleOptions = () => {
-      // setOpenedMenu(!getOpenedMenu);
-      console.log('----')
+      setOpenedMenu(!getOpenedMenu);
     };
 
     function GetWishNameForCreation() {
