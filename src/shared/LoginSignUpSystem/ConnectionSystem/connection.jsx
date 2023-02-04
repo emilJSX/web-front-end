@@ -627,7 +627,7 @@ export function SignUp_ConnectionSystem({ setregisterModal, setEmailOtpModal }) 
             }, 
         }).then((resultUpdate) => {
             console.log(resultUpdate)
-            // setTabIndex(3)
+            setTabIndex(3)
         }).catch((err) => {
             console.log(err)
         })

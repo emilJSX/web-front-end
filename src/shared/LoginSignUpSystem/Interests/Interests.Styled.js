@@ -60,8 +60,21 @@ export const Interest = styled.div`
     background: none;
     @media (max-width: 480px) {
         width: 279px;
-        margin: 71px 0 66px 32px;
+        margin: 10px 0 0px 32px;
     }
+
+    .multi-select {
+        @media (min-width: 375px) and (max-width: 480px) {
+            width: 87%;
+            margin-left: -20px;
+        }
+
+        .info_input-multi div {
+            max-width: 95%;
+        }
+    }
+
+
 `;
 export const Autotravel = styled.p`
 
