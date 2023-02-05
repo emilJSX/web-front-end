@@ -1,0 +1,35 @@
+
+Rjavascript:S1128"*Remove this unused import of 'TabButtons'.(ºÑ»¯ùÿÿÿÿ8‹ò²‘á0
+Tjavascript:S1128"1Remove this unused import of 'ContactsNavigator'.(œÜõ¢8Œò²‘á0
+Njavascript:S1128"+Remove this unused import of 'FacebookTxt'.(œÜõ¢8ò²‘á0
+Pjavascript:S1128"-Remove this unused import of 'SuggestionTxt'.(œÜõ¢8ò²‘á0
+[javascript:S1128"3Remove this unused import of 'UnsubscribeDataCard'.(÷¦Øşøÿÿÿÿ8ò²‘á0
+Pjavascript:S1128"-Remove this unused import of 'UsersDataCard'.(¾«ò„8ò²‘á0
+Yjavascript:S1128"1Remove this unused import of 'BsCheckCircleFill'.(¿…©üÿÿÿÿ8ò²‘á0
+Rjavascript:S1128"*Remove this unused import of 'FaFacebook'.(¬œóçÿÿÿÿÿ8‘ò²‘á0
+Wjavascript:S1128	"/Remove this unused import of 'SuggestDataCard'.(‘‚¶óûÿÿÿÿ8‘ò²‘á0
+Ejavascript:S3863
+"'react' import is duplicated.(ºø¯œùÿÿÿÿ8‘ò²‘á0
+Qjavascript:S1128
+")Remove this unused import of 'Component'.(ºø¯œùÿÿÿÿ8’ò²‘á0
+_javascript:S1128"7Remove this unused import of 'FacebookFriendsDataCard'.(Çè÷…ùÿÿÿÿ8’ò²‘á0
+@javascript:S3863"'react' import is duplicated.(¡Ş–®8“ò²‘á0
+]javascript:S1481":Remove the declaration of the unused 'isVisible' variable.(ƒÏŒø8“ò²‘á0
+Zjavascript:S1854"7Remove this useless assignment to variable "isVisible".(ƒÏŒø8”ò²‘á0
+rjavascript:S1481"JRemove the declaration of the unused 'checkUserMessageSubscribe' variable.(®¯ô–úÿÿÿÿ8”ò²‘á0
+ojavascript:S1854"GRemove this useless assignment to variable "checkUserMessageSubscribe".(®¯ô–úÿÿÿÿ8•ò²‘á0
+pjavascript:S1481"HRemove the declaration of the unused 'setUserMessageSubscribe' variable.(®¯ô–úÿÿÿÿ8•ò²‘á0
+mjavascript:S1854"ERemove this useless assignment to variable "setUserMessageSubscribe".(®¯ô–úÿÿÿÿ8•ò²‘á0
+qjavascript:S1481"IRemove the declaration of the unused 'checkUserStatusSubscribe' variable.(Æ“ÅÏşÿÿÿÿ8–ò²‘á0
+njavascript:S1854"FRemove this useless assignment to variable "checkUserStatusSubscribe".(Æ“ÅÏşÿÿÿÿ8–ò²‘á0
+ojavascript:S1481"GRemove the declaration of the unused 'setUserStatusSubscribe' variable.(Æ“ÅÏşÿÿÿÿ8—ò²‘á0
+ljavascript:S1854"DRemove this useless assignment to variable "setUserStatusSubscribe".(Æ“ÅÏşÿÿÿÿ8—ò²‘á0
+\javascript:S1481"9Remove the declaration of the unused 'onToggle' variable.(µÅíµ8—ò²‘á0
+Yjavascript:S1854"6Remove this useless assignment to variable "onToggle".(µÅíµ8˜ò²‘á0
+hjavascript:S3358›"DExtract this nested ternary operation into an independent statement.(×›•ò8˜ò²‘á0
+Njavascript:S6477œ"*Missing "key" prop for element in iterator(¡»Ë€8™ò²‘á0
+Qjavascript:S6480 "(JSX props should not use arrow functions(Å½£°ùÿÿÿÿ8šò²‘á0
+gjavascript:S3358²"DExtract this nested ternary operation into an independent statement.(°“‡=8šò²‘á0
+Njavascript:S6477³"*Missing "key" prop for element in iterator(¡»Ë€8šò²‘á0
+Ljavascript:S6480·"(JSX props should not use arrow functions(çŞ²í8›ò²‘á0
+Gjavascript:S125"Remove this commented out code.(øÌ›§ıÿÿÿÿ8›ò²‘á0

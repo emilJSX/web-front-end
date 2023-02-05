@@ -1,0 +1,23 @@
+
+Qjavascript:S1128
+")Remove this unused import of 'faCalenda'.(‘ãõ£øÿÿÿÿ8Åù²‘á0
+Pjavascript:S1128"(Remove this unused import of 'FaUpload'.(ößàşùÿÿÿÿ8Æù²‘á0
+Wjavascript:S1128"/Remove this unused import of 'Profile_Picture'.(ÁÉñ—ûÿÿÿÿ8Æù²‘á0
+Xjavascript:S1128#"0Remove this unused import of 'imageCompression'.(¿ôãúÿÿÿÿ8Æù²‘á0
+`javascript:S1481Í"<Remove the declaration of the unused 'setPassword' variable.(ì£©ƒ8Çù²‘á0
+]javascript:S1854Í"9Remove this useless assignment to variable "setPassword".(ì£©ƒ8Çù²‘á0
+`javascript:S1481Ô"<Remove the declaration of the unused 'setPassword' variable.(ì£©ƒ8Çù²‘á0
+]javascript:S1854Ô"9Remove this useless assignment to variable "setPassword".(ì£©ƒ8Çù²‘á0
+djavascript:S1481æ";Remove the declaration of the unused 'getCountry' variable.(üÀ©Óüÿÿÿÿ8Çù²‘á0
+ajavascript:S1854æ"8Remove this useless assignment to variable "getCountry".(üÀ©Óüÿÿÿÿ8Èù²‘á0
+djavascript:S1481æ";Remove the declaration of the unused 'setCountry' variable.(üÀ©Óüÿÿÿÿ8Èù²‘á0
+ajavascript:S1854æ"8Remove this useless assignment to variable "setCountry".(üÀ©Óüÿÿÿÿ8Èù²‘á0
+Mjavascript:S3504ø")Unexpected var, use let or const instead.(œšò8Èù²‘á0
+Rjavascript:S3504Ú")Unexpected var, use let or const instead.(’ù‚Ùüÿÿÿÿ8Éù²‘á0
+Zjavascript:S1125¼"6Refactor the code to avoid using this boolean literal.(÷¿ë´8Éù²‘á0
+Njavascript:S6477Î"*Missing "key" prop for element in iterator(ÎæÌˆ8Éù²‘á0
+Ljavascript:S6480–"(JSX props should not use arrow functions(œ×Èö8Éù²‘á0
+Qjavascript:S6480¥	"(JSX props should not use arrow functions(³¹†Áùÿÿÿÿ8Êù²‘á0
+ijavascript:S905¦	"FExpected an assignment or function call and instead saw an expression.(‚±¶‡8Êù²‘á0
+Djavascript:S878¦	"!Unexpected use of comma operator.(‚±¶‡8Êù²‘á0
+Ljavascript:S6480«	"(JSX props should not use arrow functions(¢ĞÙ8Êù²‘á0

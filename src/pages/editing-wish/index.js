@@ -39,13 +39,14 @@ const Editing_Wish = () => {
     const [selectedCash, setSelectedCash] = useState(String(state?.currency?.name == null) ? "USD" : String(state?.currency?.name), 
     getUpdateWishData.currency_id == null ? state?.currency?.id : getUpdateWishData.currency_id );
 
-    var idInterestsApi = []
+    const [interests, setInterests] = useState([])
 
     const {
         register,
         handleSubmit,
         control,
         formState: { errors },
+      setValue
     } = useForm({
         reValidateMode: "onChange",
         mode: "all",
@@ -98,6 +99,7 @@ const Editing_Wish = () => {
     
 
     useEffect(() => {
+        console.log(state)
         const {title="", price="", currency_id="", image="", description=""} = state || {}
         setUpdateWishData({title, price, currency_id, image, description})
     }, [state])
@@ -142,6 +144,8 @@ const Editing_Wish = () => {
     const GetEditWishImage = `https://api.wishx.me${editWishEditImage}`
     const GetEditWishProfile = `https://api.wishx.me${getUpdateWishData.image}`
 
+    const [previewImageURL, setPreviewImageURL] = useState(null);
+
     const [UpdateFile, setUpdateFile] = useState(null);
     const [UpdateTitleWish, setUpdateTitleWish] = useState("")
     const [UpdatePriceWish, setUpdatePriceWish] = useState("")
@@ -157,32 +161,45 @@ const Editing_Wish = () => {
     }
 
     useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/wish/edit", {
-            params: {
-                wish_id: state
-            },
-            headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`}
-        }).then((resultWishEditProfile) => {
-            const {title="", price="", image="", description="" } = resultWishEditProfile?.data?.data || {}
+        if (UpdateFile) {
+            setPreviewImageURL(URL.createObjectURL(UpdateFile));
+        } else {
+            setPreviewImageURL(null);
+        }
+    }, [UpdateFile])
 
-            const currencyId = resultWishEditProfile?.data?.data.currency.id
-            setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
-            resultWishEditProfile.data.data.categories.map((e) => (
-                idInterestsApi.push(e.id)
-             ))
+    useEffect(() => {
+        if ((typeof state === "object" && state?.id) || typeof state === "string" || typeof state === "number") {
+            axios.get("https://api.wishx.me/api/v1/wish/edit", {
+                params: {
+                    wish_id: typeof state === "object" ? state.id : state
+                },
+                headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`}
+            }).then((resultWishEditProfile) => {
+                const {title="", price="", image="", description="" } = resultWishEditProfile?.data?.data || {}
 
-            const {currency_id} = currencyId || {}
+                const currencyId = resultWishEditProfile?.data?.data.currency.id
+                setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
+                const categories = resultWishEditProfile.data.data.categories.map((e) => e.id)
+                setInterests(categories)
+                setValue("interests", categories)
+                setValue("title", title)
+                setValue("price", price)
+                setValue("description", description)
+                console.log(categories, "Categories")
+                const {currency_id} = currencyId || {}
 
-            setUpdateWishData({title, price, currency_id, image, description})
-        }).catch((err) => {
-            console.log(err)
-        })
-    }, [])
+                setUpdateWishData({title, price, currency_id, image, description})
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }, [state])
     
     // getUpdateWishData.currency_id == null ? +state.currency.id : getUpdateWishData.currency_id
 
-    const handleSubmitUpdateWish = async(event) => {
-        event.preventDefault()
+    const handleSubmitUpdateWish = async({interests}) => {
+        // event.preventDefault()
         const formData = new FormData();
         // selectedFile == null ? getUserInfoProfile.avatar : selectedFile
         formData.append("wish_id", state.id == null ? state : state.id)
@@ -191,7 +208,7 @@ const Editing_Wish = () => {
         formData.append("price", getUpdateWishData.price)
         // getUpdateWishData.currency_id == null ? state.currency.id : getUpdateWishData.currency_id
         formData.append("currency_id", 1)
-        formData.append("categories",UpdateCategoriesWish)
+        formData.append("categories",interests)
         formData.append("date", "11.20.22")
         formData.append("occasion", UpdateOccasionWish)
         formData.append("description", getUpdateWishData.description == null ? state.description : getUpdateWishData.description)
@@ -243,7 +260,7 @@ const Editing_Wish = () => {
                         <h5 className='description-title'>{getUpdateWishData.title}</h5>
                         <form onSubmit={handleSubmit(handleSubmitUpdateWish)}>
                             <div className='wish-name'>
-                                <input type='text' name='title' value={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name'
+                                <input type='text' name='title' defaultValue={getUpdateWishData.title} onChange={handleChangeUpdateWish} placeholder='Enter Wish Name'
                                        {...register("title", {
                                            required: "Wish title is required!",
                                        })}
@@ -257,7 +274,7 @@ const Editing_Wish = () => {
                             <div className='cash-set-container'>
                                 <div className='cash-set-container-insider'>
                                     <div className='cash-quantity-container'>
-                                        <input type='text' name='price' value={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity'
+                                        <input type='text' name='price' defaultValue={getUpdateWishData.price} onChange={handleChangeUpdateWish}  placeholder='Enter Quantity'
                                                {...register("price", { required: "Price is required!" })}
                                         />
                                     </div>
@@ -284,7 +301,7 @@ const Editing_Wish = () => {
                               </p>
                             ) : null}
                             <div className='text-area'>
-                                <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} value={getUpdateWishData.description} placeholder='Description'
+                                <textarea className='text-area-container' name='description' onChange={handleChangeUpdateWish} defaultValue={getUpdateWishData.description} placeholder='Description'
                                           {...register("description", {
                                               required: "Description is required!",
                                           })}
@@ -301,15 +318,15 @@ const Editing_Wish = () => {
                                       name="interests"
                                       control={control}
                                       rules={{ required: "Interests are required!" }}
-                                      defaultValue={idInterestsApi}
+                                      defaultValue={interests}
                                       render={({ field }) => (
                                         <MultiSelect
                                           className="multiselect-interest"
                                           data={data}
                                           onChange={getInterestsId}
-                                          defaultValue={idInterestsApi}
+                                          defaultValue={interests}
                                           placeholder="Interests"
-                                        //   {...field}
+                                          {...field}
                                         />
                                       )}
                                     />
@@ -339,8 +356,8 @@ const Editing_Wish = () => {
                 </div>
                 <div className='container-insider-sm'>
                     <div className='content-container'>
-                        <img src={GetEditWishProfile == null ? GetEditWishImage : GetEditWishProfile } className='glasses-img' />
-                        <div className='change-photo-button-container'>
+                        <img src={previewImageURL ? previewImageURL : GetEditWishProfile == null ? GetEditWishImage : GetEditWishProfile} className='glasses-img' />
+                        <div className='change-photo-button-container mt-2'>
                             <input type='file' onChange={handleFileSelect} className='file-uploader' style={{display: 'none'}}/>
                             <button className='change-photo-button' onClick={(e) => {
                                 e.preventDefault()

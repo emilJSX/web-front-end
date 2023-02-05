@@ -9,6 +9,8 @@ import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import Brochure from "../../style/icons/img.svg";
+import BrochureMobile from "../../assets/svg/brochure-mobile.png";
+import Gallery from "../../assets/svg/gallery.svg";
 import { toast, ToastContainer } from "react-toastify";
 
 import {
@@ -41,6 +43,7 @@ const Created_Wish = () => {
   });
 
   // States for creation wish
+  const [previewImageURL, setPreviewImageURL] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [CreatingTitleWish, setTitleWish] = useState("");
   const [CreationPriceWish, setPriceWish] = useState("");
@@ -120,7 +123,7 @@ const Created_Wish = () => {
     console.log(cash_id);
   };
 
-  const handleSubmitCreateWish = async ({ title, price, description }) => {
+  const handleSubmitCreateWish = async ({ title, price, description, interests }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", title);
@@ -128,7 +131,7 @@ const Created_Wish = () => {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("currency_id", CreationValuteWish);
-    formData.append("categories", getInterestsIdApi);
+    formData.append("categories", interests);
     formData.append("date", "11.20.22");
     formData.append("access", CheckedUrlPublicWish);
     console.log(CheckedUrlPublicWish);
@@ -167,6 +170,15 @@ const Created_Wish = () => {
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  useEffect(() => {
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewImageURL(url);
+    } else {
+      setPreviewImageURL(null);
+    }
+  }, [selectedFile])
 
   return (
     <MainContainer>
@@ -208,7 +220,10 @@ const Created_Wish = () => {
               </div>
               <div className="promote-and-button">
                 <div className="brochure">
-                  <img src={Brochure} className="brochure-image" />
+                  <picture>
+                    <source media="(min-width: 768px)" srcSet={Brochure}/>
+                    <img src={BrochureMobile} alt=""/>
+                  </picture>
                 </div>
                 <div className="button">
                   <button>OK</button>
@@ -216,7 +231,8 @@ const Created_Wish = () => {
               </div>
             </div>
           </Temp>
-
+        </div>
+        <div className="flex flex-wrap gap-6">
           <Section>
             <form onSubmit={handleSubmit(handleSubmitCreateWish)}>
               <h5 className="description-title">Describe a wish</h5>
@@ -303,7 +319,7 @@ const Created_Wish = () => {
                         onChange={getInterestsId}
                         placeholder="Interests"
                         value={getInterestsIdApi}
-                        // {...field}
+                        {...field}
                       />
                     )}
                   />
@@ -363,34 +379,35 @@ const Created_Wish = () => {
               </div>
             </form>
           </Section>
-        </div>
-        <div className="container-insider-sm ">
-          <div className="flex flex-col gap-2 flex-1 w-[90%] ml-6">
-            <div
-              className="content-container"
-              onClick={() => {
-                const dialog = document.querySelector(".file-uploader");
-                dialog.click();
-              }}
-            >
-              <input
-                type="file"
-                required
-                onChange={handleFileSelect}
-                className="file-uploader"
-                style={{ display: "none" }}
-              />
-              {/* onChange={HandleGetImage} */}
-              <FontAwesomeIcon icon={faArrowUpFromBracket} />
-              <h5>Upload a photo of your wish</h5>
-              <p>PNG, JPG or Gif</p>
-              <p>Max 5MB</p>
+          <div className="container-insider-sm ">
+            <div className="flex flex-col gap-2 flex-1 md:mx-0 mx-6">
+              <div
+                className="content-container"
+                onClick={() => {
+                  const dialog = document.querySelector(".file-uploader");
+                  dialog.click();
+                }}
+              >
+                <input
+                  type="file"
+                  required
+                  onChange={handleFileSelect}
+                  className="file-uploader"
+                  style={{ display: "none" }}
+                />
+                {/* onChange={HandleGetImage} */}
+                {/*<FontAwesomeIcon icon={faArrowUpFromBracket} />*/}
+                <img className={`${previewImageURL ? "rounded max-w-[240px] md:max-w-[140px]" : ""}`} src={previewImageURL ? previewImageURL : Gallery} alt=""/>
+                <h5>Upload a photo of your wish</h5>
+                <p>PNG, JPG or Gif</p>
+                <p>Max 5MB</p>
+              </div>
+              {errors.file ? (
+                <p className="mx-14 text-red-500 text-xs">
+                  {errors.file.message}
+                </p>
+              ) : null}
             </div>
-            {errors.file ? (
-              <p className="mx-14 text-red-500 text-xs">
-                {errors.file.message}
-              </p>
-            ) : null}
           </div>
         </div>
         <div className="if-not-singed-in">
