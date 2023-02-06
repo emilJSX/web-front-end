@@ -3,8 +3,6 @@
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 `
 0src/pages/contacts/contacts-subscribers/index.js,2\f\2fa684aacb30467299e74c2d6b355425e320dffb
-R
-"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
 \
 ,src/pages/partners/partners-coupons/index.js,c\b\cbcf166d8f3a9959a74370ab5f5f6c45e3473c07
 I

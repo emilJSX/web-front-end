@@ -55,13 +55,15 @@ import instagram from '../../style/icons/instagram.svg'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import moment from "moment";
 
 
 
 
 const MyProfile = () => {
-    const [wait, setWait] = useState(true)
+    const [wait, setWait] = useState(false)
     const [UserInfoProfile, setUserInfoProfile] = useState()
+    const [userWishes, setUserWishes] = useState([])
     const [getJoined, setJoined] = useState()
     var tabs_storage = [
         { value: 'act', id: '1', className: 'tabnameSelected tabButton', title: 'Active wishes', spanTitle: UserInfoProfile?.wishes?.active?.length},
@@ -81,14 +83,16 @@ const MyProfile = () => {
     const getUserToken = localStorage.getItem("UserToken=")
     
     useEffect(() => {
+        setWait(true)
+
         axios.get("https://api.wishx.me/api/v1/user", {
             headers: {
                 'Authorization': `Bearer ${getUserToken}`,
                 'Access-Control-Allow-Origin' : "*"
                 }
             }).then((userData) => {
-                const UserInfoProfile = userData.data.data
-                setUserInfoProfile(UserInfoProfile)
+                const _UserInfoProfile = userData.data.data
+                setUserInfoProfile(_UserInfoProfile)
                 axios.get("https://api.wishx.me/api/v1/user/other", {
                     params: {
                         user_id: userData.data.data.user_id
@@ -102,16 +106,16 @@ const MyProfile = () => {
                     })
                 }).catch((err)=> {
                     console.log(err)
-                })
-                
-                axios.get("https://api.wishx.me/api/v1/wish/get", {
+                }).finally(() => setWait(false))
+
+        axios.get("https://api.wishx.me/api/v1/wish/get", {
                     headers: {
                         'Authorization': `Bearer ${getUserToken}`,
                         'Access-Control-Allow-Origin' : "*"
                 }        
             }).then((dataUserWish) => {
                 const getUserWishes = dataUserWish.data.data
-                setUserInfoProfile(getUserWishes)
+                setUserWishes(getUserWishes)
             })
             
         }, [])
@@ -166,10 +170,10 @@ const MyProfile = () => {
                                         <Namesurname>{UserInfoProfile?.info?.full_name}</Namesurname> 
                                         {/* <HiBadgeCheck className='bluechek' /> */}
                                         <TagName> @{UserInfoProfile?.info?.slug}</TagName>
-                                        <Text>Spec, Child, Chaos and Shadow</Text>
+                                        <Text>{UserInfoProfile?.info?.country?.name}</Text>
 
                                         <DateSection>
-                                            <Date>{UserInfoProfile?.info?.dob }</Date>
+                                            <Date>{moment(UserInfoProfile?.info?.dob).format("DD MMMM YYYY")}</Date>
                                             <DateText>Birthdate</DateText>
                                         </DateSection>
                                         <DisplayDateBirthaySection>
@@ -226,7 +230,7 @@ const MyProfile = () => {
                                     <Grid className='cart-div'>
                                         
                                         {
-                                        wait ? UserInfoProfile?.wishes?.active.length !== 0 ? UserInfoProfile?.wishes?.active?.map((userDataWish) => (
+                                        !wait ? UserInfoProfile?.wishes?.active.length !== 0 ? UserInfoProfile?.wishes?.active?.map((userDataWish) => (
                                                 <CardLong >
                                                     <div className='cont-text'>
                                                         <div className='image-container'>
@@ -314,9 +318,10 @@ const MyProfile = () => {
                                         }
                                     </Grid>
                                 </TabPanel>
+                                {console.log(UserInfoProfile, "HEREE")}
                                 <TabPanel value="com" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} className='tab-panel'>
                                     {
-                                        wait ? UserInfoProfile?.wishes?.complete.length !== 0 ? UserInfoProfile?.wishes?.complete?.map((userDataWish) => (
+                                        !wait ? UserInfoProfile?.wishes?.complete.length !== 0 ? UserInfoProfile?.wishes?.complete?.map((userDataWish) => (
 
                                             <CardLong >
                                                 <div className='com-cont'>

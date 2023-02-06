@@ -82,6 +82,7 @@ export const Container = styled.div`
         width: 100px;
       }
       .otp_input input{
+width: 100% !important;
         height: 56px;
         float: left;
         font-size: 91px;

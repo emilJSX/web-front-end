@@ -96,17 +96,18 @@ export const Header = styled.div`
 
 
 export const EditingButtons = styled.div`
-  height: 150px;
+  //height: 150px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: auto;
   z-index: 10;
+  margin-bottom: 24px;
 
   @media(max-width: 1200px){
    justify-content: center;
-   margin: 0;
+   //margin: 0;
   }
 
   @media(min-width: 1200px){
@@ -117,6 +118,8 @@ export const EditingButtons = styled.div`
   @media(max-width: 645px){
    padding: 0;
    justify-content: start;
+    margin-left: 24px;
+    margin-bottom: 24px;
   }
 
 
@@ -183,11 +186,12 @@ export const EditingItem = styled.div`
 
 export const ProfilePicture = styled.div`
   
-  height: 150px;
+  //height: 150px;
   width: 100%;
   padding-left: 50px;
   display: flex; 
   align-items: center;
+  margin-bottom: 24px;
 
 
   .image-figure{

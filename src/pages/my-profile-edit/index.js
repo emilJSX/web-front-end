@@ -571,7 +571,7 @@ const ProfileEdit = () => {
       about = "",
       avatar = "",
       email = "",
-      phone = "",
+      number = "",
       interests = [],
     } = getInfoUser || {};
     const { country = "" } = getInfoUser?.country?.name || {};
@@ -582,7 +582,7 @@ const ProfileEdit = () => {
       country,
       avatar,
       email,
-      phone,
+      phone: number,
       interests,
     });
     SetCountryName(getInfoUser?.country?.name);
