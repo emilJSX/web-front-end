@@ -143,22 +143,23 @@ export function Login_ConnectionSystem({ setShowes }) {
 
   // ============================== RECOVERY PASSWORD CONFIG ============================
   const [recoveryEmail, setRecoveryEmail] = useState("");
+  const [recoveryError, setRecoveryError] = useState(null);
 
-  const getNewPasswordPage = () => {
-    navigate("/set-new-password", {
-      state: { userRecovery_email: recoveryEmail },
-    });
+  const handlePasswordRecovery = async ({ email }) => {
+    setRecoveryEmail(email);
+    await myaxios
+      .get("api/v1/registration/get-code", { params: { email } })
+      .then(() => {
+        setLoginSystemTab(2);
+      })
+      .catch((err) => {
+        setRecoveryError(
+          err.response.message != null
+            ? err.response.message
+            : "Something went wrong..."
+        );
+      });
   };
-  function getRequestPasswordRecovery() {
-    // myaxios
-    //   .get("api/v1/registration/get-code", { params: { email: recoveryEmail } })
-    //   .then((res) => {
-    //     console.log(res);
-    //     setLoginSystemTab(2);
-    //   }).catch(err => {
-    //     console.log(err)
-    //   });
-  }
 
   // ============================== END RECOVERY PASSWORD CONFIG ========================
 
@@ -238,6 +239,12 @@ export function Login_ConnectionSystem({ setShowes }) {
       }
     }, [delay]);
   }
+
+  const getNewPasswordPage = () => {
+    navigate("/set-new-password", {
+      state: { recoveryEmail },
+    });
+  };
 
   const twoDigits = (num) => String(num).padStart(2, "0");
 
@@ -393,25 +400,40 @@ export function Login_ConnectionSystem({ setShowes }) {
             </Button1>
             <Title>Password recovery</Title>
             <Paragraph>Enter your email. We’ll send recovery code</Paragraph>
-            <Emails
-              className="email"
-              type="email"
-              placeholder="Email"
-              style={{ width: "400px" }}
-              onChange={(e) => setRecoveryEmail(e.target.value)}
-            />
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              <ButtonSignUp onClick={getRequestPasswordRecovery}>
-                Continue
-              </ButtonSignUp>
-            </div>
+            <form onSubmit={handleSubmit(handlePasswordRecovery)}>
+              {recoveryError && (
+                <p className="mx-14 mt-2 text-red-500 text-xs">
+                  {recoveryError}
+                </p>
+              )}
+              <div className="flex justify-center">
+                <Email
+                  placeholder="Email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                />
+              </div>
+              {formState.errors.email && (
+                <p className="mx-14 mt-2 text-red-500 text-xs">
+                  {formState.errors.email.message}
+                </p>
+              )}
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <ButtonSignUp type="submit">Continue</ButtonSignUp>
+              </div>
+            </form>
           </Container>
         </Main>
       </TabPanel>

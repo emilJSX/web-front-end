@@ -1,98 +1,133 @@
-import { Passworde, ButtonSignUps, Div, EAdress, Titles, TopNavigator, PasswordContainer } from "./SetNewPassword.Style.js"
+import {
+  Passworde,
+  ButtonSignUps,
+  Div,
+  EAdress,
+  Titles,
+  TopNavigator,
+  PasswordContainer,
+} from "./SetNewPassword.Style.js";
 import { AiOutlineEye } from "react-icons/ai";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import OtpInput from "react-otp-input";
-import axios from "axios";
+import { myaxios } from "../../api/myaxios.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Finally() {
-  const [password, setPassword] = useState('password')
-  const [otpEmailCode, setOtp] = useState()
-  const [getNewPassword, setNewPassword] = useState()
-  const [getEmail, setEmail] = useState()
+  const [showPass, setShowPass] = useState(false);
+  const [getNewPassword, setNewPassword] = useState();
+  const [otp, setOtp] = useState();
+  const { state } = useLocation();
+  const [otpError, setOtpError] = useState();
+  const navigate = useNavigate();
 
-  const [getErrorOtp, setErrorOtp] = useState()
-
-  const navigate = useNavigate()
-
-  const handleChange = (otp) => {
-    setOtp(otp)
+  const handleNewPassword = async () => {
+    if (otp?.length === 0) {
+      setOtpError("otp code must have 6 numeric characters");
+    } else {
+      await myaxios
+        .post("/api/v1/profiles/store/new-password", {
+          email: state.recoveryEmail,
+          otp: otp,
+          new_password: getNewPassword,
+        })
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          if (err.response.status === 404)
+            setOtpError("Your email or otp code is wrong, please check again");
+          else {
+            setOtpError("Something went wrong ...");
+          }
+        });
+    }
   };
 
-  const { state } = useLocation()
-
-
-  const GetRecoveryNewPassword = () => {
-
-    if (otpEmailCode?.length === 0) {
-      setErrorOtp("You must be send otp code, check your email")
-    } else {
-      axios.post("https://api.wishx.me/api/v1/profiles/store/new-password", {
-        email: getEmail,
-        new_password: getNewPassword,
-        otp: otpEmailCode,
-      }).then((getResultNewPassord) => {
-        navigate("/")
-      }).catch((err) => {
-        setErrorOtp("Your email or otp code is wrong, please check again")
-      })
-    }
-  }
-
-
-
-  return (<>
-    <PasswordContainer style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-      <TopNavigator className="sm-buttons-conatiner">
-        <div className="flex items-center justify-center mb-4">
-          <CustomBreadcrumb links={[
-            {
-              title: 'Main',
-              to: '/'
-            },
-            {
-              title: 'Set Password',
-            }
-          ]} />
+  return (
+    <>
+      <PasswordContainer
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <TopNavigator className="sm-buttons-conatiner">
+          <div className="flex items-center justify-center mb-4">
+            <CustomBreadcrumb
+              links={[
+                {
+                  title: "Main",
+                  to: "/",
+                },
+                {
+                  title: "Set Password",
+                },
+              ]}
+            />
+          </div>
+        </TopNavigator>
+        <Titles
+          className="titles"
+          style={{
+            margin: "0",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          Set new password
+        </Titles>
+        <EAdress
+          className="eadress"
+          style={{
+            margin: "0",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          For {state.recoveryEmail} account
+        </EAdress>
+        <div className="otp-container">
+          <h3>OTP code</h3>
+          <OtpInput
+            className="otp_input"
+            value={otp}
+            style={{ justifyContent: "center" }}
+            onChange={(e) => setOtp(e)}
+            numInputs={6}
+            separator={<span> </span>}
+          />
+          {otpError && <p className="mt-4  text-red-600 text-xs">{otpError}</p>}
         </div>
-      </TopNavigator>
-      <Titles className="titles" style={{ margin: '0', width: '100%', display: 'flex', justifyContent: 'center' }}>Set new password</Titles>
-      <EAdress className="eadress" style={{ margin: '0', width: '100%', display: 'flex', justifyContent: 'center' }}>For {state.userRecovery_email} account</EAdress>
-      <div className="otp-container">
-        <h3>OTP code</h3>
-        <OtpInput
-          className='otp_input'
-          value={otpEmailCode}
-          style={{justifyContent: "center"}}
-          onChange={handleChange}
-          numInputs={6}
-          separator={<span> </span>}
-        />
-        {getErrorOtp && (
-          <p className="mt-4  text-red-600 text-xs">
-            {getErrorOtp}
-          </p>
-        )}
-      </div>
-      <Div >
-        <Passworde
-          placeholder='Email'
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ width: '100%', display: 'flex', justifyContent: 'center' }} />
-        <Passworde
-          placeholder='New password'
-          required
-          type={password ? 'password' : 'text'}
-          onChange={(e) => setNewPassword(e.target.value)}
-          style={{ width: '100%', display: 'flex', justifyContent: 'center' }} />
-        <AiOutlineEye className='eyes_button' onClick={() => { setPassword(!password) }} />
+        <Div>
+          <Passworde
+            placeholder="Email"
+            type="email"
+            value={state.recoveryEmail}
+            required
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+            disabled={state.recoveryEmail}
+          />
+          <Passworde
+            placeholder="New password"
+            required
+            type={!showPass ? "password" : "text"}
+            onChange={(e) => setNewPassword(e.target.value)}
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          />
+          <AiOutlineEye
+            className="eyes_button cursor-pointer"
+            onClick={() => setShowPass(!showPass)}
+          />
 
-        <ButtonSignUps onClick={GetRecoveryNewPassword}>Save</ButtonSignUps>
-      </Div>
-    </PasswordContainer>
-  </>)
+          <ButtonSignUps onClick={handleNewPassword}>Save</ButtonSignUps>
+        </Div>
+      </PasswordContainer>
+    </>
+  );
 }
 export default Finally;
