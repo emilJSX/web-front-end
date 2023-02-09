@@ -156,28 +156,28 @@ const Editing_Wish = () => {
         setUpdateFile(event.target.files[0])
     }
 
-    useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/wish/edit", {
-            params: {
-                wish_id: state
-            },
-            headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`}
-        }).then((resultWishEditProfile) => {
-            const {title="", price="", image="", description="" } = resultWishEditProfile?.data?.data || {}
+    // useEffect(() => {
+    //     axios.get("https://api.wishx.me/api/v1/wish/edit", {
+    //         params: {
+    //             wish_id: state
+    //         },
+    //         headers: { 'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`}
+    //     }).then((resultWishEditProfile) => {
+    //         const {title="", price="", image="", description="" } = resultWishEditProfile?.data?.data || {}
 
-            const currencyId = resultWishEditProfile?.data?.data.currency.id
-            setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
-            resultWishEditProfile.data.data.categories.map((e) => (
-                idInterestsApi.push(e.id)
-             ))
+    //         const currencyId = resultWishEditProfile?.data?.data.currency.id
+    //         setCurrencyName(resultWishEditProfile?.data?.data.currency.name)
+    //         resultWishEditProfile.data.data.categories.map((e) => (
+    //             idInterestsApi.push(e.id)
+    //          ))
 
-            const {currency_id} = currencyId || {}
+    //         const {currency_id} = currencyId || {}
 
-            setUpdateWishData({title, price, currency_id, image, description})
-        }).catch((err) => {
-            console.log(err)
-        })
-    }, [])
+    //         setUpdateWishData({title, price, currency_id, image, description})
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
+    // }, [])
     
     // getUpdateWishData.currency_id == null ? +state.currency.id : getUpdateWishData.currency_id
 

@@ -432,17 +432,17 @@ const ProfileEdit = () => {
     setSocialInputs(result);
   };
 
-  useEffect(() => {
-    axios
-      .get("https://api.wishx.me/api/v1/profiles/social/links", {
-        headers: {
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      })
-      .then((getUserSocialLinks) => {
-        setGetSocialLinksUser(getUserSocialLinks.data.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/profiles/social/links", {
+  //       headers: {
+  //         Authorization: `Bearer ${getUserToken}`,
+  //       },
+  //     })
+  //     .then((getUserSocialLinks) => {
+  //       setGetSocialLinksUser(getUserSocialLinks.data.data);
+  //     });
+  // }, []);
 
   useEffect(() => {
     const {
@@ -502,35 +502,35 @@ const ProfileEdit = () => {
   };
 
   var idInterestsApi = [];
-  useEffect(() => {
-    axios
-      .get("https://api.wishx.me/api/v1/profiles/edit", {
-        headers: {
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      })
-      .then((getUserUpdateInfo) => {
-        setInfoUser(getUserUpdateInfo.data.data);
-        setGenderId(getUserUpdateInfo.data.data.gender.id);
-        setCountryData(getUserUpdateInfo.data.data.country);
-        if (getUserUpdateInfo.data.data?.country) {
-          setCountryNameId(getUserUpdateInfo.data.data.country);
-        }
-        getUserUpdateInfo.data.data.interests.map((e) =>
-          idInterestsApi.push(e.id)
-        );
+  // useEffect(() => {
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/profiles/edit", {
+  //       headers: {
+  //         Authorization: `Bearer ${getUserToken}`,
+  //       },
+  //     })
+  //     .then((getUserUpdateInfo) => {
+  //       setInfoUser(getUserUpdateInfo.data.data);
+  //       setGenderId(getUserUpdateInfo.data.data.gender.id);
+  //       setCountryData(getUserUpdateInfo.data.data.country);
+  //       if (getUserUpdateInfo.data.data?.country) {
+  //         setCountryNameId(getUserUpdateInfo.data.data.country);
+  //       }
+  //       getUserUpdateInfo.data.data.interests.map((e) =>
+  //         idInterestsApi.push(e.id)
+  //       );
 
-        const dateStr = getUserUpdateInfo.data.data.dob; // "2019-12-31 00:00:00"
-        const dateObj = new Date(dateStr);
-        const month = dateObj.getUTCMonth() + 1; //months from 1-12
-        const day = dateObj.getUTCDate();
-        const year = dateObj.getUTCFullYear();
+  //       const dateStr = getUserUpdateInfo.data.data.dob; // "2019-12-31 00:00:00"
+  //       const dateObj = new Date(dateStr);
+  //       const month = dateObj.getUTCMonth() + 1; //months from 1-12
+  //       const day = dateObj.getUTCDate();
+  //       const year = dateObj.getUTCFullYear();
 
-        onChange(new Date(year, month, day));
-      });
+  //       onChange(new Date(year, month, day));
+  //     });
 
-    // Checked Gender Id for API
-  }, []);
+  //   // Checked Gender Id for API
+  // }, []);
 
   try {
     if (getGenderId == 1) {
@@ -696,23 +696,23 @@ const ProfileEdit = () => {
   // var getCountryList = [];
   const [getCountryList, setCountryList] = useState([]);
 
-  useEffect(() => {
-    try {
-      axios({
-        method: "get",
-        url: "https://api.wishx.me/api/v1/settings/countries/get",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      }).then((getCountry) => {
-        setCountryList(getCountry.data.data);
-      });
-    } catch (error) {
-      console.log("");
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     axios({
+  //       method: "get",
+  //       url: "https://api.wishx.me/api/v1/settings/countries/get",
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //         xsrfHeaderName: "X-XSRF-TOKEN",
+  //         Authorization: `Bearer ${getUserToken}`,
+  //       },
+  //     }).then((getCountry) => {
+  //       setCountryList(getCountry.data.data);
+  //     });
+  //   } catch (error) {
+  //     console.log("");
+  //   }
+  // }, []);
 
   // =================================================================================================================
   return (

@@ -90,35 +90,35 @@ function Calendar() {
 
   // End Calendar Date functions
 
-  useEffect(() => {
-    axios
-      .get("https://api.wishx.me/api/v1/user", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${GetUserTokenCreationWish}`,
-        },
-      })
-      .then((datauser) => setSlugName(datauser.data.data.info.slug));
+  // useEffect(() => {
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/user", {
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //         xsrfHeaderName: "X-XSRF-TOKEN",
+  //         Authorization: `Bearer ${GetUserTokenCreationWish}`,
+  //       },
+  //     })
+  //     .then((datauser) => setSlugName(datauser.data.data.info.slug));
 
-    const getFullCalendarDate =
-      getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
-    axios
-      .get("https://api.wishx.me/api/v1/wish/calendar", {
-        params: {
-          date: getFullCalendarDate,
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${GetUserTokenCreationWish}`,
-        },
-      })
-      .then((getAllDataCalendar) => {
-        setAllCalendar(getAllDataCalendar?.data?.data);
-        var getCurrentCalendar = getAllDataCalendar?.data?.data;
-      });
-  }, []);
+  //   const getFullCalendarDate =
+  //     getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/wish/calendar", {
+  //       params: {
+  //         date: getFullCalendarDate,
+  //       },
+  //       headers: {
+  //         "Access-Control-Allow-Origin": "*",
+  //         xsrfHeaderName: "X-XSRF-TOKEN",
+  //         Authorization: `Bearer ${GetUserTokenCreationWish}`,
+  //       },
+  //     })
+  //     .then((getAllDataCalendar) => {
+  //       setAllCalendar(getAllDataCalendar?.data?.data);
+  //       var getCurrentCalendar = getAllDataCalendar?.data?.data;
+  //     });
+  // }, []);
 
   useEffect(() => {
     getCalendarFullDate();

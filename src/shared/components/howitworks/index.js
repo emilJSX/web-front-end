@@ -14,17 +14,17 @@ import CustomBreadcrumb from "../breadcrumb";
 
 const HowItWorks = ({ isHome = false }) => {
     const getUserToken = localStorage.getItem("UserToken=");
-    useEffect(() => {
-        axios.get("/api/v1/static_pages/faq/get", {
-            headers: {
-                Authorization: `Bearer ${getUserToken}`,
-            }
-        }).then((getDataHIW) => {
-            console.log(getDataHIW, "getDataHIW")
-        })
+    // useEffect(() => {
+    //     axios.get("/api/v1/static_pages/faq/get", {
+    //         headers: {
+    //             Authorization: `Bearer ${getUserToken}`,
+    //         }
+    //     }).then((getDataHIW) => {
+    //         console.log(getDataHIW, "getDataHIW")
+    //     })
 
-        window.scrollTo(0, 0)
-      }, [])
+    //     window.scrollTo(0, 0)
+    //   }, [])
 
     return(
         <HIWContainer fluid>

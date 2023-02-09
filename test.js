@@ -75,39 +75,39 @@ const MyProfile = () => {
     //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
     var getUserToken = localStorage.getItem("UserToken=")
 
-    useEffect(() => {
-            axios.get("https://api.wishx.me/api/v1/user", {
-                headers: {
-                    'Authorization': `Bearer ${getUserToken}`,
-                    'Access-Control-Allow-Origin' : "*"
-                }
-                }).then((userData) => {
-                    const UserInfoProfile = userData.data.data
-                    setUserInfoProfile(UserInfoProfile)
-                    axios.get("https://api.wishx.me/api/v1/user/other", {
-                        params: {
-                            user_id: userData.data.data.user_id
-                        },
-                        headers: {
-                            'Authorization': `Bearer ${getUserToken}`,
-                            'Access-Control-Allow-Origin' : "*"
-                        }
-                    }).then((getJoinedData) => {
-                        setJoined(getJoinedData.data.data.info.joined)
-                    })
-                })
+    // useEffect(() => {
+    //         axios.get("https://api.wishx.me/api/v1/user", {
+    //             headers: {
+    //                 'Authorization': `Bearer ${getUserToken}`,
+    //                 'Access-Control-Allow-Origin' : "*"
+    //             }
+    //             }).then((userData) => {
+    //                 const UserInfoProfile = userData.data.data
+    //                 setUserInfoProfile(UserInfoProfile)
+    //                 axios.get("https://api.wishx.me/api/v1/user/other", {
+    //                     params: {
+    //                         user_id: userData.data.data.user_id
+    //                     },
+    //                     headers: {
+    //                         'Authorization': `Bearer ${getUserToken}`,
+    //                         'Access-Control-Allow-Origin' : "*"
+    //                     }
+    //                 }).then((getJoinedData) => {
+    //                     setJoined(getJoinedData.data.data.info.joined)
+    //                 })
+    //             })
                 
-            axios.get("https://api.wishx.me/api/v1/wish/get", {
-                headers: {
-                    'Authorization': `Bearer ${getUserToken}`,
-                    'Access-Control-Allow-Origin' : "*"
-                }        
-            }).then((dataUserWish) => {
-                const getUserWishes = dataUserWish.data.data
-                setUserInfoProfile(getUserWishes)
-            })
+    //         axios.get("https://api.wishx.me/api/v1/wish/get", {
+    //             headers: {
+    //                 'Authorization': `Bearer ${getUserToken}`,
+    //                 'Access-Control-Allow-Origin' : "*"
+    //             }        
+    //         }).then((dataUserWish) => {
+    //             const getUserWishes = dataUserWish.data.data
+    //             setUserInfoProfile(getUserWishes)
+    //         })
         
-    }, [])
+    // }, [])
 
     var navigate = useNavigate()
 

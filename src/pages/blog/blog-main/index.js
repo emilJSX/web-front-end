@@ -34,16 +34,16 @@ const MainBlog = () => {
     const[DataSkip, setDataSkip] = useState(0)
     const[getResultApiSearch, setResultApiSearch] = useState()
 
-    useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
-            params: {
-                skip:0,
-            },
-        }).then((data) => {
-            setResultApiSearch(data.data.data.list)
-            console.log(data)
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
+    //         params: {
+    //             skip:0,
+    //         },
+    //     }).then((data) => {
+    //         setResultApiSearch(data.data.data.list)
+    //         console.log(data)
+    //     })
+    // }, [])
 
     const GetUserValueForApi = (e) => {
         navigate('/blog-search-result', { state: {GetUserSearch, GetUserCategoryId} })

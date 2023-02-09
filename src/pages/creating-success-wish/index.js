@@ -77,16 +77,16 @@ const Created_Success_Wish = () => {
   const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`
 
   const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
-  useEffect(()=> {
-    axios.get("https://api.wishx.me/api/v1/user",{
-         headers: {
-           'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
-         }
-       }).then((datauser) => {
-        setUserName(datauser.data.data.info.full_name)
-        console.log(datauser)
-       })
-  }, [])
+  // useEffect(()=> {
+  //   axios.get("https://api.wishx.me/api/v1/user",{
+  //        headers: {
+  //          'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
+  //        }
+  //      }).then((datauser) => {
+  //       setUserName(datauser.data.data.info.full_name)
+  //       console.log(datauser)
+  //      })
+  // }, [])
 
 
 

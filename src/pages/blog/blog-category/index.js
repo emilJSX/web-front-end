@@ -31,13 +31,13 @@ const BlogCategory = () => {
     const[getResultApiSearch, setResultApiSearch] = useState()
     const[DataSkip, setDataSkip] = useState()
 
-    axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
-        params: {
-            skip:0,
-        },
-    }).then((data) => {
-        setResultApiSearch(data.data.data.list)
-    } )
+    // axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
+    //     params: {
+    //         skip:0,
+    //     },
+    // }).then((data) => {
+    //     setResultApiSearch(data.data.data.list)
+    // } )
 
     const buttonTitles = [{ id: 0, title: 'All' }, { id: 1, title: 'Travel' },
     { id: 2, title: 'Sport' }, { id: 3, title: 'Gadgets' }, { id: 4, title: 'Foto & Videos' }, { id: 5, title: 'Clothes' }];
@@ -46,15 +46,15 @@ const BlogCategory = () => {
         setUserCategoryId(event.currentTarget.id);
     };
 
-    useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
-            params: {
-                skip:0,
-            },
-        }).then((data) => {
-            setResultApiSearch(data.data.data.list)
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
+    //         params: {
+    //             skip:0,
+    //         },
+    //     }).then((data) => {
+    //         setResultApiSearch(data.data.data.list)
+    //     })
+    // }, [])
 
     var setLoadingBlog = []
     getResultApiSearch?.map((AllBlog) => (

@@ -91,37 +91,37 @@ function Search() {
   }
 
 
-  useEffect(() => {
-    axios.get('https://api.wishx.me/api/v1/profiles/search', {
-      params: {
-        skip: 0,
-        search: state,
-      },
-      headers: {
-        'Authorization': `Bearer ${getUserToken}`,
-      }
-    }).then((getResultPeople) => {
-      setResultPeopleTotal((getResultPeople.data.data.total))
-      setAllPeopleData(getResultPeople.data.data)
-      console.log(getResultPeople)
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get('https://api.wishx.me/api/v1/profiles/search', {
+  //     params: {
+  //       skip: 0,
+  //       search: state,
+  //     },
+  //     headers: {
+  //       'Authorization': `Bearer ${getUserToken}`,
+  //     }
+  //   }).then((getResultPeople) => {
+  //     setResultPeopleTotal((getResultPeople.data.data.total))
+  //     setAllPeopleData(getResultPeople.data.data)
+  //     console.log(getResultPeople)
+  //   })
+  // }, [])
   
   
-  useEffect(() => {
-    axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
-      params: {
-        skip: 0,
-        search: state,
-      },
-      headers: {
-        'Authorization': `Bearer ${getUserToken}`,
-      }
-    }).then((getResultWish) => {
-      setAllWishData(getResultWish.data.data)
-      setResultWishTotal(getResultWish.data.data.total)
-    })
-  },[])
+  // useEffect(() => {
+  //   axios.get('https://api.wishx.me/api/v1/wish/list?skip=0', {
+  //     params: {
+  //       skip: 0,
+  //       search: state,
+  //     },
+  //     headers: {
+  //       'Authorization': `Bearer ${getUserToken}`,
+  //     }
+  //   }).then((getResultWish) => {
+  //     setAllWishData(getResultWish.data.data)
+  //     setResultWishTotal(getResultWish.data.data.total)
+  //   })
+  // },[])
 
 
   

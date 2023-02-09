@@ -86,18 +86,18 @@ function Wish_pages() {
         window.scrollTo(0, 0)
       }, [])
 
-    useEffect(()=> {
-        axios.get("https://api.wishx.me/api/v1/wish/slug/",{
-            params: {
-                slug: state
-            }
-        }).then((GetUserWish)=> {
-            setGetUserData(GetUserWish?.data?.data)
-            console.log(GetUserWish)
-          }).catch((err) => {
-            console.log("")
-          })
-    },[])
+    // useEffect(()=> {
+    //     axios.get("https://api.wishx.me/api/v1/wish/slug/",{
+    //         params: {
+    //             slug: state
+    //         }
+    //     }).then((GetUserWish)=> {
+    //         setGetUserData(GetUserWish?.data?.data)
+    //         console.log(GetUserWish)
+    //       }).catch((err) => {
+    //         console.log("")
+    //       })
+    // },[])
     const [modalShow, setModalShow] = useState(false);
 
     //   Get WISH IMAGE API

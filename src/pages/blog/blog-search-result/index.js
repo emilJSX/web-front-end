@@ -56,25 +56,25 @@ const BlogSearchResult = () => {
         })
     }
 
-    useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
-            params: {
-                skip:0,
-                category_id: state.GetUserCategoryId,
-                search: state.GetUserSearch
-            },
-        }).then((data) => {
-            let getData = data.data.data.list
-            setResultBlog(getData)
+    // useEffect(() => {
+    //     axios.get("https://api.wishx.me/api/v1/blog/articles/get", {
+    //         params: {
+    //             skip:0,
+    //             category_id: state.GetUserCategoryId,
+    //             search: state.GetUserSearch
+    //         },
+    //     }).then((data) => {
+    //         let getData = data.data.data.list
+    //         setResultBlog(getData)
 
-            if(getData == null) {
-                setShow404(true)
-            }
+    //         if(getData == null) {
+    //             setShow404(true)
+    //         }
 
-        }).catch(() => {
-            setShow404(true)
-        })
-    }, [])
+    //     }).catch(() => {
+    //         setShow404(true)
+    //     })
+    // }, [])
     return (
         <>
             <BlogMainSection fluid>

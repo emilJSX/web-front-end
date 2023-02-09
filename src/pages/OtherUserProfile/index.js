@@ -88,16 +88,16 @@ const OtherUserProfile = () => {
 
       }, [])
 
-    useEffect(() => {
-            axios.get("https://api.wishx.me/api/v1/user/other/slug", {
-                params: {
-                    slug: state
-                },
-                }).then((userData) => {
-                    setUserInfoProfile(userData.data.data)
-                    setJoined(userData.data.data.info.joined)
-                })
-    }, [])
+    // useEffect(() => {
+    //         axios.get("https://api.wishx.me/api/v1/user/other/slug", {
+    //             params: {
+    //                 slug: state
+    //             },
+    //             }).then((userData) => {
+    //                 setUserInfoProfile(userData.data.data)
+    //                 setJoined(userData.data.data.info.joined)
+    //             })
+    // }, [])
 
 
     var navigate = useNavigate()

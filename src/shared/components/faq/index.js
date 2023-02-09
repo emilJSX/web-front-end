@@ -72,17 +72,17 @@ const FaqSection = () => {
   var GetAnswer = []
   
   // API FAQ
-  useEffect(() => {
-    axios.get("https://api.wishx.me/api/v1/static_pages/faq/get", {
-      'Access-Control-Allow-Origin' : "*"
-    }).then((config) => {
-      // console.log(config.data.data)
-      const CreationDataParse = config.data.data
-      setTestingData(CreationDataParse)
-    })
+  // useEffect(() => {
+  //   axios.get("https://api.wishx.me/api/v1/static_pages/faq/get", {
+  //     'Access-Control-Allow-Origin' : "*"
+  //   }).then((config) => {
+  //     // console.log(config.data.data)
+  //     const CreationDataParse = config.data.data
+  //     setTestingData(CreationDataParse)
+  //   })
     
     
-  }, [])
+  // }, [])
 
 
 

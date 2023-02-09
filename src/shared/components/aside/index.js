@@ -20,16 +20,16 @@ export const AsideComponent = ({ hidden }) => {
 
     // onClik = () =>{setShow(!show)}
 
-    useEffect(() => {
-        axios.get("https://api.wishx.me/api/v1/user", {
-            headers: {
-                'Authorization': `Bearer ${GetUserToken}`,
-                'Access-Control-Allow-Origin': "*"
-            }
-        }).then((userData) => {
-            setUserLoginData(userData.data.data.info)
-        })
-    }, [])
+    // useEffect(() => {
+    //     axios.get("https://api.wishx.me/api/v1/user", {
+    //         headers: {
+    //             'Authorization': `Bearer ${GetUserToken}`,
+    //             'Access-Control-Allow-Origin': "*"
+    //         }
+    //     }).then((userData) => {
+    //         setUserLoginData(userData.data.data.info)
+    //     })
+    // }, [])
 console.log({hidden})
     function LogoutApi() {
         useDrawer()

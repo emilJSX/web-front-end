@@ -24,16 +24,16 @@ export const HomeLoginHeader = () => {
   
       const GetUserToken = localStorage.getItem("UserToken=")
   
-      useEffect(()=> {
-          axios.get("https://api.wishx.me/api/v1/user", {
-              headers: {
-                  'Authorization': `Bearer ${GetUserToken}`,
-                  'Access-Control-Allow-Origin' : "*"
-              }
-          }).then((userData) => {
-              setUserLoginData(userData.data.data.info)
-          })
-      },[])
+    //   useEffect(()=> {
+    //       axios.get("https://api.wishx.me/api/v1/user", {
+    //           headers: {
+    //               'Authorization': `Bearer ${GetUserToken}`,
+    //               'Access-Control-Allow-Origin' : "*"
+    //           }
+    //       }).then((userData) => {
+    //           setUserLoginData(userData.data.data.info)
+    //       })
+    //   },[])
     return (
       <HeaderLoginHomePage> 
         <section className='logoSection'>

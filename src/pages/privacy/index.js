@@ -15,12 +15,12 @@ const Privacy = () => {
         window.scrollTo(0, 0)
       }, [])
 
-    axios.get("https://api.wishx.me/api/v1/static_pages/terms/get").then((response_terms) => {
-        setTitleOne(response_terms.data.data[0].title)
-        setTitleTwo(response_terms.data.data[1].title)
-        setContentOne(response_terms.data.data[0].content)
-        setContentTwo(response_terms.data.data[1].content)
-    })
+    // axios.get("https://api.wishx.me/api/v1/static_pages/terms/get").then((response_terms) => {
+    //     setTitleOne(response_terms.data.data[0].title)
+    //     setTitleTwo(response_terms.data.data[1].title)
+    //     setContentOne(response_terms.data.data[0].content)
+    //     setContentTwo(response_terms.data.data[1].content)
+    // })
     return (
         <PrivacyTopContainer>
             <div className="topsection">

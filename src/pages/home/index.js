@@ -116,30 +116,30 @@ const Home = () => {
 
   const [getPopularWish, setPopularWish] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
-        params: {
-          skip: 0,
-        },
-      })
-      .then((getResultWish) => {
-        setAllWishData(getResultWish.data.data);
-      });
+  // useEffect(() => {
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
+  //       params: {
+  //         skip: 0,
+  //       },
+  //     })
+  //     .then((getResultWish) => {
+  //       setAllWishData(getResultWish.data.data);
+  //     });
 
-    axios
-      .get("https://api.wishx.me/api/v1/wish/popular", {
-        params: {
-          skip: 0,
-        },
-      })
-      .then((getPopularWish) => {
-        setPopularWish(getPopularWish.data.data.results);
-      })
-      .catch(() => {
-        console.log(" ");
-      });
-  }, []);
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/wish/popular", {
+  //       params: {
+  //         skip: 0,
+  //       },
+  //     })
+  //     .then((getPopularWish) => {
+  //       setPopularWish(getPopularWish.data.data.results);
+  //     })
+  //     .catch(() => {
+  //       console.log(" ");
+  //     });
+  // }, []);
 
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, { state: slug });
