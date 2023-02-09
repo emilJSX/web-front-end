@@ -178,17 +178,17 @@ export function Login_ConnectionSystem({ setShowes }) {
   const minutesToDisplay = minutesRemaining % 60;
   const hoursToDisplay = (minutesRemaining - minutesToDisplay) / 60;
 
-  function getRequestPasswordOTPRecovery() {
-    axios
-      .get("https://api.wishx.me/api/v1/registration/get-code", {
-        params: {
-          email: getEmailRecovery,
-        },
-      })
-      .then((RecoveryData) => {
-        console.log(RecoveryData);
-      });
-  }
+  // function getRequestPasswordOTPRecovery() {
+  //   axios
+  //     .get("https://api.wishx.me/api/v1/registration/get-code", {
+  //       params: {
+  //         email: getEmailRecovery,
+  //       },
+  //     })
+  //     .then((RecoveryData) => {
+  //       console.log(RecoveryData);
+  //     });
+  // }
 
   const handleStart = (clickEvent) => {
     clickEvent.preventDefault();
@@ -497,12 +497,6 @@ export function SignUp_ConnectionSystem({
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
 
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showOtp, setShowOtp] = useState(false);
-  const [showInformation, setShowInformation] = useState(false);
-  const [showInterests, setShowInterests] = useState(false);
-  const [showVerification, setShowVerification] = useState(false);
-
   // 0 - Sign Up
   // 1 - Email OTP
   // 2 - Your Information
@@ -521,8 +515,6 @@ export function SignUp_ConnectionSystem({
   const [getEmail, setGetEmail] = useState("");
   const [getPassword, setGetPassword] = useState("");
   const [getUserNameValue, setUserNameValue] = useState();
-
-  const cancelToken = useRef(null);
 
   // END Register API
   const [emailErrorMessage, setErrorMessage] = useState("");
@@ -545,6 +537,11 @@ export function SignUp_ConnectionSystem({
     formState: { errors },
   } = useForm({
     reValidateMode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+      userName: "",
+    },
   });
 
   const clickEmail = () => {
@@ -555,50 +552,33 @@ export function SignUp_ConnectionSystem({
   const HandleGetRegister = ({ email, password, username }) => {
     const result_getname = email.split("@")[0];
     setGetName(result_getname);
-
-    axios({
-      method: "get",
-      url: "https://api.wishx.me/api/v1/registration/get-code",
-      params: { email: getEmail },
-    })
+    myaxios
+      .get("/api/v1/registration/get-code", { params: { email: getEmail } })
       .then(function (response) {
         console.log(response, "OTP CODE");
         setTabIndex(1);
       })
       .catch((err) => {
+        console.log(err);
         setErrorMessage("The email has already been taken.");
       });
   };
 
-  const checkUsername = () => {
-    if (cancelToken.current !== null) {
-      cancelToken.current.cancel("Operation canceled due to new request");
-    }
-
-    cancelToken.current = axios.CancelToken.source();
-
-    axios({
-      method: "get",
-      url: "https://api.wishx.me/api/v1/username/check",
-      params: { username: String(getUserNameValue) },
-      cancelToken: cancelToken.current.token,
-    })
-      .then(function (responseCheckUsername) {
-        getUserNameValue?.length != 6 ? setUserNameErrorMessage("") : null;
-        setUserNameErrorMessage("");
-        getUserNameValue?.length < 6
-          ? setUserNameErrorMessage("Username has 6 simvols")
-          : null;
-        if (!USERNAME_REGEX.test(getUserNameValue)) {
-          setUserNameAviableMessage("");
-          setUsernameRegex("In username not be used symbols ");
-        } else {
-          setUserNameAviableMessage(responseCheckUsername.data.message);
-        }
+  const checkUsername = async () => {
+    const controller = new AbortController();
+    await myaxios
+      .get("/api/v1/username/check", {
+        params: { username: String(getUserNameValue) },
+        signal: controller.signal,
       })
-      .catch(function (err) {
-        setUserNameAviableMessage("");
-        setUserNameErrorMessage("UserName is not aviable");
+      .then((res) => {
+        if (res.status === 200) setUserNameAviableMessage("Username available");
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          setUserNameAviableMessage("");
+          setUserNameErrorMessage("Username is already in use");
+        }
       });
   };
 
@@ -618,7 +598,6 @@ export function SignUp_ConnectionSystem({
   useEffect(() => {
     if (!USERNAME_REGEX.test(getUserNameValue)) {
       setUsernameRegex("In username not be used symbols ");
-      setUserNameAviableMessage("");
     } else {
       setUsernameRegex("");
     }
@@ -627,9 +606,8 @@ export function SignUp_ConnectionSystem({
       setUsernameRegex("");
       checkUsername();
     } else if (getUserNameValue?.length <= 6) {
-      setUsernameCheckLength("Username must be 6 simovols");
+      setUsernameCheckLength("Username must be 6 symbols");
     } else {
-      setUserNameAviableMessage("");
       setUsernameRegex("");
       setUserNameErrorMessage("");
       setUsernameCheckLength("");
@@ -651,9 +629,9 @@ export function SignUp_ConnectionSystem({
 
   const handleUpdateInfoProfile = (event) => {
     event.preventDefault();
-    axios
+    myaxios
       .post(
-        "https://api.wishx.me/api/v1/profiles/update",
+        "api/v1/profiles/update",
         {
           full_name: getUserFullName,
           phone: getUserPhoneNumber,
@@ -661,13 +639,7 @@ export function SignUp_ConnectionSystem({
           dob: getUserBirthday,
         },
         {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "content-type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-            Authorization: `Bearer ${getUserToken}`,
-          },
+          headers: { Authorization: `Bearer ${getUserToken}` },
         }
       )
       .then((resultUpdate) => {
@@ -699,14 +671,10 @@ export function SignUp_ConnectionSystem({
   const hoursToDisplay = (minutesRemaining - minutesToDisplay) / 60;
 
   function getRequestOtpRecovery() {
-    axios
-      .get("https://api.wishx.me/api/v1/registration/get-code", {
-        params: {
-          email: getEmail,
-        },
-      })
-      .then((RecoveryData) => {
-        console.log(RecoveryData);
+    myaxios
+      .get("/api/v1/registration/get-code", { params: { email: getEmail } })
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         setErrOtpRecovery("System Error, please try again later");
@@ -776,25 +744,14 @@ export function SignUp_ConnectionSystem({
 
   function getOtpRegistrationuser(clickEvent) {
     clickEvent.preventDefault();
-    axios
-      .post(
-        "https://api.wishx.me/api/v1/register",
-        {
-          otp: otpEmailCode,
-          name: getUserNameValue, //getEmail.split("@")[0]
-          email: getEmail,
-          password: getPassword,
-          confirm_password: getPassword,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "content-type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        }
-      )
+    myaxios
+      .post("api/v1/register", {
+        otp: otpEmailCode,
+        name: getUserNameValue, //getEmail.split("@")[0]
+        email: getEmail,
+        password: getPassword,
+        confirm_password: getPassword,
+      })
       .then((response) => {
         if (response.data.success == true) {
           console.log(response, "OTP SUCCESS REGISTERED!!!");
@@ -805,17 +762,15 @@ export function SignUp_ConnectionSystem({
           setTabIndex(2);
 
           try {
-            axios({
-              method: "get",
-              url: "https://api.wishx.me/api/v1/settings/countries/get",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                xsrfHeaderName: "X-XSRF-TOKEN",
-                Authorization: `Bearer ${getUserToken}`,
-              },
-            }).then((getCountry) => {
-              setCountryList(getCountry.data.data);
-            });
+            myaxios
+              .get("/api/v1/settings/countries/get", {
+                headers: {
+                  Authorization: `Bearer ${getUserToken}`,
+                },
+              })
+              .then((getCountry) => {
+                setCountryList(getCountry.data.data);
+              });
           } catch (error) {
             console.log(error);
           }
@@ -844,19 +799,17 @@ export function SignUp_ConnectionSystem({
 
     formUpdateData.append("interests", getInterestsIdApi);
     try {
-      await axios({
-        method: "post",
-        url: "https://api.wishx.me/api/v1/profiles/update",
-        data: formUpdateData,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      }).then((resultUpdate) => {
-        console.log(resultUpdate);
-        setTabIndex(4);
-      });
+      await myaxios
+        .post("/api/v1/profiles/update", {
+          data: formUpdateData,
+          headers: {
+            Authorization: `Bearer ${getUserToken}`,
+          },
+        })
+        .then((resultUpdate) => {
+          console.log(resultUpdate);
+          setTabIndex(4);
+        });
     } catch {
       console.log("");
     }
@@ -967,7 +920,7 @@ export function SignUp_ConnectionSystem({
             </Goapp>
             <ButtonOR onClick={clickEmail}>Or via email</ButtonOR>
 
-            {shower ? (
+            {shower && (
               <Dispno>
                 <form onSubmit={handleSubmit(HandleGetRegister)}>
                   <div
@@ -987,9 +940,6 @@ export function SignUp_ConnectionSystem({
                           message: "Invalid email address",
                         },
                       })}
-                      onChange={(get_useremail) =>
-                        setGetEmail(get_useremail.target.value)
-                      }
                     />
                   </div>
 
@@ -1012,7 +962,11 @@ export function SignUp_ConnectionSystem({
                       if (e) setUserNameValue(e.target.value);
                     }, 500)}
                   />
-
+                  {userNameAviableMessage && (
+                    <p className="mx-14 mt-2 text-green-500 text-xs">
+                      {userNameAviableMessage}
+                    </p>
+                  )}
                   {getUsernameRegex && (
                     <p className="mx-14 mt-2 text-red-500 text-xs">
                       {getUsernameRegex}
@@ -1025,15 +979,9 @@ export function SignUp_ConnectionSystem({
                     </p>
                   )}
 
-                  {userNameAviableMessage && (
-                    <p className="mx-14 mt-2 text-green-500 text-xs">
-                      {userNameAviableMessage}
-                    </p>
-                  )}
-
                   {userNameErrorMessage && (
                     <p className="mx-14 mt-2 text-red-500 text-xs">
-                      system.profile.username.not_unique
+                      {userNameErrorMessage}
                     </p>
                   )}
                   <div
@@ -1047,6 +995,7 @@ export function SignUp_ConnectionSystem({
                       placeholder="Password"
                       {...register("password", {
                         required: "Password is required",
+                        min: 5,
                       })}
                       onChange={(get_userpassword) =>
                         setGetPassword(get_userpassword.target.value)
@@ -1096,8 +1045,6 @@ export function SignUp_ConnectionSystem({
                   </div>
                 </form>
               </Dispno>
-            ) : (
-              ""
             )}
           </Container>
         </Main>
