@@ -1,5 +1,8 @@
 import { React, useEffect, useState } from "react";
-import { Login_ConnectionSystem, SignUp_ConnectionSystem } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
+import {
+  Login_ConnectionSystem,
+  SignUp_ConnectionSystem,
+} from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 import {
   Image,
   MediaQuery,
@@ -132,6 +135,7 @@ const Home = () => {
   //       params: {
   //         skip: 0,
   //       },
+
   //     })
   //     .then((getPopularWish) => {
   //       setPopularWish(getPopularWish.data.data.results);
@@ -155,14 +159,13 @@ const Home = () => {
 
   const [show, setShow] = useState(false);
 
-
   // Login Modal Open
   const [showes, setShowes] = useState(false);
   // END MODAL LOGIN
 
   // Register Models Open
-  const [registerModal, setregisterModal] = useState(false)
-  const [emailConfirmModal, setEmailOtpModal] = useState(false)
+  const [registerModal, setregisterModal] = useState(false);
+  const [emailConfirmModal, setEmailOtpModal] = useState(false);
   // END MODAL REGISTER
 
   const [swiper, setSwiper] = useState(null);
@@ -182,17 +185,18 @@ const Home = () => {
   const showEmailConfirm = () => {
     let body = document.querySelector("body");
     body.setAttribute("style", "overflow-x: hidden");
-    setEmailOtpModal(!show)
-  }
-
-  
-
-
+    setEmailOtpModal(!show);
+  };
 
   return (
     <>
       {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : null}
-      {registerModal ? <SignUp_ConnectionSystem setregisterModal={setregisterModal} setEmailOtpModal={setEmailOtpModal}  /> : null}
+      {registerModal ? (
+        <SignUp_ConnectionSystem
+          setregisterModal={setregisterModal}
+          setEmailOtpModal={setEmailOtpModal}
+        />
+      ) : null}
       <HomeConatiner
         fluid
         p={0}
@@ -283,7 +287,7 @@ const Home = () => {
                           <Link
                             name={getWishData.slug}
                             // onClick={(e) =>
-                              // getWishIdForResult(e.currentTarget.name)
+                            // getWishIdForResult(e.currentTarget.name)
                             // }
                             to={{
                               pathname: "/wish/" + getWishData.slug,
@@ -413,8 +417,7 @@ const Home = () => {
               </Wrapper>
             </Grid.Col>
           ))}
-          <WishesBtn>
-          </WishesBtn>
+          <WishesBtn></WishesBtn>
         </Grid>
         <a href="/wish-list">
           <SeeAllWish className="see-all-btn">See all wishes</SeeAllWish>
@@ -467,16 +470,14 @@ const Home = () => {
           <div className="insider-lg">
             <div className="title">
               <div className="top">
-                <p className="top-title">
-                  Applications that makes sense
-                </p>
+                <p className="top-title">Applications that makes sense</p>
               </div>
               <div className="bottom">
                 <p className="bottom-title">
-                  The software offers complete campaign transparency,
-                  email tracking, view success and click-through rates,
-                  custom reports, and the ability to manage subscribers
-                  and un-subscribers
+                  The software offers complete campaign transparency, email
+                  tracking, view success and click-through rates, custom
+                  reports, and the ability to manage subscribers and
+                  un-subscribers
                 </p>
               </div>
             </div>
