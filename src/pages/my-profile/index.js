@@ -99,6 +99,7 @@ import instagram from "../../style/icons/instagram.svg";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
+import { myaxiosprivate } from "../../api/myaxios";
 
 // import { useAuthSelector } from "../../store/slices/authSlice";
 // import { useSelector } from "react-redux";
@@ -107,7 +108,7 @@ const MyProfile = () => {
 //   const isAuth = useSelector(useAuthSelector);
 //   console.log(isAuth);
   const [wait, setWait] = useState(true);
-  const [UserInfoProfile, setUserInfoProfile] = useState();
+  const [userInfoProfile, setUserInfoProfile] = useState();
   const [getJoined, setJoined] = useState();
   var tabs_storage = [
     {
@@ -115,14 +116,14 @@ const MyProfile = () => {
       id: "1",
       className: "tabnameSelected tabButton",
       title: "Active wishes",
-      spanTitle: UserInfoProfile?.wishes?.active?.length,
+      spanTitle: userInfoProfile?.wishes?.active?.length,
     },
     {
       value: "com",
       id: "2",
       className: "tabname tabButton",
       title: "Complete wishes",
-      spanTitle: UserInfoProfile?.wishes?.complete?.length,
+      spanTitle: userInfoProfile?.wishes?.complete?.length,
     },
     {
       value: "con",
@@ -139,45 +140,26 @@ const MyProfile = () => {
 
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
-  const getUserToken = localStorage.getItem("UserToken=");
 
   // useEffect(() => {
-  //     axios.get("https://api.wishx.me/api/v1/user", {
-  //         headers: {
-  //             'Authorization': `Bearer ${getUserToken}`,
-  //             'Access-Control-Allow-Origin' : "*"
-  //             }
-  //         }).then((userData) => {
-  //             const UserInfoProfile = userData.data.data
-  //             setUserInfoProfile(UserInfoProfile)
-  //             axios.get("https://api.wishx.me/api/v1/user/other", {
-  //                 params: {
-  //                     user_id: userData.data.data.user_id
-  //                 },
-  //                     headers: {
-  //                         'Authorization': `Bearer ${getUserToken}`,
-  //                         'Access-Control-Allow-Origin' : "*"
-  //                     }
-  //                 }).then((getJoinedData) => {
-  //                     setJoined(getJoinedData.data.data.info.joined)
+  //     myaxiosprivate.get("/api/v1/user").then((res) => {
+  //             const userInfoProfile = res.data.data
+  //             setUserInfoProfile(userInfoProfile)
+  //             myaxiosprivate.get("/api/v1/user/other", {params: {user_id: res.data.data.user_id}
+  //                 }).then((res) => {
+  //                     setJoined(res.data.data.info.joined)
   //                 })
   //             }).catch((err)=> {
   //                 console.log(err)
   //             })
-
-  //             axios.get("https://api.wishx.me/api/v1/wish/get", {
-  //                 headers: {
-  //                     'Authorization': `Bearer ${getUserToken}`,
-  //                     'Access-Control-Allow-Origin' : "*"
-  //             }
-  //         }).then((dataUserWish) => {
-  //             const getUserWishes = dataUserWish.data.data
+  //             myaxiosprivate.get("/api/v1/wish/get").then((res) => {
+  //             const getUserWishes = res.data.data
   //             setUserInfoProfile(getUserWishes)
   //         })
 
   //     }, [])
 
-  var navigate = useNavigate();
+  const navigate = useNavigate();
 
   function getWishesListRoute() {
     navigate("/wish-list");
@@ -200,7 +182,7 @@ const MyProfile = () => {
     navigate("/my-wish", { state: { id } });
   }
 
-  console.log(UserInfoProfile, "USER INFO PROFILE");
+  console.log(userInfoProfile, "USER INFO PROFILE");
 
   return (
     <Body>
@@ -238,9 +220,9 @@ const MyProfile = () => {
                     className="tomcrusemobile"
                     height={85}
                     src={
-                      UserInfoProfile?.info?.avatar == null
+                      userInfoProfile?.info?.avatar == null
                         ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                        : `${UserInfoProfile?.info?.avatar}`
+                        : `${userInfoProfile?.info?.avatar}`
                     }
                   />
                 </DisplayTopImgCard>
@@ -250,50 +232,50 @@ const MyProfile = () => {
                   className="tomcruse"
                   height={80}
                   src={
-                    UserInfoProfile?.info?.avatar == null
+                    userInfoProfile?.info?.avatar == null
                       ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                      : `${UserInfoProfile?.info?.avatar}`
+                      : `${userInfoProfile?.info?.avatar}`
                   }
                 />
-                <Namesurname>{UserInfoProfile?.info?.full_name}</Namesurname>
+                <Namesurname>{userInfoProfile?.info?.full_name}</Namesurname>
                 {/* <HiBadgeCheck className='bluechek' /> */}
-                <TagName> @{UserInfoProfile?.info?.slug}</TagName>
+                <TagName> @{userInfoProfile?.info?.slug}</TagName>
                 <Text>Spec, Child, Chaos and Shadow</Text>
 
                 <DateSection>
-                  <Date>{UserInfoProfile?.info?.dob}</Date>
+                  <Date>{userInfoProfile?.info?.dob}</Date>
                   <DateText>Birthdate</DateText>
                 </DateSection>
                 <DisplayDateBirthaySection>
                   <Date>
-                    {UserInfoProfile?.info?.dob} <DateText>Birthdate</DateText>
+                    {userInfoProfile?.info?.dob} <DateText>Birthdate</DateText>
                   </Date>
                   <Follower onClick={getContactsFollowsPage}>
-                    {UserInfoProfile?.contacts?.followers}{" "}
+                    {userInfoProfile?.contacts?.followers}{" "}
                     <DateText>followers</DateText>
                   </Follower>
                   <Following onClick={getContactsFollowsPage}>
-                    {UserInfoProfile?.contacts?.follows}{" "}
+                    {userInfoProfile?.contacts?.follows}{" "}
                     <DateText>followings</DateText>
                   </Following>
                 </DisplayDateBirthaySection>
 
                 <FollowersSection>
                   <Follower onClick={getContactsFollowsPage}>
-                    {UserInfoProfile?.contacts?.followers} <br />{" "}
+                    {userInfoProfile?.contacts?.followers} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followers</span>
                   </Follower>
                   <Following onClick={getContactsFollowsPage}>
-                    {UserInfoProfile?.contacts?.follows} <br />{" "}
+                    {userInfoProfile?.contacts?.follows} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followings</span>
                   </Following>
                 </FollowersSection>
                 {/* <SocialSection>
-                                            <a href={UserInfoProfile?.social?.facebook} target="_blank"><BsFacebook style={{
+                                            <a href={userInfoProfile?.social?.facebook} target="_blank"><BsFacebook style={{
                                                 color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
                                                 alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
                                             }} /> </a>
-                                            <a href={UserInfoProfile?.social?.instagram} target="_blank">
+                                            <a href={userInfoProfile?.social?.instagram} target="_blank">
                                                 <Image src={instagram} style={{
                                                     color: "#2D008D", fontSize: "23px", height: '100%',
                                                     display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
@@ -356,8 +338,8 @@ const MyProfile = () => {
               <TabPanel value="act" className="tab-panel">
                 <Grid className="cart-div">
                   {wait ? (
-                    UserInfoProfile?.wishes?.active.length !== 0 ? (
-                      UserInfoProfile?.wishes?.active?.map((userDataWish) => (
+                    userInfoProfile?.wishes?.active.length !== 0 ? (
+                      userInfoProfile?.wishes?.active?.map((userDataWish) => (
                         <CardLong>
                           <div className="cont-text">
                             <div className="image-container">
@@ -383,7 +365,7 @@ const MyProfile = () => {
                                 <Final>Final: {userDataWish.date}</Final>
                               </TargetFinal>
                               <ShowBirtdayInWish>
-                                for birthday on {UserInfoProfile?.info?.dob}
+                                for birthday on {userInfoProfile?.info?.dob}
                               </ShowBirtdayInWish>
                               <UserDesc></UserDesc>
                               <Slider
@@ -411,37 +393,37 @@ const MyProfile = () => {
                                   </div>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.facebook}
+                                    href={userInfoProfile?.social?.facebook}
                                   >
                                     <BsFacebook className="Facebook" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.twitter}
+                                    href={userInfoProfile?.social?.twitter}
                                   >
                                     <BsTwitter className="twitter" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.telegram}
+                                    href={userInfoProfile?.social?.telegram}
                                   >
                                     <FaTelegram className="telegram" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.whatsapp}
+                                    href={userInfoProfile?.social?.whatsapp}
                                   >
                                     <BsWhatsapp className="whatsapp" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.facebook}
+                                    href={userInfoProfile?.social?.facebook}
                                   >
                                     <IoMailOutline className="mail" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={UserInfoProfile?.social?.facebook}
+                                    href={userInfoProfile?.social?.facebook}
                                   >
                                     <RiLinksFill className="link" />
                                   </a>
@@ -524,8 +506,8 @@ const MyProfile = () => {
                 className="tab-panel"
               >
                 {wait ? (
-                  UserInfoProfile?.wishes?.complete.length !== 0 ? (
-                    UserInfoProfile?.wishes?.complete?.map((userDataWish) => (
+                  userInfoProfile?.wishes?.complete.length !== 0 ? (
+                    userInfoProfile?.wishes?.complete?.map((userDataWish) => (
                       <CardLong>
                         <div className="com-cont">
                           <div className="image-container-1">

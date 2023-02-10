@@ -9,7 +9,7 @@ export const myaxiosprivate = axios.create({
 
 myaxiosprivate.interceptors.request.use(
   (config) => {
-    const token = JSON.parse(localStorage.getItem("token"))[0];
+    const token = JSON.parse(localStorage.getItem("token"));
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

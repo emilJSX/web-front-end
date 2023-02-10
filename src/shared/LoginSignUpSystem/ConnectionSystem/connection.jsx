@@ -85,7 +85,6 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../../../store/slices/authSlice";
 import OtpTimer from "./OtpTimer";
 export function Login_ConnectionSystem({ setShowes }) {
-
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
 
@@ -130,16 +129,13 @@ export function Login_ConnectionSystem({ setShowes }) {
     });
   };
 
-  const getPasswordRecoveryModal = () => {
-    setLoginSystemTab(1);
-  };
-
   // ============================== END LOGIN CONFIG ====================================
 
   // ============================== RECOVERY PASSWORD CONFIG ============================
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [recoveryError, setRecoveryError] = useState(null);
   const [recoverySuccess, setRecoverySuccess] = useState(null);
+
   const handlePasswordRecovery = async ({ email }) => {
     setRecoveryEmail(email);
     await myaxios
@@ -160,9 +156,9 @@ export function Login_ConnectionSystem({ setShowes }) {
 
   // ======================= OTP COUNT DOWN CONFIG =============================
 
-  function sendOtpAgain() {
-    myaxios
-      .get("https://api.wishx.me/api/v1/registration/get-code", {
+  const sendOtpAgain = async () => {
+    await myaxios
+      .get("api/v1/registration/get-code", {
         params: {
           email: recoveryEmail,
         },
@@ -177,8 +173,7 @@ export function Login_ConnectionSystem({ setShowes }) {
             : "Something went wrong..."
         );
       });
-  }
-
+  };
 
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
@@ -301,8 +296,7 @@ export function Login_ConnectionSystem({ setShowes }) {
                       {formState.errors.password.message}
                     </p>
                   )}
-
-                  <ForgotPassword onClick={getPasswordRecoveryModal}>
+                  <ForgotPassword onClick={() => setLoginSystemTab(1)}>
                     Forgot password
                   </ForgotPassword>
                   <div
@@ -441,7 +435,6 @@ export function SignUp_ConnectionSystem({
   setEmailOtpModal,
 }) {
   const getUserToken = localStorage.getItem("userData");
-  console.log(getUserToken);
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -485,16 +478,28 @@ export function SignUp_ConnectionSystem({
     formState: { errors },
   } = useForm({
     reValidateMode: "onChange",
-    defaultValues: {
-      email: "",
-      password: "",
-      userName: "",
-    },
   });
+  useEffect(() => {
+    const username = getUserNameValue?.length;
 
-  const clickEmail = () => {
-    setShower(!shower);
-  };
+    setUsernameCheckLength("");
+    setUsernameRegex("");
+    setUserNameAviableMessage("");
+    setUserNameErrorMessage("");
+
+    if (!USERNAME_REGEX.test(getUserNameValue)) {
+      setUserNameAviableMessage("");
+      setUsernameRegex("In username not be used symbols ");
+    }
+
+    if (username === 0) {
+      setUserNameErrorMessage("Please enter a username");
+    } else if (username < 6) {
+      setUsernameCheckLength("Username must be 6 symbols");
+    } else {
+      checkUsername();
+    }
+  }, [getUserNameValue]);
 
   const checkUsername = async () => {
     const controller = new AbortController();
@@ -506,11 +511,13 @@ export function SignUp_ConnectionSystem({
       .then((res) => {
         if (res.status === 200) {
           setUserNameErrorMessage("");
-          setUserNameAviableMessage("Username available");
+          setUserNameAviableMessage(
+            getUserNameValue ? "Username is available" : null
+          );
         }
       })
       .catch((err) => {
-        if (err.response.status === 409) {
+        if (err.response && err.response.status === 409) {
           setUserNameAviableMessage("");
           setUserNameErrorMessage("Username is already in use");
         } else {
@@ -519,12 +526,9 @@ export function SignUp_ConnectionSystem({
       });
   };
   // Parsing Extract the Name from an Email Address
-  const HandleGetRegister = ({ email, password, username }) => {
-    const result_getname = email.split("@")[0];
-    console.log(result_getname);
-    setGetName(result_getname);
+  const handleRegisterOtp = async ({ email }) => {
     setGetEmail(email);
-    myaxios
+    await myaxios
       .get("/api/v1/registration/get-code", { params: { email: email } })
       .then(() => {
         setTabIndex(1);
@@ -544,37 +548,19 @@ export function SignUp_ConnectionSystem({
     };
   };
 
-  // check username with debounce
-  const debouncedCheckUsername = useRef(debounce(checkUsername, 1000)).current;
-
-  useEffect(() => {
-    if (!USERNAME_REGEX.test(getUserNameValue)) {
-      setUsernameRegex("In username not be used symbols ");
-    } else {
-      setUsernameRegex("");
-    }
-    if (getUserNameValue?.length >= 6) {
-      setUsernameCheckLength("");
-      setUsernameRegex("");
-      checkUsername();
-    } else if (getUserNameValue?.length <= 6) {
-      setUsernameCheckLength("Username must be 6 symbols");
-    } else {
-      setUsernameRegex("");
-      setUserNameErrorMessage("");
-      setUsernameCheckLength("");
-    }
-  }, [getUserNameValue]);
-
   // ======================= END SIGN UP CONFIG ================================
 
   // ======================= YOUR INFORMATION CONFIG ===========================
 
   const [getCountryList, setCountryList] = useState([]);
-  const [getCountryNameId, setCountryNameId] = useState();
-  const [getUserPhoneNumber, setUserPhoneNumber] = useState();
-  const [getUserBirthday, setUserBirthday] = useState("");
-  const [getUserFullName, setUserFullName] = useState("");
+  const [formData, setFormData] = useState({
+    full_name: "",
+    phone: "",
+    dob: "",
+    country: "",
+    interests: [],
+    file: null,
+  });
 
   // UPDATE PROFILE API
 
@@ -582,10 +568,10 @@ export function SignUp_ConnectionSystem({
     e.preventDefault();
     myaxiosprivate
       .post("api/v1/profiles/update", {
-        full_name: getUserFullName,
-        phone: getUserPhoneNumber,
-        country: getCountryNameId,
-        dob: getUserBirthday,
+        full_name: formData.full_name,
+        phone: formData.phone,
+        dob: formData.dob,
+        country: formData.country,
       })
       .then((res) => {
         console.log(res);
@@ -601,124 +587,64 @@ export function SignUp_ConnectionSystem({
   // ======================= END YOUR INFORMATION CONFIG =======================
 
   // ======================= OTP COUNT DOWN CONFIG =============================
-  const INITIAL_COUNT = 20;
-  const STATUS = {
-    STARTED: "Started",
-    STOPPED: "Stopped",
-  };
-  const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
-  const [status, setStatus] = useState(STATUS.STOPPED);
-  const [getErrOtpRecovery, setErrOtpRecovery] = useState("");
+  const [recoveryError, setRecoveryError] = useState(null);
+  const [recoverySuccess, setRecoverySuccess] = useState(null);
 
-  const secondsToDisplay = secondsRemaining % 60;
-  const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
-  const minutesToDisplay = minutesRemaining % 60;
-
-  function getRequestOtpRecovery() {
-    myaxios
-      .get("/api/v1/registration/get-code", { params: { email: getEmail } })
+  const sendOtpAgain = async () => {
+    await myaxios
+      .get("api/v1/registration/get-code", {
+        params: {
+          email: getEmail,
+        },
+      })
       .then((res) => {
-        console.log(res);
+        if (res?.status === 200) setRecoverySuccess("Check your email");
       })
       .catch((err) => {
-        setErrOtpRecovery("Someting went wrong,please try again later");
+        setRecoveryError(
+          err?.response?.message != null
+            ? err.response.message
+            : "Something went wrong..."
+        );
       });
-  }
-
-  const handleStart = (clickEvent) => {
-    clickEvent.preventDefault();
-    setStatus(STATUS.STARTED);
-
-    if (status === STATUS.STOPPED ? getRequestOtpRecovery() : null)
-      if (secondsRemaining > 0) {
-        setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        console.log(getEmail, "EMAIL USER ARE SEND");
-        setStatus(STATUS.STOPPED);
-        handleReset();
-      }
   };
-
-  const handleReset = () => {
-    setStatus(STATUS.STOPPED);
-    setSecondsRemaining(INITIAL_COUNT);
-  };
-  useInterval(
-    () => {
-      if (secondsRemaining > 0) {
-        setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        setStatus(STATUS.STOPPED);
-        handleReset();
-      }
-    },
-    status === STATUS.STARTED ? 1000 : null
-    // passing null stops the interval
-  );
-
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
-
-  const twoDigits = (num) => String(num).padStart(2, "0");
 
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
   // ======================== OTP EMAIL CONFIG =================================
 
-  const [otpEmailCode, setOtp] = useState();
-  const [showOtpModal, setShowOtpModal] = useState(false);
-  const [showErrorOtpMail, setErrorOtpMail] = useState("");
+  const [otp, setOtp] = useState();
+  const [otpError, setOtpError] = useState("");
 
-  const getOtpRegistrationuser = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     myaxios
       .post("api/v1/register", {
-        otp: otpEmailCode,
+        otp: otp,
         name: getUserNameValue, //getEmail.split("@")[0]
         email: getEmail,
         password: getPassword,
         confirm_password: getPassword,
       })
-      .then((response) => {
-        if (response.data.success === true) {
-          console.log(response, "OTP SUCCESS REGISTERED!!!");
-          const token = Array(response.data.data.token);
+      .then((res) => {
+        if (res.data.success === true) {
+          console.log(res, "OTP SUCCESS REGISTERED!!!");
+          const token = res.data.data.token;
           localStorage.setItem("token", JSON.stringify(token));
           setTabIndex(2);
           try {
             myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {
-              console.log(res + "countries");
               setCountryList(res.data.data);
             });
           } catch (error) {
             console.log(error);
+            setOtpError("Something went wrong...");
           }
         }
       })
-      .catch((err) => {
-        setErrorOtpMail("OTP code is wrong");
+      .catch(() => {
+        setOtpError("OTP code is wrong");
       });
-  };
-
-  const handleChange = (otp) => {
-    setOtp(otp);
   };
 
   // ======================== END OTP EMAIL CONFIG =============================
@@ -731,12 +657,10 @@ export function SignUp_ConnectionSystem({
   };
 
   const handleSendInterestData = async (event) => {
-    const formUpdateData = new FormData();
-
-    formUpdateData.append("interests", getInterestsIdApi);
+    formData.interests = getInterestsIdApi;
     try {
       await myaxiosprivate
-        .post("/api/v1/profiles/update", { data: formUpdateData })
+        .post("/api/v1/profiles/update", { data: formData.interests })
         .then((res) => {
           console.log(res + "result of update");
           setTabIndex(4);
@@ -761,6 +685,7 @@ export function SignUp_ConnectionSystem({
 
   // ============================ PASPORT CONFIG ===============================
   const [selectPassport, setselectPassport] = useState(null);
+  const [passportErr, setPassportErr] = useState(null);
   const handleFileSelect = (e) => {
     setselectPassport(e.target.files[0]);
   };
@@ -769,15 +694,15 @@ export function SignUp_ConnectionSystem({
     setTabIndex(5);
   };
   const handleVerifyPassport = async (e) => {
-    const formGetPassportData = new FormData();
-    formGetPassportData.append("file", selectPassport);
-
+    formData.file = selectPassport;
     await myaxiosprivate
-      .post("/api/v1/profiles/verify", { data: formGetPassportData })
+      .post("/api/v1/profiles/verify", { data: formData.file })
       .then(() => {
         setTabIndex(5);
       })
-      .catch((error) => {});
+      .catch(() => {
+        setPassportErr("Something went wrong, try again later");
+      });
   };
   // ============================ END PASPORT CONFIG ===============================
   return (
@@ -791,12 +716,7 @@ export function SignUp_ConnectionSystem({
             <ToastContainer />
             <Button1
               onClick={() => {
-                let body = document.querySelector("body");
-                body.setAttribute(
-                  "style",
-                  "overflow-y: scroll; overflow-x: hidden"
-                );
-                localStorage.removeItem("UserToken=");
+                localStorage.removeItem("token");
                 setregisterModal(false);
               }}
             >
@@ -838,11 +758,11 @@ export function SignUp_ConnectionSystem({
                 <AppleP>Apple</AppleP>
               </Apple>
             </Goapp>
-            <ButtonOR onClick={clickEmail}>Or via email</ButtonOR>
+            <ButtonOR onClick={() => setShower(!shower)}>Or via email</ButtonOR>
 
             {shower && (
               <Dispno>
-                <form onSubmit={handleSubmit(HandleGetRegister)}>
+                <form onSubmit={handleSubmit(handleRegisterOtp)}>
                   <div
                     style={{
                       width: "100%",
@@ -984,7 +904,7 @@ export function SignUp_ConnectionSystem({
                     "style",
                     "overflow-y: scroll; overflow-x: hidden"
                   );
-                  localStorage.removeItem("UserToken=");
+                  localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
               >
@@ -994,29 +914,24 @@ export function SignUp_ConnectionSystem({
               <Paragraph>Enter the code we sent to your email </Paragraph>
               <div className="content_container" style={{ height: "60px" }}>
                 {/* <Edit className='edit_number'>Edit phone number</Edit> */}
-                <Againsms onClick={handleStart} className="send_message">
-                  Send SMS Again
-                </Againsms>
-                <Second className="timer">
-                  {twoDigits(minutesToDisplay)}:{twoDigits(secondsToDisplay)}
-                </Second>
+                <OtpTimer passRecover={sendOtpAgain} />
               </div>
               <div className="otp_input_div">
                 <OtpInput
                   className="otp_input"
-                  value={otpEmailCode}
-                  onChange={handleChange}
+                  value={otp}
+                  onChange={(e) => setOtp(e)}
                   numInputs={6}
                   separator={<span> </span>}
                 />
               </div>
-              {showErrorOtpMail && (
+              {otpError && (
                 <p className="mx-14 mt-2 mb-3 text-red-500 text-xs">
-                  {showErrorOtpMail}
+                  {otpError}
                 </p>
               )}
               <div className="otpsend-btn">
-                <button onClick={getOtpRegistrationuser}>Confirm</button>
+                <button onClick={handleRegister}>Confirm</button>
               </div>
             </form>
           </Container>
@@ -1037,14 +952,21 @@ export function SignUp_ConnectionSystem({
                     "style",
                     "overflow-y: scroll; overflow-x: hidden"
                   );
-                  localStorage.removeItem("UserToken=");
+                  localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
               >
                 <BiX style={{ fontSize: "20px" }} />
               </Button1>
               <Title>Your information</Title>
-              <Selects onChange={(e) => setCountryNameId(e.target.value)}>
+              <Selects
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    country: e.target.value,
+                  })
+                }
+              >
                 <Options selected disabled>
                   Select Country
                 </Options>
@@ -1058,14 +980,24 @@ export function SignUp_ConnectionSystem({
                 id="number"
                 type="text"
                 required
-                onChange={(e) => setUserPhoneNumber(e.target.value)}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value,
+                  })
+                }
                 placeholder="Phone number"
               />
               <Number
                 id="number"
                 type="text"
                 required
-                onChange={(e) => setUserFullName(e.target.value)}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    full_name: e.target.value,
+                  })
+                }
                 placeholder="Full name"
               />
               <Number
@@ -1074,7 +1006,12 @@ export function SignUp_ConnectionSystem({
                 id="number"
                 type="text"
                 placeholder="Date of birth (expample: 12.09.2023)"
-                onChange={(e) => setUserBirthday(String(e.target.value))}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    dob: String(e.target.value),
+                  })
+                }
               />
               <div
                 style={{
@@ -1154,12 +1091,7 @@ export function SignUp_ConnectionSystem({
             <form onSubmit={handleSubmit(handleVerifyPassport)}>
               <Button1
                 onClick={() => {
-                  let body = document.querySelector("body");
-                  body.setAttribute(
-                    "style",
-                    "overflow-y: scroll; overflow-x: hidden"
-                  );
-                  localStorage.removeItem("UserToken=");
+                  localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
               >
@@ -1180,6 +1112,11 @@ export function SignUp_ConnectionSystem({
                   className="upload_fiveth"
                   style={{ height: "50px", width: "50px" }}
                 />
+                {passportErr && (
+                  <p className="mx-14 mt-2 mb-3 text-red-500 text-xs">
+                    {passportErr}
+                  </p>
+                )}
                 <Upload>Upload photo of passport</Upload>
                 <input
                   type="file"
