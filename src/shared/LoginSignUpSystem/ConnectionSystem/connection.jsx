@@ -80,23 +80,18 @@ import {
   Send,
 } from "../PasswordRecoveryMessage/RecoveryMessage.Styled";
 import { loginControll } from "../../../store/slices/counterSlice";
-import { myaxios } from "../../../api/myaxios";
+import { myaxios, myaxiosprivate } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../../store/slices/authSlice";
+import OtpTimer from "./OtpTimer";
 export function Login_ConnectionSystem({ setShowes }) {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
-  const [getRegModal, setregisterModal] = useState(false);
 
   // Login Modal - 0
   // Recovery Password - 1
   // Password recovery message - 2
-
-  function getSignUpModal() {
-    setLoginSystemTab(3);
-  }
-
   // ============================== LOGIN CONFIG ========================================
 
   const dispatch = useDispatch();
@@ -144,7 +139,7 @@ export function Login_ConnectionSystem({ setShowes }) {
   // ============================== RECOVERY PASSWORD CONFIG ============================
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [recoveryError, setRecoveryError] = useState(null);
-
+  const [recoverySuccess, setRecoverySuccess] = useState(null);
   const handlePasswordRecovery = async ({ email }) => {
     setRecoveryEmail(email);
     await myaxios
@@ -154,7 +149,7 @@ export function Login_ConnectionSystem({ setShowes }) {
       })
       .catch((err) => {
         setRecoveryError(
-          err.response.message != null
+          err?.response?.message != null
             ? err.response.message
             : "Something went wrong..."
         );
@@ -164,89 +159,26 @@ export function Login_ConnectionSystem({ setShowes }) {
   // ============================== END RECOVERY PASSWORD CONFIG ========================
 
   // ======================= OTP COUNT DOWN CONFIG =============================
-  const INITIAL_COUNT = 20;
-  const STATUS = {
-    STARTED: "Started",
-    STOPPED: "Stopped",
-  };
-  const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
-  const [status, setStatus] = useState(STATUS.STOPPED);
-  const [getErrOtpRecovery, setErrOtpRecovery] = useState("");
 
-  const secondsToDisplay = secondsRemaining % 60;
-  const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
-  const minutesToDisplay = minutesRemaining % 60;
-  const hoursToDisplay = (minutesRemaining - minutesToDisplay) / 60;
-
-  // function getRequestPasswordOTPRecovery() {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/registration/get-code", {
-  //       params: {
-  //         email: getEmailRecovery,
-  //       },
-  //     })
-  //     .then((RecoveryData) => {
-  //       console.log(RecoveryData);
-  //     });
-  // }
-
-  const handleStart = (clickEvent) => {
-    clickEvent.preventDefault();
-    setStatus(STATUS.STARTED);
-
-    if (status === STATUS.STOPPED ? getRequestPasswordOTPRecovery() : null)
-      if (secondsRemaining > 0) {
-        setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        setStatus(STATUS.STOPPED);
-        handleReset();
-      }
-  };
-
-  const handleReset = () => {
-    setStatus(STATUS.STOPPED);
-    setSecondsRemaining(INITIAL_COUNT);
-  };
-  useInterval(
-    () => {
-      if (secondsRemaining > 0) {
-        setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        setStatus(STATUS.STOPPED);
-        handleReset();
-      }
-    },
-    status === STATUS.STARTED ? 1000 : null
-    // passing null stops the interval
-  );
-
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
+  function sendOtpAgain() {
+    myaxios
+      .get("https://api.wishx.me/api/v1/registration/get-code", {
+        params: {
+          email: recoveryEmail,
+        },
+      })
+      .then((res) => {
+        if (res?.status === 200) setRecoverySuccess("Check your email");
+      })
+      .catch((err) => {
+        setRecoveryError(
+          err?.response?.message != null
+            ? err.response.message
+            : "Something went wrong..."
+        );
+      });
   }
 
-  const getNewPasswordPage = () => {
-    navigate("/set-new-password", {
-      state: { recoveryEmail },
-    });
-  };
-
-  const twoDigits = (num) => String(num).padStart(2, "0");
 
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
@@ -460,6 +392,14 @@ export function Login_ConnectionSystem({ setShowes }) {
             <Paragraph>
               For recovery, please follow the code in your email.
             </Paragraph>
+            {recoverySuccess && (
+              <p className="mx-12 mb-2 text-green-500 text-xs">
+                {recoverySuccess}
+              </p>
+            )}
+            {recoveryError && (
+              <p className="mx-12 mb-2 text-red-500 text-xs">{recoveryError}</p>
+            )}
             <div
               style={{
                 width: "100%",
@@ -467,14 +407,22 @@ export function Login_ConnectionSystem({ setShowes }) {
                 justifyContent: "center",
               }}
             >
-              <ButtonSignUp onClick={getNewPasswordPage}>Ok</ButtonSignUp>
+              <ButtonSignUp
+                onClick={
+                  recoverySuccess ||
+                  (!recoveryError &&
+                    (() => {
+                      navigate("/set-new-password", {
+                        state: { recoveryEmail },
+                      });
+                    }))
+                }
+              >
+                Ok
+              </ButtonSignUp>
             </div>
             <Paragraphs>
-              Didn’t get an email?{" "}
-              <Send onClick={handleStart}> Send Again</Send>
-              <Seconds>
-                {twoDigits(minutesToDisplay)}:{twoDigits(secondsToDisplay)}
-              </Seconds>
+              Didn’t get an email? <OtpTimer passRecover={sendOtpAgain} />
             </Paragraphs>
           </Container>
         </Main>
@@ -492,8 +440,8 @@ export function SignUp_ConnectionSystem({
   setregisterModal,
   setEmailOtpModal,
 }) {
-  const getUserToken = localStorage.getItem("UserToken=");
-
+  const getUserToken = localStorage.getItem("userData");
+  console.log(getUserToken);
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -548,22 +496,6 @@ export function SignUp_ConnectionSystem({
     setShower(!shower);
   };
 
-  // Parsing Extract the Name from an Email Address
-  const HandleGetRegister = ({ email, password, username }) => {
-    const result_getname = email.split("@")[0];
-    setGetName(result_getname);
-    myaxios
-      .get("/api/v1/registration/get-code", { params: { email: getEmail } })
-      .then(function (response) {
-        console.log(response, "OTP CODE");
-        setTabIndex(1);
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage("The email has already been taken.");
-      });
-  };
-
   const checkUsername = async () => {
     const controller = new AbortController();
     await myaxios
@@ -572,13 +504,33 @@ export function SignUp_ConnectionSystem({
         signal: controller.signal,
       })
       .then((res) => {
-        if (res.status === 200) setUserNameAviableMessage("Username available");
+        if (res.status === 200) {
+          setUserNameErrorMessage("");
+          setUserNameAviableMessage("Username available");
+        }
       })
       .catch((err) => {
         if (err.response.status === 409) {
           setUserNameAviableMessage("");
           setUserNameErrorMessage("Username is already in use");
+        } else {
+          setUserNameErrorMessage("Something went wrong...");
         }
+      });
+  };
+  // Parsing Extract the Name from an Email Address
+  const HandleGetRegister = ({ email, password, username }) => {
+    const result_getname = email.split("@")[0];
+    console.log(result_getname);
+    setGetName(result_getname);
+    setGetEmail(email);
+    myaxios
+      .get("/api/v1/registration/get-code", { params: { email: email } })
+      .then(() => {
+        setTabIndex(1);
+      })
+      .catch((err) => {
+        setErrorMessage("The email has already been taken.");
       });
   };
 
@@ -621,29 +573,22 @@ export function SignUp_ConnectionSystem({
   const [getCountryList, setCountryList] = useState([]);
   const [getCountryNameId, setCountryNameId] = useState();
   const [getUserPhoneNumber, setUserPhoneNumber] = useState();
-  const [getUserBirthday, setUserBirthday] = useState(String);
+  const [getUserBirthday, setUserBirthday] = useState("");
   const [getUserFullName, setUserFullName] = useState("");
-  const ref = useRef();
 
   // UPDATE PROFILE API
 
-  const handleUpdateInfoProfile = (event) => {
-    event.preventDefault();
-    myaxios
-      .post(
-        "api/v1/profiles/update",
-        {
-          full_name: getUserFullName,
-          phone: getUserPhoneNumber,
-          country: getCountryNameId,
-          dob: getUserBirthday,
-        },
-        {
-          headers: { Authorization: `Bearer ${getUserToken}` },
-        }
-      )
-      .then((resultUpdate) => {
-        console.log(resultUpdate);
+  const handleUpdateInfoProfile = (e) => {
+    e.preventDefault();
+    myaxiosprivate
+      .post("api/v1/profiles/update", {
+        full_name: getUserFullName,
+        phone: getUserPhoneNumber,
+        country: getCountryNameId,
+        dob: getUserBirthday,
+      })
+      .then((res) => {
+        console.log(res);
         setTabIndex(3);
       })
       .catch((err) => {
@@ -668,7 +613,6 @@ export function SignUp_ConnectionSystem({
   const secondsToDisplay = secondsRemaining % 60;
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
   const minutesToDisplay = minutesRemaining % 60;
-  const hoursToDisplay = (minutesRemaining - minutesToDisplay) / 60;
 
   function getRequestOtpRecovery() {
     myaxios
@@ -677,7 +621,7 @@ export function SignUp_ConnectionSystem({
         console.log(res);
       })
       .catch((err) => {
-        setErrOtpRecovery("System Error, please try again later");
+        setErrOtpRecovery("Someting went wrong,please try again later");
       });
   }
 
@@ -742,8 +686,8 @@ export function SignUp_ConnectionSystem({
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [showErrorOtpMail, setErrorOtpMail] = useState("");
 
-  function getOtpRegistrationuser(clickEvent) {
-    clickEvent.preventDefault();
+  const getOtpRegistrationuser = (e) => {
+    e.preventDefault();
     myaxios
       .post("api/v1/register", {
         otp: otpEmailCode,
@@ -753,24 +697,16 @@ export function SignUp_ConnectionSystem({
         confirm_password: getPassword,
       })
       .then((response) => {
-        if (response.data.success == true) {
+        if (response.data.success === true) {
           console.log(response, "OTP SUCCESS REGISTERED!!!");
-          var getUserToken = Array(response.data.data.token);
-          var GetResultRegisterToken = String(getUserToken);
-          localStorage.setItem("UserToken=", GetResultRegisterToken);
-          document.cookie = "UserToken=" + GetResultRegisterToken;
+          const token = Array(response.data.data.token);
+          localStorage.setItem("token", JSON.stringify(token));
           setTabIndex(2);
-
           try {
-            myaxios
-              .get("/api/v1/settings/countries/get", {
-                headers: {
-                  Authorization: `Bearer ${getUserToken}`,
-                },
-              })
-              .then((getCountry) => {
-                setCountryList(getCountry.data.data);
-              });
+            myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {
+              console.log(res + "countries");
+              setCountryList(res.data.data);
+            });
           } catch (error) {
             console.log(error);
           }
@@ -779,7 +715,7 @@ export function SignUp_ConnectionSystem({
       .catch((err) => {
         setErrorOtpMail("OTP code is wrong");
       });
-  }
+  };
 
   const handleChange = (otp) => {
     setOtp(otp);
@@ -799,15 +735,10 @@ export function SignUp_ConnectionSystem({
 
     formUpdateData.append("interests", getInterestsIdApi);
     try {
-      await myaxios
-        .post("/api/v1/profiles/update", {
-          data: formUpdateData,
-          headers: {
-            Authorization: `Bearer ${getUserToken}`,
-          },
-        })
-        .then((resultUpdate) => {
-          console.log(resultUpdate);
+      await myaxiosprivate
+        .post("/api/v1/profiles/update", { data: formUpdateData })
+        .then((res) => {
+          console.log(res + "result of update");
           setTabIndex(4);
         });
     } catch {
@@ -821,7 +752,7 @@ export function SignUp_ConnectionSystem({
       value: 1,
     },
     {
-      label: "Bussness",
+      label: "Bussiness",
       value: 2,
     },
   ];
@@ -830,34 +761,23 @@ export function SignUp_ConnectionSystem({
 
   // ============================ PASPORT CONFIG ===============================
   const [selectPassport, setselectPassport] = useState(null);
-  const handleFileSelect = (event) => {
-    setselectPassport(event.target.files[0]);
+  const handleFileSelect = (e) => {
+    setselectPassport(e.target.files[0]);
   };
 
   const getLaterToNextVerificationModal = () => {
     setTabIndex(5);
   };
-  const handleVerifyPassport = async (event) => {
+  const handleVerifyPassport = async (e) => {
     const formGetPassportData = new FormData();
     formGetPassportData.append("file", selectPassport);
 
-    try {
-      await axios({
-        method: "post",
-        url: "https://api.wishx.me/api/v1/profiles/verify",
-        data: formGetPassportData,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      }).then((data) => {
-        console.log(data);
+    await myaxiosprivate
+      .post("/api/v1/profiles/verify", { data: formGetPassportData })
+      .then(() => {
         setTabIndex(5);
-      });
-    } catch (error) {
-      console.log(" ");
-    }
+      })
+      .catch((error) => {});
   };
   // ============================ END PASPORT CONFIG ===============================
   return (
@@ -1286,8 +1206,13 @@ export function SignUp_ConnectionSystem({
                   </ListtoList>
                 </ul>
               </List>
-              <ButtonCon type="submit">Continue</ButtonCon>
-              <ButtonLater onClick={getLaterToNextVerificationModal}>
+              <ButtonCon
+                type="submit"
+                onClick={getLaterToNextVerificationModal}
+              >
+                Continue
+              </ButtonCon>
+              <ButtonLater onClick={() => navigate("/my-profile")}>
                 Later
               </ButtonLater>
             </form>

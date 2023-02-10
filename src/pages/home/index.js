@@ -190,13 +190,13 @@ const Home = () => {
 
   return (
     <>
-      {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : null}
-      {registerModal ? (
+      {showes && <Login_ConnectionSystem setShowes={setShowes} /> }
+      {registerModal && (
         <SignUp_ConnectionSystem
           setregisterModal={setregisterModal}
           setEmailOtpModal={setEmailOtpModal}
         />
-      ) : null}
+      )}
       <HomeConatiner
         fluid
         p={0}
