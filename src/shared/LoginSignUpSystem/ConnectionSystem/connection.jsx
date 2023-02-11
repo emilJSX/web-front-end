@@ -497,7 +497,7 @@ export function SignUp_ConnectionSystem({
     } else if (username < 6) {
       setUsernameCheckLength("Username must be 6 symbols");
     } else {
-      checkUsername();
+      tabIndex === 0 && checkUsername();
     }
   }, [getUserNameValue]);
 
@@ -538,20 +538,10 @@ export function SignUp_ConnectionSystem({
       });
   };
 
-  const debounce = (func, delay) => {
-    let debounceTimer;
-    return function () {
-      const context = this;
-      const args = arguments;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-  };
-
   // ======================= END SIGN UP CONFIG ================================
 
   // ======================= YOUR INFORMATION CONFIG ===========================
-
+  const [profileErr, setProfileErr] = useState(null);
   const [getCountryList, setCountryList] = useState([]);
   const [formData, setFormData] = useState({
     full_name: "",
@@ -573,12 +563,11 @@ export function SignUp_ConnectionSystem({
         dob: formData.dob,
         country: formData.country,
       })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         setTabIndex(3);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setProfileErr("Something went wrong..");
       });
   };
 
@@ -628,7 +617,6 @@ export function SignUp_ConnectionSystem({
       })
       .then((res) => {
         if (res.data.success === true) {
-          console.log(res, "OTP SUCCESS REGISTERED!!!");
           const token = res.data.data.token;
           localStorage.setItem("token", JSON.stringify(token));
           setTabIndex(2);
@@ -637,7 +625,6 @@ export function SignUp_ConnectionSystem({
               setCountryList(res.data.data);
             });
           } catch (error) {
-            console.log(error);
             setOtpError("Something went wrong...");
           }
         }
@@ -651,33 +638,29 @@ export function SignUp_ConnectionSystem({
 
   // ======================== INTERESTS CONFIG =================================
 
-  const [getInterestsIdApi, setInterestsIdApi] = useState();
-  const getInterestsId = (item) => {
-    setInterestsIdApi(item);
-  };
+  const [interestErr, setInterestErr] = useState(null);
 
-  const handleSendInterestData = async (event) => {
-    formData.interests = getInterestsIdApi;
-    try {
-      await myaxiosprivate
-        .post("/api/v1/profiles/update", { data: formData.interests })
-        .then((res) => {
-          console.log(res + "result of update");
-          setTabIndex(4);
-        });
-    } catch {
-      console.log("");
-    }
+  const handleSendInterestData = async () => {
+    await myaxiosprivate
+      .post("/api/v1/profiles/update", {
+        interests: String(formData.interests),
+      })
+      .then(() => {
+        setTabIndex(4);
+      })
+      .catch(() => {
+        setInterestErr("Something went wrong ...");
+      });
   };
 
   const data = [
     {
       label: "Travel",
-      value: 1,
+      value: "1",
     },
     {
       label: "Bussiness",
-      value: 2,
+      value: "2",
     },
   ];
 
@@ -686,13 +669,6 @@ export function SignUp_ConnectionSystem({
   // ============================ PASPORT CONFIG ===============================
   const [selectPassport, setselectPassport] = useState(null);
   const [passportErr, setPassportErr] = useState(null);
-  const handleFileSelect = (e) => {
-    setselectPassport(e.target.files[0]);
-  };
-
-  const getLaterToNextVerificationModal = () => {
-    setTabIndex(5);
-  };
   const handleVerifyPassport = async (e) => {
     formData.file = selectPassport;
     await myaxiosprivate
@@ -899,11 +875,6 @@ export function SignUp_ConnectionSystem({
             <form>
               <Button1
                 onClick={() => {
-                  let body = document.querySelector("body");
-                  body.setAttribute(
-                    "style",
-                    "overflow-y: scroll; overflow-x: hidden"
-                  );
                   localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
@@ -947,11 +918,6 @@ export function SignUp_ConnectionSystem({
             <form>
               <Button1
                 onClick={() => {
-                  let body = document.querySelector("body");
-                  body.setAttribute(
-                    "style",
-                    "overflow-y: scroll; overflow-x: hidden"
-                  );
                   localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
@@ -959,6 +925,9 @@ export function SignUp_ConnectionSystem({
                 <BiX style={{ fontSize: "20px" }} />
               </Button1>
               <Title>Your information</Title>
+              {profileErr && (
+                <p className="mx-14 my-2 text-red-500 text-xs">{profileErr}</p>
+              )}
               <Selects
                 onChange={(e) =>
                   setFormData({
@@ -1038,12 +1007,7 @@ export function SignUp_ConnectionSystem({
             <form onSubmit={handleSubmit(handleSendInterestData)}>
               <Button1
                 onClick={() => {
-                  let body = document.querySelector("body");
-                  body.setAttribute(
-                    "style",
-                    "overflow-y: scroll; overflow-x: hidden"
-                  );
-                  localStorage.removeItem("UserToken=");
+                  localStorage.removeItem("token");
                   setregisterModal(false);
                 }}
               >
@@ -1054,13 +1018,23 @@ export function SignUp_ConnectionSystem({
                 Partners will send you gifts based on your interests
                 <Time>Max 5</Time>
               </Paragraph>
+              {interestErr && (
+                <p className="mx-14 mt-2 mb-3 text-red-500 text-xs">
+                  {interestErr}
+                </p>
+              )}
               <Interest style={{ display: "flex", flexWrap: "wrap" }}>
                 <div className="interests-input-container">
                   <div className="multi-select">
                     <MultiSelect
                       className="info_input-multi"
                       data={data}
-                      onChange={getInterestsId}
+                      value={formData.interests}
+                      onChange={(e) =>
+                        setFormData({
+                          interests: e,
+                        })
+                      }
                       placeholder="Interests"
                       required
                       maxSelectedValues={5}
@@ -1122,7 +1096,7 @@ export function SignUp_ConnectionSystem({
                   type="file"
                   required
                   accept="image/*"
-                  onChange={handleFileSelect}
+                  onChange={(e) => setselectPassport(e.target.files[0])}
                   className="file-uploader"
                   style={{ display: "none" }}
                 />
@@ -1143,10 +1117,7 @@ export function SignUp_ConnectionSystem({
                   </ListtoList>
                 </ul>
               </List>
-              <ButtonCon
-                type="submit"
-                onClick={getLaterToNextVerificationModal}
-              >
+              <ButtonCon type="submit" onClick={() => setTabIndex(5)}>
                 Continue
               </ButtonCon>
               <ButtonLater onClick={() => navigate("/my-profile")}>
@@ -1165,12 +1136,7 @@ export function SignUp_ConnectionSystem({
           <Container style={{ zIndex: "10" }}>
             <Button1
               onClick={() => {
-                let body = document.querySelector("body");
-                body.setAttribute(
-                  "style",
-                  "overflow-y: scroll; overflow-x: hidden"
-                );
-                localStorage.removeItem("UserToken=");
+                localStorage.removeItem("token");
                 setregisterModal(false);
               }}
             >
