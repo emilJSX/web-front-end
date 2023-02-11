@@ -101,29 +101,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
 
-// import { useAuthSelector } from "../../store/slices/authSlice";
-// import { useSelector } from "react-redux";
-
+import { useAuthSelector } from "../../store/slices/authSlice";
+import { useSelector } from "react-redux";
+import { setUserData } from "../../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 const MyProfile = () => {
-//   const isAuth = useSelector(useAuthSelector);
-//   console.log(isAuth);
-  const [wait, setWait] = useState(true);
-  const [userInfoProfile, setUserInfoProfile] = useState();
-  const [getJoined, setJoined] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+  const [joinDate, setJoinDate] = useState();
+  const [wishes, setWishes] = useState();
+  const dispatch = useDispatch();
+
   var tabs_storage = [
     {
       value: "act",
       id: "1",
       className: "tabnameSelected tabButton",
       title: "Active wishes",
-      spanTitle: userInfoProfile?.wishes?.active?.length,
+      spanTitle: userProfile?.wishes?.active?.length,
     },
     {
       value: "com",
       id: "2",
       className: "tabname tabButton",
       title: "Complete wishes",
-      spanTitle: userInfoProfile?.wishes?.complete?.length,
+      spanTitle: userProfile?.wishes?.complete?.length,
     },
     {
       value: "con",
@@ -133,31 +136,64 @@ const MyProfile = () => {
       spanTitle: "0",
     },
   ];
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const { data } = await myaxiosprivate.get("/api/v1/user");
+        setUserProfile(data.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+    fetchUserData();
+    dispatch(setUserData(userProfile));
+  }, []);
 
-  // useEffect(() => {
-  //     myaxiosprivate.get("/api/v1/user").then((res) => {
-  //             const userInfoProfile = res.data.data
-  //             setUserInfoProfile(userInfoProfile)
-  //             myaxiosprivate.get("/api/v1/user/other", {params: {user_id: res.data.data.user_id}
-  //                 }).then((res) => {
-  //                     setJoined(res.data.data.info.joined)
-  //                 })
-  //             }).catch((err)=> {
-  //                 console.log(err)
-  //             })
-  //             myaxiosprivate.get("/api/v1/wish/get").then((res) => {
-  //             const getUserWishes = res.data.data
-  //             setUserInfoProfile(getUserWishes)
-  //         })
+  useEffect(() => {
+    const fetchJoinDate = async () => {
+      setLoading(true);
+      try {
+        if (!userProfile) {
+          return;
+        }
+        const { data } = await myaxiosprivate.get("/api/v1/user/other", {
+          params: { user_id: userProfile.user_id },
+        });
+        setJoinDate(data.data.info.joined);
+        setLoading(false);
+      } catch (error) {
+        setError("No information");
+        setLoading(false);
+      }
+    };
+    fetchJoinDate();
+  }, [userProfile]);
+  useEffect(() => {
+    const fetchUserWishes = async () => {
+      try {
+        const { data } = await myaxiosprivate.get("/api/v1/wish/get");
+        setWishes(data.data);
+      } catch (error) {
+        setError("Something went wrong ...");
+      }
+    };
+    fetchUserWishes();
+  }, []);
 
-  //     }, [])
+  //   //     myaxiosprivate.get("/api/v1/wish/get").then((res) => {
+  //   //     const getUserWishes = res.data.data
+  //   //     setUserProfile(getUserWishes)
+  //   // })
+  // }, []);
 
   const navigate = useNavigate();
 
@@ -182,7 +218,11 @@ const MyProfile = () => {
     navigate("/my-wish", { state: { id } });
   }
 
-  console.log(userInfoProfile, "USER INFO PROFILE");
+  if (loading) {
+    return <div className="flex justify-center items-center h-96">
+      <Loader size="xl" />;
+    </div>
+  }
 
   return (
     <Body>
@@ -220,9 +260,9 @@ const MyProfile = () => {
                     className="tomcrusemobile"
                     height={85}
                     src={
-                      userInfoProfile?.info?.avatar == null
+                      userProfile?.info?.avatar == null
                         ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                        : `${userInfoProfile?.info?.avatar}`
+                        : `${userProfile?.info?.avatar}`
                     }
                   />
                 </DisplayTopImgCard>
@@ -232,50 +272,50 @@ const MyProfile = () => {
                   className="tomcruse"
                   height={80}
                   src={
-                    userInfoProfile?.info?.avatar == null
+                    userProfile?.info?.avatar == null
                       ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                      : `${userInfoProfile?.info?.avatar}`
+                      : `${userProfile?.info?.avatar}`
                   }
                 />
-                <Namesurname>{userInfoProfile?.info?.full_name}</Namesurname>
+                <Namesurname>{userProfile?.info?.full_name}</Namesurname>
                 {/* <HiBadgeCheck className='bluechek' /> */}
-                <TagName> @{userInfoProfile?.info?.slug}</TagName>
+                <TagName> @{userProfile?.info?.slug}</TagName>
                 <Text>Spec, Child, Chaos and Shadow</Text>
 
                 <DateSection>
-                  <Date>{userInfoProfile?.info?.dob}</Date>
+                  <Date>{userProfile?.info?.dob}</Date>
                   <DateText>Birthdate</DateText>
                 </DateSection>
                 <DisplayDateBirthaySection>
                   <Date>
-                    {userInfoProfile?.info?.dob} <DateText>Birthdate</DateText>
+                    {userProfile?.info?.dob} <DateText>Birthdate</DateText>
                   </Date>
                   <Follower onClick={getContactsFollowsPage}>
-                    {userInfoProfile?.contacts?.followers}{" "}
+                    {userProfile?.contacts?.followers}{" "}
                     <DateText>followers</DateText>
                   </Follower>
                   <Following onClick={getContactsFollowsPage}>
-                    {userInfoProfile?.contacts?.follows}{" "}
+                    {userProfile?.contacts?.follows}{" "}
                     <DateText>followings</DateText>
                   </Following>
                 </DisplayDateBirthaySection>
 
                 <FollowersSection>
                   <Follower onClick={getContactsFollowsPage}>
-                    {userInfoProfile?.contacts?.followers} <br />{" "}
+                    {userProfile?.contacts?.followers} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followers</span>
                   </Follower>
                   <Following onClick={getContactsFollowsPage}>
-                    {userInfoProfile?.contacts?.follows} <br />{" "}
+                    {userProfile?.contacts?.follows} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followings</span>
                   </Following>
                 </FollowersSection>
                 {/* <SocialSection>
-                                            <a href={userInfoProfile?.social?.facebook} target="_blank"><BsFacebook style={{
+                                            <a href={userProfile?.social?.facebook} target="_blank"><BsFacebook style={{
                                                 color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
                                                 alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
                                             }} /> </a>
-                                            <a href={userInfoProfile?.social?.instagram} target="_blank">
+                                            <a href={userProfile?.social?.instagram} target="_blank">
                                                 <Image src={instagram} style={{
                                                     color: "#2D008D", fontSize: "23px", height: '100%',
                                                     display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
@@ -295,7 +335,7 @@ const MyProfile = () => {
                                             <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
                                         </MobileBtnSection> */}
                 <Joined>
-                  Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}
+                  Joined {DateTime.fromISO(joinDate).toFormat("MMMM yyyy")}
                 </Joined>
               </LeftSection>
             </div>
@@ -337,9 +377,9 @@ const MyProfile = () => {
 
               <TabPanel value="act" className="tab-panel">
                 <Grid className="cart-div">
-                  {wait ? (
-                    userInfoProfile?.wishes?.active.length !== 0 ? (
-                      userInfoProfile?.wishes?.active?.map((userDataWish) => (
+                  {!loading ? (
+                    userProfile?.wishes?.active.length !== 0 ? (
+                      userProfile?.wishes?.active?.map((userDataWish) => (
                         <CardLong>
                           <div className="cont-text">
                             <div className="image-container">
@@ -365,7 +405,7 @@ const MyProfile = () => {
                                 <Final>Final: {userDataWish.date}</Final>
                               </TargetFinal>
                               <ShowBirtdayInWish>
-                                for birthday on {userInfoProfile?.info?.dob}
+                                for birthday on {userProfile?.info?.dob}
                               </ShowBirtdayInWish>
                               <UserDesc></UserDesc>
                               <Slider
@@ -393,37 +433,37 @@ const MyProfile = () => {
                                   </div>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.facebook}
+                                    href={userProfile?.social?.facebook}
                                   >
                                     <BsFacebook className="Facebook" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.twitter}
+                                    href={userProfile?.social?.twitter}
                                   >
                                     <BsTwitter className="twitter" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.telegram}
+                                    href={userProfile?.social?.telegram}
                                   >
                                     <FaTelegram className="telegram" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.whatsapp}
+                                    href={userProfile?.social?.whatsapp}
                                   >
                                     <BsWhatsapp className="whatsapp" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.facebook}
+                                    href={userProfile?.social?.facebook}
                                   >
                                     <IoMailOutline className="mail" />
                                   </a>
                                   <a
                                     target="_blank"
-                                    href={userInfoProfile?.social?.facebook}
+                                    href={userProfile?.social?.facebook}
                                   >
                                     <RiLinksFill className="link" />
                                   </a>
@@ -505,9 +545,9 @@ const MyProfile = () => {
                 }}
                 className="tab-panel"
               >
-                {wait ? (
-                  userInfoProfile?.wishes?.complete.length !== 0 ? (
-                    userInfoProfile?.wishes?.complete?.map((userDataWish) => (
+                {!loading ? (
+                  userProfile?.wishes?.complete.length !== 0 ? (
+                    userProfile?.wishes?.complete?.map((userDataWish) => (
                       <CardLong>
                         <div className="com-cont">
                           <div className="image-container-1">

@@ -2,20 +2,27 @@ import axios from "axios";
 
 export const myaxios = axios.create({
   baseURL: "https://api.wishx.me",
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
 });
 export const myaxiosprivate = axios.create({
   baseURL: "https://api.wishx.me",
-});
-
-myaxiosprivate.interceptors.request.use(
-  (config) => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+});
+const token = JSON.parse(localStorage.getItem("token"));
+if (token) {
+  myaxiosprivate.interceptors.request.use(
+    (config) => {
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+}

@@ -82,7 +82,7 @@ import {
 import { loginControll } from "../../../store/slices/counterSlice";
 import { myaxios, myaxiosprivate } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../store/slices/authSlice";
+import { setUserToken } from "../../../store/slices/authSlice";
 import OtpTimer from "./OtpTimer";
 export function Login_ConnectionSystem({ setShowes }) {
   const navigate = useNavigate();
@@ -109,10 +109,10 @@ export function Login_ConnectionSystem({ setShowes }) {
     myaxios.get("sanctum/csrf-cookie").then(() => {
       myaxios
         .post("api/v1/login", { email, password })
-        .then((response) => {
+        .then((res) => {
           //set response in local storage && redux store
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          dispatch(setUserData({ userData: response.data }));
+          const token = res?.data?.data?.token;
+          localStorage.setItem("token", JSON.stringify(token));
           navigate("/my-profile");
         })
         .catch((error) => {
