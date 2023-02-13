@@ -32,6 +32,8 @@ const Created_Wish = () => {
   const [selectedCash, setSelectedCash] = useState("USD", 0);
   const [isVisible, setVisible] = useState("none");
 
+  // ================================ Configuration Form Errors ================================
+
   const {
     register,
     handleSubmit,
@@ -41,6 +43,8 @@ const Created_Wish = () => {
     reValidateMode: "onChange",
     mode: "all",
   });
+
+  // ================================ END Configuration Form Errors ================================
 
   // States for creation wish
   const [previewImageURL, setPreviewImageURL] = useState(null);
@@ -57,19 +61,20 @@ const Created_Wish = () => {
   // end States
 
   const navigate = useNavigate();
+
   useEffect(() => {
     setTitleWish(wishCreationTitleHome?.state);
   }, []);
 
   const wishCreationTitleHome = useLocation();
 
-  // Get LocalStorage User Token
+  // ================================ Get LocalStorage User Token ================================
   const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
 
   if (!GetUserTokenCreationWish) {
     navigate("/");
   }
-  // end token
+  // ================================ END Get LocalStorage User Token ================================
   const handleChange = (newValue) => {
     setValue(newValue);
     setDateWish(newValue);
@@ -99,14 +104,13 @@ const Created_Wish = () => {
     },
   ];
 
-  const testing = (item) => {
-    console.log(item);
-  };
-
   const [getInterestsIdApi, setInterestsIdApi] = useState();
+  // ================================ Get Interests id when select User ================================
   const getInterestsId = (item) => {
     setInterestsIdApi(item);
   };
+
+  // ================================ END Get Interests id when select User ================================
 
   const onCashSelectPush = () => {
     if (isVisibleSetter == false) {
@@ -117,11 +121,14 @@ const Created_Wish = () => {
       setVisibleSetter(false);
     }
   };
+  
   const cash = ["USD"];
 
   const HandleClickGeCashId = (cash_id) => {
     console.log(cash_id);
   };
+ 
+  // ================================ API CREATE WISH ================================
 
   const handleSubmitCreateWish = async ({ title, price, description, interests }) => {
     const formData = new FormData();
@@ -167,9 +174,16 @@ const Created_Wish = () => {
       console.log(error);
     }
   };
+
+  // ================================ END CREATE WISH API ================================
+
+  // ================================ GET  IMAGE  ================================
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  // ================================ END GET IMAGE ================================
+
+  // ================================ SELECT IMAGE FOR CREATE API ================================
 
   useEffect(() => {
     if (selectedFile) {
@@ -179,6 +193,8 @@ const Created_Wish = () => {
       setPreviewImageURL(null);
     }
   }, [selectedFile])
+
+  // ================================ END SELECT IMAGE FOR CREATE API ================================
 
   return (
     <MainContainer>
