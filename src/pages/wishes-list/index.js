@@ -40,13 +40,14 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
+import { myaxios, myaxiosprivate } from "../../api/myaxios";
 
 const WishList = () => {
   const [getAllWishData, setAllWishData] = useState([]);
   const [getSearchValue, setSearchValue] = useState("");
   const [getCategoryId, setCategoryId] = useState(null);
 
-  const getUserToken = localStorage.getItem("UserToken=");
+  const getUserToken = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -56,7 +57,7 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [getCategory, setCategory] = useState()
+  const [getCategory, setCategory] = useState();
 
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
@@ -64,27 +65,25 @@ const WishList = () => {
     disabled: !!error,
     onLoadMore: () => {
       setLoading(true);
-      
+
       let _skip = isFirstLoad ? 0 : skip + 10;
       setSkip(_skip);
       setIsFirstLoad(false);
 
-      axios
-        .get(`https://api.wishx.me/api/v1/wish/list`, {
+      myaxiosprivate
+        .get(`/api/v1/wish/list`, {
           params: {
             skip: _skip,
             ...(getSearchValue && { search: getSearchValue }),
             ...(getCategoryId && { category_id: +getCategoryId }),
           },
-          headers: {
-            Authorization: `Bearer ${getUserToken}`,
-          },
         })
-        .then((searchResult) => {
-          setHasNextPage(!searchResult.data.data.last);
+        .then((res) => {
+          setHasNextPage(!res.data.data.last);
 
-          setAllWishData((prev) => [...prev, ...searchResult.data.data.results || []]);
-        }).catch((error) => {
+          setAllWishData((prev) => [...prev, ...(res.data.data.results || [])]);
+        })
+        .catch((error) => {
           setError(error.response);
         })
         .finally(() => {
@@ -108,33 +107,33 @@ const WishList = () => {
 
   const GetResultWishesList = () => {
     setLoading(true);
-    axios
-      .get("https://api.wishx.me/api/v1/wish/list", {
+    myaxiosprivate
+      .get("/api/v1/wish/list", {
         params: {
           skip: 0,
           ...(getSearchValue && { search: getSearchValue }),
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
-        headers: {
-          Authorization: `Bearer ${getUserToken}`,
-        },
       })
-      .then((searchResult) => {
-        setAllWishData(searchResult.data.data.results);
+      .then((res) => {
+        console.log(res.data)
+        setAllWishData(res.data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
-        setHasNextPage(!searchResult.data.data.last);
-      }).finally(() => {
-        setLoading(false);
+        setHasNextPage(!res.data.data.last);
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    axios
-      .get("https://api.wishx.me/api/v1/blog/categories/get")
-      .then((resultCategory) => {
-        setCategory(resultCategory.data);
-      });
+    myaxios
+      .get("/api/v1/blog/categories/get")
+      .then((res) => {
+        setCategory(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const buttonTitles = [
@@ -142,7 +141,7 @@ const WishList = () => {
     { id: 1, title: "Travel" },
     { id: 2, title: "Sport" },
     { id: 3, title: "Gadgets" },
-    { id: 4, title: "Foto & Videos" },
+    { id: 4, title: "Photo & Videos" },
     { id: 5, title: "Clothes" },
   ];
 
@@ -154,16 +153,19 @@ const WishList = () => {
     <BlogMainSection fluid>
       <div className="instruction">
         {/*<p>Main {">"} Wishes</p>*/}
-        <CustomBreadcrumb margins="mb-8" links={[
-          {
-            title: 'Main',
-            to: '/'
-          },
-          {
-            title: 'Wishes',
-            to: '/wish-list'
-          },
-        ]} />
+        <CustomBreadcrumb
+          margins="mb-8"
+          links={[
+            {
+              title: "Main",
+              to: "/",
+            },
+            {
+              title: "Wishes",
+              to: "/wish-list",
+            },
+          ]}
+        />
         <h2>Wishes</h2>
       </div>
       <ButtonSection>
@@ -268,12 +270,17 @@ const WishList = () => {
                     Congralute
                   </button>
                   <div className="image-background"></div>
-                  <ImgWrapper
+                  <ImgWrapper 
                     src={`https://api.wishx.me${getWishList.image}`}
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Title id={getWishList.slug} onClick={(e) => getWishIdForResult(e.currentTarget.id)}>{getWishList.title}</Title>
+                  <Title
+                    id={getWishList.slug}
+                    onClick={(e) => getWishIdForResult(e.currentTarget.id)}
+                  >
+                    {getWishList.title}
+                  </Title>
 
                   <UserWrapper>
                     <UserAbout>

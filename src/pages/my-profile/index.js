@@ -196,7 +196,7 @@ const MyProfile = () => {
   // }, []);
 
   const navigate = useNavigate();
-
+  console.log(userProfile);
   function getWishesListRoute() {
     navigate("/wish-list");
   }
@@ -219,9 +219,11 @@ const MyProfile = () => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-96">
-      <Loader size="xl" />;
-    </div>
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
   }
 
   return (
