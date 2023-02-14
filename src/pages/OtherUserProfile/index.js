@@ -113,15 +113,19 @@ import Autholog from "../../shared/LogIn-SingUp/Autholog";
 import Autho from "../../shared/LogIn-SingUp/Autho";
 import { DateTime } from "luxon";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
-
+import { useSelector } from "react-redux";
+import { useAuthSelector } from "../../store/slices/authSlice";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
   const [getJoined, setJoined] = useState();
-
-  const getUserToken = localStorage.getItem("UserToken=");
-
-  var tabs_storage = [
+  const [error, setError] = useState("");
+  const { state } = useLocation();
+  const [displayFollow, setdisplayFollow] = useState("block");
+  const [displayUnfollow, setdisplayUnfollow] = useState("none");
+  const isAuth = useSelector(useAuthSelector);
+  const navigate = useNavigate();
+  const tabs_storage = [
     {
       value: "act",
       id: "1",
@@ -147,14 +151,10 @@ const OtherUserProfile = () => {
 
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
-  const { state } = useLocation();
-  const [displayFollow, setdisplayFollow] = useState("block");
-  const [displayUnfollow, setdisplayUnfollow] = useState("none");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  console.log(state);
   useEffect(() => {
     myaxios
       .get("/api/v1/user/other/slug", {
@@ -167,12 +167,9 @@ const OtherUserProfile = () => {
         setJoined(res.data.data.info.joined);
       })
       .catch((err) => {
-        console.log(err, "something went wrong");
+        setError(err.message);
       });
   }, []);
-
-  console.log(UserInfoProfile);
-  var navigate = useNavigate();
 
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
@@ -183,10 +180,6 @@ const OtherUserProfile = () => {
     navigate("/profile-edit");
   };
 
-  function getContactsFollowsPage() {
-    navigate("/contacts-profile");
-  }
-
   function getWishIdForResultPage(id) {
     navigate("/wish/" + id, { state: { id } });
   }
@@ -195,17 +188,18 @@ const OtherUserProfile = () => {
 
   const [show, setShow] = useState(false);
   const [showes, setShowes] = useState(false);
-
   const UnfollowButton = (getUserId) => {
-    if (localStorage.getItem("token")) {
+    if (isAuth) {
       myaxiosprivate
         .get(`/api/v1/unfollow?user_id=${+getUserId}`)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res);
             setdisplayUnfollow("none");
             setdisplayFollow("block");
           }
+        })
+        .catch((err) => {
+          setError(err.message);
         });
     } else {
       setShowes(true);
@@ -213,14 +207,18 @@ const OtherUserProfile = () => {
   };
 
   const FollowButton = (getUserId) => {
-    if (localStorage.getItem("token")) {
-      myaxiosprivate.get(`/api/v1/follow?user_id=${+getUserId}`).then((res) => {
-        if (res.status === 200) {
-          console.log(res);
-          setdisplayFollow("none");
-          setdisplayUnfollow("block");
-        }
-      });
+    if (isAuth) {
+      myaxiosprivate
+        .get(`/api/v1/follow?user_id=${+getUserId}`)
+        .then((res) => {
+          if (res.status === 200) {
+            setdisplayFollow("none");
+            setdisplayUnfollow("block");
+          }
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
     } else {
       setShowes(true);
     }
@@ -298,22 +296,22 @@ const OtherUserProfile = () => {
                     )}{" "}
                     <DateText>Birthdate</DateText>
                   </Date>
-                  <Follower onClick={getContactsFollowsPage}>
+                  <Follower onClick={() => navigate("/contacts-profile")}>
                     {UserInfoProfile?.contacts?.followers}{" "}
                     <DateText>followers</DateText>
                   </Follower>
-                  <Following onClick={getContactsFollowsPage}>
+                  <Following onClick={() => navigate("/contacts-profile")}>
                     {UserInfoProfile?.contacts?.follows}{" "}
                     <DateText>followings</DateText>
                   </Following>
                 </DisplayDateBirthaySection>
 
                 <FollowersSection>
-                  <Follower onClick={getContactsFollowsPage}>
+                  <Follower onClick={() => navigate("/contacts-profile")}>
                     {UserInfoProfile?.contacts?.followers} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followers</span>
                   </Follower>
-                  <Following onClick={getContactsFollowsPage}>
+                  <Following onClick={() => navigate("/contacts-profile")}>
                     {UserInfoProfile?.contacts?.follows} <br />{" "}
                     <span style={{ fontSize: "12px" }}>followings</span>
                   </Following>

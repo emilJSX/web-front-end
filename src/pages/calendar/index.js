@@ -51,12 +51,12 @@ import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import locale from "dayjs/locale/en";
 import dayjs from "dayjs";
+import { myaxiosprivate } from "../../api/myaxios";
 
 function Calendar() {
   const [show, setShow] = useState(true);
   const [opened, setOpened] = useState(false);
   const theme = useMantineTheme();
-  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
   const [getAllCalendar, setAllCalendar] = useState();
   const [getCalendarthisday, setCalendarthisday] = useState();
   const [getSlugName, setSlugName] = useState("");
@@ -90,74 +90,51 @@ function Calendar() {
 
   // End Calendar Date functions
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/user", {
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //         xsrfHeaderName: "X-XSRF-TOKEN",
-  //         Authorization: `Bearer ${GetUserTokenCreationWish}`,
-  //       },
-  //     })
-  //     .then((datauser) => setSlugName(datauser.data.data.info.slug));
+  useEffect(() => {
+    myaxiosprivate
+      .get("/api/v1/user")
+      .then((res) => setSlugName(res.data.data.info.slug));
 
-  //   const getFullCalendarDate =
-  //     getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/wish/calendar", {
-  //       params: {
-  //         date: getFullCalendarDate,
-  //       },
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //         xsrfHeaderName: "X-XSRF-TOKEN",
-  //         Authorization: `Bearer ${GetUserTokenCreationWish}`,
-  //       },
-  //     })
-  //     .then((getAllDataCalendar) => {
-  //       setAllCalendar(getAllDataCalendar?.data?.data);
-  //       var getCurrentCalendar = getAllDataCalendar?.data?.data;
-  //     });
-  // }, []);
+    const getFullCalendarDate =
+      getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
+    myaxiosprivate
+      .get("/api/v1/wish/calendar", {
+        params: { date: getFullCalendarDate },
+      })
+      .then((res) => {
+        setAllCalendar(res?.data?.data);
+        let getCurrentCalendar = res?.data?.data;
+      });
+  }, []);
 
   useEffect(() => {
     getCalendarFullDate();
-  }, [currentMonth])
+  }, [currentMonth]);
 
   function getCalendarFullDate() {
     const getFullCalendarDate =
       getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
-    axios
-      .get("https://api.wishx.me/api/v1/wish/calendar", {
+    myaxiosprivate
+      .get("/api/v1/wish/calendar", {
         params: {
           date: getFullCalendarDate,
         },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${GetUserTokenCreationWish}`,
-        },
       })
-      .then((getAllDataCalendar) => {
-        setAllCalendar(getAllDataCalendar?.data?.data);
+      .then((res) => {
+        setAllCalendar(res?.data?.data);
       });
   }
 
   const getCalendarThisDay = () => {
-    axios
-      .get("https://api.wishx.me/api/v1/wish/calendar/day", {
+    myaxiosprivate
+      .get("/api/v1/wish/calendar/day", {
         params: {
           skip: 0,
           date: "2022-12-20 00:00:00",
         },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${GetUserTokenCreationWish}`,
-        },
       })
-      .then((getCalendarThisDay) => {
-        setCalendarthisday(getCalendarThisDay.data.data);
+      .then((res) => {
+        setCalendarthisday(res.data.data);
       });
   };
 

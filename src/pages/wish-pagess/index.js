@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { myaxios } from '../../api/myaxios';
 
 function MyVerticallyCenteredModal(props) {
 
@@ -86,18 +87,18 @@ function Wish_pages() {
         window.scrollTo(0, 0)
       }, [])
 
-    // useEffect(()=> {
-    //     axios.get("https://api.wishx.me/api/v1/wish/slug/",{
-    //         params: {
-    //             slug: state
-    //         }
-    //     }).then((GetUserWish)=> {
-    //         setGetUserData(GetUserWish?.data?.data)
-    //         console.log(GetUserWish)
-    //       }).catch((err) => {
-    //         console.log("")
-    //       })
-    // },[])
+    useEffect(()=> {
+        myaxios.get("/api/v1/wish/slug/",{
+            params: {
+                slug: state
+            }
+        }).then((res)=> {
+            setGetUserData(res?.data?.data)
+            console.log(res.data)
+          }).catch((err) => {
+            console.log("")
+          })
+    },[])
     const [modalShow, setModalShow] = useState(false);
 
     //   Get WISH IMAGE API

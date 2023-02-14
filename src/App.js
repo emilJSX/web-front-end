@@ -46,12 +46,12 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
-        <Routes>
+        <Routes> 
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} /> {/* + */}
           <Route path="/rating" element={<Rating />} />
           <Route path="/wish-edit" element={<Editing_Wish />} /> {/* + */}
-          <Route path="/creating-wish" element={<Created_Wish />} /> {/* + */}
+          <Route path="/creating-wish" element={<Created_Wish />} /> {/* problem */}  
           <Route
             path="/creating-wish-success"
             element={<Created_Success_Wish />}
@@ -72,7 +72,7 @@ const App = () => {
           <Route path="/search" element={<Search />} /> {/* + */}
           <Route path="/profile/:slug" element={<OtherUserProfile />} />
           <Route path="/set-new-password" element={<Finally />} />
-          <Route path="/my-profile" element={<MyProfile />} /> {/* + */}
+          <Route path="/my-profile" element={<MyProfile />} /> {/*  */}
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/blog-post" element={<BlogPost />} />
           <Route

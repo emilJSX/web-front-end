@@ -38,7 +38,6 @@ import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg"
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 
 function Search() {
-  const getUserToken = localStorage.getItem("token");
   const [search, setSearch] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [searchs, setSearchs] = useState("");
@@ -50,7 +49,7 @@ function Search() {
   const [getResultWishTotal, setResultWishTotal] = useState();
   const [getResultPeopleTotal, setResultPeopleTotal] = useState();
   const [getInfinityScroll, setInfinityScroll] = useState(0);
-
+  const [error, setError] = useState("");
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -71,7 +70,7 @@ function Search() {
             setAllPeopleData((last) => [...last, res.data]);
           });
       } catch (err) {
-        console.log(err);
+        setError(err.message);
       }
     };
     fetchProfileUser();
@@ -96,6 +95,7 @@ function Search() {
   }
 
   useEffect(() => {
+    setError("");
     myaxiosprivate
       .get("/api/v1/profiles/search", {
         params: {
@@ -109,11 +109,12 @@ function Search() {
         console.log(getResultPeople);
       })
       .catch((err) => {
-        console.log("Something went wrong");
+        setError(err.message);
       });
   }, []);
 
   useEffect(() => {
+    setError("");
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
@@ -126,11 +127,12 @@ function Search() {
         setResultWishTotal(res.data.data.total);
       })
       .catch((err) => {
-        console.log("Something went wrong");
+        setError(err.message);
       });
   }, []);
 
   const getResultSearchingData = () => {
+    setError("");
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
@@ -143,7 +145,7 @@ function Search() {
         setResultWishTotal(res.data.data.total);
       })
       .catch((err) => {
-        console.log("Something went wrong..");
+        setError(err.message);
       });
 
     myaxiosprivate
@@ -158,7 +160,7 @@ function Search() {
         setResultPeopleTotal(res.data.data.total);
       })
       .catch((err) => {
-        console.log("Something went wrong");
+        setError(err.message);
       });
   };
 

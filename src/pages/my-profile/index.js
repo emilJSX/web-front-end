@@ -96,10 +96,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import file1 from "../../style/icons/file1.png";
 import { Component } from "react";
 import instagram from "../../style/icons/instagram.svg";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
-import { myaxiosprivate } from "../../api/myaxios";
+import { myaxiosprivate, myaxios } from "../../api/myaxios";
 
 import { useAuthSelector } from "../../store/slices/authSlice";
 import { useSelector } from "react-redux";
@@ -146,11 +145,11 @@ const MyProfile = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const { data } = await myaxiosprivate.get("/api/v1/user");
+        const { data } = await myaxiosprivate.get("/api/v1/user/");
         setUserProfile(data.data);
         setLoading(false);
       } catch (error) {
-        setError(error);
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -171,7 +170,7 @@ const MyProfile = () => {
         setJoinDate(data.data.info.joined);
         setLoading(false);
       } catch (error) {
-        setError("No information");
+        setError(error.message);
         setLoading(false);
       }
     };
@@ -183,17 +182,12 @@ const MyProfile = () => {
         const { data } = await myaxiosprivate.get("/api/v1/wish/get");
         setWishes(data.data);
       } catch (error) {
-        setError("Something went wrong ...");
+        setError(error.message);
       }
     };
     fetchUserWishes();
   }, []);
 
-  //   //     myaxiosprivate.get("/api/v1/wish/get").then((res) => {
-  //   //     const getUserWishes = res.data.data
-  //   //     setUserProfile(getUserWishes)
-  //   // })
-  // }, []);
 
   const navigate = useNavigate();
   console.log(userProfile);

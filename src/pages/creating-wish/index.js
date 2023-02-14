@@ -369,7 +369,7 @@ const Created_Wish = () => {
                                 </div>
                             </div> */}
               <div className="aviable-group">
-                <FormControl>
+                {/* <FormControl>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
@@ -391,7 +391,7 @@ const Created_Wish = () => {
                       label="Only available by link"
                     />
                   </RadioGroup>
-                </FormControl>
+                </FormControl> */}
               </div>
             </form>
           </Section>

@@ -96,9 +96,8 @@ import "swiper/css/pagination";
 
 const Home = () => {
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (localStorage.getItem("UserToken=")) {
+    if (localStorage.getItem("token")) {
       navigate("/my-profile");
     }
   });

@@ -57,33 +57,31 @@ const ContactsPage = () => {
         setFollowsData(res.data.data.list);
       })
       .catch((err) => {
-        setErrorFollowing("Something went wrong ...");
+        setErrorFollowing(err.message);
       });
   };
 
   const fetchDataSubscribe = (getUserId) => {
+    setError("");
     myaxiosprivate
       .get(`/api/v1/follow?user_id=${+getUserId}`)
       .then((res) => {
         console.log(res.data);
       })
       .catch((err) => {
-        if (err) {
-          alert("You have already subscribed to this user!");
-        }
+        setError(err.message);
       });
   };
 
   const fetchDataUnsubscribe = (getUserId) => {
+    setError("");
     myaxiosprivate
       .get(`/api/v1/unfollow?user_id=${+getUserId}`)
       .then((res) => {
         return res.data.data;
       })
       .catch((err) => {
-        if (err) {
-          alert("You have already unsubscribed to this user!");
-        }
+        setError(err.message);
       });
   };
 
@@ -96,8 +94,7 @@ const ContactsPage = () => {
         console.log(res.data.data);
       })
       .catch((err) => {
-        console.log(err)
-        setError("Something went wrong...");
+        setError(err.message);
       });
   };
 

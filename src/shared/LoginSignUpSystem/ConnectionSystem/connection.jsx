@@ -106,6 +106,7 @@ export function Login_ConnectionSystem({ setShowes }) {
   });
 
   const handleLoginWithEmail = ({ email, password }) => {
+    setError("");
     myaxios.get("sanctum/csrf-cookie").then(() => {
       myaxios
         .post("api/v1/login", { email, password })
@@ -115,13 +116,8 @@ export function Login_ConnectionSystem({ setShowes }) {
           localStorage.setItem("token", JSON.stringify(token));
           navigate("/my-profile");
         })
-        .catch((error) => {
-          if (error?.response?.status === 404)
-            //response message user not found
-            setError("Email or password is wrong");
-          else {
-            setError("Something went wrong ...");
-          }
+        .catch((err) => {
+          setError(err.message);
           setTimeout(() => {
             setError(" ");
           }, 5000);
@@ -137,6 +133,7 @@ export function Login_ConnectionSystem({ setShowes }) {
   const [recoverySuccess, setRecoverySuccess] = useState(null);
 
   const handlePasswordRecovery = async ({ email }) => {
+    setRecoveryError("");
     setRecoveryEmail(email);
     await myaxios
       .get("api/v1/registration/get-code", { params: { email } })
@@ -144,11 +141,7 @@ export function Login_ConnectionSystem({ setShowes }) {
         setLoginSystemTab(2);
       })
       .catch((err) => {
-        setRecoveryError(
-          err?.response?.message != null
-            ? err.response.message
-            : "Something went wrong..."
-        );
+        setRecoveryError(err.message);
       });
   };
 
@@ -157,6 +150,7 @@ export function Login_ConnectionSystem({ setShowes }) {
   // ======================= OTP COUNT DOWN CONFIG =============================
 
   const sendOtpAgain = async () => {
+    setRecoveryError("");
     await myaxios
       .get("api/v1/registration/get-code", {
         params: {
@@ -167,11 +161,7 @@ export function Login_ConnectionSystem({ setShowes }) {
         if (res?.status === 200) setRecoverySuccess("Check your email");
       })
       .catch((err) => {
-        setRecoveryError(
-          err?.response?.message != null
-            ? err.response.message
-            : "Something went wrong..."
-        );
+        setRecoveryError(err.message);
       });
   };
 
@@ -566,8 +556,8 @@ export function SignUp_ConnectionSystem({
       .then(() => {
         setTabIndex(3);
       })
-      .catch(() => {
-        setProfileErr("Something went wrong..");
+      .catch((err) => {
+        setProfileErr(err.message);
       });
   };
 
@@ -591,9 +581,7 @@ export function SignUp_ConnectionSystem({
       })
       .catch((err) => {
         setRecoveryError(
-          err?.response?.message != null
-            ? err.response.message
-            : "Something went wrong..."
+          err?.message != null ? err.message : "Something went wrong..."
         );
       });
   };
