@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MultiSelect } from "@mantine/core";
+import { Loader, MultiSelect } from "@mantine/core";
 import Calendar from "react-calendar";
 import "../../shared/components/Calendar/calendar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -456,6 +456,7 @@ const ProfileEdit = () => {
   // ============================================================================================================================
 
   // ===================================================GET USER UPDATE INFO=====================================================
+  const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({
     country: {
       id: 1,
@@ -475,41 +476,60 @@ const ProfileEdit = () => {
     slug: "",
   });
   const [dateValue, setDateValue] = useState(new Date());
+  const [file, setFile] = useState(null);
+  const [allCountries, setAllCountries] = useState([]);
 
   let interestId = [];
 
   useEffect(() => {
-    myaxiosprivate
-      .get("/api/v1/profiles/edit")
-      .then(({ data }) => {
-        setUserInfo({
-          country: {
-            id: data.data.country.id,
-            name: data.data.country.name,
-          },
-          gender: {
-            id: data.data.gender.id,
-            gender_name: data.data.gender.gender_name,
-          },
-          full_name: data.data.full_name,
-          number: data.data.number,
-          email: data.data.email,
-          about: data.data.about,
-          avatar: data.data.avatar,
-          dob: new Date(data.data.dob),
-          interests: data.data.interests,
-          slug: data.data.slug,
+    const fetchCountryAndUserData = async () => {
+      setLoading(true);
+      await myaxiosprivate
+        .get("/api/v1/settings/countries/get")
+        .then((res) => {
+          setAllCountries(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        data.data.interests?.map((item) => interestId.push(item.id));
-      })
-      .catch((err) => {});
-  }, []);
 
+      await myaxiosprivate
+        .get("/api/v1/profiles/edit")
+        .then(({ data }) => {
+          setUserInfo({
+            country: {
+              id: data.data.country.id,
+              name: data.data.country.name,
+            },
+            gender: {
+              id: data.data.gender.id,
+              gender_name: data.data.gender.gender_name,
+            },
+            full_name: data.data.full_name,
+            number: data.data.number,
+            email: data.data.email,
+            about: data.data.about,
+            avatar: data.data.avatar,
+            dob: new Date(data.data.dob),
+            interests: data.data.interests,
+            slug: data.data.slug,
+          });
+          setLoading(false);
+        })
+        .catch((err) => {});
+    };
+    fetchCountryAndUserData();
+    console.log(userInfo.interests)
+    userInfo.interests.map((item) => console.log(item.id));
+  }, []);
+  console.log(interestId);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
   };
-  const handleFileSelect = () => {};
+  const handleFileSelect = (e) => {
+    setFile(e.target.files[0]);
+  };
   const handleChangeUserInfo = (e) => {
     const { name, value } = e.target;
     setUserInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -517,16 +537,40 @@ const ProfileEdit = () => {
 
   useEffect(() => {
     console.log(dateValue);
-    setUserInfo({ ...userInfo, dob: moment(dateValue).format("MM.DD.YYYY") });
+    setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
   }, [dateValue]);
-
   const handleGetPassportFile = () => {};
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
   const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
-    console.log(userInfo);
+    const formData = new FormData();
+    const sendData = {
+      ...userInfo,
+      phone: userInfo.number,
+      username: userInfo.slug,
+    };
+    Object.keys(sendData).forEach((key) => {
+      console.log(`Appending ${key}: ${sendData[key]}`);
+      formData.append(key, sendData[key]);
+    });
+    formData.delete("phone");
+    formData.delete("slug");
+    formData.delete("avatar");
+    formData.append("file", file);
+    await myaxiosprivate
+      .post("/api/v1/profiles/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        toast.success("Successfully updated");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
     // console.log(getCountryNameId, "getCountryNameId");
     // const getCountryIdState = getCountryNameId?.id;
     // event.preventDefault();
@@ -594,17 +638,7 @@ const ProfileEdit = () => {
 
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
-  const [allCountries, setAllCountries] = useState([]);
 
-  useEffect(() => {
-    try {
-      myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {
-        setAllCountries(res.data.data);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, []);
   const breadCrumb = [
     {
       title: "Main",
@@ -618,6 +652,14 @@ const ProfileEdit = () => {
       title: "Edit Profile Information",
     },
   ];
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
   // =================================================================================================================
   return (
     <ProfileEditing>
@@ -704,14 +746,16 @@ const ProfileEdit = () => {
                   </EditingItem>
                   <GenderButtons>
                     <button
-                      onClick={OnClickSaveOrCancelButton}
+                      type="button"
+                      onClick={() => setUserInfo({ ...userInfo, gender: 2 })}
                       className="gender_buttuns female-button"
                       id="female"
                     >
                       Female
                     </button>
                     <button
-                      onClick={OnClickSaveOrCancelButton}
+                      type="button"
+                      onClick={() => setUserInfo({ ...userInfo, gender: 1 })}
                       className="gender_buttuns male-button"
                       id="male"
                     >
@@ -745,7 +789,12 @@ const ProfileEdit = () => {
                         {allCountries.map((country) => (
                           <li
                             value={country.name}
-                            // onClick={getCountryId}
+                            onClick={(e) =>
+                              setUserInfo({
+                                ...userInfo,
+                                country: country.id,
+                              })
+                            }
                             id={country.id}
                             className="option"
                           >
@@ -780,7 +829,7 @@ const ProfileEdit = () => {
                     </div>
                     <input
                       type="text"
-                      value={moment(dateValue).format("DD.MM.YYYY")}
+                      value={moment(userInfo.dob).format("DD.MM.YYYY")}
                       readOnly
                       className="info_input"
                       placeholder="Date of birth"
@@ -820,7 +869,9 @@ const ProfileEdit = () => {
                           className="info_input-multi"
                           data={data}
                           defaultValue={interestId}
-                          onChange={(e) => console.log(e)}
+                          onChange={(e) =>
+                            setUserInfo({ ...userInfo, interests: e })
+                          }
                           placeholder="Interests"
                           maxSelectedValues={5}
                         />
