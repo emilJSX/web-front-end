@@ -33,7 +33,6 @@ import {
 import { logout, useAuthSelector } from "../../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { myaxiosprivate } from "../../../api/myaxios";
-
 export const HeaderShared = () => {
   const [opened, setOpened] = useState(false);
   const [showes, setShowes] = useState(false);
@@ -174,17 +173,17 @@ export const HeaderShared = () => {
               >
                 <div className="body-menu-logined">
                   <ul>
-                    <a href="/profile-edit">
+                    <Link to="/profile-edit">
                       <li className="edit-personal-info-btn">
                         Edit personal info
                       </li>
-                    </a>
-                    <a href="/settings">
+                    </Link>
+                    <Link to="/settings">
                       <li className="settings-btn">Settings</li>
-                    </a>
-                    <a onClick={handleLogout}>
+                    </Link>
+                    <Link onClick={handleLogout}>
                       <li className="settings-btn">Sign out</li>
-                    </a>
+                    </Link>
                   </ul>
                 </div>
               </div>

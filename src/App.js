@@ -41,17 +41,18 @@ import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
-  console.log(isAuth)
+  console.log(isAuth);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
-        <Routes> 
+        <Routes>
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} /> {/* + */}
           <Route path="/rating" element={<Rating />} />
           <Route path="/wish-edit" element={<Editing_Wish />} /> {/* + */}
-          <Route path="/creating-wish" element={<Created_Wish />} /> {/* problem */}  
+          <Route path="/creating-wish" element={<Created_Wish />} />{" "}
+          {/* problem */}
           <Route
             path="/creating-wish-success"
             element={<Created_Success_Wish />}

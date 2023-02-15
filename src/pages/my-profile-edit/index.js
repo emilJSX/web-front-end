@@ -58,6 +58,7 @@ import {
 } from "./MyProfileEdit.styles";
 import axios from "axios";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
+import { myaxiosprivate } from "../../api/myaxios";
 
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -166,7 +167,6 @@ const SetSaveAndCancelButtonsClick = () => {
 
 const OnClickSaveOrCancelButton = (clicked) => {
   clicked.preventDefault();
-
   let saveAndCancelid = clicked.getAttribute("id");
 
   switch (saveAndCancelid) {
@@ -175,7 +175,7 @@ const OnClickSaveOrCancelButton = (clicked) => {
         .querySelector("#save_button")
         .setAttribute(
           "style",
-          "background: #3800B0; border-radius: 8px; color: #FFFFFF;"
+          "background: #3801B0; border-radius: 8px; color: #FFFFFF;"
         );
       document
         .querySelector("#cancel_button")
@@ -379,7 +379,6 @@ const ProfileEdit = () => {
     },
   ];
 
-  const getUserToken = localStorage.getItem("UserToken=");
   // ==============================================UPDATE SOCIAL LINKS===============================================================
 
   const [SocialInputs, setSocialInputs] = useState({
@@ -393,25 +392,17 @@ const ProfileEdit = () => {
   const [getSocialLinksUser, setGetSocialLinksUser] = useState();
 
   const UpdateSocialLinkUser = () => {
-    axios
-      .post(
-        "https://api.wishx.me/api/v1/profiles/social/links/update",
-        {
-          facebook: SocialInputs.facebook,
-          instagram: SocialInputs.instagram,
-          twitter: SocialInputs.twitter,
-          tiktok: SocialInputs.tiktok,
-          telegram: SocialInputs.telegram,
-          whatsapp: SocialInputs.whatsapp,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getUserToken}`,
-          },
-        }
-      )
-      .then((getResultDataUpdateSocialLinks) => {
-        console.log(getResultDataUpdateSocialLinks);
+    myaxiosprivate
+      .post("/api/v1/profiles/social/links/update", {
+        facebook: SocialInputs.facebook,
+        instagram: SocialInputs.instagram,
+        twitter: SocialInputs.twitter,
+        tiktok: SocialInputs.tiktok,
+        telegram: SocialInputs.telegram,
+        whatsapp: SocialInputs.whatsapp,
+      })
+      .then((res) => {
+        console.log(res.data);
         toast.success("Successfully added social networks ", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -432,17 +423,16 @@ const ProfileEdit = () => {
     setSocialInputs(result);
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/profiles/social/links", {
-  //       headers: {
-  //         Authorization: `Bearer ${getUserToken}`,
-  //       },
-  //     })
-  //     .then((getUserSocialLinks) => {
-  //       setGetSocialLinksUser(getUserSocialLinks.data.data);
-  //     });
-  // }, []);
+  useEffect(() => {
+    myaxiosprivate
+      .get("/api/v1/profiles/social/links")
+      .then((res) => {
+        setGetSocialLinksUser(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   useEffect(() => {
     const {
@@ -466,196 +456,111 @@ const ProfileEdit = () => {
   // ============================================================================================================================
 
   // ===================================================GET USER UPDATE INFO=====================================================
-
-  // avatar, country, birthday, interests, gender
-  const [getUserInfoProfile, setUserInfoProfile] = useState({
-    full_name: "",
-    slug: "",
-    country: "",
-    about: "",
-    avatar: "",
-    phone: "",
+  const [userInfo, setUserInfo] = useState({
+    country: {
+      id: 1,
+      name: "",
+    },
+    gender: {
+      id: 1,
+      name: "",
+    },
+    ful_name: "",
+    number: 0,
     email: "",
+    about: "",
+    avatar: null,
+    dob: "",
     interests: [],
+    slug: "",
   });
-  const [getInfoUser, setInfoUser] = useState([]);
-  const [getCountryData, setCountryData] = useState("USD");
-  const [getGenderId, setGenderId] = useState();
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectPassport, setselectPassport] = useState(null);
-  const [getCountry, setCountry] = useState();
+  const [dateValue, setDateValue] = useState(new Date());
 
-  const handleChangeInputInfo = (e) => {
-    const { name, value } = e.target;
-    const result = { ...getUserInfoProfile, [name]: value };
-    setUserInfoProfile(result);
-  };
-
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  console.log(idInterestsApi, "INTERESTS")
-
-  const handleGetPassportFile = (event) => {
-    setselectPassport(event.target.files[0]);
-  };
-
-  var idInterestsApi = [];
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/profiles/edit", {
-  //       headers: {
-  //         Authorization: `Bearer ${getUserToken}`,
-  //       },
-  //     })
-  //     .then((getUserUpdateInfo) => {
-  //       setInfoUser(getUserUpdateInfo.data.data);
-  //       setGenderId(getUserUpdateInfo.data.data.gender.id);
-  //       setCountryData(getUserUpdateInfo.data.data.country);
-  //       if (getUserUpdateInfo.data.data?.country) {
-  //         setCountryNameId(getUserUpdateInfo.data.data.country);
-  //       }
-  //       getUserUpdateInfo.data.data.interests.map((e) =>
-  //         idInterestsApi.push(e.id)
-  //       );
-
-  //       const dateStr = getUserUpdateInfo.data.data.dob; // "2019-12-31 00:00:00"
-  //       const dateObj = new Date(dateStr);
-  //       const month = dateObj.getUTCMonth() + 1; //months from 1-12
-  //       const day = dateObj.getUTCDate();
-  //       const year = dateObj.getUTCFullYear();
-
-  //       onChange(new Date(year, month, day));
-  //     });
-
-  //   // Checked Gender Id for API
-  // }, []);
-
-  try {
-    if (getGenderId == 1) {
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3"
-        );
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-    } else if (getGenderId == 2) {
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;"
-        );
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-    }
-  } catch {
-    console.log(" ");
-  }
+  let interestId = [];
 
   useEffect(() => {
-    const {
-      full_name = "",
-      slug = "",
-      about = "",
-      avatar = "",
-      email = "",
-      phone = "",
-      interests = [],
-    } = getInfoUser || {};
-    const { country = "" } = getInfoUser?.country?.name || {};
-    setUserInfoProfile({
-      full_name,
-      slug,
-      about,
-      country,
-      avatar,
-      email,
-      phone,
-      interests,
-    });
-    SetCountryName(getInfoUser?.country?.name);
-    // onChange(getInfoUser?.dob)
-  }, [getInfoUser]);
-
-  const [getCountryNameId, setCountryNameId] = useState();
-  const getCountryId = (e) => {
-    const { id } = e.target;
-    const result = { id, countryName };
-    setCountryNameId(result);
-  };
-
-  // Show Country Name take with id API
-
-  useEffect(() => {
-    var getname = getCountryData?.name;
-    SetCountryName(getname);
+    myaxiosprivate
+      .get("/api/v1/profiles/edit")
+      .then(({ data }) => {
+        setUserInfo({
+          country: {
+            id: data.data.country.id,
+            name: data.data.country.name,
+          },
+          gender: {
+            id: data.data.gender.id,
+            gender_name: data.data.gender.gender_name,
+          },
+          full_name: data.data.full_name,
+          number: data.data.number,
+          email: data.data.email,
+          about: data.data.about,
+          avatar: data.data.avatar,
+          dob: new Date(data.data.dob),
+          interests: data.data.interests,
+          slug: data.data.slug,
+        });
+        data.data.interests?.map((item) => interestId.push(item.id));
+      })
+      .catch((err) => {});
   }, []);
 
-  const [getInterestsIdApi, setInterestsIdApi] = useState();
-  const getInterestsId = (item) => {
-    setInterestsIdApi(item);
+  const handleCalendarChange = (e) => {
+    setDateValue(new Date(e));
+    setShowCalendar(!showCalendar);
+  };
+  const handleFileSelect = () => {};
+  const handleChangeUserInfo = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  useEffect(() => {
+    console.log(dateValue);
+    setUserInfo({ ...userInfo, dob: moment(dateValue).format("MM.DD.YYYY") });
+  }, [dateValue]);
 
+  const handleGetPassportFile = () => {};
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
-  const handleUpdateInfoProfile = async (event) => {
-    console.log(getCountryNameId, "getCountryNameId");
-    const getCountryIdState = getCountryNameId?.id;
-
-    event.preventDefault();
-    const formUpdateData = new FormData();
-    formUpdateData.append(
-      "file",
-      selectedFile == null ? getUserInfoProfile.avatar : selectedFile
-    );
-    formUpdateData.append("full_name", getUserInfoProfile.full_name);
-    formUpdateData.append("country", getCountryIdState);
-    formUpdateData.append("gender", getGenderId);
-    formUpdateData.append("dob", moment(value).format("MM.DD.YYYY"));
-    formUpdateData.append("username", getUserInfoProfile.slug);
-    formUpdateData.append(
-      "interests",
-      getInterestsIdApi == null ? idInterestsApi : getInterestsIdApi
-    );
-    formUpdateData.append("about", getUserInfoProfile.about);
-
-    try {
-      await axios({
-        method: "post",
-        url: "https://api.wishx.me/api/v1/profiles/update",
-        data: formUpdateData,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      }).then((resultUpdate) => {
-        toast.success("Successfully updated ", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      });
-    } catch (error) {
-      toast.error("Please check your details", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
+  const handleUpdateInfoProfile = async (e) => {
+    e.preventDefault();
+    console.log(userInfo);
+    // console.log(getCountryNameId, "getCountryNameId");
+    // const getCountryIdState = getCountryNameId?.id;
+    // event.preventDefault();
+    // const formUpdateData = new FormData();
+    // formUpdateData.append(
+    //   "file",
+    //   selectedFile == null ? getUserInfoProfile.avatar : selectedFile
+    // );
+    // formUpdateData.append("full_name", getUserInfoProfile.full_name);
+    // formUpdateData.append("country", getCountryIdState);
+    // formUpdateData.append("gender", getGenderId);
+    // formUpdateData.append("dob", moment(value).format("MM.DD.YYYY"));
+    // formUpdateData.append("username", getUserInfoProfile.slug);
+    // formUpdateData.append(
+    //   "interests",
+    //   getInterestsIdApi == null ? idInterestsApi : getInterestsIdApi
+    // );
+    // formUpdateData.append("about", getUserInfoProfile.about);
+    // try {
+    //   await myaxiosprivate
+    //     .post("/api/v1/profiles/update", { data: formUpdateData })
+    //     .then((res) => {
+    //       toast.success("Successfully updated ", {
+    //         position: toast.POSITION.TOP_RIGHT,
+    //       });
+    //       setTimeout(() => {
+    //         window.location.reload();
+    //       }, 2000);
+    //     });
+    // } catch (error) {
+    //   toast.error("Please check your details", {
+    //     position: toast.POSITION.TOP_RIGHT,
+    //   });
+    // }
   };
 
   // ============================================================================================================================
@@ -668,21 +573,16 @@ const ProfileEdit = () => {
     formGetPassportData.append("file", selectPassport);
 
     try {
-      await axios({
-        method: "post",
-        url: "https://api.wishx.me/api/v1/profiles/verify",
-        data: formGetPassportData,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${getUserToken}`,
-        },
-      }).then((data) => {
-        console.log(data);
-        toast.success("Successfully send passport", {
-          position: toast.POSITION.TOP_RIGHT,
+      await myaxiosprivate
+        .post("/api/v1/profiles/verify", {
+          data: formGetPassportData,
+        })
+        .then((res) => {
+          console.log(res.data);
+          toast.success("Successfully send passport", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
         });
-      });
     } catch (error) {
       toast.error("Please check your details", {
         position: toast.POSITION.TOP_RIGHT,
@@ -694,26 +594,30 @@ const ProfileEdit = () => {
 
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
-  const [getCountryList, setCountryList] = useState([]);
+  const [allCountries, setAllCountries] = useState([]);
 
-  // useEffect(() => {
-  //   try {
-  //     axios({
-  //       method: "get",
-  //       url: "https://api.wishx.me/api/v1/settings/countries/get",
-  //       headers: {
-  //         "Access-Control-Allow-Origin": "*",
-  //         xsrfHeaderName: "X-XSRF-TOKEN",
-  //         Authorization: `Bearer ${getUserToken}`,
-  //       },
-  //     }).then((getCountry) => {
-  //       setCountryList(getCountry.data.data);
-  //     });
-  //   } catch (error) {
-  //     console.log("");
-  //   }
-  // }, []);
-
+  useEffect(() => {
+    try {
+      myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {
+        setAllCountries(res.data.data);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+  const breadCrumb = [
+    {
+      title: "Main",
+      to: "/",
+    },
+    {
+      title: "Profile",
+      to: "/my-profile",
+    },
+    {
+      title: "Edit Profile Information",
+    },
+  ];
   // =================================================================================================================
   return (
     <ProfileEditing>
@@ -723,18 +627,7 @@ const ProfileEdit = () => {
           {/*  Main {">"} Profile {">"} Edit Profile Information*/}
           {/*</p>*/}
           <p className="top-buttons">
-            <CustomBreadcrumb links={[
-              {
-                title: 'Main',
-                to: '/'
-              },
-              {
-                title: 'Profile',
-              },
-              {
-                title: 'Edit Profile Information',
-              },
-            ]} />
+            <CustomBreadcrumb links={breadCrumb} />
           </p>
           <h1 className="main-page-title">Edit Information</h1>
           <Tabs defaultValue="personalinfo">
@@ -769,7 +662,11 @@ const ProfileEdit = () => {
                     <ProfilePicture>
                       <figure className="image-figure">
                         <img
-                          src={getUserInfoProfile.avatar == null ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png" : `${getUserInfoProfile.avatar}`}
+                          src={
+                            !userInfo.avatar
+                              ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                              : `${userInfo.avatar}`
+                          }
                           className="profile-pucture"
                         />
                       </figure>
@@ -797,8 +694,9 @@ const ProfileEdit = () => {
                       <input
                         type="text"
                         name="full_name"
-                        value={getUserInfoProfile.full_name}
-                        onChange={handleChangeInputInfo}
+                        // value={getUserInfoProfile.full_name}
+                        value={userInfo.full_name}
+                        onChange={handleChangeUserInfo}
                         placeholder="Full name"
                         className="editing-inputs"
                       ></input>
@@ -838,18 +736,20 @@ const ProfileEdit = () => {
                           }
                         }}
                       >
-                        <h5 className="country-name">{countryName}</h5>
+                        <h5 className="country-name">
+                          {userInfo.country.name}
+                        </h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
                       <ul className="countries-list">
-                        {getCountryList.map((data) => (
+                        {allCountries.map((country) => (
                           <li
-                            value={data.name}
-                            onClick={getCountryId}
-                            id={data.id}
+                            value={country.name}
+                            // onClick={getCountryId}
+                            id={country.id}
                             className="option"
                           >
-                            {data.name}
+                            {country.name}
                           </li>
                         ))}
                       </ul>
@@ -857,8 +757,9 @@ const ProfileEdit = () => {
                     <div className="email-container">
                       <input
                         type="email"
-                        onChange={handleChangeInputInfo}
-                        value={getUserInfoProfile.email}
+                        onChange={handleChangeUserInfo}
+                        // value={getUserInfoProfile.email}
+                        value={userInfo.email}
                         name="email"
                         className="info-input-email"
                         placeholder="Email"
@@ -868,9 +769,10 @@ const ProfileEdit = () => {
                     <div className="email-container">
                       <input
                         type="tel"
-                        onChange={handleChangeInputInfo}
-                        value={getUserInfoProfile.phone}
-                        name="phone"
+                        onChange={handleChangeUserInfo}
+                        // value={getUserInfoProfile.number}
+                        value={userInfo.number}
+                        name="number"
                         className="info-input-email"
                         placeholder="Phone Number"
                       ></input>
@@ -878,19 +780,20 @@ const ProfileEdit = () => {
                     </div>
                     <input
                       type="text"
-                      value={moment(value).format("DD.MM.YYYY")}
+                      value={moment(dateValue).format("DD.MM.YYYY")}
                       readOnly
                       className="info_input"
                       placeholder="Date of birth"
                       onFocus={() => setShowCalendar(true)}
                     ></input>
                     <Calendar
+                      defaultValue={userInfo.dob}
                       locale="en-EN"
                       closeCalendar={true}
                       next2Label={false}
                       prev2Label={false}
-                      onChange={onChange}
-                      value={value}
+                      onChange={handleCalendarChange}
+                      value={dateValue}
                       className={showCalendar ? "" : "hide"}
                     />
                     <div className="wish-me-input-title">
@@ -898,8 +801,9 @@ const ProfileEdit = () => {
                       <input
                         type="text"
                         name="slug"
-                        value={getUserInfoProfile.slug}
-                        onChange={handleChangeInputInfo}
+                        // value={getUserInfoProfile.slug}
+                        value={userInfo.slug}
+                        onChange={handleChangeUserInfo}
                         className="info_input-small"
                         placeholder="username"
                       />
@@ -915,9 +819,9 @@ const ProfileEdit = () => {
                         <MultiSelect
                           className="info_input-multi"
                           data={data}
-                          onChange={getInterestsId}
+                          defaultValue={interestId}
+                          onChange={(e) => console.log(e)}
                           placeholder="Interests"
-                          defaultValue={idInterestsApi}
                           maxSelectedValues={5}
                         />
                       </div>
@@ -927,8 +831,9 @@ const ProfileEdit = () => {
                         rows={5}
                         cols={5}
                         name="about"
-                        value={getUserInfoProfile.about}
-                        onChange={handleChangeInputInfo}
+                        // value={getUserInfoProfile.about}
+                        value={userInfo.about}
+                        onChange={handleChangeUserInfo}
                         className="text-area"
                         placeholder="About you"
                       />
