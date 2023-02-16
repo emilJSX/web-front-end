@@ -479,7 +479,7 @@ const ProfileEdit = () => {
   const [file, setFile] = useState(null);
   const [allCountries, setAllCountries] = useState([]);
 
-  let interestId = [];
+  const [interestId, setInterestId] = useState([]);
 
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
@@ -514,15 +514,15 @@ const ProfileEdit = () => {
             interests: data.data.interests,
             slug: data.data.slug,
           });
+          data.data.interests?.forEach((item) =>
+            setInterestId((prevInterestId) => [...prevInterestId, item.id])
+          );
           setLoading(false);
         })
         .catch((err) => {});
     };
     fetchCountryAndUserData();
-    console.log(userInfo.interests)
-    userInfo.interests.map((item) => console.log(item.id));
   }, []);
-  console.log(interestId);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -539,6 +539,7 @@ const ProfileEdit = () => {
     console.log(dateValue);
     setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
   }, [dateValue]);
+
   const handleGetPassportFile = () => {};
   // ============================================================================================================================
 
@@ -551,14 +552,32 @@ const ProfileEdit = () => {
       phone: userInfo.number,
       username: userInfo.slug,
     };
+
     Object.keys(sendData).forEach((key) => {
       console.log(`Appending ${key}: ${sendData[key]}`);
       formData.append(key, sendData[key]);
     });
-    formData.delete("phone");
+    console.log();
+    const uniqueArr = [
+      ...new Set(
+        typeof userInfo.interests[0] === "object"
+          ? interestId
+          : userInfo.interests
+      ),
+    ];
+    formData.delete("number");
     formData.delete("slug");
     formData.delete("avatar");
+    formData.delete("dob"),
+      formData.delete("gender"),
+      formData.delete("country"),
+      formData.delete("interests");
+
+    formData.append("dob", moment(userInfo.dob).format("DD.MM.YYYY"));
+    formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
+    formData.append("country", userInfo.country.id);
+    formData.append("gender", userInfo.gender.id);
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
         headers: {
@@ -788,6 +807,7 @@ const ProfileEdit = () => {
                       <ul className="countries-list">
                         {allCountries.map((country) => (
                           <li
+                            key={country.id}
                             value={country.name}
                             onClick={(e) =>
                               setUserInfo({
@@ -812,7 +832,7 @@ const ProfileEdit = () => {
                         name="email"
                         className="info-input-email"
                         placeholder="Email"
-                      ></input>
+                      />
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
                     <div className="email-container">
@@ -824,7 +844,7 @@ const ProfileEdit = () => {
                         name="number"
                         className="info-input-email"
                         placeholder="Phone Number"
-                      ></input>
+                      />
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
                     <input
