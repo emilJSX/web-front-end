@@ -121,6 +121,7 @@ const OtherUserProfile = () => {
   const [getJoined, setJoined] = useState();
   const [error, setError] = useState("");
   const { state } = useLocation();
+  const [isFollowing, setIsFollowing] = useState(false);
   const [displayFollow, setdisplayFollow] = useState("block");
   const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
@@ -170,7 +171,7 @@ const OtherUserProfile = () => {
         setError(err.message);
       });
   }, []);
-
+  console.log(UserInfoProfile)
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
     navigate("/wish-edit", { state: GetProfileWishId });
@@ -188,42 +189,47 @@ const OtherUserProfile = () => {
 
   const [show, setShow] = useState(false);
   const [showes, setShowes] = useState(false);
-  const UnfollowButton = (getUserId) => {
+  const unfollowUser = (id) => {
     if (isAuth) {
       myaxiosprivate
-        .get(`/api/v1/unfollow?user_id=${+getUserId}`)
+        .get(`/api/v1/unfollow?user_id=${+id}`)
         .then((res) => {
-          if (res.status === 200) {
-            setdisplayUnfollow("none");
-            setdisplayFollow("block");
-          }
+          res.status === 200 && setIsFollowing(false);
         })
         .catch((err) => {
+          console.log(err.message)
+          setIsFollowing(true)
           setError(err.message);
         });
     } else {
       setShowes(true);
     }
   };
-
-  const FollowButton = (getUserId) => {
+  const followUser = async (id) => {
     if (isAuth) {
-      myaxiosprivate
-        .get(`/api/v1/follow?user_id=${+getUserId}`)
+      await myaxiosprivate
+        .get(`/api/v1/follow?user_id=${+id}`)
         .then((res) => {
-          if (res.status === 200) {
-            setdisplayFollow("none");
-            setdisplayUnfollow("block");
-          }
+          res.status === 200 && setIsFollowing(true);
+          // setdisplayFollow("none");
+          // setdisplayUnfollow("block");
         })
         .catch((err) => {
+          console.log(err.message)
+          setIsFollowing(false)
           setError(err.message);
         });
     } else {
       setShowes(true);
     }
   };
-
+  const handleClick = (id) => {
+    if (isFollowing) {
+      unfollowUser(id);
+    } else {
+      followUser(id);
+    }
+  };
   // END FOLLOW API
 
   return (
@@ -348,20 +354,22 @@ const OtherUserProfile = () => {
                 <ButtonSection>
                   <button
                     id={UserInfoProfile?.user_id}
-                    style={{ display: displayFollow }}
-                    onClick={(e) => FollowButton(e.target.id)}
-                    className="follow-btn"
+                    // style={{ display: displayFollow }}
+                    onClick={e=>handleClick(e.target.id)}
+                    className={
+                      isFollowing ? "unfollow-btn block" : "follow-btn block"
+                    }
                   >
-                    Follow
+                    {isFollowing ? "Unfollow" : "Follow"}
                   </button>
-                  <button
+                  {/* <button
                     id={UserInfoProfile?.user_id}
                     style={{ display: displayUnfollow }}
                     onClick={(e) => UnfollowButton(e.target.id)}
-                    className="unfollow-btn"
+                    className={!followState ? "hidden" : "unfollow-btn block"}
                   >
                     Unfollow
-                  </button>
+                  </button> */}
                   <button className="message-btn">Message</button>
                 </ButtonSection>
                 {/* <MobileBtnSection>

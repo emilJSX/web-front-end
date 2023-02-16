@@ -56,10 +56,9 @@ import {
   SosialMediaSelection,
   SaveButton,
 } from "./MyProfileEdit.styles";
-import axios from "axios";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
-
+import { useForm } from "react-hook-form";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -466,7 +465,7 @@ const ProfileEdit = () => {
       id: 1,
       name: "",
     },
-    ful_name: "",
+    full_name: "",
     number: 0,
     email: "",
     about: "",
@@ -478,21 +477,25 @@ const ProfileEdit = () => {
   const [dateValue, setDateValue] = useState(new Date());
   const [file, setFile] = useState(null);
   const [allCountries, setAllCountries] = useState([]);
-
+  const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
-
+  // const {
+  //   register,
+  //   formState: { errors },
+  // } = useForm({ reValidateMode: "onChange" });
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
       setLoading(true);
+      setError("");
       await myaxiosprivate
         .get("/api/v1/settings/countries/get")
         .then((res) => {
           setAllCountries(res.data.data);
         })
         .catch((err) => {
-          console.log(err);
+          setError(err.message);
         });
-
+      setError("");
       await myaxiosprivate
         .get("/api/v1/profiles/edit")
         .then(({ data }) => {
@@ -519,7 +522,9 @@ const ProfileEdit = () => {
           );
           setLoading(false);
         })
-        .catch((err) => {});
+        .catch((err) => {
+          setError(err.message);
+        });
     };
     fetchCountryAndUserData();
   }, []);
@@ -553,11 +558,23 @@ const ProfileEdit = () => {
       username: userInfo.slug,
     };
 
+    const keysToRemove = [
+      "number",
+      "slug",
+      "avatar",
+      "dob",
+      "gender",
+      "country",
+      "interests",
+    ];
+
+    for (const key of keysToRemove) {
+      formData.delete(key);
+    }
     Object.keys(sendData).forEach((key) => {
       console.log(`Appending ${key}: ${sendData[key]}`);
       formData.append(key, sendData[key]);
     });
-    console.log();
     const uniqueArr = [
       ...new Set(
         typeof userInfo.interests[0] === "object"
@@ -565,19 +582,13 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
-    formData.delete("number");
-    formData.delete("slug");
-    formData.delete("avatar");
-    formData.delete("dob"),
-      formData.delete("gender"),
-      formData.delete("country"),
-      formData.delete("interests");
 
     formData.append("dob", moment(userInfo.dob).format("DD.MM.YYYY"));
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
     formData.append("country", userInfo.country.id);
     formData.append("gender", userInfo.gender.id);
+
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
         headers: {
@@ -760,7 +771,12 @@ const ProfileEdit = () => {
                         onChange={handleChangeUserInfo}
                         placeholder="Full name"
                         className="editing-inputs"
-                      ></input>
+                      />
+                      {errors.full_name && (
+                        <p className="mx-14 mt-2 text-red-500 text-xs">
+                          {errors.full_name.message}
+                        </p>
+                      )}
                     </EditingInputs>
                   </EditingItem>
                   <GenderButtons>

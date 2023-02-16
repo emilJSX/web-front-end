@@ -79,10 +79,8 @@ import {
   Seconds,
   Send,
 } from "../PasswordRecoveryMessage/RecoveryMessage.Styled";
-import { loginControll } from "../../../store/slices/counterSlice";
 import { myaxios, myaxiosprivate } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
-import { setUserToken } from "../../../store/slices/authSlice";
 import OtpTimer from "./OtpTimer";
 export function Login_ConnectionSystem({ setShowes }) {
   const navigate = useNavigate();
@@ -111,9 +109,10 @@ export function Login_ConnectionSystem({ setShowes }) {
       myaxios
         .post("api/v1/login", { email, password })
         .then((res) => {
-          //set response in local storage && redux store
+          //set response in local storage 
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
+          setShowes(false);
           navigate("/my-profile");
         })
         .catch((err) => {
@@ -655,17 +654,19 @@ export function SignUp_ConnectionSystem({
   // ======================== END INTERESTS CONFIG =============================
 
   // ============================ PASPORT CONFIG ===============================
-  const [selectPassport, setselectPassport] = useState(null);
+  const [selectPassport, setselectPassport] = useState();
   const [passportErr, setPassportErr] = useState(null);
   const handleVerifyPassport = async (e) => {
-    formData.file = selectPassport;
+    const formData = new FormData();
+
+    formData.append("file", selectPassport);
     await myaxiosprivate
-      .post("/api/v1/profiles/verify", { data: formData.file })
+      .post("/api/v1/profiles/verify", formData)
       .then(() => {
         setTabIndex(5);
       })
-      .catch(() => {
-        setPassportErr("Something went wrong, try again later");
+      .catch((err) => {
+        setPassportErr(err.message);
       });
   };
   // ============================ END PASPORT CONFIG ===============================
