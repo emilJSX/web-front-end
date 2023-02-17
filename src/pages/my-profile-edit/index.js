@@ -546,6 +546,7 @@ const ProfileEdit = () => {
   }, [dateValue]);
 
   const handleGetPassportFile = () => {};
+  console.log(userInfo);
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
@@ -558,19 +559,6 @@ const ProfileEdit = () => {
       username: userInfo.slug,
     };
 
-    const keysToRemove = [
-      "number",
-      "slug",
-      "avatar",
-      "dob",
-      "gender",
-      "country",
-      "interests",
-    ];
-
-    for (const key of keysToRemove) {
-      formData.delete(key);
-    }
     Object.keys(sendData).forEach((key) => {
       console.log(`Appending ${key}: ${sendData[key]}`);
       formData.append(key, sendData[key]);
@@ -582,12 +570,24 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
-
+    formData.delete("number");
+    formData.delete("slug");
+    formData.delete("avatar");
+    formData.delete("dob");
+    formData.delete("gender");
+    formData.delete("country");
+    formData.delete("interests");
     formData.append("dob", moment(userInfo.dob).format("DD.MM.YYYY"));
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append("country", userInfo.country.id);
-    formData.append("gender", userInfo.gender.id);
+    formData.append(
+      "country",
+      userInfo.country.id ? userInfo.country.id : userInfo.country
+    );
+    formData.append(
+      "gender",
+      userInfo.gender.id ? userInfo.gender.id : userInfo.gender
+    );
 
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
@@ -772,11 +772,11 @@ const ProfileEdit = () => {
                         placeholder="Full name"
                         className="editing-inputs"
                       />
-                      {errors.full_name && (
+                      {/* {errors.full_name && (
                         <p className="mx-14 mt-2 text-red-500 text-xs">
                           {errors.full_name.message}
                         </p>
-                      )}
+                      )} */}
                     </EditingInputs>
                   </EditingItem>
                   <GenderButtons>

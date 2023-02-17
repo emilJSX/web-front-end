@@ -82,6 +82,7 @@ import {
 import { myaxios, myaxiosprivate } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
+import { setUserToken } from "../../../store/slices/authSlice";
 export function Login_ConnectionSystem({ setShowes }) {
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
@@ -109,10 +110,11 @@ export function Login_ConnectionSystem({ setShowes }) {
       myaxios
         .post("api/v1/login", { email, password })
         .then((res) => {
-          //set response in local storage 
+          //set response in local storage
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);
+          dispatch(setUserToken(token));
           navigate("/my-profile");
         })
         .catch((err) => {
@@ -668,6 +670,16 @@ export function SignUp_ConnectionSystem({
       .catch((err) => {
         setPassportErr(err.message);
       });
+  };
+
+  const debounce = (func, delay) => {
+    let debounceTimer;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
   };
   // ============================ END PASPORT CONFIG ===============================
   return (

@@ -112,7 +112,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Autholog from "../../shared/LogIn-SingUp/Autholog";
 import Autho from "../../shared/LogIn-SingUp/Autho";
 import { DateTime } from "luxon";
-import { myaxios, myaxiosprivate } from "../../api/myaxios";
+import {  myaxiosprivate } from "../../api/myaxios";
 import { useSelector } from "react-redux";
 import { useAuthSelector } from "../../store/slices/authSlice";
 const OtherUserProfile = () => {
@@ -157,13 +157,14 @@ const OtherUserProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    myaxios
-      .get("/api/v1/user/other/slug", {
-        params: {
-          slug: state,
+    myaxiosprivate
+      .get(`/api/v1/user/other/slug?slug=${state}`, {
+        headers: {
+          "Cache-Control": "no-cache",
         },
       })
       .then((res) => {
+        console.log(res)
         setUserInfoProfile(res.data.data);
         setJoined(res.data.data.info.joined);
       })
@@ -171,7 +172,9 @@ const OtherUserProfile = () => {
         setError(err.message);
       });
   }, []);
-  console.log(UserInfoProfile)
+  console.log(UserInfoProfile);
+
+  
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
     navigate("/wish-edit", { state: GetProfileWishId });
@@ -184,7 +187,7 @@ const OtherUserProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/wish/" + id, { state: { id } });
   }
-
+  console.log(typeof state);
   // Follow API
 
   const [show, setShow] = useState(false);
@@ -192,13 +195,13 @@ const OtherUserProfile = () => {
   const unfollowUser = (id) => {
     if (isAuth) {
       myaxiosprivate
-        .get(`/api/v1/unfollow?user_id=${+id}`)
+        .get(`/api/v1/unfollow?user_id=${id}`)
         .then((res) => {
           res.status === 200 && setIsFollowing(false);
         })
         .catch((err) => {
-          console.log(err.message)
-          setIsFollowing(true)
+          console.log(err.message);
+          setIsFollowing(true);
           setError(err.message);
         });
     } else {
@@ -208,15 +211,20 @@ const OtherUserProfile = () => {
   const followUser = async (id) => {
     if (isAuth) {
       await myaxiosprivate
-        .get(`/api/v1/follow?user_id=${+id}`)
+        .get(`/api/v1/follow?user_id=${id}`, {
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        })
         .then((res) => {
-          res.status === 200 && setIsFollowing(true);
+          // res.status === 200 && setIsFollowing(true);
           // setdisplayFollow("none");
           // setdisplayUnfollow("block");
+          console.log(res.data);
         })
         .catch((err) => {
-          console.log(err.message)
-          setIsFollowing(false)
+          console.log(err.message);
+          setIsFollowing(false);
           setError(err.message);
         });
     } else {
@@ -224,6 +232,7 @@ const OtherUserProfile = () => {
     }
   };
   const handleClick = (id) => {
+    console.log(id);
     if (isFollowing) {
       unfollowUser(id);
     } else {
@@ -268,7 +277,7 @@ const OtherUserProfile = () => {
                     id="tomcrusemobile"
                     className="tomcrusemobile"
                     height={85}
-                    src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`}
+                    src={`${UserInfoProfile?.info?.avatar}`}
                   />
                 </DisplayTopImgCard>
 
@@ -355,7 +364,7 @@ const OtherUserProfile = () => {
                   <button
                     id={UserInfoProfile?.user_id}
                     // style={{ display: displayFollow }}
-                    onClick={e=>handleClick(e.target.id)}
+                    onClick={(e) => handleClick(e.target.id)}
                     className={
                       isFollowing ? "unfollow-btn block" : "follow-btn block"
                     }

@@ -39,6 +39,11 @@ import ContactsPage from "./pages/contacts/contacts-subscribers";
 import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
+
+
+
+
+
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
   console.log(isAuth);
@@ -97,3 +102,5 @@ const App = () => {
 };
 
 export default App;
+
+
