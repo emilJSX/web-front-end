@@ -71,9 +71,10 @@ const Created_Wish = () => {
   // ================================ Get LocalStorage User Token ================================
   const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
 
-  if (!GetUserTokenCreationWish) {
-    navigate("/");
-  }
+  // if (!GetUserTokenCreationWish) {
+  //   navigate("/");
+  // }
+  
   // ================================ END Get LocalStorage User Token ================================
   const handleChange = (newValue) => {
     setValue(newValue);

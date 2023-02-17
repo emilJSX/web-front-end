@@ -46,6 +46,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
+
         <Routes>
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} /> {/* + */}
