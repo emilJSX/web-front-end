@@ -108,11 +108,11 @@ import file1 from "../../style/icons/file1.png";
 import { Component } from "react";
 import instagram from "../../style/icons/instagram.svg";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Autholog from "../../shared/LogIn-SingUp/Autholog";
 import Autho from "../../shared/LogIn-SingUp/Autho";
 import { DateTime } from "luxon";
-import {  myaxiosprivate } from "../../api/myaxios";
+import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import { useSelector } from "react-redux";
 import { useAuthSelector } from "../../store/slices/authSlice";
 const OtherUserProfile = () => {
@@ -121,6 +121,7 @@ const OtherUserProfile = () => {
   const [getJoined, setJoined] = useState();
   const [error, setError] = useState("");
   const { state } = useLocation();
+  const { slug } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [displayFollow, setdisplayFollow] = useState("block");
   const [displayUnfollow, setdisplayUnfollow] = useState("none");
@@ -149,7 +150,7 @@ const OtherUserProfile = () => {
       spanTitle: "0",
     },
   ];
-
+  console.log(slug);
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
 
@@ -157,14 +158,9 @@ const OtherUserProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    myaxiosprivate
-      .get(`/api/v1/user/other/slug?slug=${state}`, {
-        headers: {
-          "Cache-Control": "no-cache",
-        },
-      })
+    myaxios
+      .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
       .then((res) => {
-        console.log(res)
         setUserInfoProfile(res.data.data);
         setJoined(res.data.data.info.joined);
       })
@@ -174,7 +170,6 @@ const OtherUserProfile = () => {
   }, []);
   console.log(UserInfoProfile);
 
-  
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
     navigate("/wish-edit", { state: GetProfileWishId });
@@ -211,11 +206,7 @@ const OtherUserProfile = () => {
   const followUser = async (id) => {
     if (isAuth) {
       await myaxiosprivate
-        .get(`/api/v1/follow?user_id=${id}`, {
-          headers: {
-            "Cache-Control": "no-cache",
-          },
-        })
+        .get(`/api/v1/follow?user_id=${id}`)
         .then((res) => {
           // res.status === 200 && setIsFollowing(true);
           // setdisplayFollow("none");
