@@ -269,40 +269,40 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-const OnGenderButtonClick = (clicked) => {
-  let element_id = clicked.getAttribute("id");
+// const OnGenderButtonClick = (clicked) => {
+//   let element_id = clicked.getAttribute("id");
 
-  switch (element_id) {
-    case "female":
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;"
-        );
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-      break;
-    case "male":
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3"
-        );
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-      break;
-  }
-};
+//   switch (element_id) {
+//     case "female":
+//       document
+//         .querySelector("#female")
+//         .setAttribute(
+//           "style",
+//           " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;"
+//         );
+//       document
+//         .querySelector("#male")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
+//         );
+//       break;
+//     case "male":
+//       document
+//         .querySelector("#male")
+//         .setAttribute(
+//           "style",
+//           " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3"
+//         );
+//       document
+//         .querySelector("#female")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
+//         );
+//       break;
+//   }
+// };
 
 function DeleteAccountConfirmSmyle(props) {
   return (
@@ -373,7 +373,7 @@ const ProfileEdit = () => {
       value: 1,
     },
     {
-      label: "Bussness",
+      label: "Bussiness",
       value: 2,
     },
   ];
@@ -479,6 +479,8 @@ const ProfileEdit = () => {
   const [allCountries, setAllCountries] = useState([]);
   const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
+  const [clicked, setClicked] = useState(userInfo.gender.id);
+
   // const {
   //   register,
   //   formState: { errors },
@@ -544,9 +546,22 @@ const ProfileEdit = () => {
     console.log(dateValue);
     setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
   }, [dateValue]);
-
-  const handleGetPassportFile = () => {};
+  const countryFinder = () => {
+    const countryName = allCountries.filter(
+      (item) => item.id === userInfo.country
+    );
+    console.log(countryName[0].name);
+    return countryName[0]?.name;
+  };
   console.log(userInfo);
+  const handleGenderSelect = (e) => {
+    setClicked(e);
+    if (e === "male") {
+      setUserInfo({ ...userInfo, gender: 1 });
+    } else {
+      setUserInfo({ ...userInfo, gender: 2 });
+    }
+  };
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
@@ -638,11 +653,11 @@ const ProfileEdit = () => {
   };
 
   // ============================================================================================================================
-
+  const handleGetPassportFile = () => {};
   // =======================================================VERIFICATION PASSPORT API============================================
 
-  const handleVerifyPassport = async (event) => {
-    event.preventDefault();
+  const handleVerifyPassport = async (e) => {
+    e.preventDefault();
     const formGetPassportData = new FormData();
     formGetPassportData.append("file", selectPassport);
 
@@ -782,16 +797,24 @@ const ProfileEdit = () => {
                   <GenderButtons>
                     <button
                       type="button"
-                      onClick={() => setUserInfo({ ...userInfo, gender: 2 })}
-                      className="gender_buttuns female-button"
+                      onClick={(e) => handleGenderSelect(e.target.id)}
+                      className={
+                        userInfo.gender.id === 2 || clicked === "female"
+                          ? "clicked gender_buttuns female-button"
+                          : "gender_buttuns female-button"
+                      }
                       id="female"
                     >
                       Female
                     </button>
                     <button
                       type="button"
-                      onClick={() => setUserInfo({ ...userInfo, gender: 1 })}
-                      className="gender_buttuns male-button"
+                      onClick={(e) => handleGenderSelect(e.target.id)}
+                      className={
+                        userInfo.gender.id === 1 || clicked === "male"
+                          ? "clicked gender_buttuns male-button"
+                          : "gender_buttuns male-button"
+                      }
                       id="male"
                     >
                       Male
@@ -816,7 +839,9 @@ const ProfileEdit = () => {
                         }}
                       >
                         <h5 className="country-name">
-                          {userInfo.country.name}
+                          {userInfo.country.name
+                            ? userInfo.country.name
+                            : countryFinder()}
                         </h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
@@ -904,12 +929,12 @@ const ProfileEdit = () => {
                         <MultiSelect
                           className="info_input-multi"
                           data={data}
-                          defaultValue={interestId}
+                          defaultValue={[...new Set(interestId)]}
                           onChange={(e) =>
                             setUserInfo({ ...userInfo, interests: e })
                           }
                           placeholder="Interests"
-                          maxSelectedValues={5}
+                          maxSelectedValues={data.length}
                         />
                       </div>
                     </div>

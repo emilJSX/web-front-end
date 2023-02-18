@@ -122,9 +122,9 @@ const OtherUserProfile = () => {
   const [error, setError] = useState("");
   const { state } = useLocation();
   const { slug } = useParams();
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [displayFollow, setdisplayFollow] = useState("block");
-  const [displayUnfollow, setdisplayUnfollow] = useState("none");
+  const [isFollowing, setIsFollowing] = useState();
+  // const [displayFollow, setdisplayFollow] = useState("block");
+  // const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
   const tabs_storage = [
@@ -158,15 +158,26 @@ const OtherUserProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    myaxios
-      .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
-      .then((res) => {
-        setUserInfoProfile(res.data.data);
-        setJoined(res.data.data.info.joined);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    isAuth
+      ? myaxiosprivate
+          .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
+          .then(({ data }) => {
+            setUserInfoProfile(data.data);
+            setJoined(data.data.info.joined);
+            setIsFollowing(data.data.contacts.followedStatus);
+          })
+          .catch((err) => {
+            setError(err.message);
+          })
+      : myaxios
+          .get(`/api/v1/user/other/slug?slug=${slug}`)
+          .then(({ data }) => {
+            setUserInfoProfile(data.data);
+            setJoined(data.data.info.joined);
+          })
+          .catch((err) => {
+            setError(err.message);
+          });
   }, []);
   console.log(UserInfoProfile);
 
@@ -208,7 +219,7 @@ const OtherUserProfile = () => {
       await myaxiosprivate
         .get(`/api/v1/follow?user_id=${id}`)
         .then((res) => {
-          // res.status === 200 && setIsFollowing(true);
+          res.status === 200 && setIsFollowing(true);
           // setdisplayFollow("none");
           // setdisplayUnfollow("block");
           console.log(res.data);
