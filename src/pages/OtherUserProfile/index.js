@@ -220,12 +220,8 @@ const OtherUserProfile = () => {
         .get(`/api/v1/follow?user_id=${id}`)
         .then((res) => {
           res.status === 200 && setIsFollowing(true);
-          // setdisplayFollow("none");
-          // setdisplayUnfollow("block");
-          console.log(res.data);
         })
         .catch((err) => {
-          console.log(err.message);
           setIsFollowing(false);
           setError(err.message);
         });

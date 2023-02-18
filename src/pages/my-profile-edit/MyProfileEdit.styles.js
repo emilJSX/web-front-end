@@ -274,7 +274,7 @@ export const GenderButtons = styled.div`
     background: #ffffff;
     border: 2px solid #eceef7;
     border-radius: 8px;
-    margin-right:5px;
+    margin-right: 5px;
     font-family: "Steppe";
     font-style: normal;
     font-weight: 600;

@@ -59,6 +59,7 @@ import {
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
+import useValidation from "../../hooks/useValidation";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -481,10 +482,6 @@ const ProfileEdit = () => {
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo.gender.id);
 
-  // const {
-  //   register,
-  //   formState: { errors },
-  // } = useForm({ reValidateMode: "onChange" });
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
       setLoading(true);
@@ -543,17 +540,14 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
-    console.log(dateValue);
     setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
   }, [dateValue]);
   const countryFinder = () => {
     const countryName = allCountries.filter(
       (item) => item.id === userInfo.country
     );
-    console.log(countryName[0].name);
     return countryName[0]?.name;
   };
-  console.log(userInfo);
   const handleGenderSelect = (e) => {
     setClicked(e);
     if (e === "male") {
@@ -565,6 +559,8 @@ const ProfileEdit = () => {
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
+
+  const { errors, isValid } = useValidation(userInfo);
   const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -575,7 +571,6 @@ const ProfileEdit = () => {
     };
 
     Object.keys(sendData).forEach((key) => {
-      console.log(`Appending ${key}: ${sendData[key]}`);
       formData.append(key, sendData[key]);
     });
     const uniqueArr = [
@@ -653,18 +648,19 @@ const ProfileEdit = () => {
   };
 
   // ============================================================================================================================
-  const handleGetPassportFile = () => {};
   // =======================================================VERIFICATION PASSPORT API============================================
-
+  const [selectPassport, setSelectPassport] = useState(null);
   const handleVerifyPassport = async (e) => {
     e.preventDefault();
-    const formGetPassportData = new FormData();
-    formGetPassportData.append("file", selectPassport);
-
+    const formData = new FormData();
+    formData.append("file", selectPassport);
+    console.log(formData);
     try {
       await myaxiosprivate
-        .post("/api/v1/profiles/verify", {
-          data: formGetPassportData,
+        .post("/api/v1/profiles/verify", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((res) => {
           console.log(res.data);
@@ -777,6 +773,11 @@ const ProfileEdit = () => {
                         />
                       </div>
                     </ProfilePicture>
+                    {errors.full_name && (
+                      <p className="mx-10 mb-1 text-red-500 text-xs">
+                        {errors.full_name}
+                      </p>
+                    )}
                     <EditingInputs>
                       <input
                         type="text"
@@ -787,6 +788,7 @@ const ProfileEdit = () => {
                         placeholder="Full name"
                         className="editing-inputs"
                       />
+
                       {/* {errors.full_name && (
                         <p className="mx-14 mt-2 text-red-500 text-xs">
                           {errors.full_name.message}
@@ -864,6 +866,11 @@ const ProfileEdit = () => {
                         ))}
                       </ul>
                     </div>
+                    {errors.email && (
+                      <p className="mx-10 mt-2 text-red-500 text-xs">
+                        {errors.email}
+                      </p>
+                    )}
                     <div className="email-container">
                       <input
                         type="email"
@@ -874,6 +881,7 @@ const ProfileEdit = () => {
                         className="info-input-email"
                         placeholder="Email"
                       />
+
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
                     <div className="email-container">
@@ -895,7 +903,7 @@ const ProfileEdit = () => {
                       className="info_input"
                       placeholder="Date of birth"
                       onFocus={() => setShowCalendar(true)}
-                    ></input>
+                    />
                     <Calendar
                       defaultValue={userInfo.dob}
                       locale="en-EN"
@@ -906,6 +914,11 @@ const ProfileEdit = () => {
                       value={dateValue}
                       className={showCalendar ? "" : "hide"}
                     />
+                    {errors.slug && (
+                      <p className="mx-14 mt-2 text-red-500 text-xs">
+                        {errors.slug}
+                      </p>
+                    )}
                     <div className="wish-me-input-title">
                       <h5 className="wish-me-title">wish.me/</h5>
                       <input
@@ -938,6 +951,11 @@ const ProfileEdit = () => {
                         />
                       </div>
                     </div>
+                    {errors.about && (
+                      <p className="mx-10 mt-2 text-red-500 text-xs">
+                        {errors.about}
+                      </p>
+                    )}
                     <div className="text-area-container">
                       <textarea
                         rows={5}
@@ -950,11 +968,13 @@ const ProfileEdit = () => {
                         placeholder="About you"
                       />
                     </div>
+
                     <div className="buttons-container">
                       <button
                         className="saveAndCancel save-button"
                         type="submit"
                         id="save_button"
+                        disabled={!isValid}
                       >
                         Save
                       </button>
@@ -996,19 +1016,19 @@ const ProfileEdit = () => {
                 </h1>
                 <SosialMediaButtons>
                   <button className="facebook-button">
-                    <FaFacebook className="facebook-icon"></FaFacebook>
+                    <FaFacebook className="facebook-icon" />
                     <h1 className="facebook-title" style={{ margin: "0" }}>
                       Disconnect Facebook
                     </h1>
                   </button>
                   <button className="google-button">
-                    <FaGoogle className="google-icon"></FaGoogle>
+                    <FaGoogle className="google-icon" />
                     <h1 className="google-title" style={{ margin: "0" }}>
                       Connect Google
                     </h1>
                   </button>
                   <button className="apple-button">
-                    <FaApple className="apple-icon"></FaApple>
+                    <FaApple className="apple-icon" />
                     <h1 className="apple-title" style={{ margin: "0" }}>
                       Connect Apple
                     </h1>
@@ -1019,33 +1039,33 @@ const ProfileEdit = () => {
             <TabPanel value="verification">
               <PictureUpload>
                 <PictureUploadComponents className="picture-upload">
-                  <p className="title">
-                    To start fundraising for yourself, you need to pass
-                    verification. To <br /> do this, just send a photo of your
-                    passport.
-                  </p>
-                  <input
-                    type="file"
-                    onChange={handleGetPassportFile}
-                    name="photo-uploader"
-                    id="photo-uploader"
-                  />
-                  <PictureDropDown>
-                    <div
-                      className="upload-icon-and-title"
-                      onClick={() => {
-                        const dialog =
-                          document.querySelector("#photo-uploader");
-                        dialog.click();
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faArrowUpFromBracket} />
-                      <h1 className="upload-picture-title">
-                        Upload picture of Passport
-                      </h1>
-                    </div>
-                  </PictureDropDown>
                   <form onSubmit={handleVerifyPassport}>
+                    <p className="title">
+                      To start fundraising for yourself, you need to pass
+                      verification. To <br /> do this, just send a photo of your
+                      passport.
+                    </p>
+                    <input
+                      type="file"
+                      onChange={(e) => setSelectPassport(e.target.files[0])}
+                      name="photo-uploader"
+                      id="photo-uploader"
+                    />
+                    <PictureDropDown>
+                      <div
+                        className="upload-icon-and-title"
+                        onClick={() => {
+                          const dialog =
+                            document.querySelector("#photo-uploader");
+                          dialog.click();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faArrowUpFromBracket} />
+                        <h1 className="upload-picture-title">
+                          Upload picture of Passport
+                        </h1>
+                      </div>
+                    </PictureDropDown>
                     <div className="upload-picture-treams">
                       <h5 className="trems-head-title">The photo must be</h5>
                       <ul className="pictures-upload-treams-list">

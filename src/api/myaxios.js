@@ -5,7 +5,7 @@ export const myaxios = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Cache-Control": "no-cache"
+    "Cache-Control": "no-cache",
   },
 });
 export const myaxiosprivate = axios.create({
@@ -13,7 +13,7 @@ export const myaxiosprivate = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Cache-Control": "no-cache"
+    "Cache-Control": "no-cache",
   },
 });
 const errorHandler = (error) => {
