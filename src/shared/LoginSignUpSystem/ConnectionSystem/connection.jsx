@@ -387,7 +387,7 @@ export function Login_ConnectionSystem({ setShowes }) {
 
             {/* =============================== PASSOWORD RECOVERY MODAL ============================== */}
             <TabPanel>
-                <Main>
+                <Main> 
                     <OpacityBlog></OpacityBlog>
                     <Container style={{ zIndex: '10' }}>
                             <Button1 onClick={() => {

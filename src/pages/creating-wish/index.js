@@ -141,8 +141,6 @@ const Created_Wish = () => {
     formData.append("categories", interests);
     formData.append("date", "11.20.22");
     formData.append("access", CheckedUrlPublicWish);
-    console.log(CheckedUrlPublicWish);
-
     try {
       await axios({
         method: "post",
@@ -154,7 +152,6 @@ const Created_Wish = () => {
           Authorization: `Bearer ${GetUserTokenCreationWish}`,
         },
       }).then((result) => {
-        console.log(result);
         var getResultWishId = result?.data?.data?.id;
         if (result.data.success == false) {
           toast.info(result.data.message, {
