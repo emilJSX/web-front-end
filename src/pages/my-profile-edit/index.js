@@ -226,7 +226,7 @@ function MyVerticallyCenteredModal(props) {
         />
         <div className="delete-causes-items-container">
           <p>Reason for deleting the account (optional)</p>
-          <FormControl>
+          {/* <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="female"
@@ -253,7 +253,7 @@ function MyVerticallyCenteredModal(props) {
                 label="Other Reson"
               />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
         </div>
         <div className="reson-text-input">
           <input

@@ -62,6 +62,7 @@ const Created_Success_Wish = () => {
         })
         .then((GetUserWish) => {
           setGetUserData(GetUserWish.data.data);
+          console.log(GetUserWish)
         })
         .catch((err) => {
           console.log(err);
