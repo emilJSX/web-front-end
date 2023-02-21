@@ -1,8 +1,6 @@
 
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-`
-0src/pages/contacts/contacts-subscribers/index.js,2\f\2fa684aacb30467299e74c2d6b355425e320dffb
 \
 ,src/pages/partners/partners-coupons/index.js,c\b\cbcf166d8f3a9959a74370ab5f5f6c45e3473c07
 I
@@ -28,10 +26,6 @@ Q
 !src/shared/LogIn-SingUp/Third.jsx,2\c\2c4cdb921952da4e6e1e4af7e87da9aac6a57765
 O
 src/pages/editing-wish/index.js,a\1\a1c124d4015a0574d8c48b994a6dc84ae7b0b9d3
-R
-"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
-a
-1src/pages/my-profile-edit/MyProfileEdit.styles.js,4\3\43753aa3382d2c0fa44d8491d444092c52bdbc19
 P
  src/pages/my-profile/CardData.js,8\b\8b1bd2e067d4bfb783a5107cb0ff20cd0004cbf6
 M

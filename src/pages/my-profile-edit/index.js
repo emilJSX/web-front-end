@@ -484,6 +484,7 @@ const ProfileEdit = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectPassport, setselectPassport] = useState(null);
   const [getCountry, setCountry] = useState();
+  const [passportImage, setPassportImage] = useState(null);
 
   const handleChangeInputInfo = (e) => {
     const { name, value } = e.target;
@@ -499,6 +500,7 @@ const ProfileEdit = () => {
 
   const handleGetPassportFile = (event) => {
     setselectPassport(event.target.files[0]);
+    setPassportImage(URL.createObjectURL(event.target.files[0]));
   };
 
   var idInterestsApi = [];
@@ -1022,10 +1024,16 @@ const ProfileEdit = () => {
                         dialog.click();
                       }}
                     >
-                      <FontAwesomeIcon icon={faArrowUpFromBracket} />
-                      <h1 className="upload-picture-title">
-                        Upload picture of Passport
-                      </h1>
+                      {passportImage ? (
+                          <img className="rounded-md w-full max-w-[350px]" src={passportImage} alt="Passport image - wishx"/>
+                      ) : (
+                        <>
+                          <FontAwesomeIcon icon={faArrowUpFromBracket} />
+                          <h1 className="upload-picture-title text-center">
+                            Upload picture of Passport
+                          </h1>
+                        </>
+                      )}
                     </div>
                   </PictureDropDown>
                   <form onSubmit={handleVerifyPassport}>

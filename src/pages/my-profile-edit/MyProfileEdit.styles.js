@@ -61,7 +61,6 @@ export const Header = styled.div`
  }
       
    .main-page-title{
-     height: 80px;
      width: 100%;
      display: flex;
      align-items: center;
@@ -80,7 +79,7 @@ export const Header = styled.div`
      }
       
       @media (max-width: 1200px) {
-        height: 70px;
+        //height: 70px;
         font-size: 40px;
         justify-content: center;
       }
@@ -118,7 +117,7 @@ export const EditingButtons = styled.div`
   @media(max-width: 645px){
    padding: 0;
    justify-content: start;
-    margin-left: 24px;
+    margin-left: 16px;
     margin-bottom: 24px;
   }
 
@@ -605,14 +604,14 @@ export const MainInputs = styled.div`
          margin: 0;
 
          @media (max-width: 645px) {
-            padding-left: 10px;
+            padding-left: 16px;
             font-size: 16px;
          }
       }
 
       .info_input-small{
          padding-left: 30px;
-         margin-left: 10px;
+         margin-left: 16px;
          font-family: 'Steppe';
          font-style: normal;
          font-weight: 500;
@@ -1120,7 +1119,9 @@ export const PictureUploadComponents = styled.div`
       @media(max-width: 645px){
          width: 90%;
          height: auto;
-         text-align: center;
+         text-align: left;
+        margin-bottom: 16px;
+        font-size: 14px;
       }
    }
 
@@ -1159,13 +1160,13 @@ export const PictureUploadComponents = styled.div`
          
 
          @media(max-width: 645px){
-            padding-right: 0;
-            padding-left: 60px;
+            padding-right: 20px;
+            padding-left: 24px;
          }
       }
 
      ul li{
-        list-style: inside;
+        //list-style: inside;
         margin-top: 10px;
 
         @media(max-width: 645px){
@@ -1209,14 +1210,15 @@ export const PictureUploadComponents = styled.div`
 
       @media(max-width: 645px){
          padding-right: 0;
-        padding-left: 40px;
+        padding-left: 16px;
       }
    }
 `
 
 export const PictureDropDown = styled.div`
   width: 550px;
-  height: 250px;
+  min-height: 250px;
+  padding: 24px;
   background: #F7F8FA;
   border: 1px dashed #BFACE9;
   border-radius: 8px;
@@ -1292,7 +1294,7 @@ export const StatusPedding = styled.div`
       width: 90%;
       justify-content: start;
       align-items: flex-end;
-      padding-left: 10px;
+      padding-left: 16px;
       padding-bottom: 20px;
    }
 }
@@ -1320,7 +1322,7 @@ export const StatusPedding = styled.div`
      display: flex;
      justify-content: center;
      text-align: start;
-     padding-left: 10px;
+     padding-left: 16px;
      width: 90%;
      font-size: 15px;
    }
@@ -1349,7 +1351,7 @@ export const StatusPedding = styled.div`
       display: flex;
       justify-content: start;
       width: 90%;
-      padding-left: 10px;
+      padding-left: 16px;
    }
 }
 
@@ -1415,7 +1417,8 @@ export const Compleated = styled.div`
       @media(max-width: 645px){
          display: flex;
          justify-content: center;
-         padding-left: 0px;
+         padding-left: 24px;
+         padding-right: 24px;
          width: 100%;
          font-size: 18px;
       }
@@ -1438,7 +1441,8 @@ export const Compleated = styled.div`
       }
 
       @media(max-width: 645px){
-         padding-left: 0px;
+         padding-left: 24px;
+         padding-right: 24px;
          display: flex;
          justify-content: center;
       }
