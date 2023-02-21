@@ -373,6 +373,7 @@ export const Button2 = styled.button`
     border-bottom: 1px dashed #0B0023;
     cursor:pointer;
     font-family: sans-serif;
+    margin-left: 4px;
 `;
 export const Facebook = styled.div`
 

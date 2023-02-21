@@ -22,3 +22,21 @@ Y
 )src/pages/partners/partners-page/index.js,8\0\80b238841f1560e0442a6ed008dc47e91632db74
 g
 7src/pages/partners/partners-page/PartnersPage.styled.js,c\e\ced5e27bef85e3554cda75dc17dfcbaeaac214a9
+n
+>src/pages/creating-success-wish/MyCreatedWishSuccess.Styles.js,c\d\cdc05c8e25bb3a9cb8e1b19231ddaed83f226deb
+Q
+!src/shared/LogIn-SingUp/Third.jsx,2\c\2c4cdb921952da4e6e1e4af7e87da9aac6a57765
+O
+src/pages/editing-wish/index.js,a\1\a1c124d4015a0574d8c48b994a6dc84ae7b0b9d3
+R
+"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
+a
+1src/pages/my-profile-edit/MyProfileEdit.styles.js,4\3\43753aa3382d2c0fa44d8491d444092c52bdbc19
+P
+ src/pages/my-profile/CardData.js,8\b\8b1bd2e067d4bfb783a5107cb0ff20cd0004cbf6
+M
+src/pages/my-profile/index.js,4\8\4888332648f4c5f2dc4adbec168f1fbf002bc5ac
+a
+1src/shared/LoginSignUpSystem/PhoneNumber/index.js,c\2\c2bd4049f888c115dcbd3665694b603117685f14
+X
+(src/pages/creating-success-wish/index.js,5\8\589761e0eedf613b9008e3f401ec3e0502ad3c49
