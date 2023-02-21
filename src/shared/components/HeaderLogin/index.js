@@ -61,7 +61,7 @@ const HeaderLoginAuth = ({ toggle }) => {
                     :
                 (<section className='log-in-out-Section'>
                     <Button variant='white'><Link to='/log-in'>Log in</Link></Button>
-                    <Button><Link to='/creating-wish'>Create a wish</Link></Button>
+                    <Button className="ml-8"><Link to='/creating-wish'>Create a wish</Link></Button>
                 </section>)
             }
 

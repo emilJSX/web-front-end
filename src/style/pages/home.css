@@ -169,7 +169,7 @@
 }
 
 .wish__slider {
-  @apply rounded-[32px] bg-[#160046] flex md:flex-row flex-col gap-6 p-4;
+  @apply rounded-[32px] bg-[#160046] flex md:flex-row flex-col p-4;
 }
 
 @media screen and (max-width: 768px) {
@@ -180,7 +180,7 @@
 }
 
 .wish__slider__left {
-  @apply relative rounded-[24px];
+  @apply relative rounded-[24px] md:mr-6 md:mb-0 mb-4;
 }
 
 .wish__slider__image {

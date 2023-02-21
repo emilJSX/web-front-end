@@ -80,7 +80,7 @@ export const HeaderContainer = styled(Header)`
     }
 
     .log-in-out-Section{
-        gap:32px;
+        //gap:32px;
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
                 display:none;
             }

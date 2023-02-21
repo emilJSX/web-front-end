@@ -142,7 +142,7 @@ export const HeaderShared = () => {
                         </Button>
 
                       </div>)}
-                    <Button><Link onClick={GetWishNameForCreation}>Create a wish</Link></Button>
+                    <Button className="ml-8"><Link onClick={GetWishNameForCreation}>Create a wish</Link></Button>
                 </section>)
             }
             <MediaQuery largerThan="md" styles={{ display: 'none' }}>
