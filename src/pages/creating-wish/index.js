@@ -25,6 +25,12 @@ import { MultiSelect } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { Stack, TextField } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { myaxiosprivate } from "../../api/myaxios";
+import DatePicker from "react-date-picker/dist/entry.nostyle";
 
 const Created_Wish = () => {
   const [value, setValue] = useState();
@@ -56,8 +62,8 @@ const Created_Wish = () => {
   const [CreationCategoriesWish, setCategoriesWish] = useState(1);
   const [CreationDateWish, setDateWish] = useState("11.20.22");
   const [CreationOccasionWish, setOccasionWish] = useState("22-th Birthday");
-  const [CheckedUrlPublicWish, setCheckedPublikWish] = useState(undefined);
-
+  const [CheckedUrlPublicWish, setCheckedPublikWish] = useState(true);
+  console.log(selectedFile);
   // end States
 
   const navigate = useNavigate();
@@ -69,7 +75,7 @@ const Created_Wish = () => {
   const wishCreationTitleHome = useLocation();
 
   // ================================ Get LocalStorage User Token ================================
-  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
+  const GetUserTokenCreationWish = localStorage.getItem("token");
 
   // if (!GetUserTokenCreationWish) {
   //   navigate("/");
@@ -89,7 +95,6 @@ const Created_Wish = () => {
         onClick={() => {
           setSelectedCash(item);
           setVisible("none");
-          setValuteWish(id);
           setVisibleSetter(false);
         }}
       >
@@ -122,55 +127,58 @@ const Created_Wish = () => {
       setVisibleSetter(false);
     }
   };
-  
+
   const cash = ["USD"];
 
   const HandleClickGeCashId = (cash_id) => {
     console.log(cash_id);
   };
- 
+
   // ================================ API CREATE WISH ================================
 
-  const handleSubmitCreateWish = async ({ title, price, description, interests }) => {
+  const handleSubmitCreateWish = async ({
+    title,
+    price,
+    description,
+    interests,
+    date,
+    occasion,
+    access,
+  }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", title);
-    formData.append("occasion", CreationOccasionWish);
+    formData.append("occasion", occasion);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("currency_id", CreationValuteWish);
     formData.append("categories", interests);
-    formData.append("date", "11.20.22");
-    formData.append("access", CheckedUrlPublicWish);
-    console.log(CheckedUrlPublicWish);
-
+    formData.append("date", date);
+    formData.append("access", access);
+    console.log(title, price, description, interests, date, occasion, access);
     try {
-      await axios({
-        method: "post",
-        url: "https://api.wishx.me/api/v1/wish/store",
-        data: formData,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          xsrfHeaderName: "X-XSRF-TOKEN",
-          Authorization: `Bearer ${GetUserTokenCreationWish}`,
-        },
-      }).then((result) => {
-        console.log(result);
-        var getResultWishId = result?.data?.data?.id;
-        if (result.data.success == false) {
-          toast.info(result.data.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        } else {
-          toast.success(result.data.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          setTimeout(() => {
-            navigate("/creating-wish-success", { state: getResultWishId });
-          }, 3000);
-        }
-
-      });
+      await myaxiosprivate
+        .post("/api/v1/wish/store", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((result) => {
+          console.log(result);
+          var getResultWishId = result?.data?.data?.id;
+          if (result.data.success == false) {
+            toast.info(result.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          } else {
+            toast.success(result.data.message, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            setTimeout(() => {
+              navigate("/creating-wish-success", { state: getResultWishId });
+            }, 3000);
+          }
+        });
     } catch (error) {
       console.log(error);
     }
@@ -193,10 +201,10 @@ const Created_Wish = () => {
     } else {
       setPreviewImageURL(null);
     }
-  }, [selectedFile])
+  }, [selectedFile]);
 
   // ================================ END SELECT IMAGE FOR CREATE API ================================
-
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <MainContainer>
       <ToastContainer />
@@ -205,16 +213,19 @@ const Created_Wish = () => {
           <Hedaer>
             {/*<p className="path-title">Main {">"} Create Wish</p>*/}
             <p className="path-title">
-              <CustomBreadcrumb margins="mt-0 mb-8" links={[
-                {
-                  title: 'Main',
-                  to: '/'
-                },
-                {
-                  title: 'Create Wish',
-                  to: "/creating-wish"
-                }
-              ]} />
+              <CustomBreadcrumb
+                margins="mt-0 mb-8"
+                links={[
+                  {
+                    title: "Main",
+                    to: "/",
+                  },
+                  {
+                    title: "Create Wish",
+                    to: "/creating-wish",
+                  },
+                ]}
+              />
             </p>
             <h1 className="edit-wish-title">Creating Wish</h1>
           </Hedaer>
@@ -238,8 +249,8 @@ const Created_Wish = () => {
               <div className="promote-and-button">
                 <div className="brochure">
                   <picture>
-                    <source media="(min-width: 768px)" srcSet={Brochure}/>
-                    <img src={BrochureMobile} alt=""/>
+                    <source media="(min-width: 768px)" srcSet={Brochure} />
+                    <img src={BrochureMobile} alt="" />
                   </picture>
                 </div>
                 <div className="button">
@@ -347,29 +358,68 @@ const Created_Wish = () => {
                   {errors.interests.message}
                 </p>
               ) : null}
-              {/* <div className='date-fo-birth-container'>
-                                <div className='date-fo-birth-container-insider'>
-
-                                    <div className='date'>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <Stack spacing={3} style={{ background: '#F7F8FA', border: '0' }}>
-                                                <DesktopDatePicker
-                                                    label="Date of Birth"
-                                                    inputFormat="MM.DD.YY"
-                                                    value={value}
-                                                    onChange={handleChange}
-                                                    renderInput={(params) => <TextField {...params} />}
-
-                                                />
-                                            </Stack>
-                                        </LocalizationProvider>
-                                    </div>
-                                    <div className='date-of-birth'>
-                                        <input type='text' onChange={(e) => setOccasionWish(e.target.value)} required={true} placeholder='Occasion (ex: birthday)' />
-                                    </div>
-                                </div>
-                            </div> */}
+              <div className="date-fo-birth-container">
+                <div className="date-fo-birth-container-insider">
+                  <div className="date">
+                    {console.log(startDate)}
+                    <input
+                      type="date"
+                      name="date"
+                      {...register("date")}
+                      className="bg-[#F7F8FA] border-none w-full h-[53px] px-3 z-0 mb-3 rounded-lg"
+                      placeholder="Date of birth"
+                    />
+                    {/* <DatePicker
+                      calendarClassName="bg-[#F7F8FA] border-none h-96 w-32 z-0 mb-3"
+                      value={startDate}
+                      onChange={(date) => setStartDate(date)}
+                    /> */}
+                    {/* <LocalizationProvider dateAdapter={AdapterMoment}> 
+                      <Stack
+                        spacing={3}
+                        style={{ background: "#F7F8FA", border: "0" }}
+                      >
+                        <DesktopDatePicker
+                          label="Date of Birth"
+                          inputFormat="MM.DD.YY"
+                          value={value}
+                          onChange={handleChange}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider> */}
+                  </div>
+                  <div className="date-of-birth">
+                    <input
+                      type="text"
+                      name="occasion"
+                      {...register("occasion")}
+                      required={true}
+                      placeholder="Occasion (ex: birthday)"
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="aviable-group">
+                <label htmlFor="access">
+                  <input
+                    type="radio"
+                    name="access"
+                    value={true}
+                    {...register("access")}
+                  />
+                  Available to everyone
+                </label>
+                <label htmlFor="access">
+                  <input
+                    type="radio"
+                    name="access"
+                    value={false}
+                    {...register("access")}
+                  />
+                  Only available by link
+                </label>
+
                 {/* <FormControl>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
@@ -414,7 +464,15 @@ const Created_Wish = () => {
                 />
                 {/* onChange={HandleGetImage} */}
                 {/*<FontAwesomeIcon icon={faArrowUpFromBracket} />*/}
-                <img className={`${previewImageURL ? "rounded max-w-[240px] md:max-w-[140px]" : ""}`} src={previewImageURL ? previewImageURL : Gallery} alt=""/>
+                <img
+                  className={`${
+                    previewImageURL
+                      ? "rounded max-w-[240px] md:max-w-[140px]"
+                      : ""
+                  }`}
+                  src={previewImageURL ? previewImageURL : Gallery}
+                  alt=""
+                />
                 <h5>Upload a photo of your wish</h5>
                 <p>PNG, JPG or Gif</p>
                 <p>Max 5MB</p>

@@ -67,7 +67,7 @@ function Search() {
             params: { skip: getInfinityScroll },
           })
           .then((res) => {
-            setAllPeopleData((last) => [...last, res.data]);
+            setAllPeopleData([ res.data]);
           });
       } catch (err) {
         setError(err.message);

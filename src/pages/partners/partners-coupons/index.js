@@ -98,6 +98,7 @@ class Partners extends Component {
                             {PartnersInfo.data.map(({ url, title }) => (
                                 <Grid.Col sm={4} lg={3} xl={3} md={3}>
                                     <PartnersCardContainer>
+                                        {console.log(url)}
                                         <PartnersCardImage src={url} />
                                         <PartnersCardTitle>{title}</PartnersCardTitle>
                                     </PartnersCardContainer>

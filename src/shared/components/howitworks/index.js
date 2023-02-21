@@ -8,23 +8,19 @@ import OwlCarousel from 'react-owl-carousel'
 import { HIWSliderData } from './HiwSlider'
 import 'owl.carousel/dist/assets/owl.carousel.css'
 import 'owl.carousel/dist/assets/owl.theme.default.css'
-import axios from "axios";
 import { useEffect } from "react";
 import CustomBreadcrumb from "../breadcrumb";
+import { myaxiosprivate } from "../../../api/myaxios";
 
 const HowItWorks = ({ isHome = false }) => {
-    const getUserToken = localStorage.getItem("UserToken=");
-    // useEffect(() => {
-    //     axios.get("/api/v1/static_pages/faq/get", {
-    //         headers: {
-    //             Authorization: `Bearer ${getUserToken}`,
-    //         }
-    //     }).then((getDataHIW) => {
-    //         console.log(getDataHIW, "getDataHIW")
-    //     })
+    useEffect(() => {
+        myaxiosprivate.get("/api/v1/static_pages/faq/get", {
+        }).then(({data}) => {
+            console.log(data, "getDataHIW")
+        })
 
-    //     window.scrollTo(0, 0)
-    //   }, [])
+        window.scrollTo(0, 0)
+      }, [])
 
     return(
         <HIWContainer fluid>

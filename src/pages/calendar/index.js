@@ -39,7 +39,7 @@ import { IoChevronUpOutline, IoCalendarOutline } from "react-icons/io5";
 import { GrClose } from "react-icons/gr";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { useMantineTheme, Modal } from "@mantine/core";
+import { useMantineTheme, Modal, Loader } from "@mantine/core";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -53,80 +53,52 @@ import locale from "dayjs/locale/en";
 import dayjs from "dayjs";
 import { myaxiosprivate } from "../../api/myaxios";
 
+const dateFormatMouthTxt = "MMMM";
+const dateFormatMouth = "MM";
+const dateFormatDay = "DD";
+const dateFormatYear = "YYYY";
+
 function Calendar() {
-  const [show, setShow] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(true);
   const [opened, setOpened] = useState(false);
+  const [error, setError] = useState(null); //user error state to show message
+  const [getAllCalendar, setAllCalendar] = useState([]);
+  const [getCalendarthisday, setCalendarthisday] = useState([]);
+  const [currentMonth, setCurrentMonth] = useState(dayjs());
   const theme = useMantineTheme();
-  const [getAllCalendar, setAllCalendar] = useState();
-  const [getCalendarthisday, setCalendarthisday] = useState();
-  const [getSlugName, setSlugName] = useState("");
-  const { userSlug } = useParams();
-
-  // Calendar Date functions
-  // .format("MMMM, MMMM DD YYYY");
-  const dateFormatMouthTxt = "MMMM";
-  const dateFormatMouth = "MM";
-  const dateFormatDay = "DD";
-  const dateFormatYear = "YYYY";
-  const now = dayjs().locale({
-    ...locale,
-  });
-  const [currentMonth, setCurrentMonth] = useState(now);
-
-  const nextMonth = () => {
-    // const plus = currentMonth.add(1,"month");
-    setCurrentMonth((plus) => plus.add(1, "month"));
-  };
-
-  const prevMonth = () => {
-    // const minus = currentMonth.subtract(1, "month");
-    setCurrentMonth((minus) => minus.subtract(1, "month"));
-  };
-
-  const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
-  const getFormatMonth = currentMonth.format(dateFormatMouth);
-  const getFormatMonthDay = currentMonth.format(dateFormatDay);
-  const getFormatMonthYear = currentMonth.format(dateFormatYear);
-
-  // End Calendar Date functions
 
   useEffect(() => {
-    myaxiosprivate
-      .get("/api/v1/user")
-      .then((res) => setSlugName(res.data.data.info.slug));
-
-    const getFullCalendarDate =
-      getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
+    setError("");
+    setLoading(true);
+    const getFullCalendarDate = currentMonth.format(
+      `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
+    );
     myaxiosprivate
       .get("/api/v1/wish/calendar", {
         params: { date: getFullCalendarDate },
       })
       .then((res) => {
         setAllCalendar(res?.data?.data);
-        let getCurrentCalendar = res?.data?.data;
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false); //show error message
+        setError(err.message); //if error redirect or show error message
       });
-  }, []);
-
-  useEffect(() => {
-    getCalendarFullDate();
   }, [currentMonth]);
 
-  function getCalendarFullDate() {
-    const getFullCalendarDate =
-      getFormatMonthDay + "-" + getFormatMonth + "-" + getFormatMonthYear;
-    myaxiosprivate
-      .get("/api/v1/wish/calendar", {
-        params: {
-          date: getFullCalendarDate,
-        },
-      })
-      .then((res) => {
-        setAllCalendar(res?.data?.data);
-      });
-  }
+  const nextMonth = () => {
+    setCurrentMonth((currentMonth) => currentMonth.add(1, "month"));
+  };
 
-  const getCalendarThisDay = () => {
-    myaxiosprivate
+  const prevMonth = () => {
+    setCurrentMonth((currentMonth) => currentMonth.subtract(1, "month"));
+  };
+
+  const getCalendarThisDay = async () => {
+    setError("");
+    await myaxiosprivate
       .get("/api/v1/wish/calendar/day", {
         params: {
           skip: 0,
@@ -135,12 +107,24 @@ function Calendar() {
       })
       .then((res) => {
         setCalendarthisday(res.data.data);
+      })
+      .catch((err) => {
+        setError(err.message);
       });
   };
+  const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
+  const getFormatMonthYear = currentMonth.format(dateFormatYear);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
   return (
     <Mainpage>
-      {show ? (
+      {showModal ? (
         <div>
           <Toppage>
             <Title>Calendar</Title>
@@ -167,15 +151,20 @@ function Calendar() {
                   <p className="numberblack">{e?.month_day}</p>
                   <Calendar_item_into>
                     {e?.wishes_list?.map((data) => (
-                      <Link to="/my-profile/:userSlug">
+                      <Link to={`/profile/${data.user.username}`}>
+                        {console.log(data)}
                         <Person_item_second>
                           <Photo_cycle
-                            src={`https://api.wishx.me${data?.user?.image}`}
+                            src={`${
+                              data?.user?.image
+                                ? data?.user?.image
+                                : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                            }`}
                           />
                           <User_name>
-                            {data?.user?.full_name != null
-                              ? data?.user?.full_name
-                              : "FullName not exists"}
+                            {data?.user.full_name
+                              ? data?.user.full_name
+                              : "Fullname not exists"}
                           </User_name>
                         </Person_item_second>
                       </Link>
@@ -208,7 +197,7 @@ function Calendar() {
         <Small_main_page>
           <Small_top_page>
             <Small_top_p>Subscribe wishes for 8 June 2020</Small_top_p>
-            <GrClose className="close" onClick={() => setShow(!show)} />
+            <GrClose className="close" onClick={() => setShowModal(!show)} />
           </Small_top_page>
           <Small_middle_page>
             <Middle_page_top>
@@ -285,7 +274,7 @@ function Calendar() {
       <div></div>
 
       <MobileCalendar>
-        <Accordion
+        {/* <Accordion
           expanded
           style={{
             background: "aliceblue",
@@ -389,7 +378,7 @@ function Calendar() {
               </Card>
             </Typography>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
       </MobileCalendar>
 
       <Modal

@@ -56,10 +56,10 @@ import {
   SosialMediaSelection,
   SaveButton,
 } from "./MyProfileEdit.styles";
-import axios from "axios";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
-
+import { useForm } from "react-hook-form";
+import useValidation from "../../hooks/useValidation";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -226,7 +226,7 @@ function MyVerticallyCenteredModal(props) {
         />
         <div className="delete-causes-items-container">
           <p>Reason for deleting the account (optional)</p>
-          <FormControl>
+          {/* <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="female"
@@ -253,7 +253,7 @@ function MyVerticallyCenteredModal(props) {
                 label="Other Reson"
               />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
         </div>
         <div className="reson-text-input">
           <input
@@ -270,40 +270,40 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
-const OnGenderButtonClick = (clicked) => {
-  let element_id = clicked.getAttribute("id");
+// const OnGenderButtonClick = (clicked) => {
+//   let element_id = clicked.getAttribute("id");
 
-  switch (element_id) {
-    case "female":
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;"
-        );
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-      break;
-    case "male":
-      document
-        .querySelector("#male")
-        .setAttribute(
-          "style",
-          " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3"
-        );
-      document
-        .querySelector("#female")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
-        );
-      break;
-  }
-};
+//   switch (element_id) {
+//     case "female":
+//       document
+//         .querySelector("#female")
+//         .setAttribute(
+//           "style",
+//           " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3;"
+//         );
+//       document
+//         .querySelector("#male")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
+//         );
+//       break;
+//     case "male":
+//       document
+//         .querySelector("#male")
+//         .setAttribute(
+//           "style",
+//           " background: #ECEEF7; border: 2px solid #2D3043; border-radius: 8px; z-index: 3"
+//         );
+//       document
+//         .querySelector("#female")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; border: 2px solid #ECEEF7; border-radius: 8px; z-index: 0"
+//         );
+//       break;
+//   }
+// };
 
 function DeleteAccountConfirmSmyle(props) {
   return (
@@ -374,7 +374,7 @@ const ProfileEdit = () => {
       value: 1,
     },
     {
-      label: "Bussness",
+      label: "Bussiness",
       value: 2,
     },
   ];
@@ -466,7 +466,7 @@ const ProfileEdit = () => {
       id: 1,
       name: "",
     },
-    ful_name: "",
+    full_name: "",
     number: 0,
     email: "",
     about: "",
@@ -478,21 +478,23 @@ const ProfileEdit = () => {
   const [dateValue, setDateValue] = useState(new Date());
   const [file, setFile] = useState(null);
   const [allCountries, setAllCountries] = useState([]);
-
+  const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
+  const [clicked, setClicked] = useState(userInfo.gender.id);
 
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
       setLoading(true);
+      setError("");
       await myaxiosprivate
         .get("/api/v1/settings/countries/get")
         .then((res) => {
           setAllCountries(res.data.data);
         })
         .catch((err) => {
-          console.log(err);
+          setError(err.message);
         });
-
+      setError("");
       await myaxiosprivate
         .get("/api/v1/profiles/edit")
         .then(({ data }) => {
@@ -519,7 +521,9 @@ const ProfileEdit = () => {
           );
           setLoading(false);
         })
-        .catch((err) => {});
+        .catch((err) => {
+          setError(err.message);
+        });
     };
     fetchCountryAndUserData();
   }, []);
@@ -536,14 +540,27 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
-    console.log(dateValue);
     setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
   }, [dateValue]);
-
-  const handleGetPassportFile = () => {};
+  const countryFinder = () => {
+    const countryName = allCountries.filter(
+      (item) => item.id === userInfo.country
+    );
+    return countryName[0]?.name;
+  };
+  const handleGenderSelect = (e) => {
+    setClicked(e);
+    if (e === "male") {
+      setUserInfo({ ...userInfo, gender: 1 });
+    } else {
+      setUserInfo({ ...userInfo, gender: 2 });
+    }
+  };
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
+
+  const { errors, isValid } = useValidation(userInfo);
   const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -554,10 +571,8 @@ const ProfileEdit = () => {
     };
 
     Object.keys(sendData).forEach((key) => {
-      console.log(`Appending ${key}: ${sendData[key]}`);
       formData.append(key, sendData[key]);
     });
-    console.log();
     const uniqueArr = [
       ...new Set(
         typeof userInfo.interests[0] === "object"
@@ -568,16 +583,22 @@ const ProfileEdit = () => {
     formData.delete("number");
     formData.delete("slug");
     formData.delete("avatar");
-    formData.delete("dob"),
-      formData.delete("gender"),
-      formData.delete("country"),
-      formData.delete("interests");
-
+    formData.delete("dob");
+    formData.delete("gender");
+    formData.delete("country");
+    formData.delete("interests");
     formData.append("dob", moment(userInfo.dob).format("DD.MM.YYYY"));
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append("country", userInfo.country.id);
-    formData.append("gender", userInfo.gender.id);
+    formData.append(
+      "country",
+      userInfo.country.id ? userInfo.country.id : userInfo.country
+    );
+    formData.append(
+      "gender",
+      userInfo.gender.id ? userInfo.gender.id : userInfo.gender
+    );
+
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
         headers: {
@@ -627,18 +648,19 @@ const ProfileEdit = () => {
   };
 
   // ============================================================================================================================
-
   // =======================================================VERIFICATION PASSPORT API============================================
-
-  const handleVerifyPassport = async (event) => {
-    event.preventDefault();
-    const formGetPassportData = new FormData();
-    formGetPassportData.append("file", selectPassport);
-
+  const [selectPassport, setSelectPassport] = useState(null);
+  const handleVerifyPassport = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", selectPassport);
+    console.log(formData);
     try {
       await myaxiosprivate
-        .post("/api/v1/profiles/verify", {
-          data: formGetPassportData,
+        .post("/api/v1/profiles/verify", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((res) => {
           console.log(res.data);
@@ -751,6 +773,11 @@ const ProfileEdit = () => {
                         />
                       </div>
                     </ProfilePicture>
+                    {errors.full_name && (
+                      <p className="mx-10 mb-1 text-red-500 text-xs">
+                        {errors.full_name}
+                      </p>
+                    )}
                     <EditingInputs>
                       <input
                         type="text"
@@ -760,22 +787,36 @@ const ProfileEdit = () => {
                         onChange={handleChangeUserInfo}
                         placeholder="Full name"
                         className="editing-inputs"
-                      ></input>
+                      />
+
+                      {/* {errors.full_name && (
+                        <p className="mx-14 mt-2 text-red-500 text-xs">
+                          {errors.full_name.message}
+                        </p>
+                      )} */}
                     </EditingInputs>
                   </EditingItem>
                   <GenderButtons>
                     <button
                       type="button"
-                      onClick={() => setUserInfo({ ...userInfo, gender: 2 })}
-                      className="gender_buttuns female-button"
+                      onClick={(e) => handleGenderSelect(e.target.id)}
+                      className={
+                        userInfo.gender.id === 2 || clicked === "female"
+                          ? "clicked gender_buttuns female-button"
+                          : "gender_buttuns female-button"
+                      }
                       id="female"
                     >
                       Female
                     </button>
                     <button
                       type="button"
-                      onClick={() => setUserInfo({ ...userInfo, gender: 1 })}
-                      className="gender_buttuns male-button"
+                      onClick={(e) => handleGenderSelect(e.target.id)}
+                      className={
+                        userInfo.gender.id === 1 || clicked === "male"
+                          ? "clicked gender_buttuns male-button"
+                          : "gender_buttuns male-button"
+                      }
                       id="male"
                     >
                       Male
@@ -800,7 +841,9 @@ const ProfileEdit = () => {
                         }}
                       >
                         <h5 className="country-name">
-                          {userInfo.country.name}
+                          {userInfo.country.name
+                            ? userInfo.country.name
+                            : countryFinder()}
                         </h5>
                         <FontAwesomeIcon icon={faChevronDown} />
                       </div>
@@ -823,6 +866,11 @@ const ProfileEdit = () => {
                         ))}
                       </ul>
                     </div>
+                    {errors.email && (
+                      <p className="mx-10 mt-2 text-red-500 text-xs">
+                        {errors.email}
+                      </p>
+                    )}
                     <div className="email-container">
                       <input
                         type="email"
@@ -833,6 +881,7 @@ const ProfileEdit = () => {
                         className="info-input-email"
                         placeholder="Email"
                       />
+
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
                     <div className="email-container">
@@ -854,7 +903,7 @@ const ProfileEdit = () => {
                       className="info_input"
                       placeholder="Date of birth"
                       onFocus={() => setShowCalendar(true)}
-                    ></input>
+                    />
                     <Calendar
                       defaultValue={userInfo.dob}
                       locale="en-EN"
@@ -865,6 +914,11 @@ const ProfileEdit = () => {
                       value={dateValue}
                       className={showCalendar ? "" : "hide"}
                     />
+                    {errors.slug && (
+                      <p className="mx-14 mt-2 text-red-500 text-xs">
+                        {errors.slug}
+                      </p>
+                    )}
                     <div className="wish-me-input-title">
                       <h5 className="wish-me-title">wish.me/</h5>
                       <input
@@ -888,15 +942,20 @@ const ProfileEdit = () => {
                         <MultiSelect
                           className="info_input-multi"
                           data={data}
-                          defaultValue={interestId}
+                          defaultValue={[...new Set(interestId)]}
                           onChange={(e) =>
                             setUserInfo({ ...userInfo, interests: e })
                           }
                           placeholder="Interests"
-                          maxSelectedValues={5}
+                          maxSelectedValues={data.length}
                         />
                       </div>
                     </div>
+                    {errors.about && (
+                      <p className="mx-10 mt-2 text-red-500 text-xs">
+                        {errors.about}
+                      </p>
+                    )}
                     <div className="text-area-container">
                       <textarea
                         rows={5}
@@ -909,11 +968,13 @@ const ProfileEdit = () => {
                         placeholder="About you"
                       />
                     </div>
+
                     <div className="buttons-container">
                       <button
                         className="saveAndCancel save-button"
                         type="submit"
                         id="save_button"
+                        disabled={!isValid}
                       >
                         Save
                       </button>
@@ -955,19 +1016,19 @@ const ProfileEdit = () => {
                 </h1>
                 <SosialMediaButtons>
                   <button className="facebook-button">
-                    <FaFacebook className="facebook-icon"></FaFacebook>
+                    <FaFacebook className="facebook-icon" />
                     <h1 className="facebook-title" style={{ margin: "0" }}>
                       Disconnect Facebook
                     </h1>
                   </button>
                   <button className="google-button">
-                    <FaGoogle className="google-icon"></FaGoogle>
+                    <FaGoogle className="google-icon" />
                     <h1 className="google-title" style={{ margin: "0" }}>
                       Connect Google
                     </h1>
                   </button>
                   <button className="apple-button">
-                    <FaApple className="apple-icon"></FaApple>
+                    <FaApple className="apple-icon" />
                     <h1 className="apple-title" style={{ margin: "0" }}>
                       Connect Apple
                     </h1>
@@ -978,33 +1039,33 @@ const ProfileEdit = () => {
             <TabPanel value="verification">
               <PictureUpload>
                 <PictureUploadComponents className="picture-upload">
-                  <p className="title">
-                    To start fundraising for yourself, you need to pass
-                    verification. To <br /> do this, just send a photo of your
-                    passport.
-                  </p>
-                  <input
-                    type="file"
-                    onChange={handleGetPassportFile}
-                    name="photo-uploader"
-                    id="photo-uploader"
-                  />
-                  <PictureDropDown>
-                    <div
-                      className="upload-icon-and-title"
-                      onClick={() => {
-                        const dialog =
-                          document.querySelector("#photo-uploader");
-                        dialog.click();
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faArrowUpFromBracket} />
-                      <h1 className="upload-picture-title">
-                        Upload picture of Passport
-                      </h1>
-                    </div>
-                  </PictureDropDown>
                   <form onSubmit={handleVerifyPassport}>
+                    <p className="title">
+                      To start fundraising for yourself, you need to pass
+                      verification. To <br /> do this, just send a photo of your
+                      passport.
+                    </p>
+                    <input
+                      type="file"
+                      onChange={(e) => setSelectPassport(e.target.files[0])}
+                      name="photo-uploader"
+                      id="photo-uploader"
+                    />
+                    <PictureDropDown>
+                      <div
+                        className="upload-icon-and-title"
+                        onClick={() => {
+                          const dialog =
+                            document.querySelector("#photo-uploader");
+                          dialog.click();
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faArrowUpFromBracket} />
+                        <h1 className="upload-picture-title">
+                          Upload picture of Passport
+                        </h1>
+                      </div>
+                    </PictureDropDown>
                     <div className="upload-picture-treams">
                       <h5 className="trems-head-title">The photo must be</h5>
                       <ul className="pictures-upload-treams-list">

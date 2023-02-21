@@ -42,6 +42,7 @@ const ContactsPage = () => {
   const [isFollowersData, setFollowersData] = useState([]);
   const [checkUserMessageSubscribe, setUserMessageSubscribe] = useState("");
   const [checkUserStatusSubscribe, setUserStatusSubscribe] = useState();
+  const [isFollowing, setIsFollowing] = useState({});
 
   const [isFollowsData, setFollowsData] = useState([]);
 
@@ -60,24 +61,32 @@ const ContactsPage = () => {
         setErrorFollowing(err.message);
       });
   };
-
-  const fetchDataSubscribe = (getUserId) => {
+  const fetchDataFollowers = () => {
     setError("");
     myaxiosprivate
-      .get(`/api/v1/follow?user_id=${+getUserId}`)
-      .then((res) => {
-        console.log(res.data);
+      .get("/api/v1/followers/list?skip=0")
+      .then(({ data }) => {
+        setFollowersData(data.data.list);
+        const followedUser = {};
+        data.data.list.forEach((user) => {
+          followedUser[user.id] = user.followed;
+        });
+        setIsFollowing(followedUser);
       })
       .catch((err) => {
         setError(err.message);
       });
   };
 
-  const fetchDataUnsubscribe = (getUserId) => {
+  const followUser = (data) => {
     setError("");
     myaxiosprivate
-      .get(`/api/v1/unfollow?user_id=${+getUserId}`)
+      .get(`/api/v1/follow?user_id=${+data.id}`)
       .then((res) => {
+        setIsFollowing((prevStatus) => ({
+          ...prevStatus,
+          [data.id]: true,
+        }));
         return res.data.data;
       })
       .catch((err) => {
@@ -85,13 +94,17 @@ const ContactsPage = () => {
       });
   };
 
-  const fetchDataFollowers = () => {
+  const unfollowUser = (data) => {
+    console.log(data);
     setError("");
     myaxiosprivate
-      .get("/api/v1/followers/list?skip=0")
+      .get(`/api/v1/unfollow?user_id=${+data.id}`)
       .then((res) => {
-        setFollowersData(res.data.data.list);
-        console.log(res.data.data);
+        setIsFollowing((prevStatus) => ({
+          ...prevStatus,
+          [data.id]: false,
+        }));
+        return res.data.data;
       })
       .catch((err) => {
         setError(err.message);
@@ -109,6 +122,18 @@ const ContactsPage = () => {
     fetchDataFollowing();
     setWaitFollows(false);
   }, []);
+
+  const handleClick = (data) => {
+    setIsFollowing((prevState) => ({
+      ...prevState,
+      [data.id]: !prevState[data.id],
+    }));
+    if (isFollowing[data.id]) {
+      unfollowUser(data);
+    } else {
+      followUser(data);
+    }
+  };
 
   useEffect(() => {}, [isFollowersData]);
 
@@ -187,14 +212,21 @@ const ContactsPage = () => {
             ) : (
               isFollowersData?.map((data) => (
                 <UserContentDiv>
-                  <UserImage src={`https://api.wishx.me/${data?.image}`} />
+                  <UserImage
+                    src={`${
+                      data?.image
+                        ? data?.image
+                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                    }`}
+                  />
                   <UserUsername>{data?.full_name}</UserUsername>
                   {/* <BsCheckCircleFill className="check" /> */}
                   <Subscribebtn
+                    className="cursor-pointer"
                     id={data.id}
-                    onClick={(e) => fetchDataSubscribe(e.target.id)}
+                    onClick={() => handleClick(data)}
                   >
-                    Subscribe
+                    {isFollowing[data.id] ? "Unsubscribe" : "Subscribe"}
                   </Subscribebtn>
                   {/* <Unsubscribe onClick={(e) => fetchDataUnsubscribe(e.target.id)} id={data.id}>Unsubscribe</Unsubscribe> */}
                 </UserContentDiv>
@@ -224,12 +256,17 @@ const ContactsPage = () => {
               isFollowsData?.map((dataFollows) => (
                 <UserContentDiv>
                   <UserImage
-                    src={`https://api.wishx.me/${dataFollows.image}`}
+                    src={`${
+                      dataFollows.image
+                        ? dataFollows.image
+                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                    }`}
                   />
                   <UserUsername>{dataFollows.full_name}</UserUsername>
                   {/* <BsCheckCircleFill className="check" /> */}
                   <Unsubscribe
-                    onClick={(e) => fetchDataUnsubscribe(e.target.id)}
+                    className="cursor-pointer"
+                    onClick={() => unfollowUser(dataFollows)}
                     id={dataFollows.id}
                   >
                     Unsubscribe

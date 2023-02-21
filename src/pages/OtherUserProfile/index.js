@@ -108,7 +108,7 @@ import file1 from "../../style/icons/file1.png";
 import { Component } from "react";
 import instagram from "../../style/icons/instagram.svg";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Autholog from "../../shared/LogIn-SingUp/Autholog";
 import Autho from "../../shared/LogIn-SingUp/Autho";
 import { DateTime } from "luxon";
@@ -121,8 +121,10 @@ const OtherUserProfile = () => {
   const [getJoined, setJoined] = useState();
   const [error, setError] = useState("");
   const { state } = useLocation();
-  const [displayFollow, setdisplayFollow] = useState("block");
-  const [displayUnfollow, setdisplayUnfollow] = useState("none");
+  const { slug } = useParams();
+  const [isFollowing, setIsFollowing] = useState();
+  // const [displayFollow, setdisplayFollow] = useState("block");
+  // const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
   const tabs_storage = [
@@ -148,7 +150,7 @@ const OtherUserProfile = () => {
       spanTitle: "0",
     },
   ];
-
+  console.log(slug);
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
 
@@ -156,20 +158,28 @@ const OtherUserProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    myaxios
-      .get("/api/v1/user/other/slug", {
-        params: {
-          slug: state,
-        },
-      })
-      .then((res) => {
-        setUserInfoProfile(res.data.data);
-        setJoined(res.data.data.info.joined);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    isAuth
+      ? myaxiosprivate
+          .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
+          .then(({ data }) => {
+            setUserInfoProfile(data.data);
+            setJoined(data.data.info.joined);
+            setIsFollowing(data.data.contacts.followedStatus);
+          })
+          .catch((err) => {
+            setError(err.message);
+          })
+      : myaxios
+          .get(`/api/v1/user/other/slug?slug=${slug}`)
+          .then(({ data }) => {
+            setUserInfoProfile(data.data);
+            setJoined(data.data.info.joined);
+          })
+          .catch((err) => {
+            setError(err.message);
+          });
   }, []);
+  console.log(UserInfoProfile);
 
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
@@ -183,47 +193,50 @@ const OtherUserProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/wish/" + id, { state: { id } });
   }
-
+  console.log(typeof state);
   // Follow API
 
   const [show, setShow] = useState(false);
   const [showes, setShowes] = useState(false);
-  const UnfollowButton = (getUserId) => {
+  const unfollowUser = (id) => {
     if (isAuth) {
       myaxiosprivate
-        .get(`/api/v1/unfollow?user_id=${+getUserId}`)
+        .get(`/api/v1/unfollow?user_id=${id}`)
         .then((res) => {
-          if (res.status === 200) {
-            setdisplayUnfollow("none");
-            setdisplayFollow("block");
-          }
+          res.status === 200 && setIsFollowing(false);
         })
         .catch((err) => {
+          console.log(err.message);
+          setIsFollowing(true);
           setError(err.message);
         });
     } else {
       setShowes(true);
     }
   };
-
-  const FollowButton = (getUserId) => {
+  const followUser = async (id) => {
     if (isAuth) {
-      myaxiosprivate
-        .get(`/api/v1/follow?user_id=${+getUserId}`)
+      await myaxiosprivate
+        .get(`/api/v1/follow?user_id=${id}`)
         .then((res) => {
-          if (res.status === 200) {
-            setdisplayFollow("none");
-            setdisplayUnfollow("block");
-          }
+          res.status === 200 && setIsFollowing(true);
         })
         .catch((err) => {
+          setIsFollowing(false);
           setError(err.message);
         });
     } else {
       setShowes(true);
     }
   };
-
+  const handleClick = (id) => {
+    console.log(id);
+    if (isFollowing) {
+      unfollowUser(id);
+    } else {
+      followUser(id);
+    }
+  };
   // END FOLLOW API
 
   return (
@@ -262,7 +275,7 @@ const OtherUserProfile = () => {
                     id="tomcrusemobile"
                     className="tomcrusemobile"
                     height={85}
-                    src={`https://api.wishx.me/${UserInfoProfile?.info?.avatar}`}
+                    src={`${UserInfoProfile?.info?.avatar}`}
                   />
                 </DisplayTopImgCard>
 
@@ -348,20 +361,22 @@ const OtherUserProfile = () => {
                 <ButtonSection>
                   <button
                     id={UserInfoProfile?.user_id}
-                    style={{ display: displayFollow }}
-                    onClick={(e) => FollowButton(e.target.id)}
-                    className="follow-btn"
+                    // style={{ display: displayFollow }}
+                    onClick={(e) => handleClick(e.target.id)}
+                    className={
+                      isFollowing ? "unfollow-btn block" : "follow-btn block"
+                    }
                   >
-                    Follow
+                    {isFollowing ? "Unfollow" : "Follow"}
                   </button>
-                  <button
+                  {/* <button
                     id={UserInfoProfile?.user_id}
                     style={{ display: displayUnfollow }}
                     onClick={(e) => UnfollowButton(e.target.id)}
-                    className="unfollow-btn"
+                    className={!followState ? "hidden" : "unfollow-btn block"}
                   >
                     Unfollow
-                  </button>
+                  </button> */}
                   <button className="message-btn">Message</button>
                 </ButtonSection>
                 {/* <MobileBtnSection>
