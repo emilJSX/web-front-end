@@ -2,10 +2,11 @@
   "name": "wish-x",
   "version": "0.1.0",
   "private": true,
-  "homepage":"",
+  "homepage": "",
   "dependencies": {
     "@blueprintjs/core": "^4.9.4",
     "@blueprintjs/datetime": "^4.3.10",
+    "@emotion/styled": "^11.10.6",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
