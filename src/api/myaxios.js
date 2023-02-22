@@ -1,7 +1,6 @@
 import axios from "axios";
-
 export const myaxios = axios.create({
-  baseURL: "https://api.wishx.me",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -9,7 +8,7 @@ export const myaxios = axios.create({
   },
 });
 export const myaxiosprivate = axios.create({
-  baseURL: "https://api.wishx.me",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

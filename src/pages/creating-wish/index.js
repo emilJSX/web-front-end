@@ -394,17 +394,19 @@ const Created_Wish = () => {
               </div>
               <div className="aviable-group">
                 <FormControl>
-                  <RadioGroup name="access" {...register("access")}>
+                  <RadioGroup>
                     <FormControlLabel
                       value={true}
                       control={<Radio />}
                       label="Available to everyone"
                       name="access"
+                      {...register("access")}
                     />
                     <FormControlLabel
                       value={false}
                       control={<Radio />}
                       label="Only available by link"
+                      {...register("access")}
                     />
                   </RadioGroup>
                 </FormControl>
