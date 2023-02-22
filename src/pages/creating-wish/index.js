@@ -61,10 +61,7 @@ const Created_Wish = () => {
   const [CreationValuteWish, setValuteWish] = useState(1);
   const [CreationCategoriesWish, setCategoriesWish] = useState(1);
   const [CreationDateWish, setDateWish] = useState("11.20.22");
-  const [CreationOccasionWish, setOccasionWish] = useState("22-th Birthday");
-  const [CheckedUrlPublicWish, setCheckedPublikWish] = useState(true);
-  console.log(selectedFile);
-  // end States
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -179,7 +176,7 @@ const Created_Wish = () => {
           }
         });
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
