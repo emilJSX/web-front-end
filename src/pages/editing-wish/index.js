@@ -373,7 +373,7 @@ const Editing_Wish = () => {
                 <FormControl>
                   <RadioGroup defaultValue={initialValues?.access || false}>
                     <FormControlLabel
-                      value={true}
+                      value={true} 
                       name="access"
                       control={<Radio />}
                       label="Available to everyone"
