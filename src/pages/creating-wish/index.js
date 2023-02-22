@@ -30,8 +30,6 @@ import { Stack, TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { myaxiosprivate } from "../../api/myaxios";
-import DatePicker from "react-date-picker/dist/entry.nostyle";
-
 const Created_Wish = () => {
   const [value, setValue] = useState();
   const [isVisibleSetter, setVisibleSetter] = useState(false);
@@ -91,6 +89,7 @@ const Created_Wish = () => {
         onClick={() => {
           setSelectedCash(item);
           setVisible("none");
+          setValuteWish(id);
           setVisibleSetter(false);
         }}
       >
@@ -137,21 +136,19 @@ const Created_Wish = () => {
     price,
     description,
     interests,
-    date,
-    occasion,
-    access,
   }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", title);
-    formData.append("occasion", occasion);
+    formData.append("occasion", CreationOccasionWish);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("currency_id", CreationValuteWish);
     formData.append("categories", interests);
-    formData.append("date", date);
-    formData.append("access", access);
-    console.log(title, price, description, interests, date, occasion, access);
+    formData.append("date", "11.20.22");
+    formData.append("access", CheckedUrlPublicWish);
+    console.log(CheckedUrlPublicWish);
+
     try {
       await myaxiosprivate
         .post("/api/v1/wish/store", formData, {
@@ -200,7 +197,7 @@ const Created_Wish = () => {
   }, [selectedFile]);
 
   // ================================ END SELECT IMAGE FOR CREATE API ================================
-  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <MainContainer>
       <ToastContainer />
@@ -357,19 +354,6 @@ const Created_Wish = () => {
               <div className="date-fo-birth-container">
                 <div className="date-fo-birth-container-insider">
                   <div className="date">
-                    {console.log(startDate)}
-                    <input
-                      type="date"
-                      name="date"
-                      {...register("date")}
-                      className="bg-[#F7F8FA] border-none w-full h-[53px] px-3 z-0 mb-3 rounded-lg"
-                      placeholder="Date of birth"
-                    />
-                    {/* <DatePicker
-                      calendarClassName="bg-[#F7F8FA] border-none h-96 w-32 z-0 mb-3"
-                      value={startDate}
-                      onChange={(date) => setStartDate(date)}
-                    /> */}
                     {/* <LocalizationProvider dateAdapter={AdapterMoment}> 
                       <Stack
                         spacing={3}
@@ -388,8 +372,7 @@ const Created_Wish = () => {
                   <div className="date-of-birth">
                     <input
                       type="text"
-                      name="occasion"
-                      {...register("occasion")}
+                      onChange={(e) => setOccasionWish(e.target.value)}
                       required={true}
                       placeholder="Occasion (ex: birthday)"
                     />
@@ -397,25 +380,6 @@ const Created_Wish = () => {
                 </div>
               </div>
               <div className="aviable-group">
-                <label htmlFor="access">
-                  <input
-                    type="radio"
-                    name="access"
-                    value={true}
-                    {...register("access")}
-                  />
-                  Available to everyone
-                </label>
-                <label htmlFor="access">
-                  <input
-                    type="radio"
-                    name="access"
-                    value={false}
-                    {...register("access")}
-                  />
-                  Only available by link
-                </label>
-
                 {/* <FormControl>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
