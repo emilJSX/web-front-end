@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MultiSelect } from "@mantine/core";
+import { Loader, MultiSelect } from "@mantine/core";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -19,7 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { MainContainer, Container, Hedaer, Section } from "./Main.Styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
@@ -53,12 +53,14 @@ const Editing_Wish = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, defaultValue },
+    setValue,
+    values,
   } = useForm({
     reValidateMode: "onChange",
     mode: "all",
   });
-
+  console.log(defaultValue);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -106,16 +108,16 @@ const Editing_Wish = () => {
     );
   }
 
-  useEffect(() => {
-    const {
-      title = "",
-      price = "",
-      currency_id = "",
-      image = "",
-      description = "",
-    } = state || {};
-    setUpdateWishData({ title, price, currency_id, image, description });
-  }, [state]);
+  // useEffect(() => {
+  //   const {
+  //     title = "",
+  //     price = "",
+  //     currency_id = "",
+  //     image = "",
+  //     description = "",
+  //   } = state || {};
+  //   setUpdateWishData({ title, price, currency_id, image, description });
+  // }, [state]);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -153,10 +155,13 @@ const Editing_Wish = () => {
       label: "Travel",
       value: 1,
     },
+    {
+      label: "Bussiness",
+      value: 2,
+    },
   ];
   const editWishEditImage = state?.image;
   const GetEditWishImage = `https://api.wishx.me${editWishEditImage}`;
-  const GetEditWishProfile = `https://api.wishx.me${getUpdateWishData.image}`;
 
   const [UpdateFile, setUpdateFile] = useState(null);
   const [UpdateTitleWish, setUpdateTitleWish] = useState("");
@@ -167,87 +172,93 @@ const Editing_Wish = () => {
   const [UpdateOccasionWish, setUpdateOccasionWish] = useState("11-th Birtday");
   const [CheckedUpdateUrlPublicWish, setUpdateCheckedPublikWish] = useState();
 
-
   const handleFileSelect = (event) => {
     event.preventDefault();
     setUpdateFile(event.target.files[0]);
   };
-
+  const [initialValues, setInitialValues] = useState();
+  const [loading, setLoading] = useState(true);
+  const [interestId, setInterestId] = useState([]);
+  const [selectedImg, setSelectedImg] = useState(null);
   useEffect(() => {
     myaxiosprivate
-      .get(`https://api.wishx.me/api/v1/wish/edit?wish_id=${state}`, {})
+      .get(`/api/v1/wish/edit?wish_id=${state}`)
       .then(({ data }) => {
-        const {
-          title = "",
-          price = "",
-          image = "",
-          description = "",
-        } = data?.data || {};
-        console.log(data?.data);
-        const currencyId = data?.data.currency.id;
-        setCurrencyName(data?.data.currency.name);
-        data.data.categories.map((e) => idInterestsApi.push(e.id));
-
-        const { currency_id } = currencyId || {};
-
-        setUpdateWishData({ title, price, currency_id, image, description });
+        console.log(data.data);
+        setInitialValues(data.data);
+        data.data.categories.forEach((item) =>
+          setInterestId((prevInterestId) => [...prevInterestId, item.id])
+        );
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }, []);
-
   // getUpdateWishData.currency_id == null ? +state.currency.id : getUpdateWishData.currency_id
 
-  const handleSubmitUpdateWish = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    // selectedFile == null ? getUserInfoProfile.avatar : selectedFile
-    formData.append("wish_id", state.id == null ? state : state.id);
-    formData.append(
-      "file",
-      UpdateFile == null ? getUpdateWishData.image : UpdateFile
-    );
-    formData.append("title", getUpdateWishData.title);
-    formData.append("price", getUpdateWishData.price);
-    // getUpdateWishData.currency_id == null ? state.currency.id : getUpdateWishData.currency_id
-    formData.append("currency_id", 1);
-    formData.append("categories", UpdateCategoriesWish);
-    formData.append("date", "11.20.22");
-    formData.append("occasion", UpdateOccasionWish);
-    formData.append(
-      "description",
-      getUpdateWishData.description == null
-        ? state.description
-        : getUpdateWishData.description
-    );
-    formData.append(
-      "access",
-      CheckedUpdateUrlPublicWish == null
-        ? state.access
-        : CheckedUpdateUrlPublicWish
-    );
-
-    try {
-      await myaxiosprivate
-        .post("/api/v1/wish/store", formData)
-        .then((result) => {
-          console.log(result);
-          setModalShow(true);
-          toast.success("Successfully updated ", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        });
-    } catch (error) {
-      toast.error("Please check your details", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+  useEffect(() => {
+    if (initialValues) {
+      setValue("title", initialValues.title);
+      setValue("description", initialValues.description);
+      setValue("date", initialValues.date);
+      setValue("occasion", initialValues.occasion);
+      setValue("access", initialValues.access);
+      setValue("price", initialValues.price);
     }
+  }, [initialValues, setValue]);
+
+  const wishImg = `https://api.wishx.me${initialValues?.image}`;
+  const updateWish = async ({
+    description,
+    date,
+    occasion,
+    access,
+    price,
+    title,
+  }) => {
+    const formData = new FormData();
+    console.log(description, date, occasion, access, price, title);
+
+    formData.append("wish_id", initialValues?.id);
+    formData.append("file", selectedImg ? selectedImg : initialValues.image);
+    formData.append("currency_id", initialValues.currency?.id);
+    formData.append("description", description);
+    formData.append("date", date);
+    formData.append("occasion", occasion);
+    formData.append("access", access);
+    formData.append("price", price);
+    formData.append("title", title);
+    formData.append("categories", interestId);
+
+    await myaxiosprivate
+      .post("/api/v1/wish/update", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        toast.success("Successfully updated ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      })
+      .catch((err) =>
+        toast.error("Please check your details", {
+          position: toast.POSITION.TOP_RIGHT,
+        })
+      );
   };
 
   const getInterestsId = (item) => {
     setUpdateCategoriesWish(item);
   };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
+
   return (
     <MainContainer>
       <Container>
@@ -269,14 +280,13 @@ const Editing_Wish = () => {
             <h1 className="edit-wish-title">Edit the wish</h1>
           </Hedaer>
           <Section>
-            <h5 className="description-title">{getUpdateWishData.title}</h5>
-            <form onSubmit={handleSubmit(handleSubmitUpdateWish)}>
+            <h5 className="description-title">{initialValues?.title}</h5>
+            <form onSubmit={handleSubmit(updateWish)}>
               <div className="wish-name">
                 <input
                   type="text"
                   name="title"
-                  value={getUpdateWishData.title}
-                  onChange={handleChangeUpdateWish}
+                  defaultValue={initialValues?.title}
                   placeholder="Enter Wish Name"
                   {...register("title", {
                     required: "Wish title is required!",
@@ -294,8 +304,7 @@ const Editing_Wish = () => {
                     <input
                       type="text"
                       name="price"
-                      value={getUpdateWishData.price}
-                      onChange={handleChangeUpdateWish}
+                      defaultValue={initialValues.price}
                       placeholder="Enter Quantity"
                       {...register("price", { required: "Price is required!" })}
                     />
@@ -331,8 +340,7 @@ const Editing_Wish = () => {
                 <textarea
                   className="text-area-container"
                   name="description"
-                  onChange={handleChangeUpdateWish}
-                  value={getUpdateWishData.description}
+                  defaultValue={initialValues?.description}
                   placeholder="Description"
                   {...register("description", {
                     required: "Description is required!",
@@ -346,21 +354,13 @@ const Editing_Wish = () => {
               ) : null}
               <div className="multi-select">
                 <div className="multi-select-insider">
-                  <Controller
-                    name="interests"
-                    control={control}
-                    rules={{ required: "Interests are required!" }}
-                    defaultValue={idInterestsApi}
-                    render={({ field }) => (
-                      <MultiSelect
-                        className="multiselect-interest"
-                        data={data}
-                        onChange={getInterestsId}
-                        defaultValue={idInterestsApi}
-                        placeholder="Interests"
-                        //   {...field}
-                      />
-                    )}
+                  <MultiSelect
+                    className="info_input-multi"
+                    data={data}
+                    defaultValue={[...new Set(interestId)]}
+                    onChange={(e) => setInterestId(e)}
+                    placeholder="Interests"
+                    maxSelectedValues={data.length}
                   />
                 </div>
               </div>
@@ -370,28 +370,23 @@ const Editing_Wish = () => {
                 </p>
               ) : null}
               <div className="aviable-group">
-                {/* <FormControl>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
+                <FormControl>
+                  <RadioGroup defaultValue={initialValues?.access || false}>
                     <FormControlLabel
-                      {...(CheckedUpdateUrlPublicWish ? (checked = true) : "")}
-                      value="female"
-                      onChange={() => setUpdateCheckedPublikWish(true)}
+                      value={true}
+                      name="access"
                       control={<Radio />}
                       label="Available to everyone"
+                      {...register("access")}
                     />
                     <FormControlLabel
-                      {...(!CheckedUpdateUrlPublicWish ? "" : (checked = true))}
-                      value="male"
-                      onChange={() => setUpdateCheckedPublikWish(false)}
+                      value={false}
                       control={<Radio />}
                       label="Only available by link"
+                      {...register("access")}
                     />
                   </RadioGroup>
-                </FormControl> */}
+                </FormControl>
               </div>
             </form>
           </Section>
@@ -399,17 +394,13 @@ const Editing_Wish = () => {
         <div className="container-insider-sm">
           <div className="content-container">
             <img
-              src={
-                GetEditWishProfile == null
-                  ? GetEditWishImage
-                  : GetEditWishProfile
-              }
+              src={initialValues.image ? wishImg : selectedImg}
               className="glasses-img"
             />
             <div className="change-photo-button-container">
               <input
                 type="file"
-                onChange={handleFileSelect}
+                onChange={(e) => setSelectedImg(e.target.files[0])}
                 className="file-uploader"
                 style={{ display: "none" }}
               />
@@ -438,13 +429,14 @@ const Editing_Wish = () => {
             variant="primary"
             className="save-changes-button"
             type="submit"
-            onClick={handleSubmit(handleSubmitUpdateWish)}
+            onClick={handleSubmit(updateWish)}
           >
             Save changes
           </Button>
         </div>
         <ToastContainer />
       </Container>
+
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}

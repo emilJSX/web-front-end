@@ -30,8 +30,9 @@ import { Stack, TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { myaxiosprivate } from "../../api/myaxios";
+import moment from "moment";
 const Created_Wish = () => {
-  const [value, setValue] = useState();
+  const [date, setDate] = useState(new Date());
   const [isVisibleSetter, setVisibleSetter] = useState(false);
   const [selectedCash, setSelectedCash] = useState("USD", 0);
   const [isVisible, setVisible] = useState("none");
@@ -77,8 +78,7 @@ const Created_Wish = () => {
   }
   // ================================ END Get LocalStorage User Token ================================
   const handleChange = (newValue) => {
-    setValue(newValue);
-    setDateWish(newValue);
+    setDate(newValue);
   };
 
   const CashItems = ({ item, id }) => {
@@ -136,18 +136,30 @@ const Created_Wish = () => {
     price,
     description,
     interests,
+    access,
+    occasion,
   }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", title);
-    formData.append("occasion", CreationOccasionWish);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("currency_id", CreationValuteWish);
     formData.append("categories", interests);
-    formData.append("date", "11.20.22");
-    formData.append("access", CheckedUrlPublicWish);
-    console.log(CheckedUrlPublicWish);
+    formData.append("date", moment(date).format("DD.MM.YYYY"));
+    formData.append("access", access);
+    formData.append("occasion", occasion);
+
+    console.log(
+      title,
+      price,
+      description,
+      interests,
+      access,
+      occasion,
+      moment(date).format("DD.MM.YYYY"),
+      CreationValuteWish
+    );
 
     try {
       await myaxiosprivate
@@ -354,25 +366,26 @@ const Created_Wish = () => {
               <div className="date-fo-birth-container">
                 <div className="date-fo-birth-container-insider">
                   <div className="date">
-                    {/* <LocalizationProvider dateAdapter={AdapterMoment}> 
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
                       <Stack
                         spacing={3}
                         style={{ background: "#F7F8FA", border: "0" }}
                       >
                         <DesktopDatePicker
                           label="Date of Birth"
-                          inputFormat="MM.DD.YY"
-                          value={value}
+                          inputFormat="DD.MM.YYYY"
+                          value={date}
                           onChange={handleChange}
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </Stack>
-                    </LocalizationProvider> */}
+                    </LocalizationProvider>
                   </div>
                   <div className="date-of-birth">
                     <input
                       type="text"
-                      onChange={(e) => setOccasionWish(e.target.value)}
+                      name="occasion"
+                      {...register("occasion")}
                       required={true}
                       placeholder="Occasion (ex: birthday)"
                     />
@@ -380,29 +393,21 @@ const Created_Wish = () => {
                 </div>
               </div>
               <div className="aviable-group">
-                {/* <FormControl>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                    onChange={(e) => {
-                      console.log(e);
-                    }}
-                  >
+                <FormControl>
+                  <RadioGroup name="access" {...register("access")}>
                     <FormControlLabel
-                      value="a"
-                      onClick={() => setCheckedPublikWish(true)}
+                      value={true}
                       control={<Radio />}
                       label="Available to everyone"
+                      name="access"
                     />
                     <FormControlLabel
-                      value="b"
-                      onClick={() => setCheckedPublikWish(false)}
+                      value={false}
                       control={<Radio />}
                       label="Only available by link"
                     />
                   </RadioGroup>
-                </FormControl> */}
+                </FormControl>
               </div>
             </form>
           </Section>
