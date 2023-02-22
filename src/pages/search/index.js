@@ -32,7 +32,7 @@ import {
 } from "./Search.Styled";
 import { HiBadgeCheck, HiOutlineFilter } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
@@ -106,7 +106,6 @@ function Search() {
       .then((res) => {
         setResultPeopleTotal(res.data.data.total);
         setAllPeopleData(res.data.data);
-        console.log(getResultPeople);
       })
       .catch((err) => {
         setError(err.message);
