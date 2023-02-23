@@ -73,7 +73,8 @@ import {
   Upload,
 } from "../Pasport/Pasport.Styled";
 import { RiFileDownloadLine } from "react-icons/ri";
-import { LoginSocialFacebook } from "reactjs-social-login";
+import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+// import { FacebookLoginButton } from "react-social-login-buttons";
 import {
   Paragraphs,
   Seconds,
@@ -165,7 +166,12 @@ export function Login_ConnectionSystem({ setShowes }) {
         setRecoveryError(err.message);
       });
   };
-
+  const handleSocialLogin = (data) => {
+    // FB.getLoginStatus(function (response) {
+    //   console.log(response)
+    // });
+    console.log(data)
+  };
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
   return (
@@ -183,7 +189,7 @@ export function Login_ConnectionSystem({ setShowes }) {
               Not a user?
               <Button2 onClick={() => getSignUpModal()}>Sign up</Button2>
             </Paragraph>
-            <Facebook>
+            <Facebook className="cursor-pointer">
               <BsFacebook
                 style={{
                   fontSize: "22px",
@@ -191,11 +197,11 @@ export function Login_ConnectionSystem({ setShowes }) {
                   marginRight: "10px",
                 }}
               />
+              {/* <button onClick={handleSocialLogin}>Login FB</button> */}
               <LoginSocialFacebook
                 appId={process.env.REACT_APP_FB_APP_ID}
-                onResolve={(responseFb) => {
-                  console.log(responseFb);
-                }}
+                redirect_uri={"https://localhost:3000/my-profile"}
+                onResolve={handleSocialLogin}
                 onReject={(error) => {
                   console.log(error);
                 }}
@@ -204,16 +210,26 @@ export function Login_ConnectionSystem({ setShowes }) {
               </LoginSocialFacebook>
             </Facebook>
             <Goapp>
-              <Google>
-                <FaGoogle
-                  style={{
-                    fontSize: "22px",
-                    marginRight: "10px",
-                    color: "#3800B0",
-                  }}
-                />
-                <GoogleP>Google</GoogleP>
-              </Google>
+              <LoginSocialGoogle
+                client_id={process.env.REACT_APP_GOOGLE_APP_ID}
+                redirect_uri={"https://localhost:3000/"}
+                onResolve={(res) => {
+                  console.log(res);
+                }}
+                onReject={(err) => console.log(err)}
+              >
+                <Google>
+                  <FaGoogle
+                    style={{
+                      fontSize: "22px",
+                      marginRight: "10px",
+                      color: "#3800B0",
+                    }}
+                  />
+                  <GoogleP>Google</GoogleP>
+                </Google>
+              </LoginSocialGoogle>
+
               <Apple>
                 <FaApple
                   style={{

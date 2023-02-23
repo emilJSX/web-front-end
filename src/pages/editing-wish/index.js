@@ -24,12 +24,9 @@ import { Controller, useForm } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
 
-const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
-
 const Editing_Wish = () => {
   const { state } = useLocation();
   const [isVisibleSetter, setVisibleSetter] = useState(false);
-  const [getCurrencyName, setCurrencyName] = useState("");
   const [isVisible, setVisible] = useState("none");
   const [getUpdateWishData, setUpdateWishData] = useState({
     title: "",
@@ -46,9 +43,6 @@ const Editing_Wish = () => {
       ? state?.currency?.id
       : getUpdateWishData.currency_id
   );
-
-  var idInterestsApi = [];
-
   const {
     register,
     handleSubmit,
@@ -60,22 +54,16 @@ const Editing_Wish = () => {
     reValidateMode: "onChange",
     mode: "all",
   });
-  console.log(defaultValue);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleChangeUpdateWish = (e) => {
-    const { name, value } = e.target;
-    const result = { ...getUpdateWishData, [name]: value };
-    setUpdateWishData(result);
-  };
+  
   const navigate = useNavigate();
 
   const getProfileUrl = () => {
     navigate("/my-profile");
   };
-
   function MyVerticallyCenteredModal(props) {
     return (
       <Modal
@@ -107,20 +95,7 @@ const Editing_Wish = () => {
       </Modal>
     );
   }
-
-  // useEffect(() => {
-  //   const {
-  //     title = "",
-  //     price = "",
-  //     currency_id = "",
-  //     image = "",
-  //     description = "",
-  //   } = state || {};
-  //   setUpdateWishData({ title, price, currency_id, image, description });
-  // }, [state]);
-
   const [modalShow, setModalShow] = useState(false);
-
   const CashItems = ({ item, id }) => {
     return (
       <li
@@ -160,22 +135,8 @@ const Editing_Wish = () => {
       value: 2,
     },
   ];
-  const editWishEditImage = state?.image;
-  const GetEditWishImage = `https://api.wishx.me${editWishEditImage}`;
 
-  const [UpdateFile, setUpdateFile] = useState(null);
-  const [UpdateTitleWish, setUpdateTitleWish] = useState("");
-  const [UpdatePriceWish, setUpdatePriceWish] = useState("");
   const [UpdateValuteWish, setUpdateValuteWish] = useState(1);
-  const [UpdateCategoriesWish, setUpdateCategoriesWish] = useState();
-  const [UpdateDateWish, setUpdateDateWish] = useState("11.20.22");
-  const [UpdateOccasionWish, setUpdateOccasionWish] = useState("11-th Birtday");
-  const [CheckedUpdateUrlPublicWish, setUpdateCheckedPublikWish] = useState();
-
-  const handleFileSelect = (event) => {
-    event.preventDefault();
-    setUpdateFile(event.target.files[0]);
-  };
   const [initialValues, setInitialValues] = useState();
   const [loading, setLoading] = useState(true);
   const [interestId, setInterestId] = useState([]);
@@ -248,9 +209,7 @@ const Editing_Wish = () => {
       );
   };
 
-  const getInterestsId = (item) => {
-    setUpdateCategoriesWish(item);
-  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">

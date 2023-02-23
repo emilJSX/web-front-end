@@ -57,12 +57,12 @@ const Created_Success_Wish = () => {
   useEffect(() => {
     async function GetUserWishData() {
       await myaxiosprivate
-        .get("https://api.wishx.me/api/v1/wish/view", {
+        .get("https://api.wishx.me/api/v1/wish/show", {
           params: { wish_id: state },
         })
         .then((GetUserWish) => {
           setGetUserData(GetUserWish.data.data);
-          console.log(GetUserWish)
+          console.log(GetUserWish);
         })
         .catch((err) => {
           console.log(err);
@@ -79,25 +79,21 @@ const Created_Success_Wish = () => {
     navigate("/wish-edit", { state: GetUserWishData });
   };
 
-  const [getUserName, setUserName] = useState();
+  const [userData, setUserData] = useState();
   const { state } = useLocation();
   const getCopySlug = GetUserWishData.slug;
   const getCopyLinkValue = `wishx.me/${getCopySlug}`;
   const WishCreationImage = GetUserWishData.image;
   const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
-
-  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
-  // useEffect(()=> {
-  //   axios.get("https://api.wishx.me/api/v1/user",{
-  //        headers: {
-  //          'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
-  //        }
-  //      }).then((datauser) => {
-  //       setUserName(datauser.data.data.info.full_name)
-  //       console.log(datauser)
-  //      })
-  // }, [])
-
+  const [error, setError] = useState("");
+  useEffect(() => {
+    myaxiosprivate
+      .get("https://api.wishx.me/api/v1/user")
+      .then(({ data }) => {
+        setUserData(data.data.info);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
   return (
     <MainContainer>
       <Container>
@@ -139,12 +135,14 @@ const Created_Success_Wish = () => {
                     <Title>{GetUserWishData.title}</Title>
                     <UserWrapper>
                       <UserAbout>
-                        <UserName>{getUserName}</UserName>
+                        <UserName>{userData?.full_name}</UserName>
                         <UserDesc>
                           for birthday on {GetUserWishData.date}
                         </UserDesc>
                       </UserAbout>
-                      <UserPhoto src={userphoto}></UserPhoto>
+                      <UserPhoto
+                        src={userData?.avatar ? userData?.avatar : userphoto}
+                      ></UserPhoto>
                     </UserWrapper>
 
                     <PriceWrapper>
@@ -259,12 +257,12 @@ const Created_Success_Wish = () => {
                     <Title>{GetUserWishData.title}</Title>
                     <UserWrapper>
                       <UserAbout>
-                        <UserName>{getUserName}</UserName>
+                        <UserName>{userData?.full_name}</UserName>
                         <UserDesc>
                           for birthday on {GetUserWishData.date}
                         </UserDesc>
                       </UserAbout>
-                      <UserPhoto src={userphoto}></UserPhoto>
+                      <UserPhoto src={userData?.avatar ? userData.avatar:userphoto}></UserPhoto>
                     </UserWrapper>
 
                     <PriceWrapper>
