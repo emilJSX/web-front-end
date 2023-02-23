@@ -13,7 +13,7 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from "react-icons/fa";
-import { Grid, Progress } from "@mantine/core";
+import { Grid, Loader, Progress } from "@mantine/core";
 import ponchik from "../../style/icons/poncik.png";
 import userphoto from "../../style/icons/userphoto.png";
 import navigationArrowIcon from "../../style/navigationIcons/arrow-right.png";
@@ -54,18 +54,23 @@ import { myaxiosprivate } from "../../api/myaxios";
 const Created_Success_Wish = () => {
   const navigate = useNavigate();
   const [GetUserWishData, setGetUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
     async function GetUserWishData() {
+      setLoading(true);
+      setError("")
       await myaxiosprivate
         .get("https://api.wishx.me/api/v1/wish/show", {
           params: { wish_id: state },
         })
         .then((GetUserWish) => {
           setGetUserData(GetUserWish.data.data);
-          console.log(GetUserWish);
+          setLoading(false);
         })
         .catch((err) => {
-          console.log(err);
+          setLoading(false);
+          setError(err.message);
         });
     }
     GetUserWishData();
@@ -85,9 +90,9 @@ const Created_Success_Wish = () => {
   const getCopyLinkValue = `wishx.me/${getCopySlug}`;
   const WishCreationImage = GetUserWishData.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
-  console.log(UserGetCreationImgWish)
-  const [error, setError] = useState("");
+  console.log(UserGetCreationImgWish);
   useEffect(() => {
+    setError("");
     myaxiosprivate
       .get("/api/v1/user")
       .then(({ data }) => {
@@ -95,6 +100,15 @@ const Created_Success_Wish = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
+
   return (
     <MainContainer>
       <Container>

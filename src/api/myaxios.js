@@ -17,19 +17,16 @@ export const myaxiosprivate = axios.create({
 });
 const errorHandler = (error) => {
   let message = "An error occurred, please try again later.";
-
   if (error.response) {
     const status = error.response.status;
     if (status === 401) {
-      message =
-        "You are not authorized to access this resource. Please log in.";
+      message = error.response.data.message;
     } else if (status === 403) {
-      message = "You do not have permission to perform this action.";
+      message = error.response.data.message;
     } else if (status === 404) {
-      message = "The requested resource was not found.";
+      message = error.response.data.message;
     } else if (status === 422) {
-      message =
-        "There was a validation error. Please check your input and try again.";
+      message = error.response.data.message;
     } else if (status >= 500) {
       message = "An error occurred on the server. Please try again later.";
     } else {

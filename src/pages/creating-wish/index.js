@@ -169,8 +169,7 @@ const Created_Wish = () => {
           },
         })
         .then((result) => {
-          console.log(result);
-          var getResultWishId = result?.data?.data?.id;
+          let getResultWishId = result?.data?.data?.id;
           if (result.data.success == false) {
             toast.info(result.data.message, {
               position: toast.POSITION.TOP_RIGHT,
@@ -209,6 +208,20 @@ const Created_Wish = () => {
   }, [selectedFile]);
 
   // ================================ END SELECT IMAGE FOR CREATE API ================================
+
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center h-96">
+        <p className="font-bold">{error}</p>
+        <p
+          className="font-bold cursor-pointer"
+          onClick={() => window.location.reload()}
+        >
+          Reload the page
+        </p>
+      </div>
+    );
+  }
 
   return (
     <MainContainer>

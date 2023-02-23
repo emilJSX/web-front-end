@@ -1,5 +1,5 @@
 import react, { useEffect } from "react";
-import { Button, Grid, Image } from "@mantine/core";
+import { Button, Grid, Image, Loader } from "@mantine/core";
 import {
   BlogCard,
   BlogMainSection,
@@ -36,7 +36,8 @@ const MainBlog = () => {
   const [GetUserSearch, setUserSearch] = useState();
   const [DataSkip, setDataSkip] = useState(0);
   const [getResultApiSearch, setResultApiSearch] = useState();
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/articles/get", {
@@ -46,7 +47,11 @@ const MainBlog = () => {
       })
       .then((res) => {
         setResultApiSearch(res.data.data.list);
-        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
       });
   }, []);
 
@@ -76,23 +81,30 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
+  const breadCrumb = [
+    {
+      title: "Main",
+      to: "/",
+    },
+    {
+      title: "Blog",
+      to: "/main-blog",
+    },
+  ];
   return (
+    // if something wrong show only error message here error ? (<div>{error}</div>) : else show ui
+
     <BlogMainSection fluid>
       <div className="instruction">
         {/*<p>Main {">"} Blog</p>*/}
-        <CustomBreadcrumb
-          margins="mt-0 mb-8"
-          links={[
-            {
-              title: "Main",
-              to: "/",
-            },
-            {
-              title: "Blog",
-              to: "/main-blog",
-            },
-          ]}
-        />
+        <CustomBreadcrumb margins="mt-0 mb-8" links={breadCrumb} />
         <h2>Blog</h2>
       </div>
       <Tabs defaultValue="personalinfo">
@@ -158,7 +170,7 @@ const MainBlog = () => {
             <Grid.Col className="col-root-img" p={0} span={6}>
               <Image
                 className="img-section"
-                src={`https://api.wishx.me${setLoadingBlog[0]?.image}`}
+                src={`${process.env.REACT_APP_API_URL}${setLoadingBlog[0]?.image}`}
               />
             </Grid.Col>
             <Grid.Col span={6}>
