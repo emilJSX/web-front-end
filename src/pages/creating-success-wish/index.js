@@ -84,11 +84,12 @@ const Created_Success_Wish = () => {
   const getCopySlug = GetUserWishData.slug;
   const getCopyLinkValue = `wishx.me/${getCopySlug}`;
   const WishCreationImage = GetUserWishData.image;
-  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
+  console.log(UserGetCreationImgWish)
   const [error, setError] = useState("");
   useEffect(() => {
     myaxiosprivate
-      .get("https://api.wishx.me/api/v1/user")
+      .get("/api/v1/user")
       .then(({ data }) => {
         setUserData(data.data.info);
       })
@@ -262,7 +263,9 @@ const Created_Success_Wish = () => {
                           for birthday on {GetUserWishData.date}
                         </UserDesc>
                       </UserAbout>
-                      <UserPhoto src={userData?.avatar ? userData.avatar:userphoto}></UserPhoto>
+                      <UserPhoto
+                        src={userData?.avatar ? userData.avatar : userphoto}
+                      ></UserPhoto>
                     </UserWrapper>
 
                     <PriceWrapper>
