@@ -166,11 +166,34 @@ export function Login_ConnectionSystem({ setShowes }) {
         setRecoveryError(err.message);
       });
   };
-  const handleSocialLogin = (data) => {
+
+  const handleSocialLogin = async (data) => {
     // FB.getLoginStatus(function (response) {
     //   console.log(response)
     // });
-    console.log(data)
+    const provider_id = process.env.REACT_APP_PROVIDER_ID;
+    console.log(data);
+    const { email, name, picture } = data.data;
+    const { provider } = data;
+    console.log(email, name, picture.data.url, provider, provider_id);
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("name", name);
+    formData.append("avatar", picture.data.url);
+    formData.append("provider", provider);
+    formData.append("provider_id", provider_id);
+
+    await myaxiosprivate
+      .post("/api/v1/auth/social?", formData)
+      .then((res) => {
+        const token = res?.data?.data?.token;
+        localStorage.setItem("token", JSON.stringify(token));
+        setShowes(false);
+        dispatch(setUserToken(token));
+        navigate("/my-profile");
+      })
+      .catch((err) => console.log(err));
   };
   // ======================= END OTP COUNT DOWN CONFIG =========================
 

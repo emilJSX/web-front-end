@@ -208,7 +208,18 @@ const Created_Wish = () => {
   }, [selectedFile]);
 
   // ================================ END SELECT IMAGE FOR CREATE API ================================
+  const breadCrumb = [
+    {
+      title: "Main",
+      to: "/",
+    },
+    {
+      title: "Create Wish",
+      to: "/creating-wish",
+    },
+  ];
 
+  
   if (error) {
     return (
       <div className="flex flex-col justify-center items-center h-96">
@@ -231,19 +242,7 @@ const Created_Wish = () => {
           <Hedaer>
             {/*<p className="path-title">Main {">"} Create Wish</p>*/}
             <p className="path-title">
-              <CustomBreadcrumb
-                margins="mt-0 mb-8"
-                links={[
-                  {
-                    title: "Main",
-                    to: "/",
-                  },
-                  {
-                    title: "Create Wish",
-                    to: "/creating-wish",
-                  },
-                ]}
-              />
+              <CustomBreadcrumb margins="mt-0 mb-8" links={breadCrumb} />
             </p>
             <h1 className="edit-wish-title">Creating Wish</h1>
           </Hedaer>

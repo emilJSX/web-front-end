@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const useValidation = ({ full_name, email, slug, about }) => {
+const useValidation = ({ full_name, email, slug, about,country}) => {
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
@@ -9,34 +9,39 @@ const useValidation = ({ full_name, email, slug, about }) => {
 
     // Validate full_name field
     if (!full_name) {
-      errors.full_name = 'Full name is required';
+      errors.full_name = "Full name is required";
     } else if (full_name.length < 6) {
-      errors.full_name = 'Full name must be at least 6 characters long';
+      errors.full_name = "Full name must be at least 6 characters long";
     } else if (/[!@#$%^&*(),.?":{}|<>]/g.test(full_name)) {
-      errors.full_name = 'Full name must not contain any symbols';
+      errors.full_name = "Full name must not contain any symbols";
+    }
+
+    if (!country) {
+      errors.country = "Country is required";
     }
 
     // Validate email field
     if (!email) {
-      errors.email = 'Email is required';
+      errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Invalid email format';
+      errors.email = "Invalid email format";
     }
 
     // Validate slug field
     if (!slug) {
-      errors.slug = 'slug is required';
+      errors.slug = "slug is required";
     } else if (slug.length < 6) {
-      errors.slug = 'slug must be at least 6 characters long';
+      errors.slug = "slug must be at least 6 characters long";
     } else if (!/^[\w.@]+$/.test(slug)) {
-      errors.slug = 'slug must only contain letters, numbers, @, _, and . symbols';
+      errors.slug =
+        "slug must only contain letters, numbers, @, _, and . symbols";
     }
 
     // Validate about field
     if (!about) {
-      errors.about = 'About is required';
+      errors.about = "About is required";
     } else if (about.length < 10) {
-      errors.about = 'About must be at least 10 characters long';
+      errors.about = "About must be at least 10 characters long";
     }
 
     // Set errors state
