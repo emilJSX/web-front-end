@@ -20,7 +20,6 @@ import {
   Section,
   Temp,
 } from "./MyCreatedWish.Styles";
-import axios from "axios";
 import { MultiSelect } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
@@ -43,7 +42,7 @@ const Created_Wish = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     reValidateMode: "onChange",
     mode: "all",
@@ -56,7 +55,6 @@ const Created_Wish = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [CreatingTitleWish, setTitleWish] = useState("");
   const [CreationPriceWish, setPriceWish] = useState("");
-  const [CreationDescriptionWish, setDescriptionWish] = useState("");
   const [CreationValuteWish, setValuteWish] = useState(1);
   const [CreationCategoriesWish, setCategoriesWish] = useState(1);
   const [CreationDateWish, setDateWish] = useState("11.20.22");
@@ -125,10 +123,6 @@ const Created_Wish = () => {
 
   const cash = ["USD"];
 
-  const HandleClickGeCashId = (cash_id) => {
-    console.log(cash_id);
-  };
-
   // ================================ API CREATE WISH ================================
 
   const handleSubmitCreateWish = async ({
@@ -138,6 +132,7 @@ const Created_Wish = () => {
     interests,
     access,
     occasion,
+    file,
   }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -151,6 +146,7 @@ const Created_Wish = () => {
     formData.append("occasion", occasion);
 
     console.log(
+      file[0],
       title,
       price,
       description,
@@ -158,7 +154,8 @@ const Created_Wish = () => {
       access,
       occasion,
       moment(date).format("DD.MM.YYYY"),
-      CreationValuteWish
+      CreationValuteWish,
+      selectedFile
     );
 
     try {
@@ -219,7 +216,6 @@ const Created_Wish = () => {
     },
   ];
 
-  
   if (error) {
     return (
       <div className="flex flex-col justify-center items-center h-96">
@@ -434,13 +430,25 @@ const Created_Wish = () => {
                   dialog.click();
                 }}
               >
-                <input
-                  type="file"
-                  required
-                  onChange={handleFileSelect}
-                  className="file-uploader"
-                  style={{ display: "none" }}
+                <Controller
+                  name="file"
+                  control={control}
+                  rules={{ required: "Photo is required" }}
+                  render={({ field }) => (
+                    <input
+                      type="file"
+                      required
+                      name="file"
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setSelectedFile(e.target.files[0]);
+                      }}
+                      className="file-uploader"
+                      style={{ display: "none" }}
+                    />
+                  )}
                 />
+
                 {/* onChange={HandleGetImage} */}
                 {/*<FontAwesomeIcon icon={faArrowUpFromBracket} />*/}
                 <img
@@ -502,6 +510,7 @@ const Created_Wish = () => {
             onClick={handleSubmit(handleSubmitCreateWish)}
             variant="primary"
             className="save-changes-button"
+            disabled={!isValid}
           >
             Create Wish
           </Button>

@@ -533,20 +533,12 @@ export function SignUp_ConnectionSystem({
         signal: controller.signal,
       })
       .then((res) => {
-        if (res.status === 200) {
-          setUserNameErrorMessage("");
-          setUserNameAviableMessage(
-            getUserNameValue ? "Username is available" : null
-          );
-        }
+        console.log(res);
+        setUserNameAviableMessage(getUserNameValue ? res.data.message : null);
       })
       .catch((err) => {
-        if (err.response && err.response.status === 409) {
-          setUserNameAviableMessage("");
-          setUserNameErrorMessage("Username is already in use");
-        } else {
-          setUserNameErrorMessage("Something went wrong...");
-        }
+        setUserNameErrorMessage(err.message);
+        setUserNameAviableMessage("");
       });
   };
   // Parsing Extract the Name from an Email Address
@@ -554,11 +546,12 @@ export function SignUp_ConnectionSystem({
     setGetEmail(email);
     await myaxios
       .get("/api/v1/registration/get-code", { params: { email: email } })
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         setTabIndex(1);
       })
       .catch((err) => {
-        setErrorMessage("The email has already been taken.");
+        setErrorMessage(err.message);
       });
   };
 
@@ -578,9 +571,9 @@ export function SignUp_ConnectionSystem({
 
   // UPDATE PROFILE API
 
-  const handleUpdateInfoProfile = (e) => {
+  const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
-    myaxiosprivate
+    await myaxiosprivate
       .post("api/v1/profiles/update", {
         full_name: formData.full_name,
         phone: formData.phone,
@@ -627,9 +620,9 @@ export function SignUp_ConnectionSystem({
   const [otp, setOtp] = useState();
   const [otpError, setOtpError] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    myaxios
+    await myaxios
       .post("api/v1/register", {
         otp: otp,
         name: getUserNameValue, //getEmail.split("@")[0]

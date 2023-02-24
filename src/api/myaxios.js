@@ -25,6 +25,8 @@ const errorHandler = (error) => {
       message = error.response.data.message;
     } else if (status === 404) {
       message = error.response.data.message;
+    } else if (status === 409) {
+      message = error.response.data.message;
     } else if (status === 422) {
       message = error.response.data.message;
     } else if (status >= 500) {
@@ -52,7 +54,7 @@ const addRequestInterceptor = (instance, token) => {
     (error) => errorHandler(error);
 };
 const userToken = JSON.parse(localStorage.getItem("token"));
-
+console.log(userToken)
 addRequestInterceptor(myaxiosprivate, userToken);
 addRequestInterceptor(myaxios);
 

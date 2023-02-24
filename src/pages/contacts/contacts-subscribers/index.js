@@ -67,11 +67,13 @@ const ContactsPage = () => {
       .get("/api/v1/followers/list?skip=0")
       .then(({ data }) => {
         setFollowersData(data.data.list);
-        const followedUser = {};
-        data.data.list.forEach((user) => {
-          followedUser[user.id] = user.followed;
-        });
-        setIsFollowing(followedUser);
+        if (data.data.list) {
+          const followedUser = {};
+          data.data.list.forEach((user) => {
+            followedUser[user.id] = user.followed;
+          });
+          setIsFollowing(followedUser);
+        }
       })
       .catch((err) => {
         setError(err.message);

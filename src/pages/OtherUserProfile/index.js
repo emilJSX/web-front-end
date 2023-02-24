@@ -128,7 +128,7 @@ const OtherUserProfile = () => {
   // const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
-
+  console.log(state);
   const tabs_storage = [
     {
       value: "act",
@@ -163,7 +163,9 @@ const OtherUserProfile = () => {
     setError("");
     isAuth
       ? myaxiosprivate
-          .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
+          .get(
+            `/api/v1/user/other/slug?slug=${state?.slug ? state?.slug : slug}`
+          )
           .then(({ data }) => {
             setUserInfoProfile(data.data);
             setJoined(data.data.info.joined);
@@ -241,8 +243,6 @@ const OtherUserProfile = () => {
     }
   };
   // END FOLLOW API
-
-
 
   if (loading) {
     return (
