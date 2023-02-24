@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
@@ -73,7 +73,7 @@ const MainBlog = () => {
     { id: 1, title: "Travel" },
     { id: 2, title: "Sport" },
     { id: 3, title: "Gadgets" },
-    { id: 4, title: "Foto & Videos" },
+    { id: 4, title: "Photo & Videos" },
     { id: 5, title: "Clothes" },
   ];
 
@@ -178,7 +178,7 @@ const MainBlog = () => {
                 <p className="top-txt"></p>
                 <h2>{setLoadingBlog[0]?.title}</h2>
                 <p className="txt">{setLoadingBlog[0]?.content}</p>
-                <a href="#">Read article</a>
+                <Link to="/blog-post">Read article</Link>
               </div>
             </Grid.Col>
           </Grid>
@@ -203,7 +203,7 @@ const MainBlog = () => {
                     <CardActionArea className="card-blog">
                       <CardMedia
                         component="img"
-                        image={`https://api.wishx.me${AllBlog?.thumb}`}
+                        image={`${process.env.REACT_APP_API_URL}${AllBlog?.thumb}`}
                         height="230px"
                         style={{ borderRadius: "20px" }}
                       />
@@ -234,9 +234,7 @@ const MainBlog = () => {
                       </CardContent>
                     </CardActionArea>
                     <CardActions className="p-0">
-                      <a href="#" className="read-article">
-                        Read article
-                      </a>
+                      <Link to="/blog-post">Read article</Link>
                     </CardActions>
                   </Card>
                 </Grid.Col>

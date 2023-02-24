@@ -123,10 +123,12 @@ const OtherUserProfile = () => {
   const { state } = useLocation();
   const { slug } = useParams();
   const [isFollowing, setIsFollowing] = useState();
+  const [loading, setLoading] = useState(true);
   // const [displayFollow, setdisplayFollow] = useState("block");
   // const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
+
   const tabs_storage = [
     {
       value: "act",
@@ -150,7 +152,6 @@ const OtherUserProfile = () => {
       spanTitle: "0",
     },
   ];
-  console.log(slug);
   //     const handler = e => this.setState({ matches: e.matches });
   //     window.matchMedia("(min-width: 500px)").addEventListener('change', handler);
 
@@ -158,6 +159,8 @@ const OtherUserProfile = () => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
+    setLoading(true);
+    setError("");
     isAuth
       ? myaxiosprivate
           .get(`/api/v1/user/other/slug?slug=${state ? state : slug}`)
@@ -165,21 +168,24 @@ const OtherUserProfile = () => {
             setUserInfoProfile(data.data);
             setJoined(data.data.info.joined);
             setIsFollowing(data.data.contacts.followedStatus);
+            setLoading(false);
           })
           .catch((err) => {
             setError(err.message);
+            setLoading(false);
           })
       : myaxios
           .get(`/api/v1/user/other/slug?slug=${slug}`)
           .then(({ data }) => {
             setUserInfoProfile(data.data);
             setJoined(data.data.info.joined);
+            setLoading(false);
           })
           .catch((err) => {
             setError(err.message);
+            setLoading(false);
           });
   }, []);
-  console.log(UserInfoProfile);
 
   function getWishIdEdit(wish_id) {
     const GetProfileWishId = wish_id;
@@ -193,7 +199,6 @@ const OtherUserProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/wish/" + id, { state: { id } });
   }
-  console.log(typeof state);
   // Follow API
 
   const [show, setShow] = useState(false);
@@ -206,7 +211,6 @@ const OtherUserProfile = () => {
           res.status === 200 && setIsFollowing(false);
         })
         .catch((err) => {
-          console.log(err.message);
           setIsFollowing(true);
           setError(err.message);
         });
@@ -230,7 +234,6 @@ const OtherUserProfile = () => {
     }
   };
   const handleClick = (id) => {
-    console.log(id);
     if (isFollowing) {
       unfollowUser(id);
     } else {
@@ -239,6 +242,15 @@ const OtherUserProfile = () => {
   };
   // END FOLLOW API
 
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />;
+      </div>
+    );
+  }
   return (
     <Body>
       {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}

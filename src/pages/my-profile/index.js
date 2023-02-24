@@ -98,12 +98,10 @@ import { Component } from "react";
 import instagram from "../../style/icons/instagram.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
-import { myaxiosprivate, myaxios } from "../../api/myaxios";
-
-import { useAuthSelector } from "../../store/slices/authSlice";
-import { useSelector } from "react-redux";
+import { myaxiosprivate } from "../../api/myaxios";
 import { setUserData } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -188,9 +186,7 @@ const MyProfile = () => {
     fetchUserWishes();
   }, []);
 
-
   const navigate = useNavigate();
-  console.log(userProfile);
   function getWishesListRoute() {
     navigate("/wish-list");
   }
@@ -279,12 +275,15 @@ const MyProfile = () => {
                 <Text>Spec, Child, Chaos and Shadow</Text>
 
                 <DateSection>
-                  <Date>{userProfile?.info?.dob}</Date>
+                  <Date>
+                    {moment(userProfile?.info?.dob).format("DD.MM.YYYY")}
+                  </Date>
                   <DateText>Birthdate</DateText>
                 </DateSection>
                 <DisplayDateBirthaySection>
                   <Date>
-                    {userProfile?.info?.dob} <DateText>Birthdate</DateText>
+                    {moment(userProfile?.info?.dob).format("DD.MM.YYYY")}{" "}
+                    <DateText>Birthdate</DateText>
                   </Date>
                   <Follower onClick={getContactsFollowsPage}>
                     {userProfile?.contacts?.followers}{" "}

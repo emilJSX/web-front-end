@@ -25,7 +25,7 @@ const BlogSRNotFound = () => {
                   },
                   {
                     title: 'Blog',
-                    to: "/blog-main"
+                    to: "/main-blog"
                   },
                   {
                     title: 'Search results',

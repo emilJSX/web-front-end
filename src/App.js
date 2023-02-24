@@ -40,10 +40,6 @@ import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
 
-
-
-
-
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
   console.log(isAuth);

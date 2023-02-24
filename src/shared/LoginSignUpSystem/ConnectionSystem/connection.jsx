@@ -168,32 +168,31 @@ export function Login_ConnectionSystem({ setShowes }) {
   };
 
   const handleSocialLogin = async (data) => {
-    // FB.getLoginStatus(function (response) {
-    //   console.log(response)
-    // });
+    setError("");
     const provider_id = process.env.REACT_APP_PROVIDER_ID;
-    console.log(data);
-    const { email, name, picture } = data.data;
-    const { provider } = data;
-    console.log(email, name, picture.data.url, provider, provider_id);
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("name", name);
-    formData.append("avatar", picture.data.url);
-    formData.append("provider", provider);
-    formData.append("provider_id", provider_id);
+    if (data) {
+      const { email, name, picture } = data.data;
+      const { provider } = data;
 
-    await myaxiosprivate
-      .post("/api/v1/auth/social?", formData)
-      .then((res) => {
-        const token = res?.data?.data?.token;
-        localStorage.setItem("token", JSON.stringify(token));
-        setShowes(false);
-        dispatch(setUserToken(token));
-        navigate("/my-profile");
-      })
-      .catch((err) => console.log(err));
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("avatar", picture.data.url);
+      formData.append("provider", provider);
+      formData.append("provider_id", provider_id);
+
+      await myaxiosprivate
+        .post("/api/v1/auth/social?", formData)
+        .then((res) => {
+          const token = res?.data?.data?.token;
+          localStorage.setItem("token", JSON.stringify(token));
+          setShowes(false);
+          dispatch(setUserToken(token));
+          navigate("/my-profile");
+        })
+        .catch((err) => setError(err.message));
+    }
   };
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
@@ -220,13 +219,12 @@ export function Login_ConnectionSystem({ setShowes }) {
                   marginRight: "10px",
                 }}
               />
-              {/* <button onClick={handleSocialLogin}>Login FB</button> */}
               <LoginSocialFacebook
                 appId={process.env.REACT_APP_FB_APP_ID}
                 redirect_uri={"https://localhost:3000/my-profile"}
                 onResolve={handleSocialLogin}
                 onReject={(error) => {
-                  console.log(error);
+                  setError(error.message);
                 }}
               >
                 <FacebookP>Facebook</FacebookP>
@@ -235,11 +233,8 @@ export function Login_ConnectionSystem({ setShowes }) {
             <Goapp>
               <LoginSocialGoogle
                 client_id={process.env.REACT_APP_GOOGLE_APP_ID}
-                redirect_uri={"https://localhost:3000/"}
-                onResolve={(res) => {
-                  console.log(res);
-                }}
-                onReject={(err) => console.log(err)}
+                onResolve={handleSocialLogin}
+                onReject={(err) => setError(error.message)}
               >
                 <Google>
                   <FaGoogle
@@ -464,7 +459,6 @@ export function SignUp_ConnectionSystem({
   setregisterModal,
   setEmailOtpModal,
 }) {
-  const getUserToken = localStorage.getItem("userData");
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
 

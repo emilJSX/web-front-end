@@ -59,7 +59,6 @@ import {
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
-import useValidation from "../../hooks/useValidation";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -548,7 +547,6 @@ const ProfileEdit = () => {
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
 
-  // const { errors, isValid } = useValidation(userInfo);
   const handleUpdateInfoProfile = async ({
     full_name,
     country,

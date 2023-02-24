@@ -82,13 +82,14 @@ export const HeaderShared = () => {
         setError("Something went wrong...");
       });
   };
+  console.log(userData?.user_id)
   return (
     <HeaderContainer>
       <section className="logoSection">
         <a href="/">
           <WishLogo />
         </a>
-        <SearchInput iconHave={true} size="xl" />
+        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id}/>
         <ul>
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
