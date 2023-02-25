@@ -54,7 +54,6 @@ const addRequestInterceptor = (instance, token) => {
     (error) => errorHandler(error);
 };
 const userToken = JSON.parse(localStorage.getItem("token"));
-console.log(userToken)
 addRequestInterceptor(myaxiosprivate, userToken);
 addRequestInterceptor(myaxios);
 
@@ -69,4 +68,23 @@ myaxiosprivate.interceptors.response.use(
     return res;
   },
   (error) => errorHandler(error)
+);
+
+export const updateToken = (token) => {
+  if (token) {
+    myaxiosprivate.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete myaxiosprivate.defaults.headers.common["Authorization"];
+  }
+};
+myaxiosprivate.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      updateToken(null);
+    }
+    return Promise.reject(error);
+  }
 );

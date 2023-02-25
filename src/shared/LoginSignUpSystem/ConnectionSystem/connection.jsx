@@ -80,7 +80,7 @@ import {
   Seconds,
   Send,
 } from "../PasswordRecoveryMessage/RecoveryMessage.Styled";
-import { myaxios, myaxiosprivate } from "../../../api/myaxios";
+import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
@@ -114,6 +114,7 @@ export function Login_ConnectionSystem({ setShowes }) {
           //set response in local storage
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
+          updateToken(token);
           setShowes(false);
           dispatch(setUserToken(token));
           navigate("/my-profile");
@@ -634,6 +635,7 @@ export function SignUp_ConnectionSystem({
         if (res.data.success === true) {
           const token = res.data.data.token;
           localStorage.setItem("token", JSON.stringify(token));
+          updateToken(token);
           setTabIndex(2);
           try {
             myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {

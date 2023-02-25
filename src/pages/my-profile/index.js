@@ -99,17 +99,17 @@ import instagram from "../../style/icons/instagram.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
-import { setUserData } from "../../store/slices/userSlice";
-import { useDispatch } from "react-redux";
 import moment from "moment";
+import { useToken } from "../../store/slices/authSlice";
+import { useSelector } from "react-redux";
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [joinDate, setJoinDate] = useState();
   const [wishes, setWishes] = useState();
-  const dispatch = useDispatch();
-
+  const token = useSelector(useToken);
+  console.log(token);
   var tabs_storage = [
     {
       value: "act",
@@ -143,7 +143,11 @@ const MyProfile = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const { data } = await myaxiosprivate.get("/api/v1/user/");
+        const { data } = await myaxiosprivate.get("/api/v1/user/", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setUserProfile(data.data);
         setLoading(false);
       } catch (error) {
@@ -152,7 +156,6 @@ const MyProfile = () => {
       }
     };
     fetchUserData();
-    dispatch(setUserData(userProfile));
   }, []);
 
   useEffect(() => {

@@ -32,7 +32,7 @@ import {
 } from "../../LoginSignUpSystem/ConnectionSystem/connection";
 import { logout, useAuthSelector } from "../../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { myaxiosprivate } from "../../../api/myaxios";
+import { myaxiosprivate, updateToken } from "../../../api/myaxios";
 export const HeaderShared = () => {
   const [opened, setOpened] = useState(false);
   const [showes, setShowes] = useState(false);
@@ -74,22 +74,23 @@ export const HeaderShared = () => {
     await myaxiosprivate
       .post("/api/v1/logout")
       .then(() => {
-        localStorage.clear();
+        localStorage.removeItem("token");
         dispatch(logout());
-        navigate("/");
+        updateToken(null);
+        navigate("/", { replace: true });
       })
       .catch(() => {
         setError("Something went wrong...");
       });
   };
-  console.log(userData?.user_id)
+  console.log(userData?.user_id);
   return (
     <HeaderContainer>
       <section className="logoSection">
         <a href="/">
           <WishLogo />
         </a>
-        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id}/>
+        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
         <ul>
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
