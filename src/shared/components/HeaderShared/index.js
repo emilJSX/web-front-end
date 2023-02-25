@@ -78,12 +78,12 @@ export const HeaderShared = () => {
         dispatch(logout());
         updateToken(null);
         navigate("/", { replace: true });
+        window.location.reload();
       })
       .catch(() => {
         setError("Something went wrong...");
       });
   };
-  console.log(userData?.user_id);
   return (
     <HeaderContainer>
       <section className="logoSection">

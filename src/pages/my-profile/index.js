@@ -100,16 +100,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
-import { useToken } from "../../store/slices/authSlice";
-import { useSelector } from "react-redux";
+
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [joinDate, setJoinDate] = useState();
   const [wishes, setWishes] = useState();
-  const token = useSelector(useToken);
-  console.log(token);
   var tabs_storage = [
     {
       value: "act",
@@ -143,11 +140,7 @@ const MyProfile = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const { data } = await myaxiosprivate.get("/api/v1/user/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const { data } = await myaxiosprivate.get("/api/v1/user/");
         setUserProfile(data.data);
         setLoading(false);
       } catch (error) {
