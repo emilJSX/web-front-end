@@ -22,7 +22,7 @@ padding-bottom: 50px;
 }
 
 .rainbow {
-    @media (min-width: 375px) and (max-width: 420px) {
+    @media (max-width: 420px) {
         height: 113px !important;
         margin-left: 6px;
         margin-top: 13px;
@@ -47,7 +47,7 @@ padding-bottom: 50px;
 
     .tabs{
 
-        @media(min-width: 375px) and (max-width: 1200px){
+        @media(max-width: 1200px){
             width: 95%;
         }
 
@@ -326,7 +326,7 @@ padding-bottom: 50px;
     -ms-flex: none;
     flex: none;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         width: 34%;
     }
 
@@ -466,7 +466,7 @@ export const CardLong = styled.div`
     }
 }
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         margin-left: 0px;
     }
 
@@ -564,7 +564,7 @@ export const CardLong = styled.div`
         }
     }
 
-    // @media (min-width: 375px) and (max-width: 420px) {
+    // @media (max-width: 420px) {
     //     width: 153%;
     // } 
 `;
@@ -663,7 +663,7 @@ export const TargetFinal = styled.div`
     width: 100%;
     margin: 0;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: none;
     }
 
@@ -776,7 +776,7 @@ export const LastDiv = styled.div`
     padding-bottom: 10px;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: none;
     }
 
@@ -894,7 +894,7 @@ export const LeftSection = styled(Container)`
         width: auto;
     }
     
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         border-radius: unset !important;
         margin-left: 4px;
         border-bottom-left-radius: 20px;
@@ -1171,7 +1171,7 @@ export const LeftRightPriceDisplay = styled.div`
     height: 40px;
     font-size: 10px;
 
-    @media (min-width: 375px) and (max-width: 480px) {
+    @media (max-width: 480px) {
         padding-top: 0px;
         display: flex;
         align-items: center;
@@ -1189,7 +1189,7 @@ export const LeftPrice = styled.p`
 `
 
 export const RightPrice = styled.p`
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         float: right;
         right: 64px;
     }
@@ -1302,7 +1302,7 @@ export const FotoSection = styled(Container)`
         width: 100%;
     }
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         padding: 0 !important;
         display: flex;
         justify-content: center;
@@ -1311,7 +1311,7 @@ export const FotoSection = styled(Container)`
     }
     
     .rainbow {
-        @media (min-width: 375px) and (max-width: 500px) {
+        @media (max-width: 500px) {
             border-radius: unset !important;
             border-top-left-radius: 15px !important;
             border-top-right-radius: 15px !important;
@@ -1328,7 +1328,7 @@ export const FotoSection = styled(Container)`
 export const MobileTopCoverImageSection = styled.div`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: block; 
         width: 98.8%;
         margin-left: 7px;
@@ -1338,7 +1338,7 @@ export const MobileTopCoverImageSection = styled.div`
 export const ShowBirtdayInWish = styled.p`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 480px) {
+    @media (max-width: 480px) {
         display: block;
         font-weight: 400;
         padding-top: 30px;
@@ -1424,7 +1424,7 @@ export const UserName = styled.h6`
 font-weight: 600;
 font-size: 14px;
 
-@media (min-width: 375px) and (max-width: 992px) {
+@media (max-width: 992px) {
     width: 320px;
     margin-top: 29px;
 }
@@ -1434,7 +1434,7 @@ border-radius: 24px;
 width: 40px;
 height: 40px;
 
-@media (min-width: 375px) and (max-width: 992px) {
+@media (max-width: 992px) {
     position: absolute;
     border-radius: 24px;
     width: 40px;

@@ -31,7 +31,7 @@ export const GridBody= styled.div`
     font-size:17px;
     margin:4px;
 }
-  @media (min-width: 375px) and (max-width: 420px){
+  @media (max-width: 420px){
   
     margin: 0;
 
@@ -100,7 +100,7 @@ export const GridBody= styled.div`
     }
 
 }
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
 
   width:164px;
   
@@ -115,14 +115,14 @@ height: 321px;
 width: 100%;
 object-fit: cover;
 border-radius: 24px;
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
   width:164px;
   height:164px;
   border-radius: 16px;
 `
 export const ContentWrapper = styled.div`
 padding: 30px;
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
   width: 100%;
   height:100%;
   padding: 16px;
@@ -132,7 +132,7 @@ padding: 30px;
 export const Titles = styled.h5`
 font-size: 20px;
 color: #110035;
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
    font-size: 14px;
    width:132px;
    margin: 16px auto 0 auto  
@@ -148,7 +148,7 @@ export const UserAbout = styled.div``
 export const UserName = styled.h6`
 font-weight: 600;
 font-size: 14px;
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
   font-size: 12px;
 }
 `
@@ -182,7 +182,7 @@ margin: 16px 0px;
 `
 export const Loading = styled.p`
 display: block
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
   display: block;
   text-align: center;
   font-weight: 600;

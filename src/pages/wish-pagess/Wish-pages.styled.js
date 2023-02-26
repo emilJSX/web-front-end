@@ -32,7 +32,7 @@ export const Main_page_top = styled.div`
     height: auto;
     margin: 0 auto 0 auto;
     display: flex;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         display: flex;
         width:  343px;
         justify-content: end;
@@ -45,7 +45,7 @@ export const Left_div = styled.div`
     margin: 0;
     border-radius: 24px;
     float:left;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 100%;
 
     }
@@ -61,7 +61,7 @@ export const Left_image = styled.img`
     background: white;
     border-radius: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         float: left;
         margin-left: -18px;
     }
@@ -80,7 +80,7 @@ export const Left_buttons = styled.div`
     #plus {
         display: none;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             display: block;
             margin: 0;
             margin-left: 284px;
@@ -127,7 +127,7 @@ export const Left_buttons = styled.div`
     }
     
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 100%;
         margin: 830px 0 0  0; 
         .mail, .link{
@@ -153,7 +153,7 @@ export const Left_report = styled.button`
         font-size: 20px;
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         display: none;
     }
 `;
@@ -165,7 +165,7 @@ export const Right_div = styled.div`
     border-radius: 24px;
     margin-left: 24px;
     float: left;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 100%;
         float: left;
         margin: 359px 0 0 -360px;
@@ -177,7 +177,7 @@ export const Right_top_div = styled.div`
     height: 320px;
     background: white;
     border-radius: 24px;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 343px;
         margin: 0 auto;
         height: 454px;
@@ -197,7 +197,7 @@ export const Top_title = styled.div`
         color:#6033C0;
         float: right;
     }
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 295px;
         height: 74px;
         margin: 24px 24px 0 24px;
@@ -216,7 +216,7 @@ export const Top_title = styled.div`
         line-height: 140%;
         margin-left: 12px;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             font-weight: 500;
             font-size: 13px;
             line-height: 140%;
@@ -234,7 +234,7 @@ export const Top_title = styled.div`
         color: #8E93AF;
         float: right;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             font-style: normal;
             font-weight: 500;
             font-size: 13px;
@@ -250,7 +250,7 @@ export const Top_title = styled.div`
         font-size: 23px;
     }
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         .dots-menu {
             float: right;
             margin-top: -74px;
@@ -266,7 +266,7 @@ export const Photo = styled.img`
     margin-top: -4px;
     float: left;
     border-radius: 50%;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         float: left;
         width: 32px;
         height: 32px;
@@ -281,7 +281,7 @@ export const Photo = styled.img`
         float: left;
         border-radius: 50%;
 
-        @media (min-width: 375px) and (max-width: 450px){
+        @media (max-width: 450px){
             float: left;
             width: 32px;
             height: 32px;
@@ -296,7 +296,7 @@ export const Photos = styled.img`
     float: left;
     border-radius: 50%;
     margin: 12px;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         float: left;
     }
     `;
@@ -309,7 +309,7 @@ export const Birthday = styled.p`
     color: #0C0E19;
     float: left;
     margin-left: 12px;
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         float: left;
         width: 259px;
         height:42px;
@@ -331,7 +331,7 @@ export const Birthday = styled.p`
     font-size: 34px;
     color: #0C0E19;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 277px;
         height: 190px;
         margin: 16px 24px 0 24px;
@@ -361,7 +361,7 @@ export const Birthday = styled.p`
     font-size: 14px;
     color: #5D627D;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 295px;
         height: 110px;
         margin: 16px 24px 24px 24px;
@@ -386,7 +386,7 @@ export const Right_blue_div = styled.div`
     border-radius: 24px;
     margin-top: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         margin-top: 525px;
         height: 369px;
     }
@@ -400,7 +400,7 @@ export const RightBlueDivForThree = styled.div`
     border-radius: 24px;
     margin-top: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         margin-top: 525px;
         height: 270px;
     }
@@ -413,7 +413,7 @@ export const Right_BlueDivSecon = styled.div`
     border-radius: 24px;
     margin-top: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         margin-top: 525px;
         height: 565px;
     }
@@ -425,7 +425,7 @@ export const Blue_div = styled.div`
     background: #22006A;
     border-radius: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         display: table;
         height: 120px;
     }
@@ -464,7 +464,7 @@ export const Blue_top_div = styled.div`
     float: right;
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 295px;
         height:20px;
         margin: 20px 24px 0  24px;
@@ -492,7 +492,7 @@ export const Blue_loading_div = styled.div`
 
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 295px;
         margin: 16px 24px 0 24px;
         .colorpart{
@@ -526,7 +526,7 @@ export const Blue_loading_div = styled.div`
     float: right;
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 295px;
         margin: 16px 24px 0 24px;
     }
@@ -541,7 +541,7 @@ export const Vashed = styled.p`
     margin-top: -5px;
     float: left;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 80%;
         margin-left: 20px;
         margin-top: 5px;
@@ -562,7 +562,7 @@ export const Congratulate = styled.div`
     background: #E5E5E5;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 311px;
         height: 128px;
         margin: 9px 16px 0 16px;
@@ -581,7 +581,7 @@ export const Congratulate_button = styled.button`
     border-radius: 8px;
     background: #3800B0;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 100%;
         margin: 14px 0 0 0 ;
     }
@@ -596,7 +596,7 @@ export const Product = styled.button`
     .burgerclass:focus{
         border: 2px solid #3800B0;    }
     
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 100%;
     }
 `;
@@ -658,7 +658,7 @@ export const Hbd = styled.div`
     background: white;
     border-radius: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 343px;
         height: 220px;
     }
@@ -684,7 +684,7 @@ export const Hbd = styled.div`
     line-height: 140%;
     margin-left: 12px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         float: none;
         margin-left: 40px;
     }
@@ -697,7 +697,7 @@ export const Hbd = styled.div`
     line-height: 140%;
     color: #8E93AF;
     float: right;
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         float: none;
         margin-left: 40px;
     }
@@ -713,7 +713,7 @@ export const Hbd = styled.div`
         float: right;
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 311px;
         height: 33px;
         margin: 16px 16px 0 16px;
@@ -754,7 +754,7 @@ export const Hbd = styled.div`
         margin-left: 8px; 
     }
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         width: 287px;
         height: 48px;
         margin: 16px 16px 0 20px;
@@ -806,7 +806,7 @@ export const Hbd = styled.div`
          float: right;
          margin: 14px 14px;
 
-         @media (min-width: 375px) and (max-width: 450px) {
+         @media (max-width: 450px) {
             margin: -35px 14px;
         }
     }
@@ -833,13 +833,13 @@ export const Hbd = styled.div`
         
    }
 
-   @media (min-width: 375px) and (max-width: 450px){
+   @media (max-width: 450px){
     width: 311px;
     height: 83px;
     margin: 16px;
     border-radius: 12px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
 
     }
 
@@ -881,7 +881,7 @@ export const Hbd = styled.div`
         float: right;
         margin: 14px 14px;
 
-       @media (min-width: 375px) and (max-width: 450px) {
+       @media (max-width: 450px) {
            margin: -35px 14px;
        }
    }
@@ -907,7 +907,7 @@ export const Hbd = styled.div`
        color: #8E93AF;
        
   }
-  @media (min-width: 375px) and (max-width: 450px){
+  @media (max-width: 450px){
    width: 311px;
    height: 85px;
    margin-top: 5px !important;
@@ -935,7 +935,7 @@ export const Hbd = styled.div`
     background: white;
     border-radius: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
            
 
         .minago-you {
@@ -960,7 +960,7 @@ export const Hbd = styled.div`
     background: white;
     border-radius: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         height: 260px;
     }
 
@@ -974,7 +974,7 @@ export const Hbd = styled.div`
         background: white;
         border-radius: 24px;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             height: 200px;
         }
     `
@@ -1026,7 +1026,7 @@ export const Hbd = styled.div`
     line-height: 140%;
     margin-left: 12px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         float: none;
         margin-left: 60px;
     }
@@ -1040,7 +1040,7 @@ export const Hbd = styled.div`
     color: #8E93AF;
     float: right;
 
-        @media (min-width: 375px) and (max-width: 450px){
+        @media (max-width: 450px){
             margin-left: 60px;
             float: none;
         }
@@ -1065,7 +1065,7 @@ export const Hbd = styled.div`
         font-size: 20px;
         color: linear-gradient(206.3deg, #EEDEC7 12.6%, #C08B65 71.69%), linear-gradient(206.06deg, #BFCEE3 11.59%, #67768C 82.29%);
     }
-    @media (min-width: 375px) and (max-width: 450px){
+    @media (max-width: 450px){
         float: left;
         margin-left: 22px;
         width: 90%;
@@ -1077,7 +1077,7 @@ export const Hbd = styled.div`
         color: #3800B0;
         padding-top: 5px;
 
-        @media (min-width: 375px) and (max-width: 450px){
+        @media (max-width: 450px){
             display: none;  
         }
         
@@ -1091,7 +1091,7 @@ export const Hbd = styled.div`
         margin-top: 72px;
         border-radius: 0 0 48px 48px; 
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             display: none;
         }
     `

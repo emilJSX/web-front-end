@@ -160,7 +160,7 @@ export const Container = styled.div`
             font-family: system-ui;
             font-weight: 600;
 
-            @media (min-width: 375px) and (max-width: 480px) {
+            @media (max-width: 480px) {
                 width: 88%;
             }
         }

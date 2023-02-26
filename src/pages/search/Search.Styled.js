@@ -31,7 +31,7 @@ li .nav-link.active{
     font-size: 14px;
     color: #3800B0;
 }
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
     width: 100%;
 
     li .nav-link{
@@ -59,7 +59,7 @@ export const Title = styled.p`
     font-size: 56px;
     color: #0B0023;
     margin: 94px 0 0 10%;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width: 343px;
         margin: 0 auto 0 auto; 
         font-size: 40px;
@@ -76,7 +76,7 @@ export const Personal = styled.div`
     margin-right: 12px;
     margin-top: 63px;
     display: block; 
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width: 163px;
         height: 130px;
         margin: 0 auto;
@@ -92,7 +92,7 @@ export const Photo = styled.img`
     margin: 24px 63px 0 63px;
     display: block; 
     border-radius: 50%;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width: 56px;
         height: 56px;
         margin: 12px 53px 0 53px;
@@ -109,7 +109,7 @@ export const Name = styled.p`
     font-weight: 600;
     color: #0C0E19;
     font-size: 20px;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width:121px;
         font-size: 16px
     }
@@ -124,7 +124,7 @@ export const Tag = styled.p`
     font-weight: 500;
     color: #0C0E19;
     font-size: 14px;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width: 83px;
         font-size: 13px;
 
@@ -152,7 +152,7 @@ export const Searchdiv = styled.div`
     .filter{
         display:none;
     }
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
         width: 343px;
         margin: 34px auto 40px auto;
         .lupa{
@@ -183,7 +183,7 @@ export const Searchbar = styled.input`
     color: #0C0E19;
     padding-left:16px;
     font-family: sans-serif;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
     
         width:65%;
         float: left;
@@ -192,7 +192,7 @@ export const Searchbar = styled.input`
 
 export const Mainlonlysearch = styled.div`
     display: none;
-    @media (min-width: 375px) and (max-width: 420px){
+    @media (max-width: 420px){
 
         display: block
     }
@@ -200,7 +200,7 @@ export const Mainlonlysearch = styled.div`
 `
 
 export const Searchstartdiv = styled.div`
-@media (min-width: 375px) and (max-width: 420px){
+@media (max-width: 420px){
     width:343px;
     height: 208px;
     margin: 40px auto 230px auto;

@@ -293,7 +293,7 @@ export const NotWishes = styled.p`
     padding-top: 15px;
     color: #6033C0;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         width: 279px;
         height: 48px;
         float: right;
@@ -310,7 +310,7 @@ height: 56px;
 
 
 
-@media (min-width: 375px) and (max-width: 992px) {
+@media (max-width: 992px) {
     display: grid;
     width: 0px;
     height: 0px;
@@ -334,7 +334,7 @@ export const Buttonleft = styled.button`
     margin-top: 35px;
     margin-left: 34px;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         margin-top: 60px;
         margin-left: 33px;
     }
@@ -357,7 +357,7 @@ export const Glasses = styled.img`
     margin-top: 125px;
 
 
-    @media (min-width: 375px) and (max-width: 992px){ 
+    @media (max-width: 992px){ 
         width: 150px;
         height: 130px;
         margin-left: 38px;

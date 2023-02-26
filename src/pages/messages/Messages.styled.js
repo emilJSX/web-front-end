@@ -5,7 +5,7 @@ export const MessagesContainer = styled(Container)`
     background: #F7F8FA;
 
     .root-grid-for-mobile {
-        @media (min-width: 375px) and (max-width: 1200px) {
+        @media (max-width: 1200px) {
             display: none;
         }
     }
@@ -17,7 +17,7 @@ export const MessagesContainer = styled(Container)`
 
 export const MobileDivDisplay = styled.div`
     display: none;
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: block;
     }
 `
@@ -71,7 +71,7 @@ export const SearchInput = styled.input`
     color: #8E93AF;
     padding-left: 15px;
 
-    @media (min-width: 375px) and (max-width: 750px) {
+    @media (max-width: 750px) {
         width: 94%;
     }
 
@@ -294,7 +294,7 @@ export const MessageTopUsername = styled.p`
     font-size: 16px;
     font-weight: 600;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         padding-left: 10px;
     }
 
@@ -306,7 +306,7 @@ export const OnlineTxt = styled.p`
     font-size: 12px;
     font-weight: 400;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         color: #93989A;
         padding-left: 45px;
         margin-top: 23px;
@@ -439,7 +439,7 @@ export const DeleteImageContainer = styled.div`
 
 export const MessageUserInputContainer = styled.div`
     padding-top: 20px;
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         padding-bottom: 30px;
     }
     .gallery-icon {
@@ -506,7 +506,7 @@ export const RightSection = styled(Container)`
         float: right;
         margin: 4px 17px 0 -30px;
     
-        @media (min-width: 375px) and (max-width: 385px) {
+        @media (max-width: 385px) {
             margin: 4px 35px 0 -61px;
         }
     
@@ -532,7 +532,7 @@ export const RightSection = styled(Container)`
         width: 335px;
     }
 
-    @media (min-width: 375px) and (max-width:378px) {
+    @media (max-width:378px) {
         width: 346px;
         margin-left: -117px;
         margin-top: -76px;
@@ -1030,7 +1030,7 @@ export const CardLong = styled.div`
         }
     }
 
-    @media (min-width: 375px) and (max-width: 420px) {
+    @media (max-width: 420px) {
         width: 153%;
     }
 `;

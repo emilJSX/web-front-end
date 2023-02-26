@@ -37,7 +37,7 @@ export const Right_blue_bottom = styled.div`
     margin: 24px 48px 40px 48px;
     float: right;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 99.58%;
         height: 287px;
         border-radius: 24px;
@@ -53,7 +53,7 @@ export const Right_blue_bottom = styled.div`
         color: #6033C0;
         float: right;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
@@ -77,7 +77,7 @@ export const Paragraph = styled.p`
     color: #1A1C29;
     float: left;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 83.64%;
         font-family: 'Steppe';
         font-style: normal;
@@ -98,7 +98,7 @@ export const Photoone = styled.img`
     margin: 24px 24px 40px 0;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 35%;
         height: 133px;
         margin: 14px 29px 28px 23px;
@@ -115,7 +115,7 @@ export const Phototwo = styled.img`
     margin-top: 24px;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 47.9%;
         height: 132px;
         margin-top: -160px;
@@ -131,7 +131,7 @@ export const Blue_right_div = styled.div`
     float: left;
     margin: 48px 0 48px 48px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         margin: 26px -16px 49px 15px;
     }
 
@@ -169,7 +169,7 @@ export const Blue_right_div = styled.div`
         font-style: normal;
         font-weight: 600;
 
-        @media (min-width: 375px) and (max-width: 450px) {
+        @media (max-width: 450px) {
             width: 90%;
         }
     }
@@ -198,7 +198,7 @@ export const Time_div = styled.div`
     height: 45px;
     margin: 40px 22px 40px 48px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         margin: 2px 11px 40px 25px;
     }
 
@@ -219,7 +219,7 @@ export const Time_div_p = styled.p`
     color: #0C0E19;
     margin-right: 48px;
     display:inline-block;
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         padding-top: 25px;
     }
 
@@ -245,7 +245,7 @@ export const Time_div_p = styled.p`
     border-radius: 24px;
     margin-top: 24px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         margin-top: 525px;
         height: 435px;
     }
@@ -258,7 +258,7 @@ export const Time_div_p = styled.p`
     margin: 40px 48px 40px 48px;
     float: left;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         margin: 18px 48px 40px 48px;
     }
     `;
@@ -271,7 +271,7 @@ export const Time_div_p = styled.p`
     float: left;
     z-index: 0;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         width: 100%;
     }
 
@@ -346,7 +346,7 @@ export const Button_send = styled.button`
     line-height: 130%;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 450px) {
+    @media (max-width: 450px) {
         float: none;
         margin-left: -20px;
     }
