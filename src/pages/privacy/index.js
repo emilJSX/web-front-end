@@ -24,7 +24,7 @@ const Privacy = () => {
 
   useEffect(() => {
     myaxios
-      .get("https://api.wishx.me/api/v1/static_pages/terms/get")
+      .get("/api/v1/static_pages/terms/get")
       .then((res) => {
         setTerms({
           firstTitle: res.data?.data[0].title,

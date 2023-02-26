@@ -115,11 +115,11 @@ const WishList = () => {
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
       })
-      .then((res) => {
-        setAllWishData(res.data.data.results);
+      .then(({data}) => {
+        setAllWishData(data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
-        setHasNextPage(!res.data.data.last);
+        setHasNextPage(data.data.last);
       })
       .catch((err) => setError(err.message))
       .finally(() => {
@@ -131,8 +131,8 @@ const WishList = () => {
     setError("");
     myaxios
       .get("/api/v1/blog/categories/get")
-      .then((res) => {
-        setCategory(res.data);
+      .then(({data}) => {
+        setCategory(data);
       })
       .catch((err) => setError(err.message));
   }, []);

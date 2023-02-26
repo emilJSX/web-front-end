@@ -56,25 +56,7 @@ function Search() {
   }, []);
   // INFINITY SCROLL
   const { myUserId } = state;
-  // useEffect(() => {
-  //   const fetchProfileUser = async () => {
-  //     await myaxios
-  //       .get(`/api/v1/profiles/search`, {
-  //         params: { skip: getInfinityScroll },
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         setAllPeopleData(res.data.data);
-  //       })
-  //       .catch((err) => setError(err.message));
-  //   };
-  //   fetchProfileUser();
-  // }, []);
-
-  // const OnclickProfileInfinity = () => {
-  //   setInfinityScroll(getInfinityScroll + 10);
-  // };
-
+  
   // END INFINITY SCROLL
 
   function getWishIdForResult(slug) {

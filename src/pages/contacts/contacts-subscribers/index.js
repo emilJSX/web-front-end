@@ -54,8 +54,8 @@ const ContactsPage = () => {
     setErrorFollowing("");
     myaxiosprivate
       .get("/api/v1/follows/list?skip=0")
-      .then((res) => {
-        setFollowsData(res.data.data.list);
+      .then(({ data }) => {
+        setFollowsData(data.data.list);
       })
       .catch((err) => {
         setErrorFollowing(err.message);

@@ -144,20 +144,6 @@ const Created_Wish = () => {
     formData.append("date", moment(date).format("DD.MM.YYYY"));
     formData.append("access", access);
     formData.append("occasion", occasion);
-
-    console.log(
-      file[0],
-      title,
-      price,
-      description,
-      interests,
-      access,
-      occasion,
-      moment(date).format("DD.MM.YYYY"),
-      CreationValuteWish,
-      selectedFile
-    );
-
     try {
       await myaxiosprivate
         .post("/api/v1/wish/store", formData, {
@@ -165,14 +151,14 @@ const Created_Wish = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((result) => {
-          let getResultWishId = result?.data?.data?.id;
-          if (result.data.success == false) {
-            toast.info(result.data.message, {
+        .then(({data}) => {
+          let getResultWishId = data?.data?.id;
+          if (data.success == false) {
+            toast.info(data.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
           } else {
-            toast.success(result.data.message, {
+            toast.success(data.message, {
               position: toast.POSITION.TOP_RIGHT,
             });
             setTimeout(() => {

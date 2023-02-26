@@ -600,40 +600,6 @@ const ProfileEdit = () => {
       .catch((err) => {
         toast.error(err.message);
       });
-    // console.log(getCountryNameId, "getCountryNameId");
-    // const getCountryIdState = getCountryNameId?.id;
-    // event.preventDefault();
-    // const formUpdateData = new FormData();
-    // formUpdateData.append(
-    //   "file",
-    //   selectedFile == null ? getUserInfoProfile.avatar : selectedFile
-    // );
-    // formUpdateData.append("full_name", getUserInfoProfile.full_name);
-    // formUpdateData.append("country", getCountryIdState);
-    // formUpdateData.append("gender", getGenderId);
-    // formUpdateData.append("dob", moment(value).format("MM.DD.YYYY"));
-    // formUpdateData.append("username", getUserInfoProfile.slug);
-    // formUpdateData.append(
-    //   "interests",
-    //   getInterestsIdApi == null ? idInterestsApi : getInterestsIdApi
-    // );
-    // formUpdateData.append("about", getUserInfoProfile.about);
-    // try {
-    //   await myaxiosprivate
-    //     .post("/api/v1/profiles/update", { data: formUpdateData })
-    //     .then((res) => {
-    //       toast.success("Successfully updated ", {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //       });
-    //       setTimeout(() => {
-    //         window.location.reload();
-    //       }, 2000);
-    //     });
-    // } catch (error) {
-    //   toast.error("Please check your details", {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //   });
-    // }
   };
 
   // ============================================================================================================================

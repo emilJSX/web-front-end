@@ -118,6 +118,7 @@ export function Login_ConnectionSystem({ setShowes }) {
           setShowes(false);
           dispatch(setUserToken(token));
           navigate("/my-profile");
+          window.location.reload()
         })
         .catch((err) => {
           setError(err.message);

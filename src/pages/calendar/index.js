@@ -112,6 +112,8 @@ function Calendar() {
         setError(err.message);
       });
   };
+
+  console.log(getCalendarthisday);
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
 
@@ -152,7 +154,6 @@ function Calendar() {
                   <Calendar_item_into>
                     {e?.wishes_list?.map((data) => (
                       <Link to={`/profile/${data.user.username}`}>
-                        {console.log(data)}
                         <Person_item_second>
                           <Photo_cycle
                             src={`${

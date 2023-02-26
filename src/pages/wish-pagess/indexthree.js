@@ -189,42 +189,48 @@ function MyVerticallyCenteredModal(props) {
 function Wish_pages() {
   const { state } = useLocation();
   const navigate = useNavigate();
-
+  console.log(state)
   const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
   const [modalShow, setModalShow] = useState(false);
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getUserId, setUserId] = useState();
   const [getUserName, setUserName] = useState();
   const [getUserBirthday, setUserBirthday] = useState();
-
+  const [error, setError] = useState("");
   useEffect(() => {
+    setError("");
     myaxios
       .get("/api/v1/wish/slug/", {
         params: {
           slug: state,
         },
       })
-      .then((GetUserWish) => {
-        setGetUserData(GetUserWish?.data?.data);
-        console.log(GetUserWish);
+      .then(({ data }) => {
+        console.log(data);
+        setGetUserData(data?.data);
       })
       .catch((err) => {
-        console.log("");
+        setError(err.message);
       });
-
-    myaxiosprivate.get("/api/v1/user").then((datauser) => {
-      setUserName(datauser.data.data.info);
-      setUserId(datauser.data.data.user_id);
-      console.log(datauser.data.data.user_id, "USER ID");
-    });
-
-       myaxiosprivate.get("/api/v1/user/other", {
+    setError("");
+    myaxiosprivate
+      .get("/api/v1/user")
+      .then(({ data }) => {
+        setUserName(data.data.info);
+        setUserId(data.data.user_id);
+      })
+      .catch((err) => setError(err.message));
+    setError("");
+    myaxiosprivate
+      .get("/api/v1/user/other", {
         params: {
-            user_id: getUserId
+          user_id: getUserId,
         },
-    }).then((getDataDob) => {
-        setUserBirthday(getDataDob.data.data.info.dob)
-    })
+      })
+      .then(({ data }) => {
+        setUserBirthday(data.data.info.dob);
+      })
+      .catch((err) => setError(err.message));
   }, []);
 
   useEffect(() => {
@@ -235,11 +241,11 @@ function Wish_pages() {
             wish_id: state?.id,
           },
         })
-        .then((GetUserWish) => {
-          setGetUserData(GetUserWish?.data?.data);
+        .then(({ data }) => {
+          setGetUserData(data?.data);
         })
         .catch((err) => {
-          console.log("");
+          setError(err.message);
         });
     }
     GetUserWishData();
@@ -249,7 +255,7 @@ function Wish_pages() {
 
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
   //   END
 
   return (
@@ -283,7 +289,7 @@ function Wish_pages() {
           <Right_div>
             <Right_top_div>
               <Top_title>
-                {/* <Photo src={`https://api.wishx.me/${getUserName?.avatar}`} /> */}
+                {/* <Photo src={`${process.env.REACT_APP_API_URL}/${getUserName?.avatar}`} /> */}
                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
                 <Birthday>
                   <span style={{ fontWeight: "bold" }}>

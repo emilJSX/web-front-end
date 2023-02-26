@@ -58,7 +58,6 @@ const Editing_Wish = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  
   const navigate = useNavigate();
 
   const getProfileUrl = () => {
@@ -170,7 +169,7 @@ const Editing_Wish = () => {
     }
   }, [initialValues, setValue]);
 
-  const wishImg = `https://api.wishx.me${initialValues?.image}`;
+  const wishImg = `${process.env.REACT_APP_API_URL}${initialValues?.image}`;
   const updateWish = async ({
     description,
     date,
@@ -180,8 +179,6 @@ const Editing_Wish = () => {
     title,
   }) => {
     const formData = new FormData();
-    console.log(description, date, occasion, access, price, title);
-
     formData.append("wish_id", initialValues?.id);
     formData.append("file", selectedImg ? selectedImg : initialValues.image);
     formData.append("currency_id", initialValues.currency?.id);
@@ -198,6 +195,7 @@ const Editing_Wish = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((res) => {
+        //successfull message
         toast.success("Successfully updated ", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -208,7 +206,6 @@ const Editing_Wish = () => {
         })
       );
   };
-
 
   if (loading) {
     return (
@@ -332,7 +329,7 @@ const Editing_Wish = () => {
                 <FormControl>
                   <RadioGroup defaultValue={initialValues?.access || false}>
                     <FormControlLabel
-                      value={true} 
+                      value={true}
                       name="access"
                       control={<Radio />}
                       label="Available to everyone"

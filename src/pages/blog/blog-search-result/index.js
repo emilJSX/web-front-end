@@ -20,7 +20,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import glasses from "../../../style/icons/glasses.svg";
@@ -65,7 +65,7 @@ const BlogSearchResult = () => {
 
   useEffect(() => {
     myaxios
-      .get("https://api.wishx.me/api/v1/blog/articles/get", {
+      .get("/api/v1/blog/articles/get", {
         params: {
           skip: 0,
           category_id: state.GetUserCategoryId,
