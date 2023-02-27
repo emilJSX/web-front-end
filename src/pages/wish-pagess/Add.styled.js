@@ -126,8 +126,8 @@ export const Phototwo = styled.img`
 `;
 export const Blue_right_div = styled.div`
 
-    width: 66.6%;
-    height: 72px;
+    //width: 66.6%;
+    //height: 72px;
     float: left;
     margin: 48px 0 48px 48px;
 
@@ -176,10 +176,10 @@ export const Blue_right_div = styled.div`
 `;
 export const Blue_left_div = styled.p`
 
-    width: 26%;
-    height: 72px;
-    float: left;
-    margin: 38px 0 48px 0;
+    //width: 26%;
+    //height: 72px;
+    //float: left;
+    margin: 38px 32px 48px 0;
     padding-left: 25px;
     font-size: 69px;
     `;

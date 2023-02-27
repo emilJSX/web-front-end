@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Main_page = styled.div`
     height: auto;
-    background: #E5E5E5;
+    background: #EBE5F7;
     padding-top: 24px;
     display: flex;
     justify-content: center;
@@ -32,6 +32,13 @@ export const Main_page_top = styled.div`
     height: auto;
     margin: 0 auto 0 auto;
     display: flex;
+    
+    @media (max-width: ${({theme}) => theme.breakPoints.md}) {
+        width: 100%;
+        flex-direction: column;
+        margin: 0 24px;
+    }
+    
     @media (max-width: 450px){
         display: flex;
         width:  343px;
@@ -40,11 +47,13 @@ export const Main_page_top = styled.div`
 `;
 export const Left_div = styled.div`
 
-    width: 49%;
-    height: 760px;
+    //width: 49%;
+    //height: 760px;
+    height: max-content;
+    flex: 1 0;
     margin: 0;
     border-radius: 24px;
-    float:left;
+    //float:left;
     @media (max-width: 450px){
         width: 100%;
 
@@ -60,6 +69,7 @@ export const Left_image = styled.img`
     height: auto;
     background: white;
     border-radius: 24px;
+    max-width: 440px;
 
     @media (max-width: 450px){
         float: left;
@@ -68,14 +78,15 @@ export const Left_image = styled.img`
 `;
 export const Left_buttons = styled.div`
 
-    width: 664px;
-    // background: white;
+    //width: 664px;
+     background: white;
     margin-top: 15px;
     font-family: 'Steppe';
     font-weight: 600;
     font-size: 14px;
     color: #3800B0;
-    padding: 10px 0 ;
+    padding: 32px 40px;
+    border-radius: 24px;
 
     #plus {
         display: none;
@@ -160,27 +171,32 @@ export const Left_report = styled.button`
 
 export const Right_div = styled.div`
 
-    width: 49%;
+    //width: 49%;
     height: auto;
+    //flex-shrink: 0;
+    flex: 1 0;
     border-radius: 24px;
     margin-left: 24px;
-    float: left;
+    //float: left;
     @media (max-width: 450px){
         width: 100%;
-        float: left;
+        //float: left;
         margin: 359px 0 0 -360px;
     }
 `;
 export const Right_top_div = styled.div`
 
     width: 100%;
-    height: 320px;
-    background: white;
+    //height: 320px;
+    background: #22006A;
     border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    padding:4px;
     @media (max-width: 450px){
         width: 343px;
         margin: 0 auto;
-        height: 454px;
+        //height: 454px;
         float: left;
     }
     
@@ -189,12 +205,14 @@ export const Top_title = styled.div`
 
     width: 85.58%;
     height: 24px;
-    margin: 40px 48px 0 48px;
+    margin: 40px 32px 0 32px;
     float: left;
+    display: flex;
+    
     .notification{
         font-size: 24px;
         margin-right: 10px;
-        color:#6033C0;
+        color:#fff;
         float: right;
     }
     @media (max-width: 450px){
@@ -248,6 +266,9 @@ export const Top_title = styled.div`
     .dots-menu {
         float: right;
         font-size: 23px;
+        color: #fff;
+        margin-right: 8px;
+        margin-left: auto;
     }
 
     @media (max-width: 450px) {
@@ -306,7 +327,7 @@ export const Birthday = styled.p`
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
-    color: #0C0E19;
+    color: white;
     float: left;
     margin-left: 12px;
     @media (max-width: 450px){
@@ -322,14 +343,14 @@ export const Birthday = styled.p`
     `;
     export const Middle_title = styled.p`
 
-    width: 83%;
-    height: 50px;
-    margin: 24px 48px 0 48px;
+    //width: 83%;
+    //height: 50px;
+    margin: 24px 32px 0 32px;
     float: left;
     font-family: 'Steppe';
     font-weight: 600;
     font-size: 34px;
-    color: #0C0E19;
+    color: #fff;
 
     @media (max-width: 450px){
         width: 277px;
@@ -352,14 +373,14 @@ export const Birthday = styled.p`
 `;
     export const Last_title = styled.p`
 
-    width: 83%;
-    height: 66px;
-    margin: 16px 48px 0 50px;
+    //width: 83%;
+    //height: 66px;
+    margin: 16px 32px 48px 32px;
     float: left;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
-    color: #5D627D;
+    color: #EBE5F7;
 
     @media (max-width: 450px){
         width: 295px;
@@ -408,10 +429,10 @@ export const RightBlueDivForThree = styled.div`
 
 export const Right_BlueDivSecon = styled.div`
     width: 100%;
-    height: 555px;
+    //height: 555px;
     background: white;
     border-radius: 24px;
-    margin-top: 24px;
+    //margin-top: 24px;
 
     @media (max-width: 450px){
         margin-top: 525px;
@@ -421,9 +442,11 @@ export const Right_BlueDivSecon = styled.div`
 export const Blue_div = styled.div`
 
     width: 100%;
-    height: 172px;
-    background: #22006A;
+    //height: 172px;
+    background: #3800B0;
     border-radius: 24px;
+    display: flex;
+    align-items: center;
 
     @media (max-width: 450px){
         display: table;
@@ -784,7 +807,7 @@ export const Hbd = styled.div`
          color: #8E93AF;
          float: right;
          padding: 15px 15px 15px 0;
-         width: 15%;
+         //width: 15%;
 
          @media(max-width: 1380px){
             font-size: 12px;
@@ -1090,7 +1113,8 @@ export const Hbd = styled.div`
         background: white;
         margin-top: 72px;
         border-radius: 0 0 48px 48px; 
-
+        padding: 0 20px;
+        
         @media (max-width: 450px) {
             display: none;
         }

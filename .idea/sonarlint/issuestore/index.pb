@@ -27,8 +27,6 @@ M
 src/pages/my-profile/index.js,4\8\4888332648f4c5f2dc4adbec168f1fbf002bc5ac
 a
 1src/shared/LoginSignUpSystem/PhoneNumber/index.js,c\2\c2bd4049f888c115dcbd3665694b603117685f14
-X
-(src/pages/creating-success-wish/index.js,5\8\589761e0eedf613b9008e3f401ec3e0502ad3c49
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 K
@@ -47,3 +45,31 @@ R
 "src/pages/editing-wish/desktop.ini,8\b\8be71b2c4a94ff87d82da03166c8ca1496a6e4e7
 U
 %src/pages/editing-wish/Main.Styles.js,8\b\8bd02bae5c91a2edef3cd7e411bea95a24bdd1a3
+e
+5src/pages/contacts/contacts-subscribers/UsersCards.js,1\5\1585e9b6cec13a279ecdda828e716b439592c5d0
+j
+:src/pages/contacts/contacts-subscribers/UnsubscribeData.js,9\2\9280184b6c43c818e7d8dafcc29da0081830c262
+i
+9src/pages/contacts/contacts-subscribers/SuggestionData.js,f\3\f3500e93442dfa5f8c1a8225477596319e05aa9a
+`
+0src/pages/contacts/contacts-subscribers/index.js,2\f\2fa684aacb30467299e74c2d6b355425e320dffb
+R
+"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
+a
+1src/pages/my-profile-edit/MyProfileEdit.styles.js,4\3\43753aa3382d2c0fa44d8491d444092c52bdbc19
+H
+src/style/pages/home.css,0\1\01a3ce8fb8e7cbdfc17d00c661e961cd704fdaf7
+M
+src/shared/ui/Button/index.js,2\5\258c1f71a1983b6a5b2f876adc39c0801ad08c7e
+b
+2src/shared/components/HeaderLogin/Header.Styled.js,2\e\2e8fcfcf954be340b2b107aa836f6291f0da7ba2
+W
+'src/pages/my-profile/MyProfile.style.js,a\9\a91271383ba05c7d3ba897913ccfd3685ce0dc7b
+U
+%src/pages/calendar/Calendar.styled.js,f\f\ffe04a123ddc8acdb95bdd90b13d4739c80b4eb5
+Q
+!src/pages/rating/Rating.styled.js,2\c\2c32db41c86936a5020b316976e0bde4c621ce76
+I
+src/pages/rating/index.js,5\a\5a4510c9ff35571fcb2fb238ad6189c41ddaf641
+U
+%src/pages/search/SearchCard.styled.js,0\0\00d1b12d5f5b4906f3ceb41c0baabdf30cb3e47d

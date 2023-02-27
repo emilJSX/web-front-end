@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Birthday, Blue_div, Blue_top_div, Blue_loading_div, Last_title, Left_buttons, Left_div, Left_image, Left_report, Main_page, Main_page_top, Middle_title, Photo, Right_blue_div, Right_div, Right_top_div, Top_title, Blue_button_div, Vashed, Congratulate, Congratulate_button, Product, Product_part, Product_other, All_congrulation, Hbd, Hbd_title, Hbd_name, Hbd_footer, Photos, Hbday, Mcdonalds, Picture, Mcago, Freecofe, Bottom_div, Bottom_div_title, Bottom_div_show, Right_BlueDivSecon, PhotoMacDon } from "./Wish-pages.styled";
-import watch from "../../style/icons/handwatch.png"
+import watch from "../../assets/svg/handwatch.svg"
 import { BsFacebook, BsTwitter, BsTelegram, BsWhatsapp } from 'react-icons/bs';
 import { IoMailOutline, IoNotificationsOutline, IoWarningOutline } from 'react-icons/io5';
 import { RiLinksFill } from 'react-icons/ri';
@@ -40,6 +40,8 @@ import {
 import { Blue_left_div, Blue_right_div, Paragraph, Photoone, Phototwo, Right_blue_bottom } from './Add.styled';
 import Confetti from 'react-confetti'
 import { useEffect } from 'react'
+import StampIcon from "../../assets/svg/stamp.svg"
+import StarsIcon from "../../assets/svg/star.svg"
 
 function MyVerticallyCenteredModal(props) {
 
@@ -137,7 +139,10 @@ function Wish_pages() {
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <Left_image src={watch} />
+                        <div className="relative flex items-center justify-center py-[80px] bg-white rounded-[24px]">
+                          <img className="absolute top-3 right-3 max-w-[120px]" src={StampIcon} alt=""/>
+                          <Left_image src={watch} />
+                        </div>
                         <Left_buttons>Share
                             <BsFacebook className="facebook" />
                             <BsTwitter className="twitter" />
@@ -170,32 +175,33 @@ function Wish_pages() {
                                 The Milanese Loop is made from a smooth stainless steel mesh that’s fully magnetic,
                                 so it’s infinitely adjustable for a perfect fit.
                             </Last_title>
-                        </Right_top_div>
-                        <Right_BlueDivSecon>
+                          <Right_BlueDivSecon>
                             <Blue_div>
-                                <Blue_right_div>
-                                        <p className="praise">$2 542 total raised</p>
-                                        <p className="hundred">120%</p>
-                                        <p className="bradley">Bradley Cooper reached his goal (10000$) <br/>and now he can get the gift he dreamed of.</p>
-                                </Blue_right_div>
-                                <Blue_left_div>✨</Blue_left_div>
+                              <Blue_right_div>
+                                <p className="praise">$2 542 total raised</p>
+                                <p className="hundred">120%</p>
+                                <p className="bradley">Bradley Cooper reached his goal (10000$) <br/>and now he can get the gift he dreamed of.</p>
+                              </Blue_right_div>
+                              <Blue_left_div>
+                                <img src={StarsIcon} alt=""/>
+                              </Blue_left_div>
                             </Blue_div>
 
                             <Top_title>
-                                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
-                                <p className="title">Bradley Cooper <span className="give">thanks congratulators</span></p>
-                                <p className="minago">2 min ago •••</p>
+                              <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
+                              <p className="title">Bradley Cooper <span className="give">thanks congratulators</span></p>
+                              <p className="minago">2 min ago •••</p>
                             </Top_title>
 
                             <Right_blue_bottom>
-                                <Paragraph>Thank you all, friends! I was glad to receive so many congratulations andI bought a watch! I'm very pleased!</Paragraph>
-                                <span className="twofive">1121 <BiLike className="like"/></span>
-                                <Photoone src="https://s3-alpha-sig.figma.com/img/6c6d/e5a7/d6c0c479a07e256ce7a547a40badb57a?Expires=1664755200&Signature=NIl8t2-OOLnrs6H8Oy5itCDZav0BEbWsQuQvONgHe0uubQKUY1BjjHLbLlViukAbYlCFhD-YzXoVDELq~-~HL6Pvv6F1-LWhDVktVNa-1TFm4l0MVAc4Twdk2wJJpkA7~aYJoPEa3JodFut-cUE2OXLlPg0nFyEqSmo7wcsiCIcFf8ku~p-kR4ifr~OcR3xuTTHGkwfGkvMXSELIGW4ey5eesAJGO46SZslL-iOWF3aZsYUBiqEaLR6J1LcyZBYQ3yRuoGeyMcL9Uj74NYrjkqrcJHBkpMSrgEx1-gOHRvByvIjr6iQoZbYkGx1tZn0lUgxXDjq92We1SHDI4sAWEg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
-                                <Phototwo src="https://s3-alpha-sig.figma.com/img/abd6/930c/b15d33b40ff19e01bdbf022798514ec4?Expires=1664755200&Signature=VtoSyx5FzkeqmfCNSQWcgHREkGlKjd155rjY2oZJ4YlNRRgqk08AUbNxwkC-OhEIYnQC9Sk2YHH6dtweaVrif3W4MKHhPoYAZ1t2OPjpAyqJ~r5w-Ny871vo-T-54mh~v9rfH-wkvl~BS91ma8N1NIEJs2RLozaZumj0SIIedz7rJ7cX-2WNs-S-5QuEebDUddppGx6laHZt1Nz2aVSACd3Pde2cPfiXY-WFl27wwo8MkNK2FtgId1yuWAOord~sQKJkobC30WhXoadkvkY-YpoSmETdEY0axC58BzTKxUx6MaYe8fbta8xb9GHmBRFyTJLTRQo-gyEWU4PyNVwGXQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
+                              <Paragraph>Thank you all, friends! I was glad to receive so many congratulations andI bought a watch! I'm very pleased!</Paragraph>
+                              <span className="twofive">1121 <BiLike className="like"/></span>
+                              <Photoone src="https://s3-alpha-sig.figma.com/img/6c6d/e5a7/d6c0c479a07e256ce7a547a40badb57a?Expires=1664755200&Signature=NIl8t2-OOLnrs6H8Oy5itCDZav0BEbWsQuQvONgHe0uubQKUY1BjjHLbLlViukAbYlCFhD-YzXoVDELq~-~HL6Pvv6F1-LWhDVktVNa-1TFm4l0MVAc4Twdk2wJJpkA7~aYJoPEa3JodFut-cUE2OXLlPg0nFyEqSmo7wcsiCIcFf8ku~p-kR4ifr~OcR3xuTTHGkwfGkvMXSELIGW4ey5eesAJGO46SZslL-iOWF3aZsYUBiqEaLR6J1LcyZBYQ3yRuoGeyMcL9Uj74NYrjkqrcJHBkpMSrgEx1-gOHRvByvIjr6iQoZbYkGx1tZn0lUgxXDjq92We1SHDI4sAWEg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
+                              <Phototwo src="https://s3-alpha-sig.figma.com/img/abd6/930c/b15d33b40ff19e01bdbf022798514ec4?Expires=1664755200&Signature=VtoSyx5FzkeqmfCNSQWcgHREkGlKjd155rjY2oZJ4YlNRRgqk08AUbNxwkC-OhEIYnQC9Sk2YHH6dtweaVrif3W4MKHhPoYAZ1t2OPjpAyqJ~r5w-Ny871vo-T-54mh~v9rfH-wkvl~BS91ma8N1NIEJs2RLozaZumj0SIIedz7rJ7cX-2WNs-S-5QuEebDUddppGx6laHZt1Nz2aVSACd3Pde2cPfiXY-WFl27wwo8MkNK2FtgId1yuWAOord~sQKJkobC30WhXoadkvkY-YpoSmETdEY0axC58BzTKxUx6MaYe8fbta8xb9GHmBRFyTJLTRQo-gyEWU4PyNVwGXQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
                             </Right_blue_bottom>
-                   
-                        </Right_BlueDivSecon>
 
+                          </Right_BlueDivSecon>
+                        </Right_top_div>
                         <All_congrulation>
                             All congratulations <span className="eight">8</span>
                             <HiOutlineFilter className="filterclass" />
