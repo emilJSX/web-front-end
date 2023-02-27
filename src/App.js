@@ -45,30 +45,30 @@ const App = () => {
       <GlobalStyle />
       <AppProvider>
         <Routes>
-        <Route path="/payment" element={<Payment />} /> 
-        <Route path="/calendar" element={<Calendar />} /> {/* + */}
-        <Route path="/rating" element={<Rating />} />
-        <Route path="/wish-edit" element={<Editing_Wish />} />  {/* + */}
-        <Route path="/creating-wish" element={<Created_Wish />} /> {/* + */}
-        <Route path="/creating-wish-success" element={<Created_Success_Wish />} /> {/* + */} 
-        <Route path="/other-user-wish-complete" element={<Wish_pages_second/>} />
-        <Route path='/my-wish-complete' element={<Wish_pages_four/>}/>
-        <Route path='/my-wish' element={<Wish_pages_three/>}/>
-        <Route path="/wish/:slug" element={<Wish_pages />} />
-        <Route path="/wish-list" element={<WishList/>} /> {/* + */}
-        <Route path='/profile-edit' element={<ProfileEdit />} /> {/* + */}
-        <Route path="/only-search" element={<Onlysearch/>} /> 
-        <Route path="/contacts-profile" element={<ContactsPage />} /> {/* + */}
-        <Route path="/search" element={<Search/>} /> {/* + */}
-        <Route path="/profile/:slug" element={<OtherUserProfile/>} />
-        <Route path="/set-new-password" element={<Finally/>} />
-        <Route path="/my-profile" element={<MyProfile/>} /> {/* + */}
-          <Route path="/settings" element={<SettingsPage/>} />
-          <Route path="/blog-post" element={<BlogPost/>} /> 
-          <Route path="/blog-search-result-notfound" element={<BlogSRNotFound />} />
-          <Route path="/blog-search-result" element={<BlogSearchResult/>} />
-          <Route path="/blog-category" element={<BlogCategory/>} /> {/* - */}
-          <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
+        <Route path="/payment" element={<Payment />} /> {/* ui - */}
+        <Route path="/calendar" element={<Calendar />} /> {/* ui + */}
+        <Route path="/rating" element={<Rating />} /> {/* ui + */}
+        <Route path="/wish-edit" element={<Editing_Wish />} /> {/* ui + */}
+        <Route path="/creating-wish" element={<Created_Wish />} /> {/* ui + */}
+        <Route path="/creating-wish-success" element={<Created_Success_Wish />} /> {/* ui + */}
+        <Route path="/other-user-wish-complete" element={<Wish_pages_second/>} /> {/* ui + */}
+        <Route path='/my-wish-complete' element={<Wish_pages_four/>}/> {/* ui + */}
+        <Route path='/my-wish' element={<Wish_pages_three/>}/> {/* ui + */}
+        <Route path="/wish/:slug" element={<Wish_pages />} /> {/* ui + */}
+        <Route path="/wish-list" element={<WishList/>} /> {/* ui + */}
+        <Route path='/profile-edit' element={<ProfileEdit />} /> {/* ui + */}
+        <Route path="/only-search" element={<Onlysearch/>} /> {/* ui - */}
+        <Route path="/contacts-profile" element={<ContactsPage />} /> {/* ui + */}
+        <Route path="/search" element={<Search/>} />{/* ui - */}
+        <Route path="/profile/:slug" element={<OtherUserProfile/>} /> {/* ui + */}
+        <Route path="/set-new-password" element={<Finally/>} /> {/* ui - */}
+        <Route path="/my-profile" element={<MyProfile/>} />  {/* ui + */}
+          <Route path="/settings" element={<SettingsPage/>} /> {/* ui + */}
+          <Route path="/blog-post" element={<BlogPost/>} /> {/* ui - */}
+          <Route path="/blog-search-result-notfound" element={<BlogSRNotFound />} /> {/* ui - */}
+          <Route path="/blog-search-result" element={<BlogSearchResult/>} /> {/* ui - */}
+          <Route path="/blog-category" element={<BlogCategory/>} /> {/* ui - */}
+          <Route path="/main-blog" element={<MainBlog />} /> {/* ui - */}
           <Route path="/privacy" element={<Privacy />} /> {/* + */}
           <Route path="/404" element={<ErrorPage />} /> {/* + */}
           <Route path="/faq" element={<FaqPage />} /> {/* + */}

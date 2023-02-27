@@ -225,7 +225,7 @@ function Search() {
         {
           getAllPeopleData?.results?.map((index) =>(
             <Personal>
-              <Photo src={`https://api.wishx.me${index?.image}`}/>
+              <Photo src={`https://api.wishx.me/${index?.image}`}/>
               <Name id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>{index?.name}</Name>
               <Tag id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>@{index?.username}</Tag>
             </Personal>

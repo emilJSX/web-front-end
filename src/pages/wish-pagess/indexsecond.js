@@ -67,7 +67,7 @@ function MyVerticallyCenteredModal(props) {
         <Modal.Body style={{paddingTop: '20px', paddingBottom: '30px', paddingLeft: '40px'}}>
           <div className='delete-causes-items-container'>
             <p style={{
-                paddingBottom: '5px', 
+                paddingBottom: '5px',
                 fontFamily: 'Inter',
                 fontStyle: 'normal',
                 fontWeight: '400',
@@ -112,17 +112,17 @@ function Wish_pages() {
         winWidth: window.innerWidth,
         winHeight: window.innerHeight,
       })
-    
+
       const detectSize = () => {
         detectHW({
           winWidth: window.innerWidth,
           winHeight: window.innerHeight,
         })
       }
-    
+
       useEffect(() => {
         window.addEventListener('resize', detectSize)
-    
+
         return () => {
           window.removeEventListener('resize', detectSize)
         }
@@ -139,7 +139,7 @@ function Wish_pages() {
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <div className="relative flex items-center justify-center py-[80px] bg-white rounded-[24px]">
+                        <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
                           <img className="absolute top-3 right-3 max-w-[120px]" src={StampIcon} alt=""/>
                           <Left_image src={watch} />
                         </div>
@@ -195,10 +195,12 @@ function Wish_pages() {
 
                             <Right_blue_bottom>
                               <Paragraph>Thank you all, friends! I was glad to receive so many congratulations andI bought a watch! I'm very pleased!</Paragraph>
-                              <span className="twofive">1121 <BiLike className="like"/></span>
-                              <Photoone src="https://s3-alpha-sig.figma.com/img/6c6d/e5a7/d6c0c479a07e256ce7a547a40badb57a?Expires=1664755200&Signature=NIl8t2-OOLnrs6H8Oy5itCDZav0BEbWsQuQvONgHe0uubQKUY1BjjHLbLlViukAbYlCFhD-YzXoVDELq~-~HL6Pvv6F1-LWhDVktVNa-1TFm4l0MVAc4Twdk2wJJpkA7~aYJoPEa3JodFut-cUE2OXLlPg0nFyEqSmo7wcsiCIcFf8ku~p-kR4ifr~OcR3xuTTHGkwfGkvMXSELIGW4ey5eesAJGO46SZslL-iOWF3aZsYUBiqEaLR6J1LcyZBYQ3yRuoGeyMcL9Uj74NYrjkqrcJHBkpMSrgEx1-gOHRvByvIjr6iQoZbYkGx1tZn0lUgxXDjq92We1SHDI4sAWEg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
-                              <Phototwo src="https://s3-alpha-sig.figma.com/img/abd6/930c/b15d33b40ff19e01bdbf022798514ec4?Expires=1664755200&Signature=VtoSyx5FzkeqmfCNSQWcgHREkGlKjd155rjY2oZJ4YlNRRgqk08AUbNxwkC-OhEIYnQC9Sk2YHH6dtweaVrif3W4MKHhPoYAZ1t2OPjpAyqJ~r5w-Ny871vo-T-54mh~v9rfH-wkvl~BS91ma8N1NIEJs2RLozaZumj0SIIedz7rJ7cX-2WNs-S-5QuEebDUddppGx6laHZt1Nz2aVSACd3Pde2cPfiXY-WFl27wwo8MkNK2FtgId1yuWAOord~sQKJkobC30WhXoadkvkY-YpoSmETdEY0axC58BzTKxUx6MaYe8fbta8xb9GHmBRFyTJLTRQo-gyEWU4PyNVwGXQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
-                            </Right_blue_bottom>
+                              <span className="twofive"><span>1121</span> <BiLike className="like"/></span>
+                              <div className="flex items-center w-full mx-3 pt-6 mb-2">
+                                <Photoone src="https://images.unsplash.com/photo-1677495577887-e3dc724ead78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"/>
+                                <Phototwo src="https://images.unsplash.com/photo-1677495578193-d23e2056c246?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80"/>
+                              </div>
+                           </Right_blue_bottom>
 
                           </Right_BlueDivSecon>
                         </Right_top_div>
@@ -333,7 +335,7 @@ function Wish_pages() {
                         Breadley Cooper’s other wishes
                     </Bottom_div_title>
                     <GridBody>
-                        <Grid className="griddivwish">
+                        <Grid className="griddivwish flex-nowrap overflow-x-auto">
                             {Carddata.datab.map(({ url, title, username, userdesc, userphoto, leftprice, rightprice }) => (
                                 // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
                                 <Wrapper className="cart-item" onMouseOver={(e) => {

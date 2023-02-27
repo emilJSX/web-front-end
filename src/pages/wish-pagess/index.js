@@ -110,7 +110,9 @@ function Wish_pages() {
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <Left_image src={UserGetCreationImgWish} />
+                        <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
+                          <Left_image src={UserGetCreationImgWish} />
+                        </div>
                         <Left_buttons>Share
                             <BsFacebook className="facebook" />
                             <BsTwitter className="twitter" />
@@ -141,40 +143,42 @@ function Wish_pages() {
                             <Last_title>
                                 {GetUserWishDataResult?.description}
                             </Last_title>
-                        </Right_top_div>
-                        <Right_blue_div>
-                            <Blue_div>
-                                <Blue_top_div>
-                                <p className="raised">${GetUserWishDataResult?.donate?.received}</p>
-                            <p className="percant">33%</p>
-                            <p className="left8">${GetUserWishDataResult?.donate?.left} left</p>
-                                </Blue_top_div>
-                                <Blue_loading_div>
-                                    <div className="colorpart"></div>
-                                </Blue_loading_div>
-                                <Blue_button_div>
-                                <p className="percant">Target: ${GetUserWishDataResult?.donate?.target}</p>
-                                <p className="left8">Final: {GetUserWishDataResult?.date}</p>
-                                </Blue_button_div>
-                            </Blue_div>
+                          <Right_blue_div>
+                            <div className="rounded-[20px] p-10 bg-[#EBE5F7]">
+                              <div className="flex items-center justify-between">
+                                <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Target: ${GetUserWishDataResult?.donate?.target}</p>
+                                <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Final: ${GetUserWishDataResult?.date}</p>
+                              </div>
+                              <div className="w-full rounded-[56px] h-[4px] bg-[#BFACE9] my-6">
+                                <div className="w-[25%] h-full rounded-[56px] bg-[#2D008D]"></div>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center">
+                                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">Target: ${GetUserWishDataResult?.donate?.received} raised</p>
+                                  <p className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">25%</p>
+                                </div>
+                                <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">${GetUserWishDataResult?.donate?.left} left</p>
+                              </div>
+                            </div>
                             <Top_title>
-                                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                                <Vashed>Ваше поздравление</Vashed>
+                              <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+                              <Vashed>Ваше поздравление</Vashed>
                             </Top_title>
                             <Congratulate>
-                                <Product>
-                                    <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
-                                    <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
-                                    <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
-                                    <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
-                                    <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
-                                    <Product_other>other</Product_other>
+                              <Product>
+                                <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
+                                <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
+                                <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
+                                <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
+                                <Product_part className="burgerclass"><span className="burger">🍔</span><br />$10</Product_part>
+                                <Product_other>other</Product_other>
 
-                                </Product>
-                                <Congratulate_button>Congratulate</Congratulate_button>
+                              </Product>
+                              <Congratulate_button>Congratulate</Congratulate_button>
                             </Congratulate>
 
-                        </Right_blue_div>
+                          </Right_blue_div>
+                        </Right_top_div>
                         <All_congrulation>
                             All congratulations <span className="eight">8</span>
                             <HiOutlineFilter className="filterclass" />

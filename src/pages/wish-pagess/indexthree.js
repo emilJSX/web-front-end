@@ -40,6 +40,7 @@ import {
 import { Right_three_div, Time_div, Time_div_p } from './Add.styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import StampIcon from "../../assets/svg/stamp.svg";
 
 function MyVerticallyCenteredModal(props) {
 
@@ -183,7 +184,9 @@ console.log(state)
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <Left_image src={UserGetCreationImgWish} />
+                        <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
+                          <Left_image src={UserGetCreationImgWish} />
+                        </div>
                         <Left_buttons>Share
                             <BsFacebook className="facebook" />
                             <BsTwitter className="twitter" />
@@ -208,46 +211,49 @@ console.log(state)
                                 <Birthday>
                                     <span style={{ fontWeight: "bold"}}>{getUserName?.full_name}</span> <span style={{ color: "#8E93AF" }}>for</span> birthday <span style={{ color: "#8E93AF" }}>on</span> 27.02.2022
                                 </Birthday>
-                                <IoNotificationsOutline className="notification" />
+                                <IoNotificationsOutline className="notification ml-auto" />
                             </Top_title>
                             <Middle_title>{GetUserWishDataResult?.title}</Middle_title>
                             <Last_title>
                                 {GetUserWishDataResult?.description}
                             </Last_title>
+                          <div className="rounded-[20px] p-10 bg-[#EBE5F7]">
+                            <div className="flex items-center justify-between">
+                              <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Target: ${GetUserWishDataResult?.donate?.target}</p>
+                              <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Final: ${GetUserWishDataResult?.date}</p>
+                            </div>
+                            <div className="w-full rounded-[56px] h-[4px] bg-[#BFACE9] my-6">
+                              <div className="w-[25%] h-full rounded-[56px] bg-[#2D008D]"></div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">Target: ${GetUserWishDataResult?.donate?.received} raised</p>
+                                <p className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">25%</p>
+                              </div>
+                              <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">${GetUserWishDataResult?.donate?.left} left</p>
+                            </div>
+                          </div>
+                          <RightBlueDivForThree>
+                          <Time_div>
+                            <Time_div_p>
+                              256 <br/><span className="bottomword">Views</span>
+                            </Time_div_p>
+                            <Time_div_p>
+                              8 <br/><span className="bottomword">Gifts</span>
+                            </Time_div_p>
+                            <Time_div_p>
+                              $12 <br/><span className="bottomword">Avg gift amount</span>
+                            </Time_div_p>
+                            <Time_div_p>
+                              3d<span className="dot">:</span>23h<span className="dot">:</span>14m<span className="dot">:</span>51s <br/><span className="bottomword">Funding ends</span>
+                            </Time_div_p>
+
+                          </Time_div>
+
+
+                        </RightBlueDivForThree>
                         </Right_top_div>
-                        <RightBlueDivForThree>
-                    <Blue_div>
-                        <Blue_top_div>
-                            <p className="raised">${GetUserWishDataResult?.donate?.received}</p>
-                            <p className="percant">33%</p>
-                            <p className="left8">${GetUserWishDataResult?.donate?.left} left</p>
-                        </Blue_top_div>
-                        <Blue_loading_div>
-                            <div className="colorpart"></div>
-                        </Blue_loading_div>
-                        <Blue_button_div>
-                            <p className="percant">Target: ${GetUserWishDataResult?.donate?.target}</p>
-                            <p className="left8">Final: {GetUserWishDataResult?.date}</p>
-                        </Blue_button_div>
-                    </Blue_div>
-                    <Time_div>
-                        <Time_div_p>
-                            256 <br/><span className="bottomword">Views</span>
-                        </Time_div_p>
-                        <Time_div_p>
-                            8 <br/><span className="bottomword">Gifts</span>
-                        </Time_div_p>
-                        <Time_div_p>
-                            $12 <br/><span className="bottomword">Avg gift amount</span>
-                        </Time_div_p>
-                        <Time_div_p>
-                            3d<span className="dot">:</span>23h<span className="dot">:</span>14m<span className="dot">:</span>51s <br/><span className="bottomword">Funding ends</span>
-                        </Time_div_p>
 
-                    </Time_div>
-
-                 
-                </RightBlueDivForThree>
                         <All_congrulation>
                             All congratulations <span className="eight">8</span>
                             <HiOutlineFilter className="filterclass" />

@@ -2,6 +2,7 @@ import { Container } from "@mantine/core";
 import styled from "styled-components";
 
 export const BodyRating = styled.div`
+  padding-bottom: 50px;
 `
 
 export const Topprovide = styled.p`

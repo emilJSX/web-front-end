@@ -67,9 +67,3 @@ W
 'src/pages/my-profile/MyProfile.style.js,a\9\a91271383ba05c7d3ba897913ccfd3685ce0dc7b
 U
 %src/pages/calendar/Calendar.styled.js,f\f\ffe04a123ddc8acdb95bdd90b13d4739c80b4eb5
-Q
-!src/pages/rating/Rating.styled.js,2\c\2c32db41c86936a5020b316976e0bde4c621ce76
-I
-src/pages/rating/index.js,5\a\5a4510c9ff35571fcb2fb238ad6189c41ddaf641
-U
-%src/pages/search/SearchCard.styled.js,0\0\00d1b12d5f5b4906f3ceb41c0baabdf30cb3e47d

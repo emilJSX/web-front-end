@@ -58,9 +58,10 @@ export const GridBody= styled.div`
    border: 1px solid #EBE5F7;
    border-radius: 24px;
 
-   width: 23%;
-   min-width: 230px;
-   margin: 5px auto;
+   //width: 23%;
+   min-width: 320px;
+   margin: 5px 12px;
+    flex: 1;
   .image-container{
 
     position: relative;
