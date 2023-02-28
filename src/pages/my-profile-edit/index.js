@@ -166,44 +166,44 @@ const SetSaveAndCancelButtonsClick = () => {
   }
 };
 
-const OnClickSaveOrCancelButton = (clicked) => {
-  clicked.preventDefault();
-  let saveAndCancelid = clicked.getAttribute("id");
+// const OnClickSaveOrCancelButton = (clicked) => {
+//   clicked.preventDefault();
+//   let saveAndCancelid = clicked.getAttribute("id");
 
-  switch (saveAndCancelid) {
-    case "save_button":
-      document
-        .querySelector("#save_button")
-        .setAttribute(
-          "style",
-          "background: #3801B0; border-radius: 8px; color: #FFFFFF;"
-        );
-      document
-        .querySelector("#cancel_button")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
-        );
-      break;
-    case "cancel_button":
-      document
-        .querySelector("#save_button")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
-        );
-      document
-        .querySelector("#cancel_button")
-        .setAttribute(
-          "style",
-          "background: #3800B0; border-radius: 8px; color: #FFFFFF;"
-        );
-      break;
-  }
-};
+//   switch (saveAndCancelid) {
+//     case "save_button":
+//       document
+//         .querySelector("#save_button")
+//         .setAttribute(
+//           "style",
+//           "background: #3801B0; border-radius: 8px; color: #FFFFFF;"
+//         );
+//       document
+//         .querySelector("#cancel_button")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
+//         );
+//       break;
+//     case "cancel_button":
+//       document
+//         .querySelector("#save_button")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
+//         );
+//       document
+//         .querySelector("#cancel_button")
+//         .setAttribute(
+//           "style",
+//           "background: #3800B0; border-radius: 8px; color: #FFFFFF;"
+//         );
+//       break;
+//   }
+// };
 
 function MyVerticallyCenteredModal(props) {
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   const [reason, setReason] = useState();
   const [reasons, setReasons] = useState([]);
   const [comment, setComment] = useState("");
@@ -224,7 +224,7 @@ function MyVerticallyCenteredModal(props) {
       .get("/api/v1/profiles/delete?", {
         params: {
           type: reason,
-          password,
+          // password,
           comment,
         },
       })
@@ -237,6 +237,10 @@ function MyVerticallyCenteredModal(props) {
       })
       .catch((err) => setError(err.message));
   };
+
+  if (error) {
+    return <div className="flex justify-center items-center h-96">{error}</div>;
+  }
   return (
     <Modal
       {...props}
@@ -250,7 +254,7 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h1 className="enter-password-title">
+        {/* <h1 className="enter-password-title">
           Enter password to allow deletion
         </h1>
         <Password
@@ -259,7 +263,7 @@ function MyVerticallyCenteredModal(props) {
           value={password}
           type={password ? "password" : "text"}
           onChange={(e) => setPassword(e.target.value)}
-        />
+        /> */}
         <div className="delete-causes-items-container">
           <p>Reason for deleting the account (optional)</p>
           <FormControl>
@@ -963,6 +967,7 @@ const ProfileEdit = () => {
                       </button>
                       <button
                         className="saveAndCancel cancel-button"
+                        type="button"
                         id="cancel_button"
                         onClick={() => setModalShow(true)}
                       >
