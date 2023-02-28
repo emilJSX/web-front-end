@@ -9,10 +9,11 @@ export const InputComponent = styled(Input)`
         color: ${({ theme }) => theme.colors.grey5};
         font-weight: 500;
         font-size: 14px;
-        padding: 16px;
+        padding: 8px 16px;
         border:1px solid ${({ theme }) => theme.colors.grey1};
         transition: border 0.4s linear;
         letter-spacing: 0.5px;
+        height: auto !important;
         
         :focus {
             border:1px solid  ${({ theme }) => theme.colors.primary3};

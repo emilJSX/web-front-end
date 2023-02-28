@@ -66,9 +66,9 @@ const App = () => {
           <Route path="/settings" element={<SettingsPage/>} /> {/* ui + */}
           <Route path="/blog-post" element={<BlogPost/>} /> {/* ui + */}
           <Route path="/blog-search-result-notfound" element={<BlogSRNotFound />} /> {/* ui - */}
-          <Route path="/blog-search-result" element={<BlogSearchResult/>} /> {/* ui - */}
+          <Route path="/blog-search-result" element={<BlogSearchResult/>} /> {/* ui + */}
           <Route path="/blog-category" element={<BlogCategory/>} /> {/* ui - */}
-          <Route path="/main-blog" element={<MainBlog />} /> {/* ui - */}
+          <Route path="/main-blog" element={<MainBlog />} /> {/* ui + */}
           <Route path="/privacy" element={<Privacy />} /> {/* + */}
           <Route path="/404" element={<ErrorPage />} /> {/* + */}
           <Route path="/faq" element={<FaqPage />} /> {/* + */}

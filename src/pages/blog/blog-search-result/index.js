@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
+import SearchIcon from '../../../style/icons/search-icon.svg'
 
 const BlogSearchResult = () => {
     // Get result search and category in Main Blog for use result blog
@@ -95,12 +96,12 @@ const BlogSearchResult = () => {
                     ]} />
                     <h2>Search results</h2>
                 </div>
-                
+
                 <Grid>
                     <Grid.Col span={12}>
                         <CustomInput className='inp-sect' onChange={(e)=>setUserSearch(e.target.value)} placeholder={state.GetUserSearch} />
-                        <FontAwesomeIcon icon={faSearch} onClick={getBlogSearch} style={{ transform: 'translate(-50px, 0px)', float: "right", 
-                        marginTop: "-28px", fontSize: "20px" }} />
+                        <img src={SearchIcon} onClick={getBlogSearch} style={{ transform: 'translate(-50px, 0px)', float: "right",
+                        marginTop: "-40px", fontSize: "20px", cursor: "pointer" }} />
                     </Grid.Col>
                 </Grid>
                 <div style={{ display: show404 ? "none" : 'block' }}>
@@ -151,8 +152,8 @@ const BlogSearchResult = () => {
                     </PaginationSection>
                 </div>
             </BlogMainSection>
-        
-            <BlogMainSectionError fluid style={{ display: !show404 ? "none" : 'block' }}>
+
+            <BlogMainSectionError fluid style={{ display: !show404 ? "none" : 'block', marginBottom: 64 }}>
                 <NotFoundSection>
                     <div className="notfound-section">
                         <h1>There is no result by this request</h1>
