@@ -152,3 +152,7 @@
 .card-blog .MuiCardActionArea-focusHighlight{
     display: none !important;
 }
+
+body {
+    position: relative;
+}

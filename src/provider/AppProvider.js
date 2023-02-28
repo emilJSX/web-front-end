@@ -5,11 +5,9 @@ import { store } from '../store/index.js'
 
 const AppProvider = ({ children }) => {
     return (
-        <Provider store={store}>
-            <Layout>
-                {children}
-            </Layout>
-        </Provider>
+      <Layout>
+          {children}
+      </Layout>
     )
 }
 

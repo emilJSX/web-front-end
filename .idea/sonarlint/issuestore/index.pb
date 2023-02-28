@@ -5,8 +5,6 @@
 ,src/pages/partners/partners-coupons/index.js,c\b\cbcf166d8f3a9959a74370ab5f5f6c45e3473c07
 S
 #src/pages/payment/Payment.styled.js,6\9\691991421e20bf22a60dca73c8d2497ea8176842
-B
-src/style/theme.js,9\1\91a63bb0933a40c5cece50c7658159f110a57d49
 \
 ,src/pages/partners/partners-page/CardData.js,2\3\239397f2a02e6b21565248949fec9d0e28ba11f5
 Y
@@ -27,8 +25,6 @@ a
 1src/shared/LoginSignUpSystem/PhoneNumber/index.js,c\2\c2bd4049f888c115dcbd3665694b603117685f14
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
-K
-src/provider/AppProvider.js,4\0\40817315c30da4059c26a04fdce1f3812f5ae15f
 Q
 !src/shared/LogIn-SingUp/Login.jsx,3\9\39a3149e9f6da92e5f67383ddd5212e2eb96d0a0
 b

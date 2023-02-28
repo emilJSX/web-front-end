@@ -9,7 +9,8 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { drawerControll, loginControll } from '../../../store/slices/counterSlice'
 import { useDrawer } from '../../../hooks/useDrawer'
-export const AsideComponent = ({ hidden }) => {
+export const AsideComponent = () => {
+    const {toggle} = useSelector(state=>state.counter);
     const [showes, setShowes] = useState(false)
     const [show, setShow] = useState(false)
     const [getUserLoginData, setUserLoginData] = useState()
@@ -30,7 +31,6 @@ export const AsideComponent = ({ hidden }) => {
             setUserLoginData(userData.data.data.info)
         })
     }, [])
-console.log({hidden})
     function LogoutApi() {
         useDrawer()
         axios.post("https://api.wishx.me/api/v1/logout", {}, {
@@ -49,7 +49,7 @@ console.log({hidden})
     }
 
     return (
-        <CustomAside hidden={hidden} >
+        <CustomAside hidden={!toggle} >
             {(GetUserToken?.length) ?
                 <div>
                     <div className="aside-container">
@@ -83,12 +83,12 @@ console.log({hidden})
                             {showes ? <Login_ConnectionSystem setShowes={setShowes} /> : (show ? "" : <p className='log-in' onClick={
                                 () => {
                                     let body = document.querySelector('body');
-                                    body.setAttribute('style', 'overflow-x: hidden');
+                                    body.setAttribute('style', 'overflow-x: !toggle');
                                     setShowes(!show)
                                 }
                             }> Log in </p>)}
                         </ul>
-                        <FishSVG className='mt-4'/>
+                        <FishSVG className='mt-4 shrink-0'/>
                     </div>
                 </div>
 
