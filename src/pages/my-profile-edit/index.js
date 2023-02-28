@@ -57,8 +57,10 @@ import {
   SaveButton,
 } from "./MyProfileEdit.styles";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
-import { myaxiosprivate } from "../../api/myaxios";
+import { myaxios, myaxiosprivate, updateToken } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
+import { logout } from "../../store/slices/authSlice";
+import { useDispatch } from "react-redux";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -201,7 +203,40 @@ const OnClickSaveOrCancelButton = (clicked) => {
 };
 
 function MyVerticallyCenteredModal(props) {
-  const [password, setPassword] = useState("password");
+  const [password, setPassword] = useState("");
+  const [reason, setReason] = useState();
+  const [reasons, setReasons] = useState([]);
+  const [comment, setComment] = useState("");
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/settings/reasons/get")
+      .then(({ data }) => {
+        setReasons(data.data);
+      })
+      .catch((err) => console.log(error));
+  }, []);
+  console.log(reasons);
+  const handleDelete = async () => {
+    props.onHide();
+    await myaxiosprivate
+      .get("/api/v1/profiles/delete?", {
+        params: {
+          type: reason,
+          password,
+          comment,
+        },
+      })
+      .then((res) => {
+        localStorage.clear();
+        dispatch(logout());
+        updateToken(null);
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => setError(err.message));
+  };
   return (
     <Modal
       {...props}
@@ -221,36 +256,26 @@ function MyVerticallyCenteredModal(props) {
         <Password
           className="info_input"
           placeholder="Password"
+          value={password}
           type={password ? "password" : "text"}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <div className="delete-causes-items-container">
           <p>Reason for deleting the account (optional)</p>
           <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
+              name="reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
             >
-              <FormControlLabel
-                value="Reason 1"
-                control={<Radio />}
-                label="Reason 1"
-              />
-              <FormControlLabel
-                value="Reason 2"
-                control={<Radio />}
-                label="Reason 2"
-              />
-              <FormControlLabel
-                value="Reason 3"
-                control={<Radio />}
-                label="Reason 3"
-              />
-              <FormControlLabel
-                value="Other Reson"
-                control={<Radio />}
-                label="Other Reson"
-              />
+              {reasons?.map((item) => (
+                <FormControlLabel
+                  value={item.id}
+                  control={<Radio />}
+                  label={item.name}
+                />
+              ))}
             </RadioGroup>
           </FormControl>
         </div>
@@ -259,11 +284,14 @@ function MyVerticallyCenteredModal(props) {
             type="text"
             className="info_input"
             placeholder="Describe your reason"
+            disabled={reason !== "Other"}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Delete account</Button>
+        <Button onClick={handleDelete}>Delete account</Button>
       </Modal.Footer>
     </Modal>
   );
@@ -556,9 +584,6 @@ const ProfileEdit = () => {
     about,
   }) => {
     // e.preventDefault();
-    console.log(full_name, country, email, number, slug, about);
-    const formData = new FormData();
-
     const uniqueArr = [
       ...new Set(
         typeof userInfo.interests[0] === "object"
@@ -566,6 +591,7 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
+    const formData = new FormData();
     formData.append("full_name", full_name);
     formData.append("email", email);
     formData.append("username", slug);
@@ -573,20 +599,12 @@ const ProfileEdit = () => {
     formData.append("about", about);
     formData.append(
       "dob",
-      userInfo.dob
-        ? moment(userInfo.dob).format("DD.MM.YYYY")
-        : moment(dateValue).format("DD.MM.YYYY")
+      moment(userInfo.dob || dateValue).format("DD.MM.YYYY")
     );
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append(
-      "country",
-      userInfo.country.id ? userInfo.country.id : country
-    );
-    formData.append(
-      "gender",
-      userInfo.gender.id ? userInfo.gender.id : userInfo.gender
-    );
+    formData.append("country", userInfo.country?.id ?? country);
+    formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
 
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
@@ -609,7 +627,6 @@ const ProfileEdit = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", selectPassport);
-    console.log(formData);
     try {
       await myaxiosprivate
         .post("/api/v1/profiles/verify", formData, {
