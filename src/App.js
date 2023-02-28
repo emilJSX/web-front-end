@@ -57,7 +57,7 @@ const App = () => {
         <Route path="/wish/:slug" element={<Wish_pages />} /> {/* ui + */}
         <Route path="/wish-list" element={<WishList/>} /> {/* ui + */}
         <Route path='/profile-edit' element={<ProfileEdit />} /> {/* ui + */}
-        <Route path="/only-search" element={<Onlysearch/>} /> {/* ui - */}
+        <Route path="/only-search" element={<Onlysearch/>} /> {/* ui + */}
         <Route path="/contacts-profile" element={<ContactsPage />} /> {/* ui + */}
         <Route path="/search" element={<Search/>} />{/* ui - */}
         <Route path="/profile/:slug" element={<OtherUserProfile/>} /> {/* ui + */}
