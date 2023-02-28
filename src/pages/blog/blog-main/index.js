@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../../style/icons/search-icon.svg'
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
+import moment from "moment";
 
 
 
@@ -142,11 +143,11 @@ const MainBlog = () => {
                                                     component="img"
                                                     image={`https://api.wishx.me${AllBlog?.thumb}`}
                                                     height="230px"
-                                                    style={{ borderRadius: "20px" }}
+                                                    style={{ borderRadius: "20px", height: "240px" }}
                                                 />
                                                 <CardContent className='card-blog' style={{ padding: "0", paddingTop: "20px" }}>
                                                     <Typography className='card-blog' gutterBottom variant="h5" component="div">
-                                                        <p className='date-category'>{AllBlog.date} - Travel</p>
+                                                        <p className='date-category'>{moment(AllBlog.date).format("MMMM DD")} - Travel</p>
                                                     </Typography>
                                                     <Typography className='card-blog' variant="body2" color="text.secondary">
                                                         <h1 className='title-card'>{AllBlog?.title}</h1>

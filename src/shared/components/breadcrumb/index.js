@@ -4,7 +4,7 @@ import WhiteChevronRight from "../../../assets/svg/arrow-right-white.svg";
 
 const CustomBreadcrumb = ({ links, color = "", margins = "" }) => {
   return (
-    <ul className={`flex items-center gap-2 opacity-40 ${margins ? margins : "md:mt-10 md:mb-8 mb-6 mt-6"}`}>
+    <ul className={`flex flex-wrap items-center gap-2 opacity-40 ${margins ? margins : "md:mt-10 md:mb-8 mb-6 mt-6"}`}>
       {links.map(({ title, to }, index) => (
         <li className="flex items-center gap-2" key={index}>
           {to ? (

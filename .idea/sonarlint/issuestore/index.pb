@@ -10,8 +10,6 @@ B
 \
 ,src/pages/partners/partners-page/CardData.js,2\3\239397f2a02e6b21565248949fec9d0e28ba11f5
 Y
-)src/shared/components/breadcrumb/index.js,4\0\406ccff37477faf110e7365821f782caf05994c9
-Y
 )src/pages/partners/partners-page/index.js,8\0\80b238841f1560e0442a6ed008dc47e91632db74
 g
 7src/pages/partners/partners-page/PartnersPage.styled.js,c\e\ced5e27bef85e3554cda75dc17dfcbaeaac214a9
