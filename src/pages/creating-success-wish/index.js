@@ -104,7 +104,7 @@ const Created_Success_Wish = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />;
+        <Loader size="xl" />
       </div>
     );
   }
