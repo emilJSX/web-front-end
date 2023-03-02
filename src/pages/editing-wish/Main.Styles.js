@@ -22,7 +22,8 @@ export const Container = styled.div`
    }
 
    .container-insider{
-      width: 70%;
+      //width: 70%;
+     flex: 1;
 
       @media(max-width: 768px){
          width: 100%;
@@ -30,13 +31,14 @@ export const Container = styled.div`
    }
 
    .container-insider-sm{
-      width: 40%;
+      width: 320px;
       display: flex;
       align-items: center;
 
       @media (min-width: 768px) and (max-width: 2000px) {
          margin-left: 45px;
          margin-top: 30px;
+        padding-right: 50px;
       }
 
       @media(max-width: 768px){
@@ -52,6 +54,7 @@ export const Container = styled.div`
             display: flex;
             flex-direction: column;
             align-items: center;
+           margin: 0 24px;
          }
 
          img{
@@ -146,6 +149,10 @@ export const Hedaer = styled.div`
        font-feature-settings: 'liga';
        margin: 0;
        margin-left: 5px;
+     
+     @media(max-width: 768px) {
+      padding-left: 24px;
+     }
    }
 
    .edit-wish-title{
@@ -158,6 +165,12 @@ export const Hedaer = styled.div`
      padding-left: 50px;
      color: #0B0023;
      margin: 0;
+
+     @media(max-width: 768px) {
+       font-size: 40px;
+       line-height: 1.1;
+       padding-left: 20px;
+     }
    }
 `
 
@@ -175,6 +188,10 @@ export const Section = styled.div`
       line-height: 120%;
       font-feature-settings: 'liga' off;
       color: #0B0023;
+     
+     @media(max-width: 768px) {
+       padding-left: 24px;
+     }
    }
 
    .multiselect-interest input {

@@ -9,7 +9,7 @@ margin: 20px 120px 0px 120px;
 }
 
 .tab-search-mobile {
-  @media (min-width: 375px) and (max-width: 992px) {
+  @media (max-width: 992px) {
     flex-direction: column-reverse;
   }
 }
@@ -27,7 +27,7 @@ margin: 20px 120px 0px 120px;
 
 
 .grid-blue-section {
-  @media (min-width: 375px) and (max-width: 992px){
+  @media (max-width: 992px){
     flex-direction: column-reverse;
   }
 }
@@ -84,7 +84,7 @@ export const TabsMainContainer = styled.div`
   border: 1px solid grey;
   border-radius: 10px;
 
-  @media (min-width: 375px) and (max-width: 1550px) {
+  @media (max-width: 1550px) {
     overflow-y: scroll;
   }
 

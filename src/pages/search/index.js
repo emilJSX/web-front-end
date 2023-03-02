@@ -250,27 +250,48 @@ function Search() {
                       <UserPhoto src={getWishData.user.image}></UserPhoto>
                     </UserWrapper>
 
-                    <PriceWrapper>
-                      <ProgressWrapper>
-                        <Progress
-                          size="sm"
-                          sections={[{ value: 50, color: "#3800B0" }]}
-                        />
-                      </ProgressWrapper>
-                      <Prices>
-                        <LeftPrice>
-                          ${getWishData.donate.received} raised
-                        </LeftPrice>
-                        <RightPrice>${getWishData.donate.left} left</RightPrice>
-                      </Prices>
-                    </PriceWrapper>
-                  </ContentWrapper>
-                </Wrapper>
-                // </Grid.Col>
-              ))}
-            </Grid>
-            {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
-          </GridBody>
+                      <UserWrapper>
+                        <UserAbout>
+                          <UserName >{getWishData.user.full_name}</UserName>
+                          <UserDesc>for birthday on {getWishData.occasion}</UserDesc>
+                        </UserAbout>
+                        <UserPhoto src={getWishData.user.image}></UserPhoto>
+                      </UserWrapper>
+
+                      <PriceWrapper>
+                        <ProgressWrapper>
+                          <Progress size="sm" sections={[{ value: 50, color: "#3800B0" }]} />
+                        </ProgressWrapper>
+                        <Prices>
+                          <LeftPrice>${getWishData.donate.received} raised</LeftPrice>
+                          <RightPrice>${getWishData.donate.left} left</RightPrice>
+                        </Prices>
+                      </PriceWrapper>
+                    </ContentWrapper>
+              </Wrapper>
+            // </Grid.Col>
+            ))}
+    </Grid>
+          {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
+        </GridBody>
+      </Tab>
+      <Tab eventKey="profile" title={(<p>Profile<span style={{marginLeft:"8px" ,color:"#160046", opacity:"0.56"}}>{getResultPeopleTotal}</span></p>) } className="tabtwo ">
+    <GridBody>
+      <Grid className="griddiv">
+        {
+          getAllPeopleData?.results?.map((index) =>(
+            <Personal>
+              <Photo src={`https://api.wishx.me/${index?.image}`}/>
+              <Name id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>{index?.name}</Name>
+              <Tag id={index.username} onClick={(e)=>getUserSlugForProfile(e.currentTarget.id)}>@{index?.username}</Tag>
+            </Personal>
+
+            //<HiBadgeCheck className="check"/>
+          ))
+        }
+      </Grid>
+      {/* <Loading onClick={OnclickProfileInfinity}>Get More Users</Loading> */}
+    </GridBody>
         </Tab>
         <Tab
           eventKey="profile"

@@ -69,7 +69,7 @@ const Created_Wish = () => {
   const wishCreationTitleHome = useLocation();
 
   // ================================ Get LocalStorage User Token ================================
-  const GetUserTokenCreationWish = localStorage.getItem("token");
+  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
 
   if (!GetUserTokenCreationWish) {
     navigate("/");
@@ -248,8 +248,8 @@ const Created_Wish = () => {
               <div className="promote-and-button">
                 <div className="brochure">
                   <picture>
-                    <source media="(min-width: 768px)" srcSet={Brochure} />
-                    <img src={BrochureMobile} alt="" />
+                    <source media="(min-width: 768px)" srcSet={Brochure}/>
+                    <img src={BrochureMobile} alt=""/>
                   </picture>
                 </div>
                 <div className="button">
@@ -416,36 +416,16 @@ const Created_Wish = () => {
                   dialog.click();
                 }}
               >
-                <Controller
-                  name="file"
-                  control={control}
-                  rules={{ required: "Photo is required" }}
-                  render={({ field }) => (
-                    <input
-                      type="file"
-                      required
-                      name="file"
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setSelectedFile(e.target.files[0]);
-                      }}
-                      className="file-uploader"
-                      style={{ display: "none" }}
-                    />
-                  )}
+                <input
+                  type="file"
+                  required
+                  onChange={handleFileSelect}
+                  className="file-uploader"
+                  style={{ display: "none" }}
                 />
-
                 {/* onChange={HandleGetImage} */}
                 {/*<FontAwesomeIcon icon={faArrowUpFromBracket} />*/}
-                <img
-                  className={`${
-                    previewImageURL
-                      ? "rounded max-w-[240px] md:max-w-[140px]"
-                      : ""
-                  }`}
-                  src={previewImageURL ? previewImageURL : Gallery}
-                  alt=""
-                />
+                <img className={`${previewImageURL ? "rounded max-w-[240px] md:max-w-[140px]" : ""}`} src={previewImageURL ? previewImageURL : Gallery} alt=""/>
                 <h5>Upload a photo of your wish</h5>
                 <p>PNG, JPG or Gif</p>
                 <p>Max 5MB</p>

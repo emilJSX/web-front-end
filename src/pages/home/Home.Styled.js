@@ -144,7 +144,7 @@ export const HomeTop = styled(Grid)`
           font-size: 51px;
         }
 
-        @media (min-width: 375px) and (max-width: 550px) {
+        @media (max-width: 550px) {
           font-size: 40px;
         }
       }
@@ -167,7 +167,7 @@ export const HomeTop = styled(Grid)`
     color: ${({ theme }) => theme.colors.primary5};
     padding-inline-end: 10%;
 
-    @media (min-width: 375px) and (max-width: 768px) {
+    @media (max-width: 768px) {
       text-align: center;
       font-weight: 500;
       font-size: 14px;
@@ -178,7 +178,7 @@ export const HomeTop = styled(Grid)`
     }
 
     p {
-      @media (min-width: 375px) and (max-width: 768px) {
+      @media (max-width: 768px) {
         width: 73px;
       }
     }

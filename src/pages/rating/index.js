@@ -3,7 +3,58 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faCopy,faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FaTelegram } from 'react-icons/fa';
-import { AffiliateDescriptionOne, AffiliateDescriptionTwo, AffiliateProgramContainer, AffiliateProgramTxt, BodyRating, BonusPoints, BrozeImageBlueSection, DescNumberOne, DescNumberThree, DescNumberTwo, DescriptionInviteOne, DescriptionInviteThree, DescriptionInviteTwo, DescriptionOne, DescriptionTwo, EarnText, HistoryAbout, HistoryAboutCount, HistorySection, HistoryText, RatingBadgedBlueImage, RatingBadgedBronzeImage, RatingBadgedGoldImage, RatingBadgedGoldUserCount, RatingBadgedGoldUserTxt, RatingBadgedSilverUserCount, RatingBadgedSilverUserTxt, RatingBadgedSimpleUserTxt, RatingBadgedSimpleUserTxtCount, RatingBadgedTrustedUserCount, RatingBadgedTrustedUserTxt, RatingBadgedUserImage, RatingBadges, RatingBlueSection, RatingContainer, RatingCount, RatingPoints, SharingContainer, SharingSocialIcons, SharingTxt, SilverImageTxt, TitleOne, TitleTwo, Topprovide, TopRatingTxt, YourCurrentRatingTxt } from "./Rating.styled";
+import TwitterSendIcon from "../../assets/svg/send-twitter.svg";
+import EnvelopeIcon from "../../assets/svg/envelope.svg";
+
+import {
+    AffiliateDescriptionOne,
+    AffiliateDescriptionTwo,
+    AffiliateProgramContainer,
+    AffiliateProgramTxt,
+    BodyRating,
+    BonusPoints,
+    BrozeImageBlueSection,
+    DescNumberOne,
+    DescNumberThree,
+    DescNumberTwo,
+    DescriptionInviteOne,
+    DescriptionInviteThree,
+    DescriptionInviteTwo,
+    DescriptionOne,
+    DescriptionTwo,
+    EarnText,
+    HistoryAbout,
+    HistoryAboutCount,
+    HistoryAboutText,
+    HistorySection,
+    HistoryText,
+    RatingBadgedBlueImage,
+    RatingBadgedBronzeImage,
+    RatingBadgedGoldImage,
+    RatingBadgedGoldUserCount,
+    RatingBadgedGoldUserTxt,
+    RatingBadgedSilverUserCount,
+    RatingBadgedSilverUserTxt,
+    RatingBadgedSimpleUserTxt,
+    RatingBadgedSimpleUserTxtCount,
+    RatingBadgedTrustedUserCount,
+    RatingBadgedTrustedUserTxt,
+    RatingBadgedUserImage,
+    RatingBadges,
+    RatingBlueSection,
+    RatingContainer,
+    RatingCount,
+    RatingPoints,
+    SharingContainer,
+    SharingSocialIcons,
+    SharingTxt,
+    SilverImageTxt,
+    TitleOne,
+    TitleTwo,
+    Topprovide,
+    TopRatingTxt,
+    YourCurrentRatingTxt
+} from "./Rating.styled";
 import userimg from '../../style/icons/profile-circle.svg'
 import blueimg from '../../style/icons/verify.svg'
 import brozeimg from '../../style/icons/verify-1.svg'
@@ -56,7 +107,7 @@ function Rating() {
                             <AffiliateProgramTxt>Affiliate program</AffiliateProgramTxt>
                             <AffiliateDescriptionOne>Dear users, now you can earn Rating Points with our affiliate program.</AffiliateDescriptionOne>
                             <AffiliateDescriptionTwo>Registration of new users is possible using referral link</AffiliateDescriptionTwo>
-                        
+
                             <div className='cash-set-container'>
                                 <div className='cash-set-container-insider'>
                                     <h5 className='link-label'>Copy link</h5>
@@ -82,8 +133,8 @@ function Rating() {
                                 <div className='text-area-insider'>
                                     <h5 className='invite-label'>Send link to email</h5>
                                     <input type='text' placeholder='Email' />
-                                    <FontAwesomeIcon icon={faEnvelope} className='envelope-icon' />
-                                    <FaTelegram className='telegram-icon' />
+                                    <img src={EnvelopeIcon} alt="" className='envelope-icon' />
+                                    <img src={TwitterSendIcon} alt="" className='telegram-icon' />
                                 </div>
                             </div>
                         </AffiliateProgramContainer>
@@ -101,15 +152,16 @@ function Rating() {
                         </RatingBlueSection>
                         <HistorySection>
                             <HistoryText>History</HistoryText>
-                            <HistoryAbout>Anar Mustafayev registered by your referral link <HistoryAboutCount>+ 5 RP</HistoryAboutCount></HistoryAbout>
+                            <HistoryAbout>
+                                <HistoryAboutText>Anar Mustafayev registered by your referral link</HistoryAboutText><HistoryAboutCount>+ 5 RP</HistoryAboutCount></HistoryAbout>
                             <hr className="line"/>
-                            <HistoryAbout>You paid $100 for Yusif Gurbanov’s birthday wish <HistoryAboutCount>+ 100 RP</HistoryAboutCount></HistoryAbout>
+                            <HistoryAbout><HistoryAboutText>You paid $100 for Yusif Gurbanov’s birthday wish</HistoryAboutText> <HistoryAboutCount>+ 100 RP</HistoryAboutCount></HistoryAbout>
                             <hr className="line"/>
-                            <HistoryAbout>You paid $10 for Turxan Mammedov’s birthday wish <HistoryAboutCount>+ 10 RP</HistoryAboutCount></HistoryAbout>
+                            <HistoryAbout><HistoryAboutText>You paid $10 for Turxan Mammedov’s birthday wish</HistoryAboutText> <HistoryAboutCount>+ 10 RP</HistoryAboutCount></HistoryAbout>
                             <hr className="line"/>
-                            <HistoryAbout>You paid $8 for Orxan Pirmemmedli’s birthday wish <HistoryAboutCount>+ 8 RP</HistoryAboutCount></HistoryAbout>
+                            <HistoryAbout><HistoryAboutText>You paid $8 for Orxan Pirmemmedli’s birthday wish</HistoryAboutText> <HistoryAboutCount>+ 8 RP</HistoryAboutCount></HistoryAbout>
                             <hr className="line"/>
-                            <HistoryAbout>You have registered by Urfan Jamalov referral link <HistoryAboutCount>+ 1 RP</HistoryAboutCount></HistoryAbout>
+                            <HistoryAbout><HistoryAboutText>You have registered by Urfan Jamalov referral link</HistoryAboutText> <HistoryAboutCount>+ 1 RP</HistoryAboutCount></HistoryAbout>
                             <hr className="line"/>
                         </HistorySection>
                     </Grid.Col>

@@ -2,6 +2,7 @@ import { Container } from "@mantine/core";
 import styled from "styled-components";
 
 export const BodyRating = styled.div`
+  padding-bottom: 50px;
 `
 
 export const Topprovide = styled.p`
@@ -18,12 +19,17 @@ export const TopRatingTxt = styled.h3`
     color: #0B0023;
     text-align: center;
     padding-bottom: 50px;
+  
+    @media (max-width: 768px){
+        font-size: 40px;
+      line-height: 1.1;
+    }
 `
 
 export const RatingContainer = styled(Container)`
     margin: 25px 117px 0px 117px;
 
-    @media (min-width: 375px) and (max-width: 768px){
+    @media (max-width: 768px){
         margin: 0px;
     }
 
@@ -32,13 +38,13 @@ export const RatingContainer = styled(Container)`
     }
 
     .grid-root {
-        @media (min-width: 375px) and (max-width: 768px){
+        @media (max-width: 768px){
             flex-direction: column-reverse;
         }
     }
 
     .col-root {
-        @media (min-width: 375px) and (max-width: 768px) {
+        @media (max-width: 768px) {
             margin: 0px 0px 0px 30px;
         }
     }
@@ -67,7 +73,7 @@ export const RatingContainer = styled(Container)`
         
 
             .cash-quantity-container input {
-                @media (min-width: 375px) and (max-width: 445px) {
+                @media (max-width: 445px) {
                     font-size: 10.5px !important;
                 }
 
@@ -111,7 +117,7 @@ export const RatingContainer = styled(Container)`
 
            .copy-button{
                position: absolute;
-               background: #F7F8FA;
+               //background: #F7F8FA;
                transform: translate(-70px, 0px);
                font-family: 'Steppe';
                font-style: normal;
@@ -227,9 +233,9 @@ export const RatingContainer = styled(Container)`
     padding-bottom: 70px;
     padding-right: 20px;
 
-    @media (min-width: 375px) and (max-width:768px) {
+    @media (max-width:768px) {
         width: 97%;
-        padding-bottom: 450px;
+        //padding-bottom: 450px;
     }
 
     @media (min-width: 768px) and (max-width: 1000px) {
@@ -288,7 +294,7 @@ export const RatingContainer = styled(Container)`
             position: absolute;
             transform: translate(20px, 12px);
             left: 0;
-            top: 24px;
+            top: 20px;
         }
 
         .telegram-icon{
@@ -299,7 +305,7 @@ export const RatingContainer = styled(Container)`
             right: 0;
             top:22px;
 
-            @media (min-width: 375px) and (max-width: 768px) {
+            @media (max-width: 768px) {
                 right: -30px;
             }
 
@@ -421,6 +427,10 @@ export const RatingBadgedSimpleUserTxtCount = styled.p`
     font-size: 16px;
     font-weight: 500;
     color: grey;
+  
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
 `
 
 export const RatingBadgedBlueImage = styled.img`
@@ -527,18 +537,20 @@ export const EarnText = styled.p`
 `
 
 export const HistorySection = styled.div`
-    @media (min-width: 375px) and (max-width: 467px) {
-        float: none;
-        position: absolute;
-        margin-top: 1160px;
+    @media (max-width: 467px) {
+        //float: none;
+        //position: absolute;
+        //margin-top: 1160px;
         margin-left: 30px;
+      margin-right: 20px;
     }
 
     @media(min-width: 467px) and (max-width:768px) {
-        margin-top: 1045px;
-        float: none;
-        position: absolute;
+        //margin-top: 1045px;
+        //float: none;
+        //position: absolute;
         margin-left: 30px;
+      margin-right: 20px;
     }
 
 `
@@ -554,8 +566,12 @@ export const HistoryAbout = styled.p`
     font-size: 14px;
     font-weight: 400;
     padding-top: 30px;
+    display: flex;
+    align-items: center;
+    
+   
 
-    @media (min-width: 375px) and (max-width: 400px) {
+    @media (max-width: 400px) {
         font-size: 11px;
     }
 
@@ -569,13 +585,18 @@ export const HistoryAbout = styled.p`
 
 `
 
+export const HistoryAboutText = styled.p`
+  flex: 1;
+`
+
+
 export const HistoryAboutCount = styled.p`
     font-weight: 600;
     font-size: 14px;
     color: #0C0E19;
     float:right;
 
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         font-size: 12px;
         margin-left: 7px;
     }
@@ -595,7 +616,7 @@ export const AffiliateProgramContainer = styled(Container)`
     padding-top: 170px;
     margin-left: -50px;
 
-    @media (min-width: 375px) and (max-width: 768px){
+    @media (max-width: 768px){
         margin-left: 0px;   
         padding-top: 50px;
     }

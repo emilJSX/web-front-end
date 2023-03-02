@@ -17,6 +17,11 @@ export const counterSlice = createSlice({
         },
         drawerControll:(state,action)=>{
             state.toggle = !state.toggle;
+            if (state.toggle) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         },
         increment: (state) => {
             // Redux Toolkit allows us to write "mutating" logic in reducers. It

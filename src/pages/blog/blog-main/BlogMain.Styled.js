@@ -128,7 +128,7 @@ export const BlogMainSection = styled(Container) `
 
               img{
                   @media screen and (min-width: ${({ theme })=> theme.breakPoints.sm}){
-                    height: 100% !important;
+                    //height: 100% !important;
                   } 
               }
            }
@@ -265,7 +265,8 @@ export const ButtonSection = styled(Grid) `
 
     .input-section {
        @media(min-width: 1000px){
-          width: 49%;
+          flex: 1;
+         padding-right: 0 !important;
        }
 
        @media(max-width: 1000px){
@@ -291,14 +292,18 @@ export const CardTopSection = styled(Container) `
     
 
     .mantine-Image-image {
-        height: 400px !important;
         border-radius: 17px;
+
+      @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}) {
+        max-height: 240px;
+      }       
     }
 
     .read-section h2 {
-        font-size: 45px;
+        font-size: 40px;
         color: white;
         font-weight: 600;
+        margin-bottom: 16px;
 
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             width: 197%;
@@ -312,6 +317,7 @@ export const CardTopSection = styled(Container) `
         padding-top: 10px;
         padding-bottom: 10px;
         width: 90%;
+        margin-bottom: 16px;
 
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             font-size: 15px;
@@ -332,7 +338,7 @@ export const CardTopSection = styled(Container) `
         text-decoration: none;
         color: white;
         font-weight: 600;
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .read-section {
@@ -341,6 +347,7 @@ export const CardTopSection = styled(Container) `
         
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             padding-left: 15px;
+          padding-bottom: 24px;
         }
     }
 `
@@ -352,14 +359,14 @@ export const BlogCard = styled(Container) `
 
     .date-category {
         color: grey;
-        font-size: 13px;
-        font-weight: 300;
+        font-size: 14px;
+        font-weight: 400;
     }
     
     .title-card {
         color: #0B0023;
-        font-weight: 500;
-        font-size: 30px;
+        font-weight: 600;
+        font-size: 24px;
     }
 
     .card-blog {
