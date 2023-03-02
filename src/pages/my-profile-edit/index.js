@@ -982,20 +982,20 @@ const ProfileEdit = () => {
             <TabPanel value="passwordlogin">
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
-                <PasswordSettingsInputs>
+                {/* <PasswordSettingsInputs> */}
                   <Password
                     className="info_input"
                     placeholder="Old Password"
                     type={password ? "password" : "text"}
                   />
-                </PasswordSettingsInputs>
-                <PasswordSettingsInputs>
+                {/* </PasswordSettingsInputs> */}
+                {/* <PasswordSettingsInputs> */}
                   <Password
                     className="info_input"
                     placeholder="New Password"
                     type={password ? "password" : "text"}
                   />
-                </PasswordSettingsInputs>
+                {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
                   <button className="password-save-button">Save</button>
                 </div>

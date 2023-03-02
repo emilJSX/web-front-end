@@ -87,7 +87,39 @@ export const Header = styled.div`
       }
             
    }
-`
+`;
+
+  // .main-page-title {
+  //   height: 80px;
+  //   width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   font-family: "Steppe";
+  //   font-style: normal;
+  //   font-weight: 600;
+  //   font-size: 56px;
+  //   line-height: 140%;
+  //   font-feature-settings: "liga" off;
+  //   color: #0b0023;
+  //   display: flex;
+  //   justify-content: start;
+
+  //   @media (min-width: 1200px) {
+  //     padding-left: 60px;
+  //   }
+
+  //   @media (max-width: 1200px) {
+  //     height: 70px;
+  //     font-size: 40px;
+  //     justify-content: center;
+  //   }
+
+  //   @media (max-width: 645px) {
+  //     padding-left: 30px;
+  //     justify-content: start;
+  //   }
+  // }
+// `;
 
 export const EditingButtons = styled.div`
   //height: 150px;
@@ -1045,9 +1077,15 @@ export const PictureUploadComponents = styled.div`
    }
 `;
 
+//     @media (min-width: 1200px) {
+//       padding-left: 50px;
+//     }
+//   }
+// `;
+
 export const PasswordSettingsInputs = styled.div`
   width: 550px;
-  min-height: 250px;
+  // min-height: 250px;
   padding: 24px;
   background: #F7F8FA;
   border: 1px dashed #BFACE9;
