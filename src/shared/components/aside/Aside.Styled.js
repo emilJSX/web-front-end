@@ -52,6 +52,7 @@ export const CustomAside = styled(Aside)`
         align-items: center;
         justify-content:space-between;
         height:calc(100vh - 200px);
+        overflow: auto;
     }
 
     .hr-aside{

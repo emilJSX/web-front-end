@@ -129,7 +129,7 @@ function MyVerticallyCenteredModal(props) {
             Report the Wish
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{paddingTop: '20px', paddingBottom: '30px', paddingLeft: '40px'}}>
+        {/* <Modal.Body style={{paddingTop: '20px', paddingBottom: '30px', paddingLeft: '40px'}}>
           <div className='delete-causes-items-container'>
             <p style={{
                 paddingBottom: '5px', 
@@ -162,88 +162,87 @@ function MyVerticallyCenteredModal(props) {
 
             }}/>
           </div>
-        </Modal.Body>
+        </Modal.Body> */}
         <Modal.Footer style={{border: '0'}}>
           <Button onClick={props.onHide} style={{background: '#3800B0'}}>Send</Button>
         </Modal.Footer>
+        </Modal.Body>
       </Modal>
     );
   }
 
 
 function Wish_pages() {
-    const { state } = useLocation()
-    const navigate = useNavigate();
-
-    const GetUserTokenCreationWish = localStorage.getItem("UserToken=")
-    const [modalShow, setModalShow] = useState(false);
-    const [GetUserWishDataResult, setGetUserData] = useState([])
-    const [getUserId, setUserId] = useState()
-    const [getUserName, setUserName] = useState()
-    const [getUserBirthday, setUserBirthday] = useState()
-
-    useEffect(() => {
-
-        axios.get("https://api.wishx.me/api/v1/wish/slug/",{
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  console.log(state)
+  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
+  const [modalShow, setModalShow] = useState(false);
+  const [GetUserWishDataResult, setGetUserData] = useState([]);
+  const [getUserId, setUserId] = useState();
+  const [getUserName, setUserName] = useState();
+  const [getUserBirthday, setUserBirthday] = useState();
+  const [error, setError] = useState("");
+  useEffect(() => {
+    setError("");
+    myaxios
+      .get("/api/v1/wish/slug/", {
         params: {
-            slug: state
-        }
-    }).then((GetUserWish)=> {
-        setGetUserData(GetUserWish?.data?.data)
-        console.log(GetUserWish)
-      }).catch((err) => {
-        console.log("")
-      })
-
-
-        axios.get("https://api.wishx.me/api/v1/user",{
-         headers: {
-           'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
-         }
-       }).then((datauser) => {
-        setUserName(datauser.data.data.info)
-        setUserId(datauser.data.data.user_id)
-        console.log(datauser.data.data.user_id, "USER ID")
-       })
-
-    //    axios.get("https://api.wishx.me/api/v1/user/other", {
-    //     params: {
-    //         user_id: getUserId
-    //     },
-    //     headers: {
-    //         'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
-    //     }
-    // }).then((getDataDob) => {
-    //     setUserBirthday(getDataDob.data.data.info.dob)
-    // })
-    }, [])
-
-    useEffect(()=> {
-
-    async function GetUserWishData () {
-      await axios.get("https://api.wishx.me/api/v1/wish/show", {
-        params: {
-            wish_id: state?.id 
+          slug: state,
         },
-        headers: {
-          'Access-Control-Allow-Origin': '*',  xsrfHeaderName: 'X-XSRF-TOKEN', 'Authorization': `Bearer ${GetUserTokenCreationWish}`
-        }
-      }).then((GetUserWish)=> {
-        setGetUserData(GetUserWish?.data?.data)
-      }).catch((err) => {
-        console.log("")
       })
+      .then(({ data }) => {
+        console.log(data);
+        setGetUserData(data?.data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+    setError("");
+    myaxiosprivate
+      .get("/api/v1/user")
+      .then(({ data }) => {
+        setUserName(data.data.info);
+        setUserId(data.data.user_id);
+      })
+      .catch((err) => setError(err.message));
+    setError("");
+    myaxiosprivate
+      .get("/api/v1/user/other", {
+        params: {
+          user_id: getUserId,
+        },
+      })
+      .then(({ data }) => {
+        setUserBirthday(data.data.info.dob);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
+
+  useEffect(() => {
+    async function GetUserWishData() {
+      await myaxiosprivate
+        .get("/api/v1/wish/show", {
+          params: {
+            wish_id: state?.id,
+          },
+        })
+        .then(({ data }) => {
+          setGetUserData(data?.data);
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
     }
-    GetUserWishData()
-}, [])
+    GetUserWishData();
+  }, []);
 
-console.log(state)
+  console.log(state);
 
-
-//   Get WISH IMAGE API
-  const WishCreationImage = GetUserWishDataResult.image
-  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`
-//   END
+  //   Get WISH IMAGE API
+  const WishCreationImage = GetUserWishDataResult.image;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
+  //   END
 
     return (
         <Main_page>
@@ -506,429 +505,429 @@ console.log(state)
     )
 }
 
-function Wish_pages() {
-  const { state } = useLocation();
-  const navigate = useNavigate();
-  console.log(state)
-  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
-  const [modalShow, setModalShow] = useState(false);
-  const [GetUserWishDataResult, setGetUserData] = useState([]);
-  const [getUserId, setUserId] = useState();
-  const [getUserName, setUserName] = useState();
-  const [getUserBirthday, setUserBirthday] = useState();
-  const [error, setError] = useState("");
-  useEffect(() => {
-    setError("");
-    myaxios
-      .get("/api/v1/wish/slug/", {
-        params: {
-          slug: state,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data);
-        setGetUserData(data?.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
-    setError("");
-    myaxiosprivate
-      .get("/api/v1/user")
-      .then(({ data }) => {
-        setUserName(data.data.info);
-        setUserId(data.data.user_id);
-      })
-      .catch((err) => setError(err.message));
-    setError("");
-    myaxiosprivate
-      .get("/api/v1/user/other", {
-        params: {
-          user_id: getUserId,
-        },
-      })
-      .then(({ data }) => {
-        setUserBirthday(data.data.info.dob);
-      })
-      .catch((err) => setError(err.message));
-  }, []);
+// function Wish_pages() {
+//   const { state } = useLocation();
+//   const navigate = useNavigate();
+//   console.log(state)
+//   const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
+//   const [modalShow, setModalShow] = useState(false);
+//   const [GetUserWishDataResult, setGetUserData] = useState([]);
+//   const [getUserId, setUserId] = useState();
+//   const [getUserName, setUserName] = useState();
+//   const [getUserBirthday, setUserBirthday] = useState();
+//   const [error, setError] = useState("");
+//   useEffect(() => {
+//     setError("");
+//     myaxios
+//       .get("/api/v1/wish/slug/", {
+//         params: {
+//           slug: state,
+//         },
+//       })
+//       .then(({ data }) => {
+//         console.log(data);
+//         setGetUserData(data?.data);
+//       })
+//       .catch((err) => {
+//         setError(err.message);
+//       });
+//     setError("");
+//     myaxiosprivate
+//       .get("/api/v1/user")
+//       .then(({ data }) => {
+//         setUserName(data.data.info);
+//         setUserId(data.data.user_id);
+//       })
+//       .catch((err) => setError(err.message));
+//     setError("");
+//     myaxiosprivate
+//       .get("/api/v1/user/other", {
+//         params: {
+//           user_id: getUserId,
+//         },
+//       })
+//       .then(({ data }) => {
+//         setUserBirthday(data.data.info.dob);
+//       })
+//       .catch((err) => setError(err.message));
+//   }, []);
 
-  useEffect(() => {
-    async function GetUserWishData() {
-      await myaxiosprivate
-        .get("/api/v1/wish/show", {
-          params: {
-            wish_id: state?.id,
-          },
-        })
-        .then(({ data }) => {
-          setGetUserData(data?.data);
-        })
-        .catch((err) => {
-          setError(err.message);
-        });
-    }
-    GetUserWishData();
-  }, []);
+//   useEffect(() => {
+//     async function GetUserWishData() {
+//       await myaxiosprivate
+//         .get("/api/v1/wish/show", {
+//           params: {
+//             wish_id: state?.id,
+//           },
+//         })
+//         .then(({ data }) => {
+//           setGetUserData(data?.data);
+//         })
+//         .catch((err) => {
+//           setError(err.message);
+//         });
+//     }
+//     GetUserWishData();
+//   }, []);
 
-  console.log(state);
+//   console.log(state);
 
-  //   Get WISH IMAGE API
-  const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
-  //   END
+//   //   Get WISH IMAGE API
+//   const WishCreationImage = GetUserWishDataResult.image;
+//   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
+//   //   END
 
-  return (
-    <Main_page>
-      <div className="content-container">
-        <Main_page_top className="main-page-top">
-          <Left_div>
-            <Left_image src={UserGetCreationImgWish} />
-            <Left_buttons>
-              Share
-              <BsFacebook className="facebook" />
-              <BsTwitter className="twitter" />
-              <BsTelegram className="telegram" />
-              <BsWhatsapp className="whatsapp" />
-              <IoMailOutline className="mail" />
-              <RiLinksFill className="link" />
-              <AiOutlinePlusCircle id="plus" />
-            </Left_buttons>
-            <Button
-              variant="primary"
-              className="save-changes-button"
-              onClick={() => setModalShow(true)}
-              style={{ border: "0", display: "none", justifyContent: "center" }}
-            >
-              <Left_report>
-                <IoWarningOutline className="warning" />
-                Report
-              </Left_report>
-            </Button>
-          </Left_div>
-          <Right_div>
-            <Right_top_div>
-              <Top_title>
-                {/* <Photo src={`${process.env.REACT_APP_API_URL}/${getUserName?.avatar}`} /> */}
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <Birthday>
-                  <span style={{ fontWeight: "bold" }}>
-                    {getUserName?.full_name}
-                  </span>{" "}
-                  <span style={{ color: "#8E93AF" }}>for</span> birthday{" "}
-                  <span style={{ color: "#8E93AF" }}>on</span> 27.02.2022
-                </Birthday>
-                <IoNotificationsOutline className="notification" />
-              </Top_title>
-              <Middle_title>{GetUserWishDataResult?.title}</Middle_title>
-              <Last_title>{GetUserWishDataResult?.description}</Last_title>
-            </Right_top_div>
-            <RightBlueDivForThree>
-              <Blue_div>
-                <Blue_top_div>
-                  <p className="raised">
-                    ${GetUserWishDataResult?.donate?.received}
-                  </p>
-                  <p className="percant">33%</p>
-                  <p className="left8">
-                    ${GetUserWishDataResult?.donate?.left} left
-                  </p>
-                </Blue_top_div>
-                <Blue_loading_div>
-                  <div className="colorpart"></div>
-                </Blue_loading_div>
-                <Blue_button_div>
-                  <p className="percant">
-                    Target: ${GetUserWishDataResult?.donate?.target}
-                  </p>
-                  <p className="left8">Final: {GetUserWishDataResult?.date}</p>
-                </Blue_button_div>
-              </Blue_div>
-              <Time_div>
-                <Time_div_p>
-                  256 <br />
-                  <span className="bottomword">Views</span>
-                </Time_div_p>
-                <Time_div_p>
-                  8 <br />
-                  <span className="bottomword">Gifts</span>
-                </Time_div_p>
-                <Time_div_p>
-                  $12 <br />
-                  <span className="bottomword">Avg gift amount</span>
-                </Time_div_p>
-                <Time_div_p>
-                  3d<span className="dot">:</span>23h
-                  <span className="dot">:</span>14m
-                  <span className="dot">:</span>51s <br />
-                  <span className="bottomword">Funding ends</span>
-                </Time_div_p>
-              </Time_div>
-            </RightBlueDivForThree>
-            <All_congrulation>
-              All congratulations <span className="eight">8</span>
-              <HiOutlineFilter className="filterclass" />
-            </All_congrulation>
-            <Hbd>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  You <span className="give">give</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Happy birthday bro!
-                <span className="twofive">
-                  258 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-              <Hbd_footer>
-                <Photos src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="thank">Thank you, brother from another mother</p>
-                <p className="twominag">2 min ago</p>
-              </Hbd_footer>
-            </Hbd>
-            <Hbd>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Eleanor Pena <span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Happy bday!
-                <span className="twofive">
-                  257 <AiTwotoneLike className="like" />
-                </span>
-              </Hbd_name>
-              <Hbd_footer>
-                <Photos src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="thank">Thank you, brother from another mother</p>
-                <p className="twominag">2 min ago</p>
-              </Hbd_footer>
-            </Hbd>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Eleanor Pena <span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Happy bday!
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Mcdonalds>
-              <Picture src="https://previews.123rf.com/images/toka74/toka741911/toka74191100219/137374809-russia-moscow-october-2019-mcdonalds-paper-cup-with-tea-or-drink-on-wooden-table-.jpg" />
-              <Mcago>
-                <PhotoMacDon src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Mcdonalds <span className="give">gave</span>{" "}
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Mcago>
-              <Freecofe>
-                Free coffee or tea
-                <HiBadgeCheck className="check" />
-              </Freecofe>
-            </Mcdonalds>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Robert Fox <span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Good Luck
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Jacob Jones <span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Расти большим!
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Cameron Williamson<span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Mazal Tov
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Wade Warren<span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Ad günün mübarək olsun! 🎉
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Jarema Boll <span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Happy birthday bro!
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-            <Hbday>
-              <Hbd_title>
-                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                <p className="title">
-                  Robert Fox<span className="give">gave</span> ☕{" "}
-                  <span className="give">$10</span>
-                </p>
-                <p className="minago">2 min ago •••</p>
-              </Hbd_title>
-              <Hbd_name>
-                Birthday bro!
-                <span className="twofive">
-                  257 <BiLike className="like" />
-                </span>
-              </Hbd_name>
-            </Hbday>
-          </Right_div>
-        </Main_page_top>
-        <Bottom_div>
-          <Bottom_div_title>Breadley Cooper’s other wishes</Bottom_div_title>
-          <GridBody>
-            <Grid className="griddivwish">
-              {Carddata.datab.map(
-                ({
-                  url,
-                  title,
-                  username,
-                  userdesc,
-                  userphoto,
-                  leftprice,
-                  rightprice,
-                }) => (
-                  // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
-                  <Wrapper
-                    className="cart-item"
-                    onMouseOver={(e) => {
-                      e.currentTarget.setAttribute(
-                        "style",
-                        "border: 1px solid #3800B0;"
-                      );
-                      e.currentTarget.children[0].children[0].setAttribute(
-                        "style",
-                        "visibility: visible"
-                      );
-                      e.currentTarget.children[0].children[1].setAttribute(
-                        "style",
-                        "visibility: visible"
-                      );
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.setAttribute(
-                        "style",
-                        "border: 1px solid #EBE5F7;"
-                      );
-                      e.currentTarget.children[0].children[0].setAttribute(
-                        "style",
-                        "visibility: hidden"
-                      );
-                      e.currentTarget.children[0].children[1].setAttribute(
-                        "style",
-                        "visibility: hidden"
-                      );
-                    }}
-                  >
-                    <div className="image-container">
-                      <button className="congralute-button">Congralute</button>
-                      <div className="image-background"></div>
-                      <ImgWrapper src={url}></ImgWrapper>
-                    </div>
-                    <ContentWrapper>
-                      <Titles>{title}</Titles>
+//   return (
+//     <Main_page>
+//       <div className="content-container">
+//         <Main_page_top className="main-page-top">
+//           <Left_div>
+//             <Left_image src={UserGetCreationImgWish} />
+//             <Left_buttons>
+//               Share
+//               <BsFacebook className="facebook" />
+//               <BsTwitter className="twitter" />
+//               <BsTelegram className="telegram" />
+//               <BsWhatsapp className="whatsapp" />
+//               <IoMailOutline className="mail" />
+//               <RiLinksFill className="link" />
+//               <AiOutlinePlusCircle id="plus" />
+//             </Left_buttons>
+//             <Button
+//               variant="primary"
+//               className="save-changes-button"
+//               onClick={() => setModalShow(true)}
+//               style={{ border: "0", display: "none", justifyContent: "center" }}
+//             >
+//               <Left_report>
+//                 <IoWarningOutline className="warning" />
+//                 Report
+//               </Left_report>
+//             </Button>
+//           </Left_div>
+//           <Right_div>
+//             <Right_top_div>
+//               <Top_title>
+//                 {/* <Photo src={`${process.env.REACT_APP_API_URL}/${getUserName?.avatar}`} /> */}
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <Birthday>
+//                   <span style={{ fontWeight: "bold" }}>
+//                     {getUserName?.full_name}
+//                   </span>{" "}
+//                   <span style={{ color: "#8E93AF" }}>for</span> birthday{" "}
+//                   <span style={{ color: "#8E93AF" }}>on</span> 27.02.2022
+//                 </Birthday>
+//                 <IoNotificationsOutline className="notification" />
+//               </Top_title>
+//               <Middle_title>{GetUserWishDataResult?.title}</Middle_title>
+//               <Last_title>{GetUserWishDataResult?.description}</Last_title>
+//             </Right_top_div>
+//             <RightBlueDivForThree>
+//               <Blue_div>
+//                 <Blue_top_div>
+//                   <p className="raised">
+//                     ${GetUserWishDataResult?.donate?.received}
+//                   </p>
+//                   <p className="percant">33%</p>
+//                   <p className="left8">
+//                     ${GetUserWishDataResult?.donate?.left} left
+//                   </p>
+//                 </Blue_top_div>
+//                 <Blue_loading_div>
+//                   <div className="colorpart"></div>
+//                 </Blue_loading_div>
+//                 <Blue_button_div>
+//                   <p className="percant">
+//                     Target: ${GetUserWishDataResult?.donate?.target}
+//                   </p>
+//                   <p className="left8">Final: {GetUserWishDataResult?.date}</p>
+//                 </Blue_button_div>
+//               </Blue_div>
+//               <Time_div>
+//                 <Time_div_p>
+//                   256 <br />
+//                   <span className="bottomword">Views</span>
+//                 </Time_div_p>
+//                 <Time_div_p>
+//                   8 <br />
+//                   <span className="bottomword">Gifts</span>
+//                 </Time_div_p>
+//                 <Time_div_p>
+//                   $12 <br />
+//                   <span className="bottomword">Avg gift amount</span>
+//                 </Time_div_p>
+//                 <Time_div_p>
+//                   3d<span className="dot">:</span>23h
+//                   <span className="dot">:</span>14m
+//                   <span className="dot">:</span>51s <br />
+//                   <span className="bottomword">Funding ends</span>
+//                 </Time_div_p>
+//               </Time_div>
+//             </RightBlueDivForThree>
+//             <All_congrulation>
+//               All congratulations <span className="eight">8</span>
+//               <HiOutlineFilter className="filterclass" />
+//             </All_congrulation>
+//             <Hbd>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   You <span className="give">give</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Happy birthday bro!
+//                 <span className="twofive">
+//                   258 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//               <Hbd_footer>
+//                 <Photos src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="thank">Thank you, brother from another mother</p>
+//                 <p className="twominag">2 min ago</p>
+//               </Hbd_footer>
+//             </Hbd>
+//             <Hbd>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Eleanor Pena <span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Happy bday!
+//                 <span className="twofive">
+//                   257 <AiTwotoneLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//               <Hbd_footer>
+//                 <Photos src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="thank">Thank you, brother from another mother</p>
+//                 <p className="twominag">2 min ago</p>
+//               </Hbd_footer>
+//             </Hbd>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Eleanor Pena <span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Happy bday!
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Mcdonalds>
+//               <Picture src="https://previews.123rf.com/images/toka74/toka741911/toka74191100219/137374809-russia-moscow-october-2019-mcdonalds-paper-cup-with-tea-or-drink-on-wooden-table-.jpg" />
+//               <Mcago>
+//                 <PhotoMacDon src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Mcdonalds <span className="give">gave</span>{" "}
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Mcago>
+//               <Freecofe>
+//                 Free coffee or tea
+//                 <HiBadgeCheck className="check" />
+//               </Freecofe>
+//             </Mcdonalds>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Robert Fox <span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Good Luck
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Jacob Jones <span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Расти большим!
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Cameron Williamson<span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Mazal Tov
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Wade Warren<span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Ad günün mübarək olsun! 🎉
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Jarema Boll <span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Happy birthday bro!
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//             <Hbday>
+//               <Hbd_title>
+//                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
+//                 <p className="title">
+//                   Robert Fox<span className="give">gave</span> ☕{" "}
+//                   <span className="give">$10</span>
+//                 </p>
+//                 <p className="minago">2 min ago •••</p>
+//               </Hbd_title>
+//               <Hbd_name>
+//                 Birthday bro!
+//                 <span className="twofive">
+//                   257 <BiLike className="like" />
+//                 </span>
+//               </Hbd_name>
+//             </Hbday>
+//           </Right_div>
+//         </Main_page_top>
+//         <Bottom_div>
+//           <Bottom_div_title>Breadley Cooper’s other wishes</Bottom_div_title>
+//           <GridBody>
+//             <Grid className="griddivwish">
+//               {Carddata.datab.map(
+//                 ({
+//                   url,
+//                   title,
+//                   username,
+//                   userdesc,
+//                   userphoto,
+//                   leftprice,
+//                   rightprice,
+//                 }) => (
+//                   // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
+//                   <Wrapper
+//                     className="cart-item"
+//                     onMouseOver={(e) => {
+//                       e.currentTarget.setAttribute(
+//                         "style",
+//                         "border: 1px solid #3800B0;"
+//                       );
+//                       e.currentTarget.children[0].children[0].setAttribute(
+//                         "style",
+//                         "visibility: visible"
+//                       );
+//                       e.currentTarget.children[0].children[1].setAttribute(
+//                         "style",
+//                         "visibility: visible"
+//                       );
+//                     }}
+//                     onMouseOut={(e) => {
+//                       e.currentTarget.setAttribute(
+//                         "style",
+//                         "border: 1px solid #EBE5F7;"
+//                       );
+//                       e.currentTarget.children[0].children[0].setAttribute(
+//                         "style",
+//                         "visibility: hidden"
+//                       );
+//                       e.currentTarget.children[0].children[1].setAttribute(
+//                         "style",
+//                         "visibility: hidden"
+//                       );
+//                     }}
+//                   >
+//                     <div className="image-container">
+//                       <button className="congralute-button">Congralute</button>
+//                       <div className="image-background"></div>
+//                       <ImgWrapper src={url}></ImgWrapper>
+//                     </div>
+//                     <ContentWrapper>
+//                       <Titles>{title}</Titles>
 
-                      <UserWrapper>
-                        <UserAbout>
-                          <UserName>{username}</UserName>
-                          <UserDesc>{userdesc}</UserDesc>
-                        </UserAbout>
-                        <UserPhoto src={userphoto}></UserPhoto>
-                      </UserWrapper>
+//                       <UserWrapper>
+//                         <UserAbout>
+//                           <UserName>{username}</UserName>
+//                           <UserDesc>{userdesc}</UserDesc>
+//                         </UserAbout>
+//                         <UserPhoto src={userphoto}></UserPhoto>
+//                       </UserWrapper>
 
-                      <PriceWrapper>
-                        <ProgressWrapper>
-                          <Progress
-                            size="sm"
-                            sections={[{ value: 50, color: "#3800B0" }]}
-                          />
-                        </ProgressWrapper>
-                        <Prices>
-                          <LeftPrice>{leftprice}</LeftPrice>
-                          <RightPrice>{rightprice}</RightPrice>
-                        </Prices>
-                      </PriceWrapper>
-                    </ContentWrapper>
-                  </Wrapper>
-                  // </Grid.Col>
-                )
-              )}
-            </Grid>
-          </GridBody>
-          <Bottom_div_show>Show more wishes</Bottom_div_show>
-        </Bottom_div>
-      </div>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-    </Main_page>
-  );
-}
+//                       <PriceWrapper>
+//                         <ProgressWrapper>
+//                           <Progress
+//                             size="sm"
+//                             sections={[{ value: 50, color: "#3800B0" }]}
+//                           />
+//                         </ProgressWrapper>
+//                         <Prices>
+//                           <LeftPrice>{leftprice}</LeftPrice>
+//                           <RightPrice>{rightprice}</RightPrice>
+//                         </Prices>
+//                       </PriceWrapper>
+//                     </ContentWrapper>
+//                   </Wrapper>
+//                   // </Grid.Col>
+//                 )
+//               )}
+//             </Grid>
+//           </GridBody>
+//           <Bottom_div_show>Show more wishes</Bottom_div_show>
+//         </Bottom_div>
+//       </div>
+//       <MyVerticallyCenteredModal
+//         show={modalShow}
+//         onHide={() => setModalShow(false)}
+//       />
+//     </Main_page>
+//   );
+// }
 
 export default Wish_pages;

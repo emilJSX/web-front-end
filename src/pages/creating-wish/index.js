@@ -69,7 +69,7 @@ const Created_Wish = () => {
   const wishCreationTitleHome = useLocation();
 
   // ================================ Get LocalStorage User Token ================================
-  const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
+  const GetUserTokenCreationWish = localStorage.getItem("token");
 
   if (!GetUserTokenCreationWish) {
     navigate("/");

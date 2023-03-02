@@ -275,7 +275,7 @@ function Calendar() {
       <div></div>
 
       <MobileCalendar>
-        {/* <Accordion
+        <Accordion
           expanded
           style={{
             background: "aliceblue",
@@ -379,7 +379,7 @@ function Calendar() {
               </Card>
             </Typography>
           </AccordionDetails>
-        </Accordion> */}
+        </Accordion>
       </MobileCalendar>
 
       <Modal
