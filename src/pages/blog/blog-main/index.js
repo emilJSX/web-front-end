@@ -151,7 +151,7 @@ const MainBlog = () => {
                 </Tab>
               ))}
             </div>
-          </div>
+          </div> 
           <div
             className="input-section"
             style={{
