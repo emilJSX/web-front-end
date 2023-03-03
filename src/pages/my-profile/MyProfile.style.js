@@ -22,7 +22,7 @@ padding-bottom: 50px;
 }
 
 .rainbow {
-    @media (min-width: 375px) and (max-width: 420px) {
+    @media (max-width: 420px) {
         height: 113px !important;
         margin-left: 6px;
         margin-top: 13px;
@@ -47,7 +47,7 @@ padding-bottom: 50px;
 
     .tabs{
 
-        @media(min-width: 375px) and (max-width: 1200px){
+        @media(max-width: 1200px){
             width: 95%;
         }
 
@@ -161,7 +161,7 @@ padding-bottom: 50px;
 
 
 .tabnameSelected {
-    width: 40%;
+    flex: 1;
     color: #3800B0;
     background: #EBE5F7;
     border: 3px solid #3800B0;
@@ -306,7 +306,7 @@ padding-bottom: 50px;
 
 
 .tabname {
-    width: 33.3%;
+    flex: 1;
     background: #FFFFFF;
     color: #160046;
     padding-top: 18px;
@@ -322,15 +322,7 @@ padding-bottom: 50px;
     justify-content: center;
     margin: 0;
     font-weight: bold;
-    -webkit-flex: none;
-    -ms-flex: none;
-    flex: none;
 
-    @media (min-width: 375px) and (max-width: 992px) {
-        width: 34%;
-    }
-
-    
     @media(max-width: 625px){
         font-size: small;
     }
@@ -466,7 +458,7 @@ export const CardLong = styled.div`
     }
 }
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         margin-left: 0px;
     }
 
@@ -564,7 +556,7 @@ export const CardLong = styled.div`
         }
     }
 
-    // @media (min-width: 375px) and (max-width: 420px) {
+    // @media (max-width: 420px) {
     //     width: 153%;
     // } 
 `;
@@ -663,7 +655,7 @@ export const TargetFinal = styled.div`
     width: 100%;
     margin: 0;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: none;
     }
 
@@ -776,7 +768,7 @@ export const LastDiv = styled.div`
     padding-bottom: 10px;
     border-radius: 8px;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: none;
     }
 
@@ -894,7 +886,7 @@ export const LeftSection = styled(Container)`
         width: auto;
     }
     
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         border-radius: unset !important;
         margin-left: 4px;
         border-bottom-left-radius: 20px;
@@ -1129,7 +1121,7 @@ export const LeftRightPriceDisplay = styled.div`
     height: 40px;
     font-size: 10px;
 
-    @media (min-width: 375px) and (max-width: 480px) {
+    @media (max-width: 480px) {
         padding-top: 0px;
         display: flex;
         align-items: center;
@@ -1145,7 +1137,7 @@ font-size: 13px;
 color: #646a83;
 font-weight: 400;
 
-@media (min-width: 375px) and (max-width: 500px) {
+@media (max-width: 500px) {
     margin-top: 2px;
 }
 `
@@ -1157,7 +1149,7 @@ export const RightPrice = styled.p`
     margin-top: -22px;
     font-size: 13px;
    
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         margin-top: -4px;
         font-size: 13px;
         position: absolute;
@@ -1267,7 +1259,7 @@ export const FotoSection = styled(Container)`
     width: 100%;
     padding: 10px 85px 0px 85px;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         padding: 0 !important;
         display: flex;
         justify-content: center;
@@ -1276,7 +1268,7 @@ export const FotoSection = styled(Container)`
     }
     
     .rainbow {
-        @media (min-width: 375px) and (max-width: 500px) {
+        @media (max-width: 500px) {
             border-radius: unset !important;
             border-top-left-radius: 15px !important;
             border-top-right-radius: 15px !important;
@@ -1293,7 +1285,7 @@ export const FotoSection = styled(Container)`
 export const MobileTopCoverImageSection = styled.div`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         display: block; 
         width: 98.8%;
         margin-left: 7px;
@@ -1303,7 +1295,7 @@ export const MobileTopCoverImageSection = styled.div`
 export const ShowBirtdayInWish = styled.p`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 480px) {
+    @media (max-width: 480px) {
         display: block;
         font-weight: 400;
         padding-top: 30px;

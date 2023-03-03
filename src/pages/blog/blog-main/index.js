@@ -1,5 +1,5 @@
 import react, { useEffect } from "react";
-import { Button, Grid, Image } from "@mantine/core";
+import { Button, Grid, Image, Loader } from "@mantine/core";
 import {
   BlogCard,
   BlogMainSection,
@@ -24,11 +24,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
+import moment from "moment";
+
+
+
 
 const MainBlog = () => {
   const navigate = useNavigate();
@@ -36,7 +40,8 @@ const MainBlog = () => {
   const [GetUserSearch, setUserSearch] = useState();
   const [DataSkip, setDataSkip] = useState(0);
   const [getResultApiSearch, setResultApiSearch] = useState();
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/articles/get", {
@@ -46,7 +51,11 @@ const MainBlog = () => {
       })
       .then((res) => {
         setResultApiSearch(res.data.data.list);
-        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
       });
   }, []);
 
@@ -68,7 +77,7 @@ const MainBlog = () => {
     { id: 1, title: "Travel" },
     { id: 2, title: "Sport" },
     { id: 3, title: "Gadgets" },
-    { id: 4, title: "Foto & Videos" },
+    { id: 4, title: "Photo & Videos" },
     { id: 5, title: "Clothes" },
   ];
 
@@ -76,23 +85,30 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
+  const breadCrumb = [
+    {
+      title: "Main",
+      to: "/",
+    },
+    {
+      title: "Blog",
+      to: "/main-blog",
+    },
+  ];
   return (
+    // if something wrong show only error message here error ? (<div>{error}</div>) : else show ui
+
     <BlogMainSection fluid>
       <div className="instruction">
         {/*<p>Main {">"} Blog</p>*/}
-        <CustomBreadcrumb
-          margins="mt-0 mb-8"
-          links={[
-            {
-              title: "Main",
-              to: "/",
-            },
-            {
-              title: "Blog",
-              to: "/main-blog",
-            },
-          ]}
-        />
+        <CustomBreadcrumb margins="mt-0 mb-8" links={breadCrumb} />
         <h2>Blog</h2>
       </div>
       <Tabs defaultValue="personalinfo">
@@ -158,7 +174,7 @@ const MainBlog = () => {
             <Grid.Col className="col-root-img" p={0} span={6}>
               <Image
                 className="img-section"
-                src={`https://api.wishx.me${setLoadingBlog[0]?.image}`}
+                src={`${process.env.REACT_APP_API_URL}${setLoadingBlog[0]?.image}`}
               />
             </Grid.Col>
             <Grid.Col span={6}>
@@ -166,7 +182,7 @@ const MainBlog = () => {
                 <p className="top-txt"></p>
                 <h2>{setLoadingBlog[0]?.title}</h2>
                 <p className="txt">{setLoadingBlog[0]?.content}</p>
-                <a href="#">Read article</a>
+                <Link to="/blog-post">Read article</Link>
               </div>
             </Grid.Col>
           </Grid>
@@ -191,7 +207,7 @@ const MainBlog = () => {
                     <CardActionArea className="card-blog">
                       <CardMedia
                         component="img"
-                        image={`https://api.wishx.me${AllBlog?.thumb}`}
+                        image={`${process.env.REACT_APP_API_URL}${AllBlog?.thumb}`}
                         height="230px"
                         style={{ borderRadius: "20px" }}
                       />
@@ -222,9 +238,7 @@ const MainBlog = () => {
                       </CardContent>
                     </CardActionArea>
                     <CardActions className="p-0">
-                      <a href="#" className="read-article">
-                        Read article
-                      </a>
+                      <Link to="/blog-post">Read article</Link>
                     </CardActions>
                   </Card>
                 </Grid.Col>

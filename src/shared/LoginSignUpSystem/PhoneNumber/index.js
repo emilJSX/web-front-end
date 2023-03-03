@@ -30,7 +30,7 @@ function EmailConfirm({ setEmailConfirmModal }) {
                 <Second className='timer'>1:59</Second>
 
             </div>
-            <div className='otp_input_div'>
+            <div className='otp_input_div flex gap-3'>
                 <OtpInput
                     className='otp_input'
                     value={otp}

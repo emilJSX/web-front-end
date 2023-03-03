@@ -35,7 +35,7 @@ export const Title = styled.div`
         float: left;
     }
 
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         font-size: 20px;
     }
 `;
@@ -46,14 +46,14 @@ export const Datediv = styled.div`
     margin: 35px 0 35px 24px;
     float: left;
 
-    @media (min-width: 375px) and (max-width: 400px) {
+    @media (max-width: 400px) {
         display: block;
         margin: -58px 0 35px 60px;
     }
 
     @media (min-width: 400px) and (max-width: 500px) {
         display: block;
-        margin: -58px 0 35px 90px;
+        margin: -58px 0 35px 70px;
     }
 
     .left{
@@ -118,7 +118,7 @@ export const ShowToday = styled.div`
     font-size: 14px;
     color: #3800B0;
 
-    @media (min-width: 375px) and (max-width: 950px) {
+    @media (max-width: 950px) {
         display: none;
     }
 
@@ -135,7 +135,7 @@ export const Big_calendar_bigdiv = styled.div`
     border: 2px solid #3800B0;
    }
 
-   @media (min-width: 375px) and (max-width: 500px) {
+   @media (max-width: 500px) {
     display: none;
    }
 `;
@@ -147,7 +147,7 @@ export const Calendar_first_empty = styled.div`
    margin-right:16px;
    float: left;
 
-   @media (min-width: 375px) and (max-width: 1204px) {
+   @media (max-width: 1204px) {
     display: none;
    }
    `;
@@ -248,10 +248,9 @@ export const Calendar_first_empty = styled.div`
     `;
     export const Small_main_page = styled.div`
 
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             width: auto;
             height: auto;
-            margin
         }
     `;
     export const Small_top_page = styled.div`
@@ -266,7 +265,7 @@ export const Calendar_first_empty = styled.div`
             color: #0B0023;
             float: right;
         }
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             display: none;
         }
     `;
@@ -289,7 +288,7 @@ export const Calendar_first_empty = styled.div`
         background: #ECEEF7;
         border-radius: 24px;
         margin: 0 16px 16px 16px;      
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             width: 343px;
         }  
     `;
@@ -308,7 +307,7 @@ export const Calendar_first_empty = styled.div`
             float: right;
             margin: 8px 0;
         }
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
         width: 311px;
         }
     `;
@@ -344,7 +343,7 @@ export const Calendar_first_empty = styled.div`
         width: 440px;
         height: 20px;
         text-align: start;
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             width: 100%;
         }
         `;
@@ -357,7 +356,7 @@ export const Calendar_first_empty = styled.div`
         background: white;
         border-radius: 16px;
         margin: 16px 16px 0 0px;
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             width: 100%;
         }
     `;
@@ -384,7 +383,7 @@ export const Calendar_first_empty = styled.div`
     color: #110035;
     margin: 14px 16px 0 16px;
     float: left;
-    @media (min-width: 375px) and (max-width: 520px) {
+    @media (max-width: 520px) {
         white-space: normal;
         overflow: hidden !important;
         margin: 0 16px;
@@ -404,7 +403,7 @@ export const Calendar_first_empty = styled.div`
         border-radius: 56px;
         margin: 14px 16px 0 16px;
         float: left;
-        @media (min-width: 375px) and (max-width: 520px) {
+        @media (max-width: 520px) {
             width: 55%;
         }
     `
@@ -443,7 +442,7 @@ export const Calendar_first_empty = styled.div`
         opacity: 0.72;
         float: right;
     }
-    @media (min-width: 375px) and (max-width: 520px) {
+    @media (max-width: 520px) {
         width: 55%;
         .pleft{
             width: 40%;
@@ -455,7 +454,7 @@ export const Calendar_first_empty = styled.div`
 export const MobileCalendar = styled.div`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         display: block;
     }
 

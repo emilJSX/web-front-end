@@ -256,7 +256,7 @@ export const ButtonSection = styled(Grid)`
     padding: 8px;
     //margin-left: 30px;
 
-    @media (min-width: 375px) and (max-width: 768px) {
+    @media (max-width: 768px) {
       padding-left: 33px;
     }
 

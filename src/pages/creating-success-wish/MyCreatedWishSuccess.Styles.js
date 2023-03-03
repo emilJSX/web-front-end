@@ -135,18 +135,24 @@ export const Temp = styled.div`
 `
 
 export const CartContainer = styled.div`
-   padding-top: 20px;
-   padding-bottom: 20px;
    display: flex;
    justify-content: center;
    width: 100%;
+  
+  @media(max-width: 768px) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 
    .cover{
-      width: 90%;
+      //width: 90%;
       border-radius: 32px;
-      padding-top: 100px;
-      padding-bottom: 100px;
-      min-width: 375px;
+      //padding-top: 100px;
+      //padding-bottom: 100px;
+      //min-width: 375px;
+     background: #EBE5F7;
+     padding: 32px 72px;
+     margin: 0 16px;
 
       @media(min-width: 768px){
          display: none;
@@ -190,7 +196,7 @@ export const Container = styled.div`
       }
       
       .content-container{
-         width: 90%;
+         width: 100%;
          height: auto;
          display: flex;
          flex-direction: column;
@@ -271,6 +277,10 @@ export const Hedaer = styled.div`
        line-height: 160%;
        font-feature-settings: 'liga';
        margin: 0;
+
+     @media(max-width: 768px) {
+       padding-left: 24px;
+     }
    }
 
    .edit-wish-title{
@@ -283,6 +293,12 @@ export const Hedaer = styled.div`
      padding-left: 50px;
      color: #0B0023;
      margin: 0;
+     
+     @media(max-width: 768px) {
+       font-size: 40px;
+       padding-left: 20px;
+       line-height: 1.1;
+     }
    }
 `
 
@@ -301,6 +317,11 @@ export const Section = styled.div`
       line-height: 120%;
       font-feature-settings: 'liga' off;
       color: #0B0023;
+
+     @media(max-width: 768px) {
+       padding-left: 24px;
+       padding-right: 24px;
+     }
    }
 
    .wish-name{
@@ -775,6 +796,8 @@ export const Wrapper = styled.div`
 background: #FFFFFF;
 border: 1px solid #EBE5F7;
 border-radius: 24px;
+  max-width: 321px;
+  width: 100%;
 
 .image-container{
 
@@ -819,21 +842,29 @@ border-radius: 24px;
 `
 
 export const ImgWrapper = styled.img`
-height: 321px;
+//height: 321px;
 width: 100%;
 border-radius: 24px;
 `
 export const ContentWrapper = styled.div`
 padding: 30px;
+
+  @media(max-width: 768px) {
+    padding: 16px;
+  }
 `
 
 export const Title = styled.h5`
 font-size: 20px;
 font-weight: bold;
 color: #110035;
+  
+  @media(max-width: 768px) {
+    font-size: 14px;
+  }
 `
 export const UserWrapper = styled.div`
-height: 80px;
+//height: 80px;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -846,13 +877,17 @@ export const UserAbout = styled.div`
    
 `
 export const UserName = styled.h6`
-height: 80%;
+//height: 80%;
 margin-bottom: 0;
 font-weight: 600;
 font-size: 14px;
 display: flex;
 align-items: flex-end;
 padding-bottom: 5px;
+
+  @media(max-width: 768px) {
+    font-size: 12px;
+  }
 
 `
 export const UserDesc = styled.p`
@@ -861,12 +896,22 @@ color: #110035;
 font-weight: 400;
 font-size: 13px;
 opacity: 0.72;
+
+  @media(max-width: 768px) {
+    font-size: 12px;
+  }
 `
 export const UserPhoto = styled.img`
 border-radius: 24px;
 transform: translate(0px, 15px);
 width: 40px;
 height: 40px;
+
+  @media(max-width: 768px) {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
 `
 
 export const PriceWrapper = styled.div``
@@ -878,8 +923,16 @@ opacity: 0.72;
 font-weight: 400;
 font-size: 13px;
 `
-export const LeftPrice = styled.p``
-export const RightPrice = styled.p``
+export const LeftPrice = styled.p`
+  @media(max-width: 768px) {
+    font-size: 12px;
+  }
+`
+export const RightPrice = styled.p`
+  @media(max-width: 768px) {
+    font-size: 12px;
+  }
+`
 
 export const ProgressWrapper = styled.div`
 margin: 16px 0px;

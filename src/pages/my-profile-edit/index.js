@@ -57,9 +57,10 @@ import {
   SaveButton,
 } from "./MyProfileEdit.styles";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
-import { myaxiosprivate } from "../../api/myaxios";
+import { myaxios, myaxiosprivate, updateToken } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
-import useValidation from "../../hooks/useValidation";
+import { logout } from "../../store/slices/authSlice";
+import { useDispatch } from "react-redux";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -165,44 +166,81 @@ const SetSaveAndCancelButtonsClick = () => {
   }
 };
 
-const OnClickSaveOrCancelButton = (clicked) => {
-  clicked.preventDefault();
-  let saveAndCancelid = clicked.getAttribute("id");
+// const OnClickSaveOrCancelButton = (clicked) => {
+//   clicked.preventDefault();
+//   let saveAndCancelid = clicked.getAttribute("id");
 
-  switch (saveAndCancelid) {
-    case "save_button":
-      document
-        .querySelector("#save_button")
-        .setAttribute(
-          "style",
-          "background: #3801B0; border-radius: 8px; color: #FFFFFF;"
-        );
-      document
-        .querySelector("#cancel_button")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
-        );
-      break;
-    case "cancel_button":
-      document
-        .querySelector("#save_button")
-        .setAttribute(
-          "style",
-          "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
-        );
-      document
-        .querySelector("#cancel_button")
-        .setAttribute(
-          "style",
-          "background: #3800B0; border-radius: 8px; color: #FFFFFF;"
-        );
-      break;
-  }
-};
+//   switch (saveAndCancelid) {
+//     case "save_button":
+//       document
+//         .querySelector("#save_button")
+//         .setAttribute(
+//           "style",
+//           "background: #3801B0; border-radius: 8px; color: #FFFFFF;"
+//         );
+//       document
+//         .querySelector("#cancel_button")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
+//         );
+//       break;
+//     case "cancel_button":
+//       document
+//         .querySelector("#save_button")
+//         .setAttribute(
+//           "style",
+//           "background: #FFFFFF; color: #3800B0; border: 2px solid #3800B0;"
+//         );
+//       document
+//         .querySelector("#cancel_button")
+//         .setAttribute(
+//           "style",
+//           "background: #3800B0; border-radius: 8px; color: #FFFFFF;"
+//         );
+//       break;
+//   }
+// };
 
 function MyVerticallyCenteredModal(props) {
-  const [password, setPassword] = useState("password");
+  // const [password, setPassword] = useState("");
+  const [reason, setReason] = useState();
+  const [reasons, setReasons] = useState([]);
+  const [comment, setComment] = useState("");
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/settings/reasons/get")
+      .then(({ data }) => {
+        setReasons(data.data);
+      })
+      .catch((err) => console.log(error));
+  }, []);
+  console.log(reasons);
+  const handleDelete = async () => {
+    props.onHide();
+    await myaxiosprivate
+      .get("/api/v1/profiles/delete?", {
+        params: {
+          type: reason,
+          // password,
+          comment,
+        },
+      })
+      .then((res) => {
+        localStorage.clear();
+        dispatch(logout());
+        updateToken(null);
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => setError(err.message));
+  };
+
+  if (error) {
+    return <div className="flex justify-center items-center h-96">{error}</div>;
+  }
   return (
     <Modal
       {...props}
@@ -216,55 +254,48 @@ function MyVerticallyCenteredModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h1 className="enter-password-title">
+        {/* <h1 className="enter-password-title">
           Enter password to allow deletion
         </h1>
         <Password
           className="info_input"
           placeholder="Password"
+          value={password}
           type={password ? "password" : "text"}
-        />
+          onChange={(e) => setPassword(e.target.value)}
+        /> */}
         <div className="delete-causes-items-container">
           <p>Reason for deleting the account (optional)</p>
-          {/* <FormControl>
+          <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
+              name="reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
             >
-              <FormControlLabel
-                value="Reason 1"
-                control={<Radio />}
-                label="Reason 1"
-              />
-              <FormControlLabel
-                value="Reason 2"
-                control={<Radio />}
-                label="Reason 2"
-              />
-              <FormControlLabel
-                value="Reason 3"
-                control={<Radio />}
-                label="Reason 3"
-              />
-              <FormControlLabel
-                value="Other Reson"
-                control={<Radio />}
-                label="Other Reson"
-              />
+              {reasons?.map((item) => (
+                <FormControlLabel
+                  value={item.id}
+                  control={<Radio />}
+                  label={item.name}
+                />
+              ))}
             </RadioGroup>
-          </FormControl> */}
+          </FormControl>
         </div>
         <div className="reson-text-input">
           <input
             type="text"
             className="info_input"
             placeholder="Describe your reason"
+            disabled={reason !== "Other"}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Delete account</Button>
+        <Button onClick={handleDelete}>Delete account</Button>
       </Modal.Footer>
     </Modal>
   );
@@ -456,32 +487,24 @@ const ProfileEdit = () => {
   // ============================================================================================================================
 
   // ===================================================GET USER UPDATE INFO=====================================================
-  const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState({
-    country: {
-      id: 1,
-      name: "",
-    },
-    gender: {
-      id: 1,
-      name: "",
-    },
-    full_name: "",
-    number: 0,
-    email: "",
-    about: "",
-    avatar: null,
-    dob: "",
-    interests: [],
-    slug: "",
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm({
+    reValidateMode: "onChange",
+    mode: "all",
   });
+  const [loading, setLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState();
   const [dateValue, setDateValue] = useState(new Date());
   const [file, setFile] = useState(null);
   const [allCountries, setAllCountries] = useState([]);
   const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
-  const [clicked, setClicked] = useState(userInfo.gender.id);
-
+  const [clicked, setClicked] = useState(userInfo?.gender?.id);
+  console.log(userInfo);
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
       setLoading(true);
@@ -498,24 +521,7 @@ const ProfileEdit = () => {
       await myaxiosprivate
         .get("/api/v1/profiles/edit")
         .then(({ data }) => {
-          setUserInfo({
-            country: {
-              id: data.data.country.id,
-              name: data.data.country.name,
-            },
-            gender: {
-              id: data.data.gender.id,
-              gender_name: data.data.gender.gender_name,
-            },
-            full_name: data.data.full_name,
-            number: data.data.number,
-            email: data.data.email,
-            about: data.data.about,
-            avatar: data.data.avatar,
-            dob: new Date(data.data.dob),
-            interests: data.data.interests,
-            slug: data.data.slug,
-          });
+          setUserInfo(data.data);
           data.data.interests?.forEach((item) =>
             setInterestId((prevInterestId) => [...prevInterestId, item.id])
           );
@@ -527,6 +533,19 @@ const ProfileEdit = () => {
     };
     fetchCountryAndUserData();
   }, []);
+  useEffect(() => {
+    if (userInfo) {
+      setValue("full_name", userInfo.full_name);
+      setValue("email", userInfo.email);
+      setValue(
+        "country",
+        userInfo?.country?.id ? userInfo.country.id : userInfo.country
+      );
+      setValue("dob", userInfo.dob);
+      setValue("number", userInfo.number);
+      setValue("about", userInfo.about);
+    }
+  }, [userInfo]);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -540,7 +559,7 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
-    setUserInfo({ ...userInfo, dob: moment(dateValue).format("DD.MM.YYYY") });
+    setUserInfo({ ...userInfo, dob: dateValue });
   }, [dateValue]);
   const countryFinder = () => {
     const countryName = allCountries.filter(
@@ -560,19 +579,15 @@ const ProfileEdit = () => {
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
 
-  const { errors, isValid } = useValidation(userInfo);
-  const handleUpdateInfoProfile = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    const sendData = {
-      ...userInfo,
-      phone: userInfo.number,
-      username: userInfo.slug,
-    };
-
-    Object.keys(sendData).forEach((key) => {
-      formData.append(key, sendData[key]);
-    });
+  const handleUpdateInfoProfile = async ({
+    full_name,
+    country,
+    email,
+    number,
+    slug,
+    about,
+  }) => {
+    // e.preventDefault();
     const uniqueArr = [
       ...new Set(
         typeof userInfo.interests[0] === "object"
@@ -580,24 +595,20 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
-    formData.delete("number");
-    formData.delete("slug");
-    formData.delete("avatar");
-    formData.delete("dob");
-    formData.delete("gender");
-    formData.delete("country");
-    formData.delete("interests");
-    formData.append("dob", moment(userInfo.dob).format("DD.MM.YYYY"));
+    const formData = new FormData();
+    formData.append("full_name", full_name);
+    formData.append("email", email);
+    formData.append("username", slug);
+    formData.append("phone", number);
+    formData.append("about", about);
+    formData.append(
+      "dob",
+      moment(userInfo.dob || dateValue).format("DD.MM.YYYY")
+    );
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append(
-      "country",
-      userInfo.country.id ? userInfo.country.id : userInfo.country
-    );
-    formData.append(
-      "gender",
-      userInfo.gender.id ? userInfo.gender.id : userInfo.gender
-    );
+    formData.append("country", userInfo.country?.id ?? country);
+    formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
 
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
@@ -611,40 +622,6 @@ const ProfileEdit = () => {
       .catch((err) => {
         toast.error(err.message);
       });
-    // console.log(getCountryNameId, "getCountryNameId");
-    // const getCountryIdState = getCountryNameId?.id;
-    // event.preventDefault();
-    // const formUpdateData = new FormData();
-    // formUpdateData.append(
-    //   "file",
-    //   selectedFile == null ? getUserInfoProfile.avatar : selectedFile
-    // );
-    // formUpdateData.append("full_name", getUserInfoProfile.full_name);
-    // formUpdateData.append("country", getCountryIdState);
-    // formUpdateData.append("gender", getGenderId);
-    // formUpdateData.append("dob", moment(value).format("MM.DD.YYYY"));
-    // formUpdateData.append("username", getUserInfoProfile.slug);
-    // formUpdateData.append(
-    //   "interests",
-    //   getInterestsIdApi == null ? idInterestsApi : getInterestsIdApi
-    // );
-    // formUpdateData.append("about", getUserInfoProfile.about);
-    // try {
-    //   await myaxiosprivate
-    //     .post("/api/v1/profiles/update", { data: formUpdateData })
-    //     .then((res) => {
-    //       toast.success("Successfully updated ", {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //       });
-    //       setTimeout(() => {
-    //         window.location.reload();
-    //       }, 2000);
-    //     });
-    // } catch (error) {
-    //   toast.error("Please check your details", {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //   });
-    // }
   };
 
   // ============================================================================================================================
@@ -654,7 +631,6 @@ const ProfileEdit = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", selectPassport);
-    console.log(formData);
     try {
       await myaxiosprivate
         .post("/api/v1/profiles/verify", formData, {
@@ -697,7 +673,7 @@ const ProfileEdit = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />;
+        <Loader size="xl" />
       </div>
     );
   }
@@ -740,7 +716,7 @@ const ProfileEdit = () => {
             </EditingButtons>
             <TabPanel value="personalinfo">
               <Section>
-                <form onSubmit={handleUpdateInfoProfile}>
+                <form onSubmit={handleSubmit(handleUpdateInfoProfile)}>
                   <EditingItem>
                     <ProfilePicture>
                       <figure className="image-figure">
@@ -774,8 +750,8 @@ const ProfileEdit = () => {
                       </div>
                     </ProfilePicture>
                     {errors.full_name && (
-                      <p className="mx-10 mb-1 text-red-500 text-xs">
-                        {errors.full_name}
+                      <p className="mx-14 mt-2 text-red-500 text-xs">
+                        {errors.full_name.message}
                       </p>
                     )}
                     <EditingInputs>
@@ -783,17 +759,15 @@ const ProfileEdit = () => {
                         type="text"
                         name="full_name"
                         // value={getUserInfoProfile.full_name}
-                        value={userInfo.full_name}
-                        onChange={handleChangeUserInfo}
+                        defaultValue={userInfo.full_name}
+                        // onChange={handleChangeUserInfo}
                         placeholder="Full name"
                         className="editing-inputs"
+                        {...register("full_name", {
+                          required: "Full name is required",
+                          min: 8,
+                        })}
                       />
-
-                      {/* {errors.full_name && (
-                        <p className="mx-14 mt-2 text-red-500 text-xs">
-                          {errors.full_name.message}
-                        </p>
-                      )} */}
                     </EditingInputs>
                   </EditingItem>
                   <GenderButtons>
@@ -840,6 +814,11 @@ const ProfileEdit = () => {
                           }
                         }}
                       >
+                        {errors.country && (
+                          <p className="mx-10 mb-1 text-red-500 text-xs">
+                            {errors.country.message}
+                          </p>
+                        )}
                         <h5 className="country-name">
                           {userInfo.country.name
                             ? userInfo.country.name
@@ -868,15 +847,16 @@ const ProfileEdit = () => {
                     </div>
                     {errors.email && (
                       <p className="mx-10 mt-2 text-red-500 text-xs">
-                        {errors.email}
+                        {errors.email.message}
                       </p>
                     )}
                     <div className="email-container">
                       <input
                         type="email"
-                        onChange={handleChangeUserInfo}
-                        // value={getUserInfoProfile.email}
-                        value={userInfo.email}
+                        defaultValue={userInfo.email}
+                        {...register("email", {
+                          required: "Email is required",
+                        })}
                         name="email"
                         className="info-input-email"
                         placeholder="Email"
@@ -887,12 +867,13 @@ const ProfileEdit = () => {
                     <div className="email-container">
                       <input
                         type="tel"
-                        onChange={handleChangeUserInfo}
+                        // onChange={handleChangeUserInfo}
                         // value={getUserInfoProfile.number}
-                        value={userInfo.number}
+                        defaultValue={userInfo.number}
                         name="number"
                         className="info-input-email"
                         placeholder="Phone Number"
+                        {...register("number")}
                       />
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
@@ -916,7 +897,7 @@ const ProfileEdit = () => {
                     />
                     {errors.slug && (
                       <p className="mx-14 mt-2 text-red-500 text-xs">
-                        {errors.slug}
+                        {errors.slug.message}
                       </p>
                     )}
                     <div className="wish-me-input-title">
@@ -925,10 +906,13 @@ const ProfileEdit = () => {
                         type="text"
                         name="slug"
                         // value={getUserInfoProfile.slug}
-                        value={userInfo.slug}
-                        onChange={handleChangeUserInfo}
+                        defaultValue={userInfo.slug}
+                        // onChange={handleChangeUserInfo}
                         className="info_input-small"
                         placeholder="username"
+                        {...register("slug", {
+                          required: "Username is required",
+                        })}
                       />
                     </div>
                     <div className="main-title-container">
@@ -962,8 +946,12 @@ const ProfileEdit = () => {
                         cols={5}
                         name="about"
                         // value={getUserInfoProfile.about}
-                        value={userInfo.about}
-                        onChange={handleChangeUserInfo}
+                        defaultValue={userInfo.about}
+                        // onChange={handleChangeUserInfo}
+                        {...register("about", {
+                          required: "About is required",
+                          min: 10,
+                        })}
                         className="text-area"
                         placeholder="About you"
                       />
@@ -974,12 +962,12 @@ const ProfileEdit = () => {
                         className="saveAndCancel save-button"
                         type="submit"
                         id="save_button"
-                        disabled={!isValid}
                       >
                         Save
                       </button>
                       <button
                         className="saveAndCancel cancel-button"
+                        type="button"
                         id="cancel_button"
                         onClick={() => setModalShow(true)}
                       >
@@ -994,20 +982,20 @@ const ProfileEdit = () => {
             <TabPanel value="passwordlogin">
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
-                <PasswordSettingsInputs>
+                {/* <PasswordSettingsInputs> */}
                   <Password
                     className="info_input"
                     placeholder="Old Password"
                     type={password ? "password" : "text"}
                   />
-                </PasswordSettingsInputs>
-                <PasswordSettingsInputs>
+                {/* </PasswordSettingsInputs> */}
+                {/* <PasswordSettingsInputs> */}
                   <Password
                     className="info_input"
                     placeholder="New Password"
                     type={password ? "password" : "text"}
                   />
-                </PasswordSettingsInputs>
+                {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
                   <button className="password-save-button">Save</button>
                 </div>

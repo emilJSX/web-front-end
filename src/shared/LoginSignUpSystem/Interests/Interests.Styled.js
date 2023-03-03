@@ -64,7 +64,7 @@ export const Interest = styled.div`
     }
 
     .multi-select {
-        @media (min-width: 375px) and (max-width: 480px) {
+        @media (max-width: 480px) {
             width: 87%;
             margin-left: -20px;
         }

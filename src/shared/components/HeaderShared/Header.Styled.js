@@ -15,7 +15,7 @@ export const HeaderContainer = styled(Header)`
         display: flex;
         gap: 28px;
 
-        @media (min-width: 375px) and (max-width: 992px) {
+        @media (max-width: 992px) {
             position: absolute;
             right: 15px;
             top: 31px;
@@ -42,7 +42,7 @@ export const HeaderContainer = styled(Header)`
     }
 
     .create-wish-btn {
-        @media (min-width: 375px) and (max-width: 1050px){
+        @media (max-width: 1050px){
             display: none;
         }
     }
@@ -80,7 +80,7 @@ export const HeaderContainer = styled(Header)`
     }
 
     .log-in-out-Section{
-        gap:32px;
+        //gap:32px;
         @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
                 display:none;
             }
@@ -177,7 +177,7 @@ export const CardIcon = styled.div`
     width: 202px;
     height: 45px;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         margin: 0px -691px 0 -200px;
         position: absolute;
         top: 20px;
@@ -208,7 +208,7 @@ export const CreateWishBtn = styled.button`
 
     }
     
-    @media (min-width: 375px) and (max-width: 1050px) {
+    @media (max-width: 1050px) {
         display: none;
     }
 `

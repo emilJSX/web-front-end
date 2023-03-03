@@ -23,13 +23,13 @@ export const Layout = ({ children }) => {
             header={(pathname !== "/" && pathname !== "/home") && <HeaderShared />}
             footer={<Footer />}
             asideOffsetBreakpoint="sm"
-            aside={
-                <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-                    <div>
-                        <AsideComponent hidden={!toggle} hiddenBreakpoint="sm" />
-                    </div>
-                </MediaQuery >
-            }
+            // aside={
+            //     <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+            //         <div>
+            //             <AsideComponent hidden={!toggle} hiddenBreakpoint="sm" />
+            //         </div>
+            //     </MediaQuery >
+            // }
         >
             {children}
         </AppShell >

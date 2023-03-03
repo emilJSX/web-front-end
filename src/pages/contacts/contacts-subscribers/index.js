@@ -54,8 +54,8 @@ const ContactsPage = () => {
     setErrorFollowing("");
     myaxiosprivate
       .get("/api/v1/follows/list?skip=0")
-      .then((res) => {
-        setFollowsData(res.data.data.list);
+      .then(({ data }) => {
+        setFollowsData(data.data.list);
       })
       .catch((err) => {
         setErrorFollowing(err.message);
@@ -67,11 +67,13 @@ const ContactsPage = () => {
       .get("/api/v1/followers/list?skip=0")
       .then(({ data }) => {
         setFollowersData(data.data.list);
-        const followedUser = {};
-        data.data.list.forEach((user) => {
-          followedUser[user.id] = user.followed;
-        });
-        setIsFollowing(followedUser);
+        if (data.data.list) {
+          const followedUser = {};
+          data.data.list.forEach((user) => {
+            followedUser[user.id] = user.followed;
+          });
+          setIsFollowing(followedUser);
+        }
       })
       .catch((err) => {
         setError(err.message);

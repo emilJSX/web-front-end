@@ -12,6 +12,7 @@ import {
   Grid,
   Container,
   Progress,
+  Loader,
 } from "@mantine/core";
 import {
   Link,
@@ -93,8 +94,11 @@ import { A11y, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
+import { myaxios } from "../../api/myaxios";
+import { useAuthSelector } from "../../store/slices/authSlice";
+import { useSelector } from "react-redux";
 const Home = () => {
+  const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -106,43 +110,48 @@ const Home = () => {
   const [opened, setOpened] = useState(false);
   const [getWishName, setWishName] = useState("");
   const [getAllWishData, setAllWishData] = useState([]);
-  const GetUserToken = localStorage.getItem("UserToken=");
 
   function GetWishNameForCreation() {
-    if (GetUserToken) {
+    if (isAuth) {
       navigate("/creating-wish", { state: getWishName });
-    } else if (!GetUserToken) {
+    } else {
       setShowes(true);
     }
   }
-
+  const [error, setError] = useState("");
   const [getPopularWish, setPopularWish] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setError("");
+    setLoading(true);
+    myaxios
+      .get("/api/v1/wish/list?skip=0", {
+        params: {
+          skip: 0,
+        },
+      })
+      .then(({ data }) => {
+        setAllWishData(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err.message);
+      });
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/wish/list?skip=0", {
-  //       params: {
-  //         skip: 0,
-  //       },
-  //     })
-  //     .then((getResultWish) => {
-  //       setAllWishData(getResultWish.data.data);
-  //     });
-
-  //   axios
-  //     .get("https://api.wishx.me/api/v1/wish/popular", {
-  //       params: {
-  //         skip: 0,
-  //       },
-
-  //     })
-  //     .then((getPopularWish) => {
-  //       setPopularWish(getPopularWish.data.data.results);
-  //     })
-  //     .catch(() => {
-  //       console.log(" ");
-  //     });
-  // }, []);
+    myaxios
+      .get("/api/v1/wish/popular", {
+        params: {
+          skip: 0,
+        },
+      })
+      .then(({ data }) => {
+        setPopularWish(data.data.results);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }, []);
 
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, { state: slug });
@@ -187,9 +196,16 @@ const Home = () => {
     setEmailOtpModal(!show);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
   return (
     <>
-      {showes && <Login_ConnectionSystem setShowes={setShowes} /> }
+      {showes && <Login_ConnectionSystem setShowes={setShowes} />}
       {registerModal && (
         <SignUp_ConnectionSystem
           setregisterModal={setregisterModal}
@@ -251,7 +267,7 @@ const Home = () => {
                       <div className="wish__slider__left">
                         <img
                           className="wish__slider__image"
-                          src={`https://api.wishx.me${getWishData.image}`}
+                          src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                         />
                         <img
                           className="wish__slider__icon"
@@ -370,7 +386,7 @@ const Home = () => {
                   </ButtonDefault>
                   <div className="image-background"></div>
                   <ImgWrapper
-                    src={`https://api.wishx.me${getWishData.image}`}
+                    src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>

@@ -73,13 +73,14 @@ import {
   Upload,
 } from "../Pasport/Pasport.Styled";
 import { RiFileDownloadLine } from "react-icons/ri";
-import { LoginSocialFacebook } from "reactjs-social-login";
+import { LoginSocialFacebook, LoginSocialGoogle } from "reactjs-social-login";
+// import { FacebookLoginButton } from "react-social-login-buttons";
 import {
   Paragraphs,
   Seconds,
   Send,
 } from "../PasswordRecoveryMessage/RecoveryMessage.Styled";
-import { myaxios, myaxiosprivate } from "../../../api/myaxios";
+import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
@@ -113,9 +114,11 @@ export function Login_ConnectionSystem({ setShowes }) {
           //set response in local storage
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
+          updateToken(token);
           setShowes(false);
           dispatch(setUserToken(token));
           navigate("/my-profile");
+          window.location.reload();
         })
         .catch((err) => {
           setError(err.message);
@@ -166,6 +169,34 @@ export function Login_ConnectionSystem({ setShowes }) {
       });
   };
 
+  const handleSocialLogin = async (data) => {
+    setError("");
+    const provider_id = process.env.REACT_APP_PROVIDER_ID;
+
+    if (data) {
+      const { email, name, picture } = data.data;
+      const { provider } = data;
+
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("avatar", picture.data.url);
+      formData.append("provider", provider);
+      formData.append("provider_id", provider_id);
+
+      await myaxiosprivate
+        .post("/api/v1/auth/social?", formData)
+        .then((res) => {
+          const token = res?.data?.data?.token;
+          localStorage.setItem("token", JSON.stringify(token));
+          setShowes(false);
+          dispatch(setUserToken(token));
+          navigate("/my-profile");
+          window.location.reload();
+        })
+        .catch((err) => setError(err.message));
+    }
+  };
   // ======================= END OTP COUNT DOWN CONFIG =========================
 
   return (
@@ -183,7 +214,7 @@ export function Login_ConnectionSystem({ setShowes }) {
               Not a user?
               <Button2 onClick={() => getSignUpModal()}>Sign up</Button2>
             </Paragraph>
-            <Facebook>
+            <Facebook className="cursor-pointer">
               <BsFacebook
                 style={{
                   fontSize: "22px",
@@ -192,28 +223,34 @@ export function Login_ConnectionSystem({ setShowes }) {
                 }}
               />
               <LoginSocialFacebook
-                appId="488149573514075"
-                onResolve={(responseFb) => {
-                  console.log(responseFb);
-                }}
+                appId={process.env.REACT_APP_FB_APP_ID}
+                redirect_uri={"https://localhost:3000/my-profile"}
+                onResolve={handleSocialLogin}
                 onReject={(error) => {
-                  console.log(error);
+                  setError(error.message);
                 }}
               >
                 <FacebookP>Facebook</FacebookP>
               </LoginSocialFacebook>
             </Facebook>
             <Goapp>
-              <Google>
-                <FaGoogle
-                  style={{
-                    fontSize: "22px",
-                    marginRight: "10px",
-                    color: "#3800B0",
-                  }}
-                />
-                <GoogleP>Google</GoogleP>
-              </Google>
+              <LoginSocialGoogle
+                client_id={process.env.REACT_APP_GOOGLE_APP_ID}
+                onResolve={handleSocialLogin}
+                onReject={(err) => setError(error.message)}
+              >
+                <Google>
+                  <FaGoogle
+                    style={{
+                      fontSize: "22px",
+                      marginRight: "10px",
+                      color: "#3800B0",
+                    }}
+                  />
+                  <GoogleP>Google</GoogleP>
+                </Google>
+              </LoginSocialGoogle>
+
               <Apple>
                 <FaApple
                   style={{
@@ -425,7 +462,6 @@ export function SignUp_ConnectionSystem({
   setregisterModal,
   setEmailOtpModal,
 }) {
-  const getUserToken = localStorage.getItem("userData");
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -500,20 +536,12 @@ export function SignUp_ConnectionSystem({
         signal: controller.signal,
       })
       .then((res) => {
-        if (res.status === 200) {
-          setUserNameErrorMessage("");
-          setUserNameAviableMessage(
-            getUserNameValue ? "Username is available" : null
-          );
-        }
+        console.log(res);
+        setUserNameAviableMessage(getUserNameValue ? res.data.message : null);
       })
       .catch((err) => {
-        if (err.response && err.response.status === 409) {
-          setUserNameAviableMessage("");
-          setUserNameErrorMessage("Username is already in use");
-        } else {
-          setUserNameErrorMessage("Something went wrong...");
-        }
+        setUserNameErrorMessage(err.message);
+        setUserNameAviableMessage("");
       });
   };
   // Parsing Extract the Name from an Email Address
@@ -521,11 +549,12 @@ export function SignUp_ConnectionSystem({
     setGetEmail(email);
     await myaxios
       .get("/api/v1/registration/get-code", { params: { email: email } })
-      .then(() => {
+      .then((res) => {
+        console.log(res);
         setTabIndex(1);
       })
       .catch((err) => {
-        setErrorMessage("The email has already been taken.");
+        setErrorMessage(err.message);
       });
   };
 
@@ -545,9 +574,9 @@ export function SignUp_ConnectionSystem({
 
   // UPDATE PROFILE API
 
-  const handleUpdateInfoProfile = (e) => {
+  const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
-    myaxiosprivate
+    await myaxiosprivate
       .post("api/v1/profiles/update", {
         full_name: formData.full_name,
         phone: formData.phone,
@@ -594,9 +623,9 @@ export function SignUp_ConnectionSystem({
   const [otp, setOtp] = useState();
   const [otpError, setOtpError] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    myaxios
+    await myaxios
       .post("api/v1/register", {
         otp: otp,
         name: getUserNameValue, //getEmail.split("@")[0]
@@ -608,6 +637,7 @@ export function SignUp_ConnectionSystem({
         if (res.data.success === true) {
           const token = res.data.data.token;
           localStorage.setItem("token", JSON.stringify(token));
+          updateToken(token);
           setTabIndex(2);
           try {
             myaxiosprivate.get("/api/v1/settings/countries/get").then((res) => {

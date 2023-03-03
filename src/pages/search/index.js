@@ -17,7 +17,7 @@ import {
   Loading,
 } from "./SearchCard.styled";
 import { Carddata } from "./CardData";
-import { Grid, Progress } from "@mantine/core";
+import { Grid, Loader, Progress } from "@mantine/core";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import {
@@ -32,7 +32,7 @@ import {
 } from "./Search.Styled";
 import { HiBadgeCheck, HiOutlineFilter } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
@@ -46,40 +46,17 @@ function Search() {
   const [getAllPeopleData, setAllPeopleData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const [getSearchValue, setSearchValue] = useState("");
-  const [getResultWishTotal, setResultWishTotal] = useState();
-  const [getResultPeopleTotal, setResultPeopleTotal] = useState();
   const [getInfinityScroll, setInfinityScroll] = useState(0);
   const [error, setError] = useState("");
   const { state } = useLocation();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   // INFINITY SCROLL
-
-  useEffect(() => {
-    const fetchProfileUser = async () => {
-      try {
-        await myaxios
-          .get(`/api/v1/profiles/search`, {
-            params: { skip: getInfinityScroll },
-          })
-          .then((res) => {
-            setAllPeopleData([ res.data]);
-          });
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    fetchProfileUser();
-  }, [getInfinityScroll]);
-
-  // const OnclickProfileInfinity = () => {
-  //   setInfinityScroll(getInfinityScroll + 10)
-  // }
-
+  const { myUserId } = state;
+  
   // END INFINITY SCROLL
 
   function getWishIdForResult(slug) {
@@ -87,52 +64,56 @@ function Search() {
   }
 
   function getUserSlugForProfile(slug) {
-    if (!slug) {
-      console.log(" ");
-    } else {
-      navigate("/profile/" + slug, { state: slug });
+    if (slug) {
+      navigate("/profile/" + slug, { state: { slug, myUserId } });
     }
   }
-
   useEffect(() => {
     setError("");
+    setLoading(true);
     myaxiosprivate
       .get("/api/v1/profiles/search", {
         params: {
           skip: 0,
-          search: state,
+          search: state.getSearchValue,
         },
       })
       .then((res) => {
-        setResultPeopleTotal(res.data.data.total);
-        setAllPeopleData(res.data.data);
-        console.log(getResultPeople);
+        const filteredData = res.data.data.results.filter(
+          (item) => item.id !== state.myUserId
+        );
+        setAllPeopleData(filteredData);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
+        setLoading(false);
       });
   }, []);
 
   useEffect(() => {
     setError("");
+    setLoading(true);
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
           skip: 0,
-          search: state,
+          search: state.getSearchValue,
         },
       })
       .then((res) => {
         setAllWishData(res.data.data);
-        setResultWishTotal(res.data.data.total);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
+        setLoading(false);
       });
   }, []);
 
   const getResultSearchingData = () => {
     setError("");
+    setLoading(true);
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
@@ -142,9 +123,10 @@ function Search() {
       })
       .then((res) => {
         setAllWishData(res.data.data);
-        setResultWishTotal(res.data.data.total);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         setError(err.message);
       });
 
@@ -156,13 +138,25 @@ function Search() {
         },
       })
       .then((res) => {
-        setAllPeopleData(res.data.data);
-        setResultPeopleTotal(res.data.data.total);
+        const filteredData = res.data.data.results.filter(
+          (item) => item.id !== state.myUserId
+        );
+        setAllPeopleData(filteredData);
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         setError(err.message);
       });
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
 
   return (
     <Mainly>
@@ -190,7 +184,7 @@ function Search() {
               <span
                 style={{ marginLeft: "8px", color: "#160046", opacity: "0.56" }}
               >
-                {getResultWishTotal}
+                {getAllWishData?.total}
               </span>
             </p>
           }
@@ -240,7 +234,7 @@ function Search() {
                     </button>
                     <div className="image-background"></div>
                     <ImgWrapper
-                      src={`https://api.wishx.me${getWishData.image}`}
+                      src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                     ></ImgWrapper>
                   </div>
                   <ContentWrapper>
@@ -286,7 +280,7 @@ function Search() {
               <span
                 style={{ marginLeft: "8px", color: "#160046", opacity: "0.56" }}
               >
-                {getResultPeopleTotal}
+                {getAllPeopleData.length}
               </span>
             </p>
           }
@@ -294,9 +288,15 @@ function Search() {
         >
           <GridBody>
             <Grid className="griddiv">
-              {getAllPeopleData?.results?.map((index) => (
+              {getAllPeopleData?.map((index) => (
                 <Personal>
-                  <Photo src={`https://api.wishx.me${index?.image}`} />
+                  <Photo
+                    src={
+                      index?.image
+                        ? index?.image
+                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                    }
+                  />
                   <Name
                     id={index.username}
                     onClick={(e) => getUserSlugForProfile(e.currentTarget.id)}

@@ -20,7 +20,7 @@ export const ContactsMainContainer = styled.div`
         margin: 30px 173px 0px 140px;
     }
 
-    @media (min-width: 375px) and (max-width: 500px){
+    @media (max-width: 500px){
         margin: 30px 173px 0px 30px;
     }
 
@@ -43,7 +43,7 @@ export const ContactsMainContainer = styled.div`
         justify-content: center;
         align-items: center;
 
-        @media (min-width: 375px) and (max-width: 400px) {
+        @media (max-width: 400px) {
             width: 335px;   
         }
 
@@ -111,7 +111,7 @@ align-items: center;
     width: 410px;
 }
 
-@media (min-width: 375px) and (max-width: 400px) {
+@media (max-width: 400px) {
     width: 345px;
 }
 
@@ -145,7 +145,7 @@ align-items: center;
     border: 1px solid #e3dfe3;
     border-radius: 10px;
   
-    @media(min-width: 375px) and (max-width: 768px) {
+    @media(max-width: 768px) {
         overflow-y: scroll;
     }
 }
@@ -229,7 +229,7 @@ export const UserContentDiv = styled.div`
         margin: 11px 6px;
     }
 
-    @media (min-width: 375px) and (max-width: 400px) {
+    @media (max-width: 400px) {
         width: 300px;
         margin: 0px 16px 0 -6px;
         padding-bottom: 68px;
@@ -324,7 +324,7 @@ export const DontHaveDataSection = styled.div`
         width: 410px;
     }
 
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         margin-left: -23px;
         width: 360px;
     }
@@ -339,7 +339,7 @@ export const DontHaveDataText = styled.p`
     font-size: 40px;
     color: #6033C0;
 
-    @media (min-width: 375px) and (max-width: 420px) {
+    @media (max-width: 420px) {
         margin-left: 15px;
         width: 327px;
         font-size: 26px;
@@ -399,7 +399,7 @@ export const GlasesImg = styled.img`
     height: 240px;
     margin : 70px auto  0  auto;
 
-    @media (min-width: 375px) and (max-width: 500px) {
+    @media (max-width: 500px) {
         width: 200px;
         height: 200px;
         padding-top: 40px;

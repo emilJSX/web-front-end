@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Container, Input, Image, Progress } from "@mantine/core";
+import { Grid, Container, Input, Image, Progress, Loader } from "@mantine/core";
 import {
   BlogCard,
   BlogMainSection,
@@ -99,7 +99,6 @@ const WishList = () => {
 
   function getUserSlugForProfile(id) {
     if (!id) {
-      console.log(" ");
     } else {
       navigate("/profile/" + id, { state: id });
     }
@@ -107,6 +106,7 @@ const WishList = () => {
 
   const GetResultWishesList = () => {
     setLoading(true);
+    setError("");
     myaxiosprivate
       .get("/api/v1/wish/list", {
         params: {
@@ -115,25 +115,26 @@ const WishList = () => {
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
       })
-      .then((res) => {
-        console.log(res.data)
-        setAllWishData(res.data.data.results);
+      .then(({data}) => {
+        setAllWishData(data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
-        setHasNextPage(!res.data.data.last);
+        setHasNextPage(data.data.last);
       })
+      .catch((err) => setError(err.message))
       .finally(() => {
         setLoading(false);
       });
   };
 
   useEffect(() => {
+    setError("");
     myaxios
       .get("/api/v1/blog/categories/get")
-      .then((res) => {
-        setCategory(res.data);
+      .then(({data}) => {
+        setCategory(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError(err.message));
   }, []);
 
   const buttonTitles = [
@@ -148,7 +149,13 @@ const WishList = () => {
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
   return (
     <BlogMainSection fluid>
       <div className="instruction">
@@ -270,7 +277,7 @@ const WishList = () => {
                     Congralute
                   </button>
                   <div className="image-background"></div>
-                  <ImgWrapper 
+                  <ImgWrapper
                     src={`https://api.wishx.me${getWishList.image}`}
                   ></ImgWrapper>
                 </div>

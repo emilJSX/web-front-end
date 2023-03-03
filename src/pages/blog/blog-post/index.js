@@ -1,21 +1,28 @@
 import React from "react";
 import { Grid, Image } from "@mantine/core";
-import { BlogPostSection, OtherBlogPost, BlogOtherCard, ColaImg, LineImage, BottomSection } from "./BlogPost.Styled";
-import colapostimg from '../../../style/icons/cola-blogpost.png'
-import colagrid from '../../../style/icons/colagrid.png'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
-import { OtherBlogpost } from './OtherBlogPostData';
-import { Lineimg } from './LineImg';
-import fb from '../../../style/icons/facebook.svg'
-import twitter from '../../../style/icons/twitter.svg'
-import telegram from '../../../style/icons/telegram.svg'
-import whatsapp from '../../../style/icons/whatsapp.svg'
-import sms from '../../../style/icons/sms.svg'
-import link from '../../../style/icons/link-2.svg'
+import {
+  BlogPostSection,
+  OtherBlogPost,
+  BlogOtherCard,
+  ColaImg,
+  LineImage,
+  BottomSection,
+} from "./BlogPost.Styled";
+import colapostimg from "../../../style/icons/cola-blogpost.png";
+import colagrid from "../../../style/icons/colagrid.png";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { Button, CardActionArea, CardActions } from "@mui/material";
+import { OtherBlogpost } from "./OtherBlogPostData";
+import { Lineimg } from "./LineImg";
+import fb from "../../../style/icons/facebook.svg";
+import twitter from "../../../style/icons/twitter.svg";
+import telegram from "../../../style/icons/telegram.svg";
+import whatsapp from "../../../style/icons/whatsapp.svg";
+import sms from "../../../style/icons/sms.svg";
+import link from "../../../style/icons/link-2.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 
 const BlogPost = () => {
@@ -46,7 +53,7 @@ const BlogPost = () => {
                     <p>May 20 {"|"} Travel</p>
                 </div>
                 <ColaImg className="first-image-container">
-                    <Image className="first-image" radius={20}
+                    <img className="first-image" alt=""
                         src={colapostimg}
                     />
                 </ColaImg>
@@ -65,7 +72,11 @@ const BlogPost = () => {
                     <br />
                     I arrived in the morning and Sarah and her team were busy at work on their last big wedding of the year! White blooms for days. Just breathtaking.
                 </p>
-                <Image className="colapostimg" src={colagrid} />
+                <ColaImg className="first-image-container">
+                    <img className="first-image" alt=""
+                         src={colagrid}
+                    />
+                </ColaImg>
                 <p className="second-txt">
                     When a creative-at-heart person such as myself invests fifteen years in the corporate world and then finally takes a leap of faith to start over where they really belong, getting the chance to tour an award-winning design studio is like heaven on earth. Not to mention, the opportunity to brainstorm with an expert like Sarah. Priceless. <br />
                     <br />
@@ -77,7 +88,7 @@ const BlogPost = () => {
                     We hoped you enjoyed learning about these unique custom corporate event gifts! If you enjoyed reading this, you'll love this blog post where we break down our favorite in-person corporate event gifts of 2021. And since corporate events are back in full swing, if you're interested in creating your own custom gift design, we'd love to connect. Happy {"(corporate)"} gifting!
                 </p>
                 <div className="social-icons">
-                    <p style={{ color: "#3800B0", textAlign: "start" }}>Share</p>
+                    <p className="text-[14px] leading-[1.3] font-semibold" style={{ color: "#3800B0", textAlign: "start" }}>Share</p>
                     <a href="#"><Image className="icon" src={fb} /></a>
                     <a href="#"><Image className="icon" src={twitter} /></a>
                     <a href="#"><Image className="icon" src={telegram} /></a>
@@ -87,7 +98,7 @@ const BlogPost = () => {
                 </div>
             </BlogPostSection>
 
-            <LineImage p={0} style={{paddingBottom: "50px"}} fluid>
+            <LineImage className="md:block hidden" p={0} style={{paddingBottom: "50px"}} fluid>
                 <div className="line-flex">
                     {Lineimg.data.map(({ url }) => (
                         <Image width={126.6} src={url} />
@@ -102,7 +113,7 @@ const BlogPost = () => {
                             {OtherBlogpost.data.map(({ foto, date, category, title, text }) => (
                                 <Grid.Col xs={12} sm={6} md={4} lg={4}>
                                     <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
-                                        <CardActionArea>
+                                        <CardActionArea className="card-action-area">
                                             <CardMedia
                                                 component="img"
                                                 image={foto}
