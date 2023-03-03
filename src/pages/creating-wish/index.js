@@ -28,13 +28,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { Stack, TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { myaxiosprivate } from "../../api/myaxios";
+import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
 const Created_Wish = () => {
   const [date, setDate] = useState(new Date());
   const [isVisibleSetter, setVisibleSetter] = useState(false);
   const [selectedCash, setSelectedCash] = useState("USD", 0);
   const [isVisible, setVisible] = useState("none");
+  const [getInterest, setGetInterest] = useState([])
 
   // ================================ Configuration Form Errors ================================
 
@@ -65,6 +66,13 @@ const Created_Wish = () => {
   useEffect(() => {
     setTitleWish(wishCreationTitleHome?.state);
   }, []);
+
+  useEffect(()=> {
+    myaxios.get('/api/v1/blog/categories/get')
+    .then((res)=> {
+      setGetInterest(res.data.data)
+    })
+  }, [])
 
   const wishCreationTitleHome = useLocation();
 
@@ -342,7 +350,7 @@ const Created_Wish = () => {
                     render={({ field }) => (
                       <MultiSelect
                         className="multiselect-interest"
-                        data={data}
+                        data={getInterest}
                         onChange={getInterestsId}
                         placeholder="Interests"
                         value={getInterestsIdApi}
