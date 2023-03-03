@@ -38,6 +38,16 @@ const MainBlog = () => {
   const [getResultApiSearch, setResultApiSearch] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [categories, setCategories] = useState();
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/blog/categories/get")
+      .then(({ data }) => {
+        setCategories(data?.data);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
+
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/articles/get", {
@@ -61,7 +71,7 @@ const MainBlog = () => {
     });
   };
 
-  var setLoadingBlog = [];
+  let setLoadingBlog = [];
   getResultApiSearch?.map((AllBlog) =>
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
   );
@@ -111,11 +121,11 @@ const MainBlog = () => {
         <ButtonSection>
           <div className="btn-section">
             <div className="btn-container">
-              {buttonTitles.map((title) => (
-                <Tab value={title.title}>
+              {categories?.map((category) => (
+                <Tab value={category.name}>
                   <button
                     className={
-                      title.id == 0
+                      category.id == 0
                         ? "all-btn selection-button"
                         : "other-btn selection-button"
                     }
@@ -130,9 +140,9 @@ const MainBlog = () => {
                                   "other-btn selection-button");
                           });
                     }}
-                    id={title.id}
+                    id={category.id}
                   >
-                    {title.title}
+                    {category.name}
                   </button>
                 </Tab>
               ))}

@@ -57,7 +57,7 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [getCategory, setCategory] = useState();
+  const [categories, setCategories] = useState();
 
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
@@ -115,7 +115,7 @@ const WishList = () => {
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setAllWishData(data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
@@ -127,16 +127,24 @@ const WishList = () => {
       });
   };
 
+  // useEffect(() => {
+  //   setError("");
+  //   myaxios
+  //     .get("/api/v1/blog/categories/get")
+  //     .then(({data}) => {
+  //       setCategories(data);
+  //     })
+  //     .catch((err) => setError(err.message));
+  // }, []);
   useEffect(() => {
-    setError("");
     myaxios
-      .get("/api/v1/blog/categories/get")
-      .then(({data}) => {
-        setCategory(data);
+      .get("/api/v1/wish/categories/get")
+      .then(({ data }) => {
+        setCategories(data?.data);
+        console.log(data);
       })
       .catch((err) => setError(err.message));
   }, []);
-
   const buttonTitles = [
     { id: 0, title: "All" },
     { id: 1, title: "Travel" },
@@ -178,11 +186,11 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
-            {buttonTitles.map((title) => (
-              <Tab value={title.title}>
+            {categories?.map((category) => (
+              <Tab value={category.name}>
                 <button
                   className={
-                    title.id == 0
+                    category.id == 0
                       ? "all-btn selection-button"
                       : "other-btn selection-button"
                   }
@@ -197,9 +205,9 @@ const WishList = () => {
                                 "other-btn selection-button");
                         });
                   }}
-                  id={title.id}
+                  id={category.id}
                 >
-                  {title.title}
+                  {category.name}
                 </button>
               </Tab>
             ))}
