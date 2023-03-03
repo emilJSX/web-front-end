@@ -22,7 +22,7 @@ padding-bottom: 50px;
 }
 
 .rainbow {
-    @media (min-width: 375px) and (max-width: 420px) {
+    @media (max-width: 420px) {
         height: 113px !important;
         margin-left: 6px;
         margin-top: 13px;
@@ -47,7 +47,7 @@ padding-bottom: 50px;
 
     .tabs{
 
-        @media(min-width: 375px) and (max-width: 1200px){
+        @media(max-width: 1200px){
             width: 95%;
         }
 
@@ -326,7 +326,7 @@ padding-bottom: 50px;
     -ms-flex: none;
     flex: none;
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         width: 34%;
     }
 
@@ -465,7 +465,7 @@ export const CardLong = styled.div`
     }
 }
 
-    @media (min-width: 375px) and (max-width: 992px) {
+    @media (max-width: 992px) {
         margin-left: 0px;
     }
 
@@ -563,7 +563,7 @@ export const CardLong = styled.div`
         }
     }
 
-    // @media (min-width: 375px) and (max-width: 420px) {
+    // @media (max-width: 420px) {
     //     width: 153%;
     // } 
 `;
@@ -655,9 +655,25 @@ export const TargetFinal = styled.div`
   width: 100%;
   margin: 0;
 
-  @media (min-width: 375px) and (max-width: 992px) {
-    display: none;
-  }
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: system-ui;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #110035;
+    width: 100%;
+    margin: 0;
+
+    @media (max-width: 992px) {
+        display: none;
+    }
+
+    @media (min-width: 1200px) and (max-width: 1400px) {
+        height: 35px;
+    }
 
   @media (min-width: 1200px) and (max-width: 1400px) {
     height: 35px;
@@ -772,10 +788,47 @@ export const LastDiv = styled.div`
     flex-flow: wrap;
     margin-top: -35px;
     display: flex;
-    justify-content: center;
-    margin-left: -65px;
-    width: 135%;
-  }
+    align-items: flex-start;
+    padding-bottom: 10px;
+    border-radius: 8px;
+
+    @media (max-width: 992px) {
+        display: none;
+    }
+
+    .edit-details-btn {
+
+        @media (min-width: 992px) and (max-width: 1350px) {
+            display: flex;
+            margin-top: 13px;
+        }
+
+    }
+
+    @media (min-width: 992px) and (max-width: 1020px) {
+        flex-flow: wrap;
+        margin-top: -35px;
+        display: flex;
+        justify-content: center;
+        margin-left: -65px;
+        width: 135%;
+    }
+
+    @media (min-width: 1020px) and (max-width: 1220px) {
+        flex-flow: wrap;
+        margin-top: -35px;
+        display: flex;
+        justify-content: center;
+        margin-left: -65px;
+        width: 130%;
+    }
+
+    @media (min-width: 1220px) and (max-width: 1350px) {
+        display: flex;
+        justify-content: center;
+        flex-flow: wrap;
+        margin-top: -35px;
+    }
 
   @media (min-width: 1020px) and (max-width: 1220px) {
     flex-flow: wrap;
@@ -841,9 +894,43 @@ export const LeftSection = styled(Container)`
   margin-left: 92px;
   top: 0;
 
-  @media (min-width: 992px) and (max-width: 1100px) {
-    margin-top: -244px;
-  }
+    
+    
+    @media (min-width: 992px) and (max-width: 1100px) {
+        margin-top: -244px;
+    }
+    
+    @media (min-width: 1100px) and (max-width: 1200px) {
+        margin-top: -270px;
+    }
+    
+    @media (min-width: 1200px) and (max-width: 1300px) {
+        margin-top: -310px;
+    }
+    
+    @media (min-width: 1300px) and (max-width: 1400px) {
+        margin-top: -325px;
+    }
+    
+    
+    @media(max-width: 992px) and (min-width: 420px){
+        margin-top: -100px;
+    }
+    
+    @media(max-width: 992px){
+        margin-top: -13px;
+        width: auto;
+    }
+    
+    @media (max-width: 992px) {
+        border-radius: unset !important;
+        margin-left: 4px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        margin: auto !important;
+        margin-top: -14px !important;
+        margin-left: 7px !important;
+    }
 
   @media (min-width: 1100px) and (max-width: 1200px) {
     margin-top: -270px;
@@ -1138,27 +1225,33 @@ export const LeftRightPriceDisplay = styled.div`
   height: 40px;
   font-size: 10px;
 
-  @media (min-width: 375px) and (max-width: 480px) {
-    padding-top: 0px;
-    display: flex;
-    align-items: center;
-  }
+    @media (max-width: 480px) {
+        padding-top: 0px;
+        display: flex;
+        align-items: center;
+    }
+    
+    @media (min-width:480px) and (max-width: 992px) {
+        display: flex;
+        align-items: center;
+        padding-top: 10px !important;
+    }
 
-  @media (min-width: 480px) and (max-width: 992px) {
-    display: flex;
-    align-items: center;
-    padding-top: 10px !important;
-  }
+//   @media (min-width: 480px) and (max-width: 992px) {
+//     display: flex;
+//     align-items: center;
+//     padding-top: 10px !important;
+//   }
 `;
 
 export const LeftPrice = styled.p``;
 
 export const RightPrice = styled.p`
-  @media (min-width: 375px) and (max-width: 992px) {
-    float: right;
-    right: 64px;
-  }
-`;
+    @media (max-width: 992px) {
+        float: right;
+        right: 64px;
+    }
+`
 
 export const MenuScrollCards = styled.div`
   display: flex;
@@ -1269,14 +1362,21 @@ export const FotoSection = styled(Container)`
     display: none;
   }
 
-  .rainbow {
-    @media (min-width: 375px) and (max-width: 500px) {
-      border-radius: unset !important;
-      border-top-left-radius: 15px !important;
-      border-top-right-radius: 15px !important;
+    @media (max-width: 992px) {
+        padding: 0 !important;
+        display: flex;
+        justify-content: center;
+        width: 95.5%;
+        display: none;
     }
-    border-radius: 15px;
-  }
+    
+    .rainbow {
+        @media (max-width: 500px) {
+            border-radius: unset !important;
+            border-top-left-radius: 15px !important;
+            border-top-right-radius: 15px !important;
+        }
+        border-radius: 15px ;
 
   body {
   }
@@ -1285,32 +1385,41 @@ export const FotoSection = styled(Container)`
 export const MobileTopCoverImageSection = styled.div`
   display: none;
 
-  @media (min-width: 375px) and (max-width: 992px) {
-    display: block;
-    width: 98.8%;
-    margin-left: 7px;
-  }
-`;
+    @media (max-width: 992px) {
+        display: block; 
+        width: 98.8%;
+        margin-left: 7px;
+    }
+`
 
 export const ShowBirtdayInWish = styled.p`
   display: none;
 
-  @media (min-width: 375px) and (max-width: 480px) {
-    display: block;
-    font-weight: 400;
-    padding-top: 30px;
-    font-size: 11px;
-    color: #110035;
-  }
+    @media (max-width: 480px) {
+        display: block;
+        font-weight: 400;
+        padding-top: 30px;
+        font-size: 11px;
+        color: #110035;
+    }
 
-  @media (min-width: 480px) and (max-width: 992px) {
-    display: block;
-    font-weight: 400;
-    padding-top: 45px;
-    padding-bottom: 10px;
-    font-size: 11px;
-    color: #110035;
-  }
+    @media (min-width: 480px) and (max-width: 992px) {
+        display: block;
+        font-weight: 400;
+        padding-top: 45px;
+        padding-bottom: 10px;
+        font-size: 11px;
+        color: #110035;
+    }
+
+  // @media (min-width: 480px) and (max-width: 992px) {
+  //   display: block;
+  //   font-weight: 400;
+  //   padding-top: 45px;
+  //   padding-bottom: 10px;
+  //   font-size: 11px;
+  //   color: #110035;
+  // }
 `;
 
 export const Wrapper = styled.div`
@@ -1380,7 +1489,7 @@ export const UserName = styled.h6`
   font-weight: 600;
   font-size: 14px;
 
-  @media (min-width: 375px) and (max-width: 992px) {
+@media (max-width: 992px) {
     width: 320px;
     margin-top: 29px;
   }
@@ -1390,7 +1499,7 @@ export const UserPhoto = styled.img`
   width: 40px;
   height: 40px;
 
-  @media (min-width: 375px) and (max-width: 992px) {
+@media (max-width: 992px) {
     position: absolute;
     border-radius: 24px;
     width: 40px;

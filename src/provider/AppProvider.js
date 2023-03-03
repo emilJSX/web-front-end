@@ -4,10 +4,9 @@ import { Layout } from '../shared/components/layout';
 
 const AppProvider = ({ children }) => {
     return (
-            <Layout>
-                {children}
-            </Layout>
-
+      <Layout>
+          {children}
+      </Layout>
     )
 }
 

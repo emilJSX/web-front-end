@@ -29,6 +29,10 @@ import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.s
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
+import moment from "moment";
+
+
+
 
 const MainBlog = () => {
   const navigate = useNavigate();
@@ -94,7 +98,7 @@ const MainBlog = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />;
+        <Loader size="xl" />
       </div>
     );
   }

@@ -8,9 +8,15 @@ export const CustomAside = styled(Aside)`
     padding:62px 0;
     transition: height 0ms 400ms, opacity 400ms 0ms;
     animation: fadeIn 0.5s;
+    z-index: 1000;
+    top: 90px;
+    bottom: 0;
+    height: 100%;
     /* border-radius: -16px -16px 0px 0px ; */
 
-
+  @media (min-width: 992px) {
+    display: none !important;
+  }
 
     ul{
         display:flex;
@@ -45,8 +51,8 @@ export const CustomAside = styled(Aside)`
         flex-direction:column;
         align-items: center;
         justify-content:space-between;
-        height:100%;
-
+        height:calc(100vh - 200px);
+        overflow: auto;
     }
 
     .hr-aside{

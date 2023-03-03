@@ -40,6 +40,10 @@ import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
 
+
+
+
+
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
   console.log(isAuth);
@@ -47,7 +51,8 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
-        <Routes >
+
+        <Routes>
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} /> {/* + */}
           <Route path="/rating" element={<Rating />} />

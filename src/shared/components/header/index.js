@@ -29,7 +29,7 @@ export const Header = ({ toggle }) => {
             </section>
             <section className='log-in-out-Section'>
                 <Button variant='white'><Link to='/log-in'>Log in</Link></Button>
-                <Button><Link to='/create-wish'>Create a wish</Link></Button>
+                <Button className="ml-8"><Link to='/create-wish'>Create a wish</Link></Button>
             </section>
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <Box>

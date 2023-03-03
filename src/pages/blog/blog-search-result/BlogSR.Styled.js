@@ -5,6 +5,11 @@ export const BlogMainSection = styled(Container) `
     padding-top: 50px;
     padding-right: 100px;
     padding-left: 100px;
+  
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     
     @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
         width: 80%;
@@ -13,6 +18,7 @@ export const BlogMainSection = styled(Container) `
     .instruction h2 {
         font-size: 50px;
         font-weight: 600;
+      margin-bottom: 32px;
 
         @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
             font-size: 40px;
@@ -180,6 +186,7 @@ export const BlogMainSectionError = styled(Container) `
     @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}){
         padding-right: 20px;
         padding-left: 20px;
+        padding-top: 0;
     }
 
     .input-col-root {
@@ -257,6 +264,7 @@ export const BlogMainSectionError = styled(Container) `
 export const NotFoundSection = styled(Container) `
     background: #F7F8FA;
     padding-top: 20px;
+  border-radius: 32px;
 
     .glasses-img { 
         display: flex;
@@ -265,19 +273,29 @@ export const NotFoundSection = styled(Container) `
     }
 
     .notfound-section h1 {
-        padding-top: 50px;
+        padding-top: 64px;
         color: #6033C0;
         text-align: center;
         font-size: 40px;
         font-weight: 600;
+      
+        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}) {
+          padding-top: 24px;
+          font-size: 32px;
+        }
     }
 
     .notfound-section p {
-        padding-top: 30px;
+        padding-top: 24px;
         padding-bottom: 10px;
         text-align: center;
         color: #6033C0;
-        font-size: 15px;
+        font-size: 18px;
         font-weight: 400;
+      
+        @media screen and (max-width: ${({ theme })=> theme.breakPoints.sm}) {
+          padding-top: 16px;
+          font-size: 16px;
+        }
     }
 `

@@ -115,7 +115,7 @@ export const IconsSection = styled.div`
     gap:25px;
     padding-top: 12px;
 
-    @media (min-width: 375px) and (max-width: 1000px) {
+    @media (max-width: 1000px) {
         font-size: 25px;
     }
 `

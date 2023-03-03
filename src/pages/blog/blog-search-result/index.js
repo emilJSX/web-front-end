@@ -30,6 +30,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
+import SearchIcon from '../../../style/icons/search-icon.svg'
 
 const BlogSearchResult = () => {
   // Get result search and category in Main Blog for use result blog
@@ -110,24 +111,12 @@ const BlogSearchResult = () => {
 
         <Grid>
           <Grid.Col span={12}>
-            <CustomInput
-              className="inp-sect"
-              onChange={(e) => setUserSearch(e.target.value)}
-              placeholder={state.GetUserSearch}
-            />
-            <FontAwesomeIcon
-              icon={faSearch}
-              onClick={getBlogSearch}
-              style={{
-                transform: "translate(-50px, 0px)",
-                float: "right",
-                marginTop: "-28px",
-                fontSize: "20px",
-              }}
-            />
-          </Grid.Col>
-        </Grid>
-        <div style={{ display: show404 ? "none" : "block" }}>
+          <CustomInput className='inp-sect' onChange={(e)=>setUserSearch(e.target.value)} placeholder={state.GetUserSearch} />
+                        <img src={SearchIcon} onClick={getBlogSearch} style={{ transform: 'translate(-50px, 0px)', float: "right",
+                        marginTop: "-40px", fontSize: "20px", cursor: "pointer" }} />
+                    </Grid.Col>
+                </Grid>
+                <div style={{ display: show404 ? "none" : 'block' }}>
           <BlogCard fluid>
             <Grid>
               {getResultBlogSearch.map((res_blog) => (

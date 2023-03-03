@@ -52,62 +52,100 @@ export const Header = styled.div`
     @media (max-width: 645px) {
       padding-left: 30px;
       justify-content: start;
-    }
-  }
-
-  .main-page-title {
-    height: 80px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-family: "Steppe";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 56px;
-    line-height: 140%;
-    font-feature-settings: "liga" off;
-    color: #0b0023;
-    display: flex;
-    justify-content: start;
-
-    @media (min-width: 1200px) {
-      padding-left: 60px;
-    }
-
-    @media (max-width: 1200px) {
-      height: 70px;
-      font-size: 40px;
-      justify-content: center;
-    }
-
-    @media (max-width: 645px) {
-      padding-left: 30px;
-      justify-content: start;
-    }
-  }
+   }
+      
+ }
+      
+   .main-page-title{
+     width: 100%;
+     display: flex;
+     align-items: center;
+     font-family: 'Steppe';
+     font-style: normal;
+     font-weight: 600;
+     font-size: 56px;
+     line-height: 140%;
+     font-feature-settings: 'liga' off;
+     color: #0B0023;
+     display: flex;
+     justify-content: start;
+     
+     @media(min-width: 1200px){
+        padding-left: 60px;   
+     }
+      
+      @media (max-width: 1200px) {
+        //height: 70px;
+        font-size: 40px;
+        justify-content: center;
+      }
+      
+      @media(max-width: 645px){
+         padding-left: 30px;
+         justify-content: start;
+         
+      }
+            
+   }
 `;
 
+  // .main-page-title {
+  //   height: 80px;
+  //   width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   font-family: "Steppe";
+  //   font-style: normal;
+  //   font-weight: 600;
+  //   font-size: 56px;
+  //   line-height: 140%;
+  //   font-feature-settings: "liga" off;
+  //   color: #0b0023;
+  //   display: flex;
+  //   justify-content: start;
+
+  //   @media (min-width: 1200px) {
+  //     padding-left: 60px;
+  //   }
+
+  //   @media (max-width: 1200px) {
+  //     height: 70px;
+  //     font-size: 40px;
+  //     justify-content: center;
+  //   }
+
+  //   @media (max-width: 645px) {
+  //     padding-left: 30px;
+  //     justify-content: start;
+  //   }
+  // }
+// `;
+
 export const EditingButtons = styled.div`
-  height: 150px;
+  //height: 150px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: auto;
   z-index: 10;
+  margin-bottom: 24px;
 
-  @media (max-width: 1200px) {
-    justify-content: center;
-    margin: 0;
+  @media(max-width: 1200px){
+   justify-content: center;
+   //margin: 0;
   }
 
   @media (min-width: 1200px) {
     margin-left: 40px;
   }
 
-  @media (max-width: 645px) {
-    padding: 0;
-    justify-content: start;
+  
+  @media(max-width: 645px){
+   padding: 0;
+   justify-content: start;
+    margin-left: 16px;
+    margin-bottom: 24px;
   }
 
   .insider {
@@ -169,11 +207,13 @@ export const Section = styled.div`
 export const EditingItem = styled.div``;
 
 export const ProfilePicture = styled.div`
-  height: 150px;
+  
+  //height: 150px;
   width: 100%;
   padding-left: 50px;
   display: flex;
   align-items: center;
+  margin-bottom: 24px;
 
   .image-figure {
     height: 50px;
@@ -588,14 +628,14 @@ export const MainInputs = styled.div`
          margin: 0;
 
          @media (max-width: 645px) {
-            padding-left: 10px;
+            padding-left: 16px;
             font-size: 16px;
          }
       }
 
       .info_input-small{
          padding-left: 30px;
-         margin-left: 10px;
+         margin-left: 16px;
          font-family: 'Steppe';
          font-style: normal;
          font-weight: 500;
@@ -816,7 +856,188 @@ export const PasswordSettings = styled.div`
       height: 56px;
       background: #3800b0;
       border-radius: 8px;
-      font-family: "Steppe";
+      border: 2px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+
+      .google-icon{
+         font-size: 30px;
+         color: #3800B0;
+         margin-right: 10px;
+      }
+
+      .google-title{
+         color: black;
+         font-size: 30px;
+         font-family: 'Steppe';
+         font-style: normal;
+         font-weight: 600;
+         font-size: 14px;
+         line-height: 130%;
+         letter-spacing: 0.01em;
+         font-feature-settings: 'liga'
+      }
+
+
+      @media(max-width: 645px){
+         width: 90%;
+      }
+   }
+
+   .apple-button{
+      width: 550px;
+      height: 56px;
+      background: #110035;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+
+      .apple-icon{
+         font-size: 30px;
+         color: #FFFFFF;
+         margin-right: 10px;
+      }
+
+      .apple-title{
+         color: white;
+         font-size: 30px;
+         font-family: 'Steppe';
+         font-style: normal;
+         font-weight: 600;
+         font-size: 14px;
+         line-height: 130%;
+         letter-spacing: 0.01em;
+         font-feature-settings: 'liga'
+      }
+
+
+      @media(max-width: 645px){
+         width: 90%;
+      }
+   }
+`
+
+
+export const PictureUpload = styled.div`
+  width: 100%;
+   padding-bottom: 50px;
+`
+
+
+export const PictureUploadComponents = styled.div`
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: start;
+
+      @media(max-width: 645px){
+        align-items: center;
+      }
+
+      @media(max-width: 1200px){
+         padding: 0;
+         align-items: center;
+      }
+
+      @media(min-width: 1200px){
+        padding-left: 50px;
+      }
+
+
+      .send-btn-passport {
+         display: flex;
+         justify-content: center;
+      }
+
+
+    .title{
+      height: 100px;
+      width: 550px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 160%;
+      font-feature-settings: 'liga' off;
+      color: #110035;
+
+
+      @media(min-width: 645px){
+         height: 120px;
+         display: flex;
+         align-items: center;
+      }
+      
+      @media(max-width: 645px){
+         width: 90%;
+         height: auto;
+         text-align: left;
+        margin-bottom: 16px;
+        font-size: 14px;
+      }
+   }
+
+   #photo-uploader{
+      display: none;
+   }
+
+   .upload-picture-treams{
+      width: 100%;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+
+      @media(max-width: 1200px){
+         align-items: center;
+      }
+
+      @media(max-width: 645px){
+         align-items: start;
+      }
+
+      ul{
+         font-family: 'Inter';
+         font-style: normal;
+         font-weight: 400;
+         font-size: 14px;
+         line-height: 160%;
+         font-feature-settings: 'liga' off;
+         color: #110035;
+         padding-left: 20px;
+
+         @media(max-width: 1200px){
+            padding-right: 100px;
+         }
+         
+
+         @media(max-width: 645px){
+            padding-right: 20px;
+            padding-left: 24px;
+         }
+      }
+
+     ul li{
+        //list-style: inside;
+        margin-top: 10px;
+
+        @media(max-width: 645px){
+         font-size: 14px; 
+        }
+     }
+   }
+
+   .save-to-verification{
+      margin-top: 40px;
+      width: 550px;
+      height: 56px;
+      background: #3800B0;
+      border-radius: 8px;
+      font-family: 'Steppe';
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
@@ -849,19 +1070,26 @@ export const PasswordSettings = styled.div`
       padding-left: 40px;
     }
 
-    @media (max-width: 1200px) {
-      justify-content: center;
-    }
-
-    @media (min-width: 1200px) {
-      padding-left: 50px;
-    }
-  }
+      @media(max-width: 645px){
+         padding-right: 0;
+        padding-left: 16px;
+      }
+   }
 `;
+
+//     @media (min-width: 1200px) {
+//       padding-left: 50px;
+//     }
+//   }
+// `;
 
 export const PasswordSettingsInputs = styled.div`
   width: 550px;
-  position: relative;
+  // min-height: 250px;
+  padding: 24px;
+  background: #F7F8FA;
+  border: 1px dashed #BFACE9;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1032,147 +1260,147 @@ export const SosialMediaButtons = styled.div`
   }
 `;
 
-export const PictureUpload = styled.div`
-  width: 100%;
-  padding-bottom: 50px;
-`;
+// export const PictureUpload = styled.div`
+//   width: 100%;
+//   padding-bottom: 50px;
+// `;
 
-export const PictureUploadComponents = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: start;
+// export const PictureUploadComponents = styled.div`
+//   display: flex;
+//   width: 100%;
+//   flex-direction: column;
+//   align-items: start;
 
-  @media (max-width: 645px) {
-    align-items: center;
-  }
+//   @media (max-width: 645px) {
+//     align-items: center;
+//   }
 
-  @media (max-width: 1200px) {
-    padding: 0;
-    align-items: center;
-  }
+//   @media (max-width: 1200px) {
+//     padding: 0;
+//     align-items: center;
+//   }
 
-  @media (min-width: 1200px) {
-    padding-left: 50px;
-  }
+//   @media (min-width: 1200px) {
+//     padding-left: 50px;
+//   }
 
-  .send-btn-passport {
-    display: flex;
-    justify-content: center;
-  }
+//   .send-btn-passport {
+//     display: flex;
+//     justify-content: center;
+//   }
 
-  .title {
-    height: 100px;
-    width: 550px;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 160%;
-    font-feature-settings: "liga" off;
-    color: #110035;
+//   .title {
+//     height: 100px;
+//     width: 550px;
+//     font-family: "Inter";
+//     font-style: normal;
+//     font-weight: 400;
+//     font-size: 16px;
+//     line-height: 160%;
+//     font-feature-settings: "liga" off;
+//     color: #110035;
 
-    @media (min-width: 645px) {
-      height: 120px;
-      display: flex;
-      align-items: center;
-    }
+//     @media (min-width: 645px) {
+//       height: 120px;
+//       display: flex;
+//       align-items: center;
+//     }
 
-    @media (max-width: 645px) {
-      width: 90%;
-      height: auto;
-      text-align: center;
-    }
-  }
+//     @media (max-width: 645px) {
+//       width: 90%;
+//       height: auto;
+//       text-align: center;
+//     }
+//   }
 
-  #photo-uploader {
-    display: none;
-  }
+//   #photo-uploader {
+//     display: none;
+//   }
 
-  .upload-picture-treams {
-    width: 100%;
-    margin-top: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+//   .upload-picture-treams {
+//     width: 100%;
+//     margin-top: 40px;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: start;
 
-    @media (max-width: 1200px) {
-      align-items: center;
-    }
+//     @media (max-width: 1200px) {
+//       align-items: center;
+//     }
 
-    @media (max-width: 645px) {
-      align-items: start;
-    }
+//     @media (max-width: 645px) {
+//       align-items: start;
+//     }
 
-    ul {
-      font-family: "Inter";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 160%;
-      font-feature-settings: "liga" off;
-      color: #110035;
-      padding-left: 20px;
+//     ul {
+//       font-family: "Inter";
+//       font-style: normal;
+//       font-weight: 400;
+//       font-size: 14px;
+//       line-height: 160%;
+//       font-feature-settings: "liga" off;
+//       color: #110035;
+//       padding-left: 20px;
 
-      @media (max-width: 1200px) {
-        padding-right: 100px;
-      }
+//       @media (max-width: 1200px) {
+//         padding-right: 100px;
+//       }
 
-      @media (max-width: 645px) {
-        padding-right: 0;
-        padding-left: 60px;
-      }
-    }
+//       @media (max-width: 645px) {
+//         padding-right: 0;
+//         padding-left: 60px;
+//       }
+//     }
 
-    ul li {
-      list-style: inside;
-      margin-top: 10px;
+//     ul li {
+//       list-style: inside;
+//       margin-top: 10px;
 
-      @media (max-width: 645px) {
-        font-size: 14px;
-      }
-    }
-  }
+//       @media (max-width: 645px) {
+//         font-size: 14px;
+//       }
+//     }
+//   }
 
-  .save-to-verification {
-    margin-top: 40px;
-    width: 550px;
-    height: 56px;
-    background: #3800b0;
-    border-radius: 8px;
-    font-family: "Steppe";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 130%;
-    letter-spacing: 0.01em;
-    font-feature-settings: "liga" off;
-    color: #ffffff;
+//   .save-to-verification {
+//     margin-top: 40px;
+//     width: 550px;
+//     height: 56px;
+//     background: #3800b0;
+//     border-radius: 8px;
+//     font-family: "Steppe";
+//     font-style: normal;
+//     font-weight: 600;
+//     font-size: 14px;
+//     line-height: 130%;
+//     letter-spacing: 0.01em;
+//     font-feature-settings: "liga" off;
+//     color: #ffffff;
 
-    @media (max-width: 645px) {
-      width: 90%;
-    }
-  }
+//     @media (max-width: 645px) {
+//       width: 90%;
+//     }
+//   }
 
-  .trems-head-title {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 160%;
-    font-feature-settings: "liga" off;
-    color: #110035;
+//   .trems-head-title {
+//     font-family: "Inter";
+//     font-style: normal;
+//     font-weight: 400;
+//     font-size: 14px;
+//     line-height: 160%;
+//     font-feature-settings: "liga" off;
+//     color: #110035;
 
-    @media (max-width: 1200px) {
-      padding-right: 400px;
-    }
+//     @media (max-width: 1200px) {
+//       padding-right: 400px;
+//     }
 
-    @media (max-width: 645px) {
-      padding-right: 0;
-      padding-left: 40px;
-    }
-  }
-`;
+//     @media (max-width: 645px) {
+//       padding-right: 0;
+//       padding-left: 40px;
+//     }
+//   }
+// `;
 
 export const PictureDropDown = styled.div`
   width: 550px;
@@ -1248,7 +1476,7 @@ export const StatusPedding = styled.div`
       width: 90%;
       justify-content: start;
       align-items: flex-end;
-      padding-left: 10px;
+      padding-left: 16px;
       padding-bottom: 20px;
     }
   }
@@ -1272,7 +1500,31 @@ export const StatusPedding = styled.div`
       width: 100%;
     }
 
-    @media (max-width: 645px) {
+   @media(max-width: 645px){
+     display: flex;
+     justify-content: center;
+     text-align: start;
+     padding-left: 16px;
+     width: 90%;
+     font-size: 15px;
+   }
+}
+
+.contact-administration-title{
+   padding-left: 50px;
+   height: 40px;
+   display: flex;
+   align-items: flex-end;
+   font-family: 'Steppe';
+   font-style: normal;
+   font-weight: 600;
+   font-size: 14px;
+   line-height: 130%;
+   letter-spacing: 0.01em;
+   font-feature-settings: 'liga' off;
+   color: #3800B0;
+
+   @media(max-width: 1200px){
       display: flex;
       justify-content: center;
       text-align: start;
@@ -1305,9 +1557,9 @@ export const StatusPedding = styled.div`
       display: flex;
       justify-content: start;
       width: 90%;
-      padding-left: 10px;
-    }
-  }
+      padding-left: 16px;
+   }
+}
 
   .contact-administration-title:hover {
     text-decoration: underline;
@@ -1359,7 +1611,63 @@ export const Compleated = styled.div`
     font-feature-settings: "liga" off;
     color: #110035;
 
-    @media (max-width: 1200px) {
+   .verification-compleated-title{
+      padding-left: 50px;
+      padding-top: 20px;
+      padding-bottom: 30px;
+      font-family: 'Steppe';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 120%;
+      font-feature-settings: 'liga' off;
+      color: #110035;
+
+      @media(max-width: 1200px){
+         display: flex;
+         justify-content: center;
+         padding-left: 0px;
+         width: 100%;
+         font-size: 18px;
+      }
+
+      @media(max-width: 645px){
+         display: flex;
+         justify-content: center;
+         padding-left: 24px;
+         padding-right: 24px;
+         width: 100%;
+         font-size: 18px;
+      }
+   }
+
+   .moderator-compleating{
+      padding-left: 50px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 160%;
+      font-feature-settings: 'liga' off;
+      color: #110035;
+
+      @media(max-width: 1200px){
+         padding-left: 0px;
+         display: flex;
+         justify-content: center;
+      }
+
+      @media(max-width: 645px){
+         padding-left: 24px;
+         padding-right: 24px;
+         display: flex;
+         justify-content: center;
+      }
+   }
+
+   .contact-administration-title{
+      padding-left: 50px;
+      height: 40px;
       display: flex;
       justify-content: center;
       padding-left: 0px;

@@ -305,7 +305,7 @@ export const PaymentBody = styled.div`
         padding: 12px 190px 5px 190px;
         width: 100%;
 
-        @media (min-width: 375px) and (max-width: 1200px) {
+        @media (max-width: 1200px) {
             padding: 12px 140px 5px 136px;
             width: 100%;
         }
@@ -343,7 +343,7 @@ export const PaymentBody = styled.div`
         padding: 12px 180px 5px 180px;
         width: 100%;
 
-        @media (min-width: 375px) and (max-width: 1200px) {
+        @media (max-width: 1200px) {
             padding: 12px 140px 5px 136px;
             width: 100%;
         }
@@ -371,7 +371,7 @@ export const PaymentBody = styled.div`
 export const InputContainer = styled.div`
     margin: 30px 111px 0px 93px;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         margin: 0;
     }
 
@@ -382,7 +382,7 @@ export const InputContainer = styled.div`
 
 export const PaymentContainer = styled(Container)`
     margin: 0px 106px 0px 106px;
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         margin: 0;
     }
 `
@@ -392,7 +392,7 @@ export const BlueContainer = styled.div`
     padding-left: 150px;
     padding-top: 50px;
 
-    @media (min-width: 375px) and (max-width: 1200px){
+    @media (max-width: 1200px){
         padding-left: 0px;
         border-radius: 10px;
         padding-top: 20px;
@@ -432,7 +432,7 @@ export const MobileDetailsText = styled.p`
     font-weight: 400;
     margin-right: 5px;
     display: none;
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: block;
     }
 `
@@ -444,7 +444,7 @@ export const MobileDetailsArrow = styled.div`
     padding-right: 15px;
     display: none;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: block;
         float: right;
         display: flex;
@@ -458,7 +458,7 @@ export const PayWishTxt = styled.p`
     padding-top: 30px;
     margin-left: 30px;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: none;
     }
 `
@@ -469,7 +469,7 @@ export const Cost = styled.p`
     color: #FFFFFF;
     margin-left: 30px;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: none;
     }
 `
@@ -485,7 +485,7 @@ export const WatchTxtCost = styled.div`
     gap: 18px;
     padding-top: 30px;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: none;
     }
 `
@@ -506,7 +506,7 @@ export const WatchCost = styled.p`
 
 export const SubTotalContainer = styled.div`
 
-@media (min-width: 375px) and (max-width: 1200px) {
+@media (max-width: 1200px) {
     display: none;
 }
 .line {
@@ -523,7 +523,7 @@ export const SubtotalSection = styled.div`
     margin-left: 97px;
     margin-right: -118px;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         margin-right: 0px;
     }
 `
@@ -562,7 +562,7 @@ export const BottomTextSection = styled.div`
     padding-bottom: 100px;
     justify-content: center;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: none;
     }
 
@@ -600,7 +600,7 @@ export const OrPayWithCardText = styled.p`
 export const MobileWatchImage = styled.img`
     display: none;
 
-    @media (min-width: 375px) and (max-width: 1200px) {
+    @media (max-width: 1200px) {
         display: block;
         margin: auto;
         width: 40%;
@@ -611,7 +611,7 @@ export const MobileWatchImage = styled.img`
 
 export const PayWishMobile = styled.p`
     display: none;
-    @media(min-width: 375px) and (max-width: 1200px) {
+    @media(max-width: 1200px) {
         display: block;
         color: grey;
         font-size: 16px;
@@ -623,7 +623,7 @@ export const PayWishMobile = styled.p`
 
 export const PayWishCostMobile = styled.p`
     display: none;
-    @media(min-width: 375px) and (max-width: 1200px) {
+    @media(max-width: 1200px) {
         display: block;
         font-size: 27px;
         font-weight: 590;

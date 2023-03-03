@@ -30,21 +30,33 @@ export const BlogPostSection = styled(Container) `
 
     .first-image-container{
         overflow: hidden;
+      width: 100%;
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
-            width: 343px;
-            height: 240px;
+        .first-image {
+          width: 100%;
+          height: 100% !important;
+          max-height: 580px !important;
+          border-radius: 20px;
+          
+          @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) { 
+            max-height: 280px !important;
+          }
         }
-
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
-            width: 664px;
-            height: 400px;
-        }
+      
+        // @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        //     width: 343px;
+        //     height: 240px;
+        // }
+        //
+        // @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        //     width: 664px;
+        //     height: 400px;
+        // }
     }
 
     .icon{
         width: 100% !important;
-        height: 10px !important;
+        //height: 10px !important;
     }
 
     .rule-section p {
@@ -52,12 +64,24 @@ export const BlogPostSection = styled(Container) `
         color: grey;
         padding-top: 30px;
     }
-    
+
+  .main-txt {
+    margin-bottom: 32px;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      margin-bottom: 0;
+    }
+  }
+  
     .main-txt h1 {
         font-size: 50px;
         font-weight: 600;
+      
+      @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}) {
+        margin: 0 -80px;
+      }
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
             font-size: 40px;
             padding-top: 10px;
         }
@@ -136,10 +160,12 @@ export const BlogPostSection = styled(Container) `
 
     .social-icons {
         display: flex;
-        justify-content: center;
         gap: 30px;
         padding-top: 20px;
+        margin-top: 32px;
         padding-bottom: 50px;
+        width: 100%;
+        align-items: center;
 
         @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
            padding-right: 200px;
@@ -157,28 +183,39 @@ export const OtherBlogPost = styled(Container) `
     padding-bottom: 100px;
     
     .blogposttop-text {
-        font-size: 35px;
+        font-size: 40px;
         padding-top: 30px;
         padding-bottom: 50px;
-        font-weight: 500;
+        font-weight: 600;
         padding-left: 10px;
     }
 
     .date-category {
-        color: grey;
-        font-size: 13px;
-        font-weight: 300;
+        color: #110035;
+        font-size: 14px;
+        font-weight: 400;
+        opacity: 0.4;
+      
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+            font-size: 12px;
+        }
     }
     
     .title-card {
         color: #0B0023;
         font-weight: 600;
-        font-size: 25px;
+        font-size: 24px;
+        margin-bottom: 8px;
+      
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+            font-size: 20px;
+        }
     }
 
     .text-card {
         font-size: 14px;
         color: #110035;
+        margin-bottom: 16px;
     }
     
     .read-article {

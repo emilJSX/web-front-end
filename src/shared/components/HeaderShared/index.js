@@ -49,11 +49,13 @@ export const HeaderShared = () => {
   };
 
   function GetWishNameForCreation() {
-    if (isAuth) {
-      navigate("/creating-wish");
-    } else {
-      setShowes(true);
-    }
+    // if (isAuth) {
+    //   console.log("TRUE")
+    //   navigate("/creating-wish");
+    // } else {
+    //   setShowes(true);
+    //   console.log("False")
+    // }
   }
 
   useEffect(() => {

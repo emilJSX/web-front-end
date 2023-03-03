@@ -247,7 +247,7 @@ const OtherUserProfile = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />;
+        <Loader size="xl" />
       </div>
     );
   }

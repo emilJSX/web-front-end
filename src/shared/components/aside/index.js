@@ -17,12 +17,13 @@ import {
 import { useDrawer } from "../../../hooks/useDrawer";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { useAuthSelector } from "../../../store/slices/authSlice";
-export const AsideComponent = ({ hidden }) => {
+export const AsideComponent = () => {
   const isAuth = useSelector(useAuthSelector);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
   const [getUserLoginData, setUserLoginData] = useState();
   const [error, setError] = useState("");
+  const toggle = useSelector(state => state.counter.toggle)
   // const [isShow,setisShow] = useState(false);
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ export const AsideComponent = ({ hidden }) => {
   }
 
   return (
-    <CustomAside hidden={hidden}>
+    <CustomAside hidden={!toggle}>
       {isAuth ? (
         <div>
           <div className="aside-container">

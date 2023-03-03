@@ -1,5 +1,45 @@
 import React, { useState, useEffect } from 'react'
-import { Birthday, Blue_div, Blue_top_div, Blue_loading_div, Last_title, Left_buttons, Left_div, Left_image, Left_report, Main_page, Main_page_top, Middle_title, Photo, Right_blue_div, Right_div, Right_top_div, Top_title, Blue_button_div, Vashed, Congratulate, Congratulate_button, Product, Product_part, Product_other, All_congrulation, Hbd, Hbd_title, Hbd_name, Hbd_footer, Photos, Hbday, Mcdonalds, Picture, Mcago, Freecofe, Bottom_div, Bottom_div_title, Bottom_div_show } from "./Wish-pages.styled";
+import {
+  Birthday,
+  Blue_div,
+  Blue_top_div,
+  Blue_loading_div,
+  Last_title,
+  Left_buttons,
+  Left_div,
+  Left_image,
+  Left_report,
+  Main_page,
+  Main_page_top,
+  Middle_title,
+  Photo,
+  Right_blue_div,
+  Right_div,
+  Right_top_div,
+  Top_title,
+  Blue_button_div,
+  Vashed,
+  Congratulate,
+  Congratulate_button,
+  Product,
+  Product_part,
+  Product_other,
+  All_congrulation,
+  Hbd,
+  Hbd_title,
+  Hbd_name,
+  Hbd_footer,
+  Photos,
+  Hbday,
+  Mcdonalds,
+  Picture,
+  Mcago,
+  Freecofe,
+  Bottom_div,
+  Bottom_div_title,
+  Bottom_div_show,
+  Top_titleFirst
+} from "./Wish-pages.styled";
 import watch from "../../style/icons/handwatch.png"
 import { BsFacebook, BsTwitter, BsTelegram, BsWhatsapp } from 'react-icons/bs';
 import { IoImageOutline, IoMailOutline, IoNotificationsOutline, IoWarningOutline } from 'react-icons/io5';
@@ -38,8 +78,17 @@ import {
     Progress,
 
 } from "@mantine/core";
-import { Blue_left_div, Blue_right_div, Button_send, Right_blue_four, Send_div, Send_div_photo } from './Add.styled';
+import {
+  Blue_left_div,
+  Blue_right_div,
+  Button_send,
+  Right_blue_four,
+  Send_div,
+  Send_div_photo,
+  SendDivButton
+} from './Add.styled';
 import { CgTrash } from 'react-icons/cg';
+import StampIcon from "../../assets/svg/stamp.svg";
 
 function MyVerticallyCenteredModal(props) {
 
@@ -65,7 +114,7 @@ function MyVerticallyCenteredModal(props) {
         <Modal.Body style={{paddingTop: '20px', paddingBottom: '30px', paddingLeft: '40px'}}>
           <div className='delete-causes-items-container'>
             <p style={{
-                paddingBottom: '5px', 
+                paddingBottom: '5px',
                 fontFamily: 'Inter',
                 fontStyle: 'normal',
                 fontWeight: '400',
@@ -110,17 +159,17 @@ function Wish_pages_four() {
         winWidth: window.innerWidth,
         winHeight: window.innerHeight,
       })
-    
+
       const detectSize = () => {
         detectHW({
           winWidth: window.innerWidth,
           winHeight: window.innerHeight,
         })
       }
-    
+
       useEffect(() => {
         window.addEventListener('resize', detectSize)
-    
+
         return () => {
           window.removeEventListener('resize', detectSize)
         }
@@ -138,7 +187,10 @@ function Wish_pages_four() {
             <div className="content-container">
                 <Main_page_top className="main-page-top">
                     <Left_div>
-                        <Left_image src={watch} />
+                        <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
+                          <img className="absolute top-3 right-3 max-w-[120px]" src={StampIcon} alt=""/>
+                          <Left_image src={watch} />
+                        </div>
                         <Left_buttons>Share
                             <BsFacebook className="facebook" />
                             <BsTwitter className="twitter" />
@@ -181,18 +233,26 @@ function Wish_pages_four() {
                        </Blue_right_div>
                        <Blue_left_div>✨</Blue_left_div>
                     </Blue_div>
-                    <Top_title>
+                    <Top_titleFirst>
                         <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
-                        <Vashed>Thank your friends and show the report</Vashed>
-                    </Top_title>
+                        <Vashed className="title">Thank your friends and show the report</Vashed>
+                    </Top_titleFirst>
                     <Send_div>
                         <Send_div_photo>
                             <IoImageOutline className="imgicon"/>
                             <p className="attach">Attach a photo</p>
-                            <img className="imgtag" src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
-                            <img className="imgtag" src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
-                            <CgTrash className="trashone"/>
-                            <CgTrash id="trashone"/>
+                            <SendDivButton>
+                              <span>
+                                <CgTrash className="trashone"/>
+                              </span>
+                              <img className="imgtag" src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
+                            </SendDivButton>
+                            <SendDivButton>
+                              <span>
+                                <CgTrash className="trashone"/>
+                              </span>
+                              <img className="imgtag" src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1"/>
+                            </SendDivButton>
                         </Send_div_photo>
                         <Button_send>Send</Button_send>
                     </Send_div>
@@ -242,18 +302,18 @@ function Wish_pages_four() {
                             </Hbd_name>
 
                         </Hbday>
-                        <Mcdonalds>
-                            <Picture src="https://previews.123rf.com/images/toka74/toka741911/toka74191100219/137374809-russia-moscow-october-2019-mcdonalds-paper-cup-with-tea-or-drink-on-wooden-table-.jpg" />
-                            <Mcago>
-                                <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
-                                <p className="title">Mcdonalds <span className="give">gave</span> </p>
-                                <p className="minago">2 min ago •••</p>
-                            </Mcago>
-                            <Freecofe>
-                                Free coffee or tea
-                                <HiBadgeCheck className="check" />
-                            </Freecofe>
-                        </Mcdonalds>
+                        {/*<Mcdonalds>*/}
+                        {/*    <Picture src="https://previews.123rf.com/images/toka74/toka741911/toka74191100219/137374809-russia-moscow-october-2019-mcdonalds-paper-cup-with-tea-or-drink-on-wooden-table-.jpg" />*/}
+                        {/*    <Mcago>*/}
+                        {/*        <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />*/}
+                        {/*        <p className="title">Mcdonalds <span className="give">gave</span> </p>*/}
+                        {/*        <p className="minago">2 min ago •••</p>*/}
+                        {/*    </Mcago>*/}
+                        {/*    <Freecofe>*/}
+                        {/*        Free coffee or tea*/}
+                        {/*        <HiBadgeCheck className="check" />*/}
+                        {/*    </Freecofe>*/}
+                        {/*</Mcdonalds>*/}
                         <Hbday>
                             <Hbd_title>
                                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
@@ -328,7 +388,7 @@ function Wish_pages_four() {
                         Breadley Cooper’s other wishes
                     </Bottom_div_title>
                     <GridBody>
-                        <Grid className="griddivwish">
+                        <Grid className="griddivwish flex-nowrap overflow-x-auto">
                             {Carddata.datab.map(({ url, title, username, userdesc, userphoto, leftprice, rightprice }) => (
                                 // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
                                 <Wrapper className="cart-item" onMouseOver={(e) => {
