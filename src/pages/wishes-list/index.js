@@ -24,18 +24,9 @@ import {
   LeftPrice,
   RightPrice,
 } from "../../shared/components/home/homeCard/HomeCard.styled";
-import { AiOutlineSearch, AiTwotoneLike } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
-import { Button, CardActionArea, CardActions } from "@mui/material";
-import { Carddata } from "./Cards";
-import FilterColumns from "../wish-pagess/filter/filter";
-import { FiFilter } from "react-icons/fi";
-import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Tab } from "react-tabs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -58,6 +49,7 @@ const WishList = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const [getCategory, setCategory] = useState();
+  const [getCategoryWish, setCategoryWish] = useState([])
 
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
@@ -92,6 +84,15 @@ const WishList = () => {
     },
     rootMargin: "0px 0px 400px 0px",
   });
+
+  useEffect(() => {
+    myaxios.get('/api/v1/wish/categories/get', {
+    }).then((res)=> {
+      setCategoryWish(res.data.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },[])
 
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, { state: slug });
@@ -136,16 +137,6 @@ const WishList = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
-
-  const buttonTitles = [
-    { id: 0, title: "All" },
-    { id: 1, title: "Travel" },
-    { id: 2, title: "Sport" },
-    { id: 3, title: "Gadgets" },
-    { id: 4, title: "Photo & Videos" },
-    { id: 5, title: "Clothes" },
-  ];
-
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
@@ -178,8 +169,8 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
-            {buttonTitles.map((title) => (
-              <Tab value={title.title}>
+            {getCategoryWish.map((title) => (
+              <Tab value={title.name}>
                 <button
                   className={
                     title.id == 0
@@ -199,7 +190,7 @@ const WishList = () => {
                   }}
                   id={title.id}
                 >
-                  {title.title}
+                  {title.name}
                 </button>
               </Tab>
             ))}

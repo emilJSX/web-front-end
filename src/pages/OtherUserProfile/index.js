@@ -51,18 +51,8 @@ import {
   Wrapper,
 } from "./Oup.Style";
 import estetika from "../../style/icons/estetika.png";
-import tomcruse from "../../style/icons/tomcruse.png";
 import { Tab, Tabs, TabPanel } from "react-tabs";
-import { Carddata } from "./CardData";
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from "react-icons/bs";
-import { FaTelegram } from "react-icons/fa";
-import { IoMailOutline } from "react-icons/io5";
-import { RiLinksFill } from "react-icons/ri";
-import {
-  HiBadgeCheck,
-  HiArrowNarrowRight,
-  HiArrowNarrowLeft,
-} from "react-icons/hi";
 import rainbow from "./../../style/icons/rainbowfoto.png";
 import {
   Lastdiv,
@@ -70,44 +60,20 @@ import {
   Views,
   Targets,
   Raised,
-  CardSecond,
-  Hood,
-  Parag,
-  Parag1,
-  Photo,
-  Person,
-  Parags,
-  Titles,
-  Third,
-  Pass,
   CardLonger,
   NotWishes,
-  Division,
-  Maybe,
-  Picture,
-  Name,
-  Tag,
   Buttons,
   Buttonleft,
   Buttonright,
   Glasses,
   DisplayOnButtonText,
-  DisplayBirthdaytext,
-  DisplayTime,
-  Paragraf,
-  Paragrap,
-  DisplayTopText,
   DisplayTopImgCard,
 } from "./ProfileOther.Styled";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 import file1 from "../../style/icons/file1.png";
-import { Component } from "react";
 import instagram from "../../style/icons/instagram.svg";
-import axios from "axios";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Autholog from "../../shared/LogIn-SingUp/Autholog";
 import Autho from "../../shared/LogIn-SingUp/Autho";
