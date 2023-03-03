@@ -145,14 +145,16 @@ const WishList = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
-  const buttonTitles = [
-    { id: 0, title: "All" },
-    { id: 1, title: "Travel" },
-    { id: 2, title: "Sport" },
-    { id: 3, title: "Gadgets" },
-    { id: 4, title: "Photo & Videos" },
-    { id: 5, title: "Clothes" },
-  ];
+
+  
+  // const buttonTitles = [
+  //   { id: 0, title: "All" },
+  //   { id: 1, title: "Travel" },
+  //   { id: 2, title: "Sport" },
+  //   { id: 3, title: "Gadgets" },
+  //   { id: 4, title: "Photo & Videos" },
+  //   { id: 5, title: "Clothes" },
+  // ];
 
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
