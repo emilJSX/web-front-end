@@ -12,32 +12,21 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
-import { CardsCategory } from "./Cards";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import Stack from "@mui/material/Stack";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
 const BlogCategory = () => {
   const navigate = useNavigate();
 
-  const getResultSearch = () => {
-    navigate("/blog-search-result");
-  };
-
   const [GetUserCategoryId, setUserCategoryId] = useState();
   const [GetUserSearch, setUserSearch] = useState();
   const [getResultApiSearch, setResultApiSearch] = useState();
-  const [DataSkip, setDataSkip] = useState();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [getCategoryBlog, setCagegoryBlog] = useState([])
   useEffect(() => {
     setLoading(true);
     myaxios
@@ -49,21 +38,21 @@ const BlogCategory = () => {
       .then((data) => {
         setResultApiSearch(data.data.data.list);
         setLoading(false);
-      })
+      })  
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
   }, []);
 
-  const buttonTitles = [
-    { id: 0, title: "All" },
-    { id: 1, title: "Travel" },
-    { id: 2, title: "Sport" },
-    { id: 3, title: "Gadgets" },
-    { id: 4, title: "Foto & Videos" },
-    { id: 5, title: "Clothes" },
-  ];
+  useEffect(() => {
+    myaxios.get('/api/v1/wish/categories/get')
+    .then((res)=> {
+      setCagegoryBlog(res.data.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   const handleClickGetIDCategory = (event) => {
     setUserCategoryId(event.currentTarget.id);
@@ -110,8 +99,8 @@ const BlogCategory = () => {
         <ButtonSection>
           <div className="btn-section">
             <div className="btn-container">
-              {buttonTitles.map((title) => (
-                <Tab value={title.title}>
+              {getCategoryBlog.map((title) => (
+                <Tab value={title.name}>
                   <button
                     className={
                       title.id == 0
@@ -131,7 +120,7 @@ const BlogCategory = () => {
                     }}
                     id={title.id}
                   >
-                    {title.title}
+                    {title.name}
                   </button>
                 </Tab>
               ))}

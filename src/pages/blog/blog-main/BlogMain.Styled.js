@@ -160,20 +160,9 @@ export const ButtonSection = styled(Grid) `
 
         border: 2px solid rgb(229 228 228);
         border-radius:13px;
-        width: 100%;
         overflow: hidden;
 
 
-
-        @media(min-width: 1000px){
-            width: 45%;
-        }
-
-
-        @media(max-width: 1000px){
-            width: 100%;
-        }
-        
         @media(max-width: 590px){
             width: 110%;
             overflow: scroll;

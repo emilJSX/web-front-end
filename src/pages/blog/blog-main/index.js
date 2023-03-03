@@ -7,29 +7,18 @@ import {
   CardTopSection,
   PaginationSection,
 } from "./BlogMain.Styled";
-import mountn from "../../../style/icons/moutn.jpg";
 import { Tab, Tabs, TabPanel } from "react-tabs";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions } from "@mui/material";
-import { BlogDataCard } from "./BlogCardData";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import Stack from "@mui/material/Stack";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
-import moment from "moment";
 
 
 
@@ -42,6 +31,7 @@ const MainBlog = () => {
   const [getResultApiSearch, setResultApiSearch] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [getCategoryBlog, setCategoryBlog] = useState([])
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/articles/get", {
@@ -59,6 +49,15 @@ const MainBlog = () => {
       });
   }, []);
 
+  useEffect(() => {
+    myaxios.get('/api/v1/wish/categories/get', {
+    }).then((res)=> {
+      setCategoryBlog(res.data.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },[])
+
   const GetUserValueForApi = (e) => {
     navigate("/blog-search-result", {
       state: { GetUserSearch, GetUserCategoryId },
@@ -69,17 +68,6 @@ const MainBlog = () => {
   getResultApiSearch?.map((AllBlog) =>
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
   );
-
-  getResultApiSearch?.map((AllBlog) => console.log(AllBlog));
-
-  const buttonTitles = [
-    { id: 0, title: "All" },
-    { id: 1, title: "Travel" },
-    { id: 2, title: "Sport" },
-    { id: 3, title: "Gadgets" },
-    { id: 4, title: "Photo & Videos" },
-    { id: 5, title: "Clothes" },
-  ];
 
   const handleClickGetIDCategory = (event) => {
     setUserCategoryId(event.currentTarget.id);
@@ -115,8 +103,8 @@ const MainBlog = () => {
         <ButtonSection>
           <div className="btn-section">
             <div className="btn-container">
-              {buttonTitles.map((title) => (
-                <Tab value={title.title}>
+              {getCategoryBlog.map((title) => (
+                <Tab value={title.name}>
                   <button
                     className={
                       title.id == 0
@@ -136,7 +124,7 @@ const MainBlog = () => {
                     }}
                     id={title.id}
                   >
-                    {title.title}
+                    {title.name}
                   </button>
                 </Tab>
               ))}
