@@ -211,7 +211,7 @@ const MyProfile = () => {
       </div>
     );
   }
-
+  console.log(userProfile);
   return (
     <Body>
       <div className="main-container">
@@ -268,7 +268,11 @@ const MyProfile = () => {
                 <Namesurname>{userProfile?.info?.full_name}</Namesurname>
                 {/* <HiBadgeCheck className='bluechek' /> */}
                 <TagName> @{userProfile?.info?.slug}</TagName>
-                <Text>Spec, Child, Chaos and Shadow</Text>
+                <Text>
+                  {userProfile.info.interests
+                    .map((item) => item.name)
+                    .join(", ")}
+                </Text>
 
                 <DateSection>
                   <Date>
@@ -302,18 +306,34 @@ const MyProfile = () => {
                   </Following>
                 </FollowersSection>
                 {/* <SocialSection>
-                                            <a href={userProfile?.social?.facebook} target="_blank"><BsFacebook style={{
-                                                color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
-                                                alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
-                                            }} /> </a>
-                                            <a href={userProfile?.social?.instagram} target="_blank">
-                                                <Image src={instagram} style={{
-                                                    color: "#2D008D", fontSize: "23px", height: '100%',
-                                                    display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
-                                                }} />
-
-                                            </a>
-                                        </SocialSection> */}
+                  <a href={userProfile?.social?.facebook} target="_blank">
+                    <BsFacebook
+                      style={{
+                        color: "#2D008D",
+                        fontSize: "23px",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        marginRight: "10px",
+                        justifyContent: "flex-end",
+                      }}
+                    />{" "}
+                  </a>
+                  <a href={userProfile?.social?.instagram} target="_blank">
+                    <Image
+                      src={instagram}
+                      style={{
+                        color: "#2D008D",
+                        fontSize: "23px",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "10px",
+                        justifyContent: "flex-start",
+                      }}
+                    />
+                  </a>
+                </SocialSection> */}
                 <ButtonSection>
                   <Button className="second-btn" onClick={getWithProfileToEdit}>
                     Edit profile
