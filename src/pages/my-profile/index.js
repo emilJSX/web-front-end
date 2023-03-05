@@ -100,6 +100,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
+import Share from "../wish-pagess/Share";
 
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -204,6 +205,14 @@ const MyProfile = () => {
     navigate("/my-wish", { state: { id } });
   }
 
+  async function handleCopyLink(link) {
+    try {
+      await navigator.clipboard.writeText(link);
+      console.log("Link copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  }
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -211,7 +220,6 @@ const MyProfile = () => {
       </div>
     );
   }
-  console.log(userProfile);
   return (
     <Body>
       <div className="main-container">
@@ -392,6 +400,7 @@ const MyProfile = () => {
                     userProfile?.wishes?.active.length !== 0 ? (
                       userProfile?.wishes?.active?.map((userDataWish) => (
                         <CardLong>
+                          {console.log(userDataWish)}
                           <div className="cont-text">
                             <div className="image-container">
                               <Imagess
@@ -433,52 +442,7 @@ const MyProfile = () => {
                                 <Lastprice></Lastprice>
                               </Price>
                               <LastDiv>
-                                <SosialN>
-                                  <div
-                                    style={{
-                                      color: "#3800B0",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    Share
-                                  </div>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <BsFacebook className="Facebook" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.twitter}
-                                  >
-                                    <BsTwitter className="twitter" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.telegram}
-                                  >
-                                    <FaTelegram className="telegram" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.whatsapp}
-                                  >
-                                    <BsWhatsapp className="whatsapp" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <IoMailOutline className="mail" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <RiLinksFill className="link" />
-                                  </a>
-                                </SosialN>
+                                <Share slug={userDataWish.slug} />
                                 <div
                                   className="edit-details-btn"
                                   style={{ display: "flex" }}

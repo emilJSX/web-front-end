@@ -81,7 +81,10 @@ const WishList = () => {
         .then((res) => {
           setHasNextPage(!res.data.data.last);
 
-          setAllWishData((prev) => [...prev, ...(res.data.data.results || [])]);
+          setAllWishData((prev = []) => [
+            ...prev,
+            ...(res.data.data.results || []),
+          ]);
         })
         .catch((error) => {
           setError(error.response);
@@ -127,34 +130,14 @@ const WishList = () => {
       });
   };
 
-  // useEffect(() => {
-  //   setError("");
-  //   myaxios
-  //     .get("/api/v1/blog/categories/get")
-  //     .then(({data}) => {
-  //       setCategories(data);
-  //     })
-  //     .catch((err) => setError(err.message));
-  // }, []);
   useEffect(() => {
     myaxios
       .get("/api/v1/wish/categories/get")
       .then(({ data }) => {
         setCategories(data?.data);
-        console.log(data);
       })
       .catch((err) => setError(err.message));
   }, []);
-
-  
-  // const buttonTitles = [
-  //   { id: 0, title: "All" },
-  //   { id: 1, title: "Travel" },
-  //   { id: 2, title: "Sport" },
-  //   { id: 3, title: "Gadgets" },
-  //   { id: 4, title: "Photo & Videos" },
-  //   { id: 5, title: "Clothes" },
-  // ];
 
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
@@ -166,6 +149,7 @@ const WishList = () => {
       </div>
     );
   }
+  console.log(getAllWishData);
   return (
     <BlogMainSection fluid>
       <div className="instruction">
@@ -245,6 +229,7 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
+          {getAllWishData?.length === 0 && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
               <Wrapper
