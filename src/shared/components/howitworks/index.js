@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Grid } from "@mantine/core";
+import { Image, Grid, Loader } from "@mantine/core";
 import girlfoto from "../../../style/icons/girl.jpg";
 import LeftArrow from "../../../assets/svg/arrow-left.svg";
 import RightArrow from "../../../assets/svg/arrow-right.svg";
@@ -20,18 +20,29 @@ import { myaxiosprivate } from "../../../api/myaxios";
 
 const HowItWorks = ({ isHome = false }) => {
   const [error, setError] = useState("");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     setError("");
+    setLoading(true);
     myaxiosprivate
       .get("/api/v1/static_pages/instruction/get", {})
       .then(({ data }) => {
-        console.log(data, "getDataHIW");
+        setData(data.data.steps);
+        console.log(data.data.steps);
+        setLoading(false);
       })
       .catch((err) => setError(err.message));
 
     window.scrollTo(0, 0);
   }, []);
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
   return (
     <HIWContainer fluid>
       {!isHome ? (
@@ -84,11 +95,15 @@ const HowItWorks = ({ isHome = false }) => {
                 `<img src="${RightArrow}" alt=""/>`,
               ]}
             >
-              {HIWSliderData.data.map(({ title, txt, count }) => (
+              {data?.map((item) => (
                 <div className="item">
-                  <p className="counter">{count}</p>
-                  <h1 className="title-txt">{title}</h1>
-                  <h1 className="text-sect">{txt}</h1>
+                  {/* <img
+                    className="img-girl"
+                    src={`${process.env.REACT_APP_API_URL}${item.image}`}
+                  /> */}
+                  <p className="counter">{item.step}</p>
+                  <h1 className="title-txt">{item.title}</h1>
+                  <h1 className="text-sect">{item.description}</h1>
                 </div>
               ))}
             </OwlCarousel>
