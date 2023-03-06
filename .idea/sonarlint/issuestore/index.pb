@@ -51,8 +51,6 @@ R
 "src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
 a
 1src/pages/my-profile-edit/MyProfileEdit.styles.js,4\3\43753aa3382d2c0fa44d8491d444092c52bdbc19
-H
-src/style/pages/home.css,0\1\01a3ce8fb8e7cbdfc17d00c661e961cd704fdaf7
 M
 src/shared/ui/Button/index.js,2\5\258c1f71a1983b6a5b2f876adc39c0801ad08c7e
 b
@@ -111,24 +109,3 @@ b
 2src/pages/blog/blog-search-result/BlogSR.Styled.js,1\c\1c1d2b36ec0b553f92fc1ecab2939adfcd10b6b9
 B
 src/style/theme.js,9\1\91a63bb0933a40c5cece50c7658159f110a57d49
-K
-src/provider/AppProvider.js,4\0\40817315c30da4059c26a04fdce1f3812f5ae15f
-W
-'src/shared/ui/dots-toggle-menu/index.js,b\b\bb281f3f74d7dd81f88442e4ac5d218d4ca93e1d
-P
- src/store/slices/counterSlice.js,f\e\fefb9590bd118084582bd11428753ea84e547e58
-=
-src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
-[
-+src/shared/components/HeaderShared/index.js,c\7\c73a31b0dffec7baacc1ed00c0a8dce88ea1dac8
-U
-%src/shared/components/layout/index.js,8\4\8488e71fd4069d78ef645b4f43c9aa7e0ea365b1
-<
-src/index.js,f\9\f900edc44cb929c2267a16100a32851f6d5b477d
-:
-
-src/App.js,1\e\1e43fa63aecd2127be034b3fb9d4caa172275714
-T
-$src/shared/components/aside/index.js,d\b\dbaf6f29c155685055517dac07fe41750c4176e8
-[
-+src/shared/components/aside/Aside.Styled.js,a\d\ad0c0d3fed21ec4a50ce74859ad5ea4227d177e6
