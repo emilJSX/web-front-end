@@ -29,7 +29,6 @@ const HowItWorks = ({ isHome = false }) => {
       .get("/api/v1/static_pages/instruction/get", {})
       .then(({ data }) => {
         setData(data.data.steps);
-        console.log(data.data.steps);
         setLoading(false);
       })
       .catch((err) => setError(err.message));
