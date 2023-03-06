@@ -48,8 +48,8 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [getCategory, setCategory] = useState();
-  const [getCategoryWish, setCategoryWish] = useState([])
+
+  const [categories, setCategories] = useState();
 
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
@@ -73,7 +73,10 @@ const WishList = () => {
         .then((res) => {
           setHasNextPage(!res.data.data.last);
 
-          setAllWishData((prev) => [...prev, ...(res.data.data.results || [])]);
+          setAllWishData((prev = []) => [
+            ...prev,
+            ...(res.data.data.results || []),
+          ]);
         })
         .catch((error) => {
           setError(error.response);
@@ -116,7 +119,7 @@ const WishList = () => {
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setAllWishData(data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
@@ -129,11 +132,10 @@ const WishList = () => {
   };
 
   useEffect(() => {
-    setError("");
     myaxios
-      .get("/api/v1/blog/categories/get")
-      .then(({data}) => {
-        setCategory(data);
+      .get("/api/v1/wish/categories/get")
+      .then(({ data }) => {
+        setCategories(data?.data);
       })
       .catch((err) => setError(err.message));
   }, []);
@@ -147,6 +149,7 @@ const WishList = () => {
       </div>
     );
   }
+  console.log(getAllWishData);
   return (
     <BlogMainSection fluid>
       <div className="instruction">
@@ -169,11 +172,11 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
-            {getCategoryWish.map((title) => (
-              <Tab value={title.name}>
+            {categories?.map((category) => (
+              <Tab value={category.name}>
                 <button
                   className={
-                    title.id == 0
+                    category.id == 0
                       ? "all-btn selection-button"
                       : "other-btn selection-button"
                   }
@@ -188,9 +191,9 @@ const WishList = () => {
                                 "other-btn selection-button");
                         });
                   }}
-                  id={title.id}
+                  id={category.id}
                 >
-                  {title.name}
+                  {category.name}
                 </button>
               </Tab>
             ))}
@@ -226,6 +229,7 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
+          {getAllWishData?.length === 0 && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
               <Wrapper

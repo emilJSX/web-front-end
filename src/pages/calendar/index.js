@@ -96,13 +96,13 @@ function Calendar() {
     setCurrentMonth((currentMonth) => currentMonth.subtract(1, "month"));
   };
 
-  const getCalendarThisDay = async () => {
+  const getCalendarThisDay = async (date) => {
     setError("");
     await myaxiosprivate
       .get("/api/v1/wish/calendar/day", {
         params: {
           skip: 0,
-          date: "2022-12-20 00:00:00",
+          date: date,
         },
       })
       .then((res) => {
@@ -113,7 +113,6 @@ function Calendar() {
       });
   };
 
-  console.log(getCalendarthisday);
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
 
@@ -176,7 +175,7 @@ function Calendar() {
                         href="#"
                         onClick={() => {
                           setOpened(true);
-                          getCalendarThisDay();
+                          getCalendarThisDay(e.date);
                         }}
                       >
                         {e.people_count ? (
@@ -409,9 +408,7 @@ function Calendar() {
             >
               <Typography>
                 <Middle_page_top>
-                  <Middle_top_photo
-                    src={`https://api.wishx.me${e.user.image}`}
-                  />
+                  <Middle_top_photo src={`${e.user.image}`} />
                   <Middle_top_word>{e.user.full_name}</Middle_top_word>
                   {/* <BsCheckCircleFill className="check"/> */}
                 </Middle_page_top>
@@ -419,21 +416,28 @@ function Calendar() {
             </AccordionSummary>
             <AccordionDetails style={{ background: "aliceblue" }}>
               <Typography>
-                <Birthday>For son's birthday</Birthday>
-                {e.wish_list.map((wishList) => (
-                  <Card>
-                    <Card_photo src={`https://api.wishx.me${wishList.image}`} />
-                    <Card_title>{wishList.title}</Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">
-                        ${wishList.donate.received} raised
-                      </p>
-                      <p className="pright">${wishList.donate.left} left</p>
-                    </Price_div>
-                  </Card>
+                {e.wish_list?.map((wishList) => (
+                  <>
+                    <Birthday>{wishList.occasion}</Birthday>
+                    <Card>
+                      <Link to={`/wish/${wishList.slug}`}>
+                        <Card_photo
+                          src={`https://api.wishx.me${wishList.image}`}
+                        />
+                      </Link>
+
+                      <Card_title>{wishList.title}</Card_title>
+                      <Loading_big>
+                        <Loading_blue></Loading_blue>
+                      </Loading_big>
+                      <Price_div>
+                        <p className="pleft">
+                          ${wishList.donate.received} raised
+                        </p>
+                        <p className="pright">${wishList.donate.left} left</p>
+                      </Price_div>
+                    </Card>
+                  </>
                 ))}
               </Typography>
             </AccordionDetails>

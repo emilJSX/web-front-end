@@ -97,7 +97,6 @@ const ContactsPage = () => {
   };
 
   const unfollowUser = (data) => {
-    console.log(data);
     setError("");
     myaxiosprivate
       .get(`/api/v1/unfollow?user_id=${+data.id}`)

@@ -79,9 +79,10 @@ const Created_Wish = () => {
   // ================================ Get LocalStorage User Token ================================
   const GetUserTokenCreationWish = localStorage.getItem("token");
 
-  if (!GetUserTokenCreationWish) {
-    navigate("/");
-  }
+  // if (!GetUserTokenCreationWish) {
+  //   navigate("/");
+  // }
+
   // ================================ END Get LocalStorage User Token ================================
   const handleChange = (newValue) => {
     setDate(newValue);
@@ -104,18 +105,22 @@ const Created_Wish = () => {
     );
   };
 
-  const data = [
-    {
-      label: "Travel",
-      value: 1,
-    },
-  ];
-
-  const [getInterestsIdApi, setInterestsIdApi] = useState();
-  // ================================ Get Interests id when select User ================================
-  const getInterestsId = (item) => {
-    setInterestsIdApi(item);
-  };
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    setError("");
+    myaxios
+      .get("/api/v1/wish/categories/get")
+      .then(({ data }) => {
+        const transformedData = data.data.map((item) => {
+          return {
+            label: item.name,
+            value: item.id,
+          };
+        });
+        setData(transformedData);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
 
   // ================================ END Get Interests id when select User ================================
 
@@ -159,7 +164,7 @@ const Created_Wish = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then(({data}) => {
+        .then(({ data }) => {
           let getResultWishId = data?.data?.id;
           if (data.success == false) {
             toast.info(data.message, {
@@ -256,8 +261,8 @@ const Created_Wish = () => {
               <div className="promote-and-button">
                 <div className="brochure">
                   <picture>
-                    <source media="(min-width: 768px)" srcSet={Brochure}/>
-                    <img src={BrochureMobile} alt=""/>
+                    <source media="(min-width: 768px)" srcSet={Brochure} />
+                    <img src={BrochureMobile} alt="" />
                   </picture>
                 </div>
                 <div className="button">
@@ -346,14 +351,12 @@ const Created_Wish = () => {
                   <Controller
                     name="interests"
                     control={control}
-                    rules={{ required: "Interests are required!" }}
+                    rules={{ required: "Category are required!" }}
                     render={({ field }) => (
                       <MultiSelect
                         className="multiselect-interest"
-                        data={getInterest}
-                        onChange={getInterestsId}
-                        placeholder="Interests"
-                        value={getInterestsIdApi}
+                        data={data}
+                        placeholder="Category"
                         {...field}
                       />
                     )}
@@ -433,7 +436,15 @@ const Created_Wish = () => {
                 />
                 {/* onChange={HandleGetImage} */}
                 {/*<FontAwesomeIcon icon={faArrowUpFromBracket} />*/}
-                <img className={`${previewImageURL ? "rounded max-w-[240px] md:max-w-[140px]" : ""}`} src={previewImageURL ? previewImageURL : Gallery} alt=""/>
+                <img
+                  className={`${
+                    previewImageURL
+                      ? "rounded max-w-[240px] md:max-w-[140px]"
+                      : ""
+                  }`}
+                  src={previewImageURL ? previewImageURL : Gallery}
+                  alt=""
+                />
                 <h5>Upload a photo of your wish</h5>
                 <p>PNG, JPG or Gif</p>
                 <p>Max 5MB</p>

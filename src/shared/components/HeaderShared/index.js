@@ -49,11 +49,13 @@ export const HeaderShared = () => {
   };
 
   function GetWishNameForCreation() {
-    if (isAuth) {
-      navigate("/creating-wish");
-    } else {
-      setShowes(true);
-    }
+    // if (isAuth) {
+    //   console.log("TRUE")
+    //   navigate("/creating-wish");
+    // } else {
+    //   setShowes(true);
+    //   console.log("False")
+    // }
   }
 
   useEffect(() => {
@@ -126,9 +128,11 @@ export const HeaderShared = () => {
                 }}
               />
             </CardIcon>
-            <CreateWishBtn>
-              <Link to="/creating-wish">Create a wish</Link>
-            </CreateWishBtn>
+            {userData.wishes?.active?.length === 0 && (
+              <CreateWishBtn>
+                <Link to="/creating-wish">Create a wish</Link>
+              </CreateWishBtn>
+            )}
 
             <Card>
               <a href="/my-profile">

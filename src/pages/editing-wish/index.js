@@ -22,7 +22,7 @@ import axios from "axios";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
-import { myaxiosprivate } from "../../api/myaxios";
+import { myaxios, myaxiosprivate } from "../../api/myaxios";
 
 const Editing_Wish = () => {
   const { state } = useLocation();
@@ -124,27 +124,44 @@ const Editing_Wish = () => {
 
   const cash = ["USD"];
 
-  const data = [
-    {
-      label: "Travel",
-      value: 1,
-    },
-    {
-      label: "Bussiness",
-      value: 2,
-    },
-  ];
-
+  // const data = [
+  //   {
+  //     label: "Travel",
+  //     value: 1,
+  //   },
+  //   {
+  //     label: "Bussiness",
+  //     value: 2,
+  //   },
+  // ];
+  const [data, setData] = useState([]);
   const [UpdateValuteWish, setUpdateValuteWish] = useState(1);
   const [initialValues, setInitialValues] = useState();
   const [loading, setLoading] = useState(true);
   const [interestId, setInterestId] = useState([]);
   const [selectedImg, setSelectedImg] = useState(null);
+  const [error, setError] = useState("");
   useEffect(() => {
+    setError("");
+    myaxios
+      .get("/api/v1/wish/categories/get")
+      .then(({ data }) => {
+        const transformedData = data.data.map((item) => {
+          return {
+            label: item.name,
+            value: item.id,
+          };
+        });
+        setData(transformedData);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
+
+  useEffect(() => {
+    setError("");
     myaxiosprivate
       .get(`/api/v1/wish/edit?wish_id=${state}`)
       .then(({ data }) => {
-        console.log(data.data);
         setInitialValues(data.data);
         data.data.categories.forEach((item) =>
           setInterestId((prevInterestId) => [...prevInterestId, item.id])
@@ -152,7 +169,7 @@ const Editing_Wish = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message);
         setLoading(false);
       });
   }, []);
@@ -166,6 +183,7 @@ const Editing_Wish = () => {
       setValue("occasion", initialValues.occasion);
       setValue("access", initialValues.access);
       setValue("price", initialValues.price);
+      setValue("interests", interestId);
     }
   }, [initialValues, setValue]);
 
@@ -177,6 +195,7 @@ const Editing_Wish = () => {
     access,
     price,
     title,
+    interests,
   }) => {
     const formData = new FormData();
     formData.append("wish_id", initialValues?.id);
@@ -188,7 +207,7 @@ const Editing_Wish = () => {
     formData.append("access", access);
     formData.append("price", price);
     formData.append("title", title);
-    formData.append("categories", interestId);
+    formData.append("categories", interests);
 
     await myaxiosprivate
       .post("/api/v1/wish/update", formData, {
@@ -310,13 +329,18 @@ const Editing_Wish = () => {
               ) : null}
               <div className="multi-select">
                 <div className="multi-select-insider">
-                  <MultiSelect
-                    className="info_input-multi"
-                    data={data}
-                    defaultValue={[...new Set(interestId)]}
-                    onChange={(e) => setInterestId(e)}
-                    placeholder="Interests"
-                    maxSelectedValues={data.length}
+                  <Controller
+                    name="interests"
+                    control={control}
+                    rules={{ required: "Category are required!" }}
+                    render={({ field }) => (
+                      <MultiSelect
+                        className="multiselect-interest"
+                        data={data}
+                        placeholder="Category"
+                        {...field}
+                      />
+                    )}
                   />
                 </div>
               </div>

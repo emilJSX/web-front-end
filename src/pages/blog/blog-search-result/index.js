@@ -129,7 +129,6 @@ const BlogSearchResult = () => {
                         height="230px"
                         style={{ borderRadius: "20px" }}
                       />
-                      {console.log(res_blog)}
                       <CardContent style={{ padding: "0", paddingTop: "20px" }}>
                         <Typography gutterBottom variant="h5" component="div">
                           <p className="date-category">date - category</p>
