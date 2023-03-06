@@ -269,6 +269,7 @@ const Home = () => {
                           className="wish__slider__image"
                           src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                         />
+                        {console.log(getWishData.user)}
                         <img
                           className="wish__slider__icon"
                           id={getWishData.user.username}
@@ -390,12 +391,9 @@ const Home = () => {
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Title
-                    name={getWishData.slug}
-                    onClick={(e) => getWishIdForResult(e.currentTarget.name)}
-                  >
-                    {getWishData.title}
-                  </Title>
+                  <Link to={`/wish/${getWishData.user.username}`}>
+                    <Title>{getWishData.title}</Title>
+                  </Link>
 
                   <UserWrapper>
                     <UserAbout>
@@ -408,7 +406,7 @@ const Home = () => {
                       <UserDesc>for birthday on {getWishData.date}</UserDesc>
                     </UserAbout>
                     <UserPhoto
-                      id={getWishData.user.user_id}
+                      id={getWishData.user.username}
                       onClick={(e) => getUserSlugForProfile(e.target.id)}
                       src={`${getWishData.user.image}`}
                     ></UserPhoto>
