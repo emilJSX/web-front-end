@@ -210,14 +210,14 @@ function MyVerticallyCenteredModal(props) {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
+    setError("")
     myaxios
       .get("/api/v1/settings/reasons/get")
       .then(({ data }) => {
         setReasons(data.data);
       })
-      .catch((err) => console.log(error));
+      .catch((err) => setError(err.message));
   }, []);
-  console.log(reasons);
   const handleDelete = async () => {
     props.onHide();
     await myaxiosprivate
@@ -433,7 +433,6 @@ const ProfileEdit = () => {
         whatsapp: SocialInputs.whatsapp,
       })
       .then((res) => {
-        console.log(res.data);
         toast.success("Successfully added social networks ", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -455,13 +454,14 @@ const ProfileEdit = () => {
   };
 
   useEffect(() => {
+    setError("");
     myaxiosprivate
       .get("/api/v1/profiles/social/links")
       .then((res) => {
         setGetSocialLinksUser(res.data.data);
       })
       .catch((err) => {
-        console.log(err.message);
+        setError(err.message);
       });
   }, []);
 
@@ -504,7 +504,6 @@ const ProfileEdit = () => {
   const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo?.gender?.id);
-  console.log(userInfo);
   useEffect(() => {
     const fetchCountryAndUserData = async () => {
       setLoading(true);
@@ -639,7 +638,6 @@ const ProfileEdit = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           toast.success("Successfully send passport", {
             position: toast.POSITION.TOP_RIGHT,
           });
@@ -983,18 +981,18 @@ const ProfileEdit = () => {
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
                 {/* <PasswordSettingsInputs> */}
-                  <Password
-                    className="info_input"
-                    placeholder="Old Password"
-                    type={password ? "password" : "text"}
-                  />
+                <Password
+                  className="info_input"
+                  placeholder="Old Password"
+                  type={password ? "password" : "text"}
+                />
                 {/* </PasswordSettingsInputs> */}
                 {/* <PasswordSettingsInputs> */}
-                  <Password
-                    className="info_input"
-                    placeholder="New Password"
-                    type={password ? "password" : "text"}
-                  />
+                <Password
+                  className="info_input"
+                  placeholder="New Password"
+                  type={password ? "password" : "text"}
+                />
                 {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
                   <button className="password-save-button">Save</button>

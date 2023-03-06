@@ -113,7 +113,6 @@ function Calendar() {
       });
   };
 
-  console.log(getCalendarthisday);
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
 
@@ -421,7 +420,6 @@ function Calendar() {
                   <>
                     <Birthday>{wishList.occasion}</Birthday>
                     <Card>
-                      {console.log(wishList)}
                       <Link to={`/wish/${wishList.slug}`}>
                         <Card_photo
                           src={`https://api.wishx.me${wishList.image}`}

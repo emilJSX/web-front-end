@@ -80,8 +80,6 @@ const MainBlog = () => {
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
   );
 
-  getResultApiSearch?.map((AllBlog) => console.log(AllBlog));
-
   // const buttonTitles = [
   //   { id: 0, title: "All" },
   //   { id: 1, title: "Travel" },

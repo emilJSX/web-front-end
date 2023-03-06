@@ -162,7 +162,6 @@ const Editing_Wish = () => {
     myaxiosprivate
       .get(`/api/v1/wish/edit?wish_id=${state}`)
       .then(({ data }) => {
-        console.log(data.data);
         setInitialValues(data.data);
         data.data.categories.forEach((item) =>
           setInterestId((prevInterestId) => [...prevInterestId, item.id])

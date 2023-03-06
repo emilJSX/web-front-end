@@ -90,7 +90,6 @@ const Created_Success_Wish = () => {
   const getCopyLinkValue = `wishx.me/${getCopySlug}`;
   const WishCreationImage = GetUserWishData.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
-  console.log(UserGetCreationImgWish);
   useEffect(() => {
     setError("");
     myaxiosprivate

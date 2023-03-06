@@ -204,15 +204,6 @@ const MyProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/my-wish", { state: { id } });
   }
-
-  async function handleCopyLink(link) {
-    try {
-      await navigator.clipboard.writeText(link);
-      console.log("Link copied to clipboard");
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-    }
-  }
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -400,7 +391,6 @@ const MyProfile = () => {
                     userProfile?.wishes?.active.length !== 0 ? (
                       userProfile?.wishes?.active?.map((userDataWish) => (
                         <CardLong>
-                          {console.log(userDataWish)}
                           <div className="cont-text">
                             <div className="image-container">
                               <Imagess

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SosialN } from "../my-profile/MyProfile.style";
 import {
   FacebookShareButton,
@@ -12,12 +12,12 @@ import { FaTelegram } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLinksFill } from "react-icons/ri";
 function Share({ slug }) {
+  const [error, setError] = useState("");
   async function handleCopyLink(link) {
     try {
       await navigator.clipboard.writeText(link);
-      console.log("Link copied to clipboard");
     } catch (err) {
-      console.error("Failed to copy: ", err);
+      setError(err.message);
     }
   }
 
@@ -46,11 +46,7 @@ function Share({ slug }) {
       <EmailShareButton url={`https://wishx.me/wish/${slug}`}>
         <IoMailOutline className="mail" />
       </EmailShareButton>
-      <a
-        onClick={() =>
-          handleCopyLink(`https://wishx.me/wish/${slug}`)
-        }
-      >
+      <a onClick={() => handleCopyLink(`https://wishx.me/wish/${slug}`)}>
         <RiLinksFill className="link" />
       </a>
     </SosialN>
