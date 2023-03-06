@@ -35,6 +35,7 @@ const Created_Wish = () => {
   const [isVisibleSetter, setVisibleSetter] = useState(false);
   const [selectedCash, setSelectedCash] = useState("USD", 0);
   const [isVisible, setVisible] = useState("none");
+  const [getInterest, setGetInterest] = useState([])
 
   // ================================ Configuration Form Errors ================================
 
@@ -65,6 +66,13 @@ const Created_Wish = () => {
   useEffect(() => {
     setTitleWish(wishCreationTitleHome?.state);
   }, []);
+
+  useEffect(()=> {
+    myaxios.get('/api/v1/blog/categories/get')
+    .then((res)=> {
+      setGetInterest(res.data.data)
+    })
+  }, [])
 
   const wishCreationTitleHome = useLocation();
 

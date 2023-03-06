@@ -24,18 +24,9 @@ import {
   LeftPrice,
   RightPrice,
 } from "../../shared/components/home/homeCard/HomeCard.styled";
-import { AiOutlineSearch, AiTwotoneLike } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
-import { Button, CardActionArea, CardActions } from "@mui/material";
-import { Carddata } from "./Cards";
-import FilterColumns from "../wish-pagess/filter/filter";
-import { FiFilter } from "react-icons/fi";
-import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Tab } from "react-tabs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -56,6 +47,7 @@ const WishList = () => {
   const [error, setError] = useState(null);
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+
 
   const [categories, setCategories] = useState();
 
@@ -95,6 +87,15 @@ const WishList = () => {
     },
     rootMargin: "0px 0px 400px 0px",
   });
+
+  useEffect(() => {
+    myaxios.get('/api/v1/wish/categories/get', {
+    }).then((res)=> {
+      setCategoryWish(res.data.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },[])
 
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, { state: slug });
@@ -138,7 +139,6 @@ const WishList = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
-
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
