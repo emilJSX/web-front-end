@@ -10,31 +10,56 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import foto from "../../../style/icons/lamp.png";
 import { SetFaqSecId, SetFaqOpitions } from "./functions";
 import { useEffect } from "react";
-import axios from "axios";
-import { myaxios } from "../../../api/myaxios";
+import { myaxios, myaxiosprivate } from "../../../api/myaxios";
 
 const ChangeButtonStyle = (neededButton) => {
   const buttonsArray = document.querySelectorAll(".faq-button");
 
   buttonsArray.forEach((button) => {
     button.id === neededButton.id
-      ? button.setAttribute("className", "faq-button first-btn")
-      : button.setAttribute("className", "faq-button another-btn");
+      ? button.setAttribute("class", "faq-button first-btn")
+      : button.setAttribute("class", "faq-button another-btn");
   });
 };
 
-const NavigatorSection = ({ button, data, idbtn }) => {
+
+const buttonTitles = [
+  { id: 0, title: "All" },
+  { id: 1, title: "Travel" },
+  { id: 2, title: "Sport" },
+  { id: 3, title: "Gadgets" },
+  { id: 4, title: "Photo & Videos" },
+  { id: 5, title: "Clothes" },
+];
+
+const NavigatorSection = ({ button }) => {
   const buttonClass = ["faq-button first-btn", "faq-button another-btn"];
 
   return (
     <Button
-      className={idbtn < 1 ? buttonClass[0] : buttonClass[1]}
+      className={button.id < 1 ? buttonClass[0] : buttonClass[1]}
       onClick={(e) => {
         ChangeButtonStyle(e.currentTarget);
       }}
-      id={idbtn}
+      id={button.id}
     >
-      {data.title}
+      {button.title}
+    </Button>
+  );
+};
+
+const NavigatorSectionSm = ({ button }) => {
+  const buttonClass = ["faq-button-sm first-btn", "faq-button-sm another-btn"];
+
+  return (
+    <Button
+      className={button.id < 1 ? buttonClass[0] : buttonClass[1]}
+      onClick={(e) => {
+        ChangeButtonStyleSm(e.currentTarget);
+      }}
+      id={button.id}
+    >
+      {button.title}
     </Button>
   );
 };
@@ -44,24 +69,19 @@ const ChangeButtonStyleSm = (neededButton) => {
 
   buttonsArray.forEach((button) => {
     button.id === neededButton.id
-      ? button.setAttribute("className", "faq-button-sm first-btn")
-      : button.setAttribute("className", "faq-button-sm another-btn");
+      ? button.setAttribute("class", "faq-button-sm first-btn")
+      : button.setAttribute("class", "faq-button-sm another-btn");
   });
 };
 
 const FaqSection = () => {
   const [QuestionItem, setQuestionItem] = useState([]);
-  const [TestingData, setTestingData] = useState([]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [FaqData, setFaqData] = useState([]);
 
   useEffect(() => {
     SetFaqSecId();
-  });
-
-  let GetAnswer = [];
+    window.scrollTo(0, 0);
+  }, []);
 
   // API FAQ
   const [error, setError] = useState("");
@@ -72,7 +92,7 @@ const FaqSection = () => {
     myaxios
       .get("/api/v1/static_pages/faq/get")
       .then(({ data }) => {
-        setTestingData(data.data);
+        setFaqData(data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -83,39 +103,12 @@ const FaqSection = () => {
 
   // END API
 
-  const ChangeButtonStyleSm = (neededButton) => {
-    const buttonsArray = document.querySelectorAll(".faq-button-sm");
-
-    buttonsArray.forEach((button) => {
-      button.id === neededButton.id
-        ? button.setAttribute("className", "faq-button-sm first-btn")
-        : button.setAttribute("className", "faq-button-sm another-btn");
-    });
-  };
-
-  const NavigatorSectionSm = ({ button }) => {
-    const buttonClass = [
-      "faq-button-sm first-btn",
-      "faq-button-sm another-btn",
-    ];
-
-    return (
-      <Button
-        className={button.id < 1 ? buttonClass[0] : buttonClass[1]}
-        onClick={(e) => {
-          ChangeButtonStyleSm(e.currentTarget);
-        }}
-        id={button.id}
-      ></Button>
-    );
-  };
-
   const AnswerQuestionData = [];
   const ResultAnQuData = [];
   const TestApi = [];
   console.log(ResultAnQuData);
 
-  TestingData.map((item) => {
+  FaqData.map((item) => {
     AnswerQuestionData.push(item);
     ResultAnQuData.push(item.parts);
   });
@@ -143,9 +136,9 @@ const FaqSection = () => {
         <Grid className="main-container">
           <Grid.Col md={4} className="left-col flex flex-col justify-between">
             <div className="navigator-section">
-              {TestingData.map((item, index) => (
-                <Tab value={index}>
-                  <NavigatorSection data={item} idbtn={index} button={index} />
+              {FaqData.map((button) => (
+                <Tab value={button}>
+                  <NavigatorSection button={button} />
                 </Tab>
               ))}
             </div>
@@ -155,7 +148,7 @@ const FaqSection = () => {
           </Grid.Col>
           <Grid.Col md={8} className="right-col">
             <div className="faq">
-              {TestingData.map((mapItems, index) => (
+              {FaqData.map((mapItems, index) => (
                 <TabPanel
                   key={index}
                   value={`faq-page-${index}`}

@@ -51,6 +51,10 @@ const WishList = () => {
   const [getCategory, setCategory] = useState();
   const [getCategoryWish, setCategoryWish] = useState([])
 
+  const buttonTitles = [
+    { id: 0, title: "All" },
+  ];
+
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
     hasNextPage: hasNextPage,
@@ -147,6 +151,7 @@ const WishList = () => {
       </div>
     );
   }
+  
   return (
     <BlogMainSection fluid>
       <div className="instruction">
@@ -169,6 +174,31 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
+          {buttonTitles.map((title) => (
+              <Tab value={title.title}>
+                <button
+                  className={
+                    title.id == 0
+                      ? "all-btn selection-button"
+                      : "other-btn selection-button"
+                  }
+                  onClick={(e) => {
+                    handleClickGetIDCategory(e),
+                      document
+                        .querySelectorAll(".selection-button")
+                        .forEach((element) => {
+                          element.id === e.currentTarget.id
+                            ? (element.className = "all-btn selection-button")
+                            : (element.className =
+                                "other-btn selection-button");
+                        });
+                  }}
+                  id={title.id}
+                >
+                  {title.title}
+                </button>
+              </Tab>
+            ))}
             {getCategoryWish.map((title) => (
               <Tab value={title.name}>
                 <button
