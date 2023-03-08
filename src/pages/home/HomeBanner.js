@@ -150,7 +150,7 @@ const HomeBanner = ({ showLoginModal, showSignUpModal, createWish }) => {
               </button>
             </div>
           </div>
-          <div className="mt-auto hidden md:flex items-center gap-2">
+          <div className="mt-[120px] hidden md:flex items-center gap-2">
             <button
               className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-2.5 py-3 rounded-[8px] border border-solid"
               onClick={scrollToNextSection}

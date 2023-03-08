@@ -100,6 +100,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
+import Share from "../wish-pagess/Share";
 
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -203,7 +204,6 @@ const MyProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/my-wish", { state: { id } });
   }
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -211,7 +211,6 @@ const MyProfile = () => {
       </div>
     );
   }
-
   return (
     <Body>
       <div className="main-container">
@@ -268,7 +267,11 @@ const MyProfile = () => {
                 <Namesurname>{userProfile?.info?.full_name}</Namesurname>
                 {/* <HiBadgeCheck className='bluechek' /> */}
                 <TagName> @{userProfile?.info?.slug}</TagName>
-                <Text>Spec, Child, Chaos and Shadow</Text>
+                <Text>
+                  {userProfile.info.interests
+                    .map((item) => item.name)
+                    .join(", ")}
+                </Text>
 
                 <DateSection>
                   <Date>
@@ -302,18 +305,34 @@ const MyProfile = () => {
                   </Following>
                 </FollowersSection>
                 {/* <SocialSection>
-                                            <a href={userProfile?.social?.facebook} target="_blank"><BsFacebook style={{
-                                                color: "#2D008D", fontSize: "23px", height: '100%', display: 'flex',
-                                                alignItems: 'center', marginRight: '10px', justifyContent: 'flex-end'
-                                            }} /> </a>
-                                            <a href={userProfile?.social?.instagram} target="_blank">
-                                                <Image src={instagram} style={{
-                                                    color: "#2D008D", fontSize: "23px", height: '100%',
-                                                    display: 'flex', alignItems: 'center', marginLeft: '10px', justifyContent: 'flex-start'
-                                                }} />
-
-                                            </a>
-                                        </SocialSection> */}
+                  <a href={userProfile?.social?.facebook} target="_blank">
+                    <BsFacebook
+                      style={{
+                        color: "#2D008D",
+                        fontSize: "23px",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        marginRight: "10px",
+                        justifyContent: "flex-end",
+                      }}
+                    />{" "}
+                  </a>
+                  <a href={userProfile?.social?.instagram} target="_blank">
+                    <Image
+                      src={instagram}
+                      style={{
+                        color: "#2D008D",
+                        fontSize: "23px",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "10px",
+                        justifyContent: "flex-start",
+                      }}
+                    />
+                  </a>
+                </SocialSection> */}
                 <ButtonSection>
                   <Button className="second-btn" onClick={getWithProfileToEdit}>
                     Edit profile
@@ -413,52 +432,7 @@ const MyProfile = () => {
                                 <Lastprice></Lastprice>
                               </Price>
                               <LastDiv>
-                                <SosialN>
-                                  <div
-                                    style={{
-                                      color: "#3800B0",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    Share
-                                  </div>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <BsFacebook className="Facebook" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.twitter}
-                                  >
-                                    <BsTwitter className="twitter" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.telegram}
-                                  >
-                                    <FaTelegram className="telegram" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.whatsapp}
-                                  >
-                                    <BsWhatsapp className="whatsapp" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <IoMailOutline className="mail" />
-                                  </a>
-                                  <a
-                                    target="_blank"
-                                    href={userProfile?.social?.facebook}
-                                  >
-                                    <RiLinksFill className="link" />
-                                  </a>
-                                </SosialN>
+                                <Share slug={userDataWish.slug} />
                                 <div
                                   className="edit-details-btn"
                                   style={{ display: "flex" }}
@@ -486,7 +460,7 @@ const MyProfile = () => {
                     ) : (
                       <div>
                         <CardLonger>
-                          <NotWishes>Yo don’t have any wishes</NotWishes>
+                          <NotWishes>You don’t have any wishes</NotWishes>
                           <Buttons>
                             <a href="/creating-wish">
                               <Buttonleft>Create a wish</Buttonleft>

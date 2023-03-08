@@ -209,7 +209,7 @@ const OtherUserProfile = () => {
     }
   };
   // END FOLLOW API
-
+  console.log(UserInfoProfile);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -270,8 +270,12 @@ const OtherUserProfile = () => {
                 </Namesurname>
                 {/* <HiBadgeCheck className='bluechek' /> */}
                 <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
-                <Text>Spec, Child, Chaos and Shadow</Text>
-
+                {/* <Text>Spec, Child, Chaos and Shadow</Text> */}
+                <Text>
+                  {UserInfoProfile?.info?.interests
+                    .map((item) => item.name)
+                    .join(", ")}
+                </Text>
                 <DateSection>
                   <Date>
                     {DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat(

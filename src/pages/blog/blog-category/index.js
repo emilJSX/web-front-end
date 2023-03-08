@@ -55,16 +55,6 @@ const BlogCategory = () => {
         setLoading(false);
       });
   }, []);
-
-  const buttonTitles = [
-    { id: 0, title: "All" },
-    { id: 1, title: "Travel" },
-    { id: 2, title: "Sport" },
-    { id: 3, title: "Gadgets" },
-    { id: 4, title: "Foto & Videos" },
-    { id: 5, title: "Clothes" },
-  ];
-
   const handleClickGetIDCategory = (event) => {
     setUserCategoryId(event.currentTarget.id);
   };

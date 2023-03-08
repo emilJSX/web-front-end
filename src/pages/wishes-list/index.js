@@ -48,8 +48,8 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-  const [getCategory, setCategory] = useState();
-  const [getCategoryWish, setCategoryWish] = useState([])
+
+  const [categories, setCategories] = useState();
 
   const buttonTitles = [
     { id: 0, title: "All" },
@@ -77,7 +77,10 @@ const WishList = () => {
         .then((res) => {
           setHasNextPage(!res.data.data.last);
 
-          setAllWishData((prev) => [...prev, ...(res.data.data.results || [])]);
+          setAllWishData((prev = []) => [
+            ...prev,
+            ...(res.data.data.results || []),
+          ]);
         })
         .catch((error) => {
           setError(error.response);
@@ -120,7 +123,7 @@ const WishList = () => {
           ...(getCategoryId && { category_id: +getCategoryId }),
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setAllWishData(data.data.results);
         setSkip(0);
         setIsFirstLoad(false);
@@ -133,11 +136,10 @@ const WishList = () => {
   };
 
   useEffect(() => {
-    setError("");
     myaxios
-      .get("/api/v1/blog/categories/get")
-      .then(({data}) => {
-        setCategory(data);
+      .get("/api/v1/wish/categories/get")
+      .then(({ data }) => {
+        setCategories(data?.data);
       })
       .catch((err) => setError(err.message));
   }, []);
@@ -174,11 +176,11 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
-          {buttonTitles.map((title) => (
-              <Tab value={title.title}>
+            {categories?.map((category) => (
+              <Tab value={category.name}>
                 <button
                   className={
-                    title.id == 0
+                    category.id == 0
                       ? "all-btn selection-button"
                       : "other-btn selection-button"
                   }
@@ -193,34 +195,9 @@ const WishList = () => {
                                 "other-btn selection-button");
                         });
                   }}
-                  id={title.id}
+                  id={category.id}
                 >
-                  {title.title}
-                </button>
-              </Tab>
-            ))}
-            {getCategoryWish.map((title) => (
-              <Tab value={title.name}>
-                <button
-                  className={
-                    title.id == 0
-                      ? "all-btn selection-button"
-                      : "other-btn selection-button"
-                  }
-                  onClick={(e) => {
-                    handleClickGetIDCategory(e),
-                      document
-                        .querySelectorAll(".selection-button")
-                        .forEach((element) => {
-                          element.id === e.currentTarget.id
-                            ? (element.className = "all-btn selection-button")
-                            : (element.className =
-                                "other-btn selection-button");
-                        });
-                  }}
-                  id={title.id}
-                >
-                  {title.name}
+                  {category.name}
                 </button>
               </Tab>
             ))}
@@ -256,6 +233,7 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
+          {getAllWishData?.length === 0 && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col xs={12} sm={6} md={3} lg={3}>
               <Wrapper
