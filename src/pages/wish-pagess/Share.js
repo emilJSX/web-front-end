@@ -31,22 +31,22 @@ function Share({ slug }) {
       >
         Share
       </div>
-      <FacebookShareButton url={`https://wishx.me/${slug}`}>
+      <FacebookShareButton url={`https://dev.wishx.me/${slug}`}>
         <BsFacebook className="Facebook" />
       </FacebookShareButton>
-      <TwitterShareButton url={`https://wishx.me/${slug}`}>
+      <TwitterShareButton url={`https://dev.wishx.me/${slug}`}>
         <BsTwitter className="twitter" />
       </TwitterShareButton>
-      <TelegramShareButton url={`https://wishx.me/${slug}`}>
+      <TelegramShareButton url={`https://dev.wishx.me/${slug}`}>
         <FaTelegram className="telegram" />
       </TelegramShareButton>
-      <WhatsappShareButton url={`https://wishx.me/wish/${slug}`}>
+      <WhatsappShareButton url={`https://dev.wishx.me/wish/${slug}`}>
         <BsWhatsapp className="whatsapp" />
       </WhatsappShareButton>
-      <EmailShareButton url={`https://wishx.me/wish/${slug}`}>
+      <EmailShareButton url={`https://dev.wishx.me/wish/${slug}`}>
         <IoMailOutline className="mail" />
       </EmailShareButton>
-      <a onClick={() => handleCopyLink(`https://wishx.me/wish/${slug}`)}>
+      <a onClick={() => handleCopyLink(`https://dev.wishx.me/wish/${slug}`)}>
         <RiLinksFill className="link" />
       </a>
     </SosialN>
