@@ -204,13 +204,14 @@ const SetSaveAndCancelButtonsClick = () => {
 
 function MyVerticallyCenteredModal(props) {
   // const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const [reason, setReason] = useState();
   const [reasons, setReasons] = useState([]);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    setError("")
+    setError("");
     myaxios
       .get("/api/v1/settings/reasons/get")
       .then(({ data }) => {

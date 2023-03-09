@@ -152,8 +152,9 @@ export function Login_ConnectionSystem({ setShowes }) {
   // ============================== END RECOVERY PASSWORD CONFIG ========================
 
   // ======================= OTP COUNT DOWN CONFIG =============================
-
+  const [status, setStatus] = useState(false);
   const sendOtpAgain = async () => {
+    setStatus(true);
     setRecoveryError("");
     await myaxios
       .get("api/v1/registration/get-code", {
@@ -506,7 +507,7 @@ export function SignUp_ConnectionSystem({
   } = useForm({
     reValidateMode: "onChange",
   });
-  useEffect(() => {
+  const checkUsername = async () => {
     const username = getUserNameValue?.length;
 
     setUsernameCheckLength("");
@@ -515,20 +516,20 @@ export function SignUp_ConnectionSystem({
     setUserNameErrorMessage("");
 
     if (!USERNAME_REGEX.test(getUserNameValue)) {
-      setUserNameAviableMessage("");
       setUsernameRegex("In username not be used symbols ");
+      return;
     }
 
     if (username === 0) {
       setUserNameErrorMessage("Please enter a username");
-    } else if (username < 6) {
-      setUsernameCheckLength("Username must be 6 symbols");
-    } else {
-      tabIndex === 0 && checkUsername();
+      return;
     }
-  }, [getUserNameValue]);
 
-  const checkUsername = async () => {
+    if (username < 6) {
+      setUsernameCheckLength("Username must be 6 symbols");
+      return;
+    }
+
     const controller = new AbortController();
     await myaxios
       .get("/api/v1/username/check", {
@@ -536,7 +537,6 @@ export function SignUp_ConnectionSystem({
         signal: controller.signal,
       })
       .then((res) => {
-        console.log(res);
         setUserNameAviableMessage(getUserNameValue ? res.data.message : null);
       })
       .catch((err) => {
@@ -544,18 +544,27 @@ export function SignUp_ConnectionSystem({
         setUserNameAviableMessage("");
       });
   };
-  // Parsing Extract the Name from an Email Address
-  const handleRegisterOtp = async ({ email }) => {
+  useEffect(() => {
+    tabIndex === 0 && checkUsername();
+  }, [getUserNameValue, tabIndex]);
+
+  const [termsError, setTermsError] = useState("");
+  const handleRegisterOtp = async ({ email, terms, password }) => {
+    setTermsError("");
     setGetEmail(email);
-    await myaxios
-      .get("/api/v1/registration/get-code", { params: { email: email } })
-      .then((res) => {
-        console.log(res);
-        setTabIndex(1);
-      })
-      .catch((err) => {
-        setErrorMessage(err.message);
-      });
+    setGetPassword(password);
+    if (terms) {
+      await myaxios
+        .get("/api/v1/registration/get-code", { params: { email: email } })
+        .then((res) => {
+          setTabIndex(1);
+        })
+        .catch((err) => {
+          setErrorMessage(err.message);
+        });
+    } else {
+      setTermsError("You need to read and accept terms of use");
+    }
   };
 
   // ======================= END SIGN UP CONFIG ================================
@@ -711,6 +720,35 @@ export function SignUp_ConnectionSystem({
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
   };
+  const [error, setError] = useState("");
+  const handleSocialLogin = async (data) => {
+    setError("");
+    const provider_id = process.env.REACT_APP_PROVIDER_ID;
+
+    if (data) {
+      const { email, name, picture } = data.data;
+      const { provider } = data;
+
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("avatar", picture.data.url);
+      formData.append("provider", provider);
+      formData.append("provider_id", provider_id);
+
+      await myaxiosprivate
+        .post("/api/v1/auth/social?", formData)
+        .then((res) => {
+          const token = res?.data?.data?.token;
+          localStorage.setItem("token", JSON.stringify(token));
+          setShowes(false);
+          dispatch(setUserToken(token));
+          navigate("/my-profile");
+          window.location.reload();
+        })
+        .catch((err) => setError(err.message));
+    }
+  };
   // ============================ END PASPORT CONFIG ===============================
   return (
     <Tabs selectedIndex={tabIndex}>
@@ -733,27 +771,42 @@ export function SignUp_ConnectionSystem({
             <Paragraph>
               Already have account?<Button2> Log in</Button2>
             </Paragraph>
-            <Facebook>
+            <Facebook className="cursor-pointer">
               <BsFacebook
                 style={{
-                  marginRight: "10px",
                   fontSize: "22px",
                   color: "white",
+                  marginRight: "10px",
                 }}
               />
-              <FacebookP>Facebook</FacebookP>
+              <LoginSocialFacebook
+                appId={process.env.REACT_APP_FB_APP_ID}
+                redirect_uri={"/my-profile"}
+                onResolve={handleSocialLogin}
+                onReject={(error) => {
+                  setError(error.message);
+                }}
+              >
+                <FacebookP>Facebook</FacebookP>
+              </LoginSocialFacebook>
             </Facebook>
             <Goapp>
-              <Google>
-                <FaGoogle
-                  style={{
-                    fontSize: "22px",
-                    color: "#3800B0",
-                    marginRight: "10px",
-                  }}
-                />
-                <GoogleP>Google</GoogleP>
-              </Google>
+              <LoginSocialGoogle
+                client_id={process.env.REACT_APP_GOOGLE_APP_ID}
+                onResolve={handleSocialLogin}
+                onReject={(err) => setError(err.message)}
+              >
+                <Google>
+                  <FaGoogle
+                    style={{
+                      fontSize: "22px",
+                      marginRight: "10px",
+                      color: "#3800B0",
+                    }}
+                  />
+                  <GoogleP>Google</GoogleP>
+                </Google>
+              </LoginSocialGoogle>
               <Apple>
                 <FaApple
                   style={{
@@ -844,9 +897,6 @@ export function SignUp_ConnectionSystem({
                         required: "Password is required",
                         min: 5,
                       })}
-                      onChange={(get_userpassword) =>
-                        setGetPassword(get_userpassword.target.value)
-                      }
                       type={password ? "password" : "text"}
                       style={{ width: "400px" }}
                     />
@@ -863,7 +913,11 @@ export function SignUp_ConnectionSystem({
                       {errors.password.message}
                     </p>
                   )}
-
+                  {termsError && (
+                    <p className="mx-14 my-2 text-red-500 text-xs">
+                      {termsError}
+                    </p>
+                  )}
                   <div
                     style={{
                       width: "100%",
@@ -873,7 +927,12 @@ export function SignUp_ConnectionSystem({
                       marginTop: "16px",
                     }}
                   >
-                    <InputChek type="checkbox" style={{ margin: "0" }} />
+                    <InputChek
+                      type="checkbox"
+                      style={{ margin: "0" }}
+                      name="terms"
+                      {...register("terms")}
+                    />
                     <Link target="_blank" to="/privacy">
                       <ParagraphChek style={{ marginLeft: "10px" }}>
                         Terms of use
@@ -916,7 +975,7 @@ export function SignUp_ConnectionSystem({
               <Paragraph>Enter the code we sent to your email </Paragraph>
               <div className="content_container" style={{ height: "60px" }}>
                 {/* <Edit className='edit_number'>Edit phone number</Edit> */}
-                <OtpTimer passRecover={sendOtpAgain} />
+                <OtpTimer passRecover={sendOtpAgain} initialStatus={status} />
               </div>
               <div className="otp_input_div">
                 <OtpInput

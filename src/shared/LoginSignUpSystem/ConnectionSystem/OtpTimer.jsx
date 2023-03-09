@@ -8,16 +8,19 @@ const STATUS = {
 
 const INITIAL_COUNT = 30; // 60 seconds
 
-const OtpTimer = ({passRecover}) => {
+const OtpTimer = ({ passRecover, initialStatus }) => {
   const [status, setStatus] = useState(STATUS.STOPPED);
   const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
 
   const handleStart = (event) => {
     event.preventDefault();
-      setStatus(STATUS.STARTED);
-     passRecover &&  passRecover()
+    setStatus(STATUS.STARTED);
+    passRecover && passRecover();
   };
 
+  if (initialStatus) {
+    setStatus(STATUS.STARTED);
+  }
   const handleReset = () => {
     setStatus(STATUS.STOPPED);
     setSecondsRemaining(INITIAL_COUNT);
@@ -39,7 +42,10 @@ const OtpTimer = ({passRecover}) => {
 
   return (
     <div>
-      <Send onClick={handleStart}> Send Again</Send>
+      <Send onClick={handleStart}>
+        {" "}
+        Send Again
+      </Send>
       <Seconds>
         {twoDigits(Math.floor(secondsRemaining / 60))}:
         {twoDigits(secondsRemaining % 60)}
