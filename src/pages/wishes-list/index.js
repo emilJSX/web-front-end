@@ -51,6 +51,10 @@ const WishList = () => {
 
   const [categories, setCategories] = useState();
 
+  const buttonTitles = [
+    { id: 0, title: "All" },
+  ];
+
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
     hasNextPage: hasNextPage,
@@ -149,7 +153,7 @@ const WishList = () => {
       </div>
     );
   }
-  console.log(getAllWishData);
+  
   return (
     <BlogMainSection fluid>
       <div className="instruction">
