@@ -61,6 +61,7 @@ import { myaxios, myaxiosprivate, updateToken } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
 import { logout } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -204,13 +205,14 @@ const SetSaveAndCancelButtonsClick = () => {
 
 function MyVerticallyCenteredModal(props) {
   // const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const [reason, setReason] = useState();
   const [reasons, setReasons] = useState([]);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    setError("")
+    setError("");
     myaxios
       .get("/api/v1/settings/reasons/get")
       .then(({ data }) => {

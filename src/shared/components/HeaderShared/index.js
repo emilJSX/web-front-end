@@ -70,7 +70,7 @@ export const HeaderShared = () => {
         setLoading(false);
       }
     };
-    fetchUserData();
+    isAuth && fetchUserData();
   }, []);
   const handleLogout = async () => {
     await myaxiosprivate
