@@ -32,6 +32,7 @@ import { useState } from "react";
 import { Loader } from "@mantine/core";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../../api/myaxios";
+import { Link } from "react-router-dom";
 
 const ContactsPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -220,7 +221,9 @@ const ContactsPage = () => {
                         : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
                     }`}
                   />
-                  <UserUsername>{data?.full_name}</UserUsername>
+                  <Link to={`/profile/${data?.name}`}>
+                    <UserUsername>{data?.full_name}</UserUsername>
+                  </Link>
                   {/* <BsCheckCircleFill className="check" /> */}
                   <Subscribebtn
                     className="cursor-pointer"
@@ -263,7 +266,9 @@ const ContactsPage = () => {
                         : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
                     }`}
                   />
-                  <UserUsername>{dataFollows.full_name}</UserUsername>
+                  <Link to={`/profile/${dataFollows?.name}`}>
+                    <UserUsername>{dataFollows.full_name}</UserUsername>
+                  </Link>
                   {/* <BsCheckCircleFill className="check" /> */}
                   <Unsubscribe
                     className="cursor-pointer"
