@@ -205,10 +205,11 @@ const Home = () => {
   }
   return (
     <>
-      {showes && <Login_ConnectionSystem setShowes={setShowes} />}
+      {showes && <Login_ConnectionSystem setShowes={setShowes} showRegister={ setregisterModal } />}
       {registerModal && (
         <SignUp_ConnectionSystem
           setregisterModal={setregisterModal}
+          setShowes={setShowes}
           setEmailOtpModal={setEmailOtpModal}
         />
       )}

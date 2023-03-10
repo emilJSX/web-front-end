@@ -84,7 +84,7 @@ import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
-export function Login_ConnectionSystem({ setShowes }) {
+export function Login_ConnectionSystem({ setShowes, showRegister }) {
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
 
@@ -199,7 +199,10 @@ export function Login_ConnectionSystem({ setShowes }) {
     }
   };
   // ======================= END OTP COUNT DOWN CONFIG =========================
-
+  const showSignUp = () => {
+    setShowes(false);
+    showRegister(true);
+  };
   return (
     <Tabs selectedIndex={changeLoginSystemTab}>
       {/* ============================= LOGIN MODAL ================================== */}
@@ -213,7 +216,7 @@ export function Login_ConnectionSystem({ setShowes }) {
             <Title>Log in</Title>
             <Paragraph>
               Not a user?
-              <Button2 onClick={() => getSignUpModal()}>Sign up</Button2>
+              <Button2 onClick={showSignUp}>Sign up</Button2>
             </Paragraph>
             <Facebook className="cursor-pointer">
               <BsFacebook
@@ -466,6 +469,7 @@ export function Login_ConnectionSystem({ setShowes }) {
 export function SignUp_ConnectionSystem({
   setregisterModal,
   setEmailOtpModal,
+  setShowes,
 }) {
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
@@ -756,6 +760,11 @@ export function SignUp_ConnectionSystem({
         .catch((err) => setError(err.message));
     }
   };
+
+  const showLoginModal = () => {
+    setregisterModal(false);
+    setShowes(true);
+  };
   // ============================ END PASPORT CONFIG ===============================
   return (
     <Tabs selectedIndex={tabIndex}>
@@ -776,7 +785,8 @@ export function SignUp_ConnectionSystem({
             </Button1>
             <Title>Sign Up</Title>
             <Paragraph>
-              Already have account?<Button2> Log in</Button2>
+              Already have account?
+              <Button2 onClick={showLoginModal}> Log in</Button2>
             </Paragraph>
             <Facebook className="cursor-pointer">
               <BsFacebook
