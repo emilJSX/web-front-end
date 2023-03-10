@@ -135,12 +135,13 @@ export function Login_ConnectionSystem({ setShowes }) {
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [recoveryError, setRecoveryError] = useState(null);
   const [recoverySuccess, setRecoverySuccess] = useState(null);
-
+  const [initialStatus, setStatus] = useState(false);
   const handlePasswordRecovery = async ({ email }) => {
     setRecoveryError("");
     setRecoveryEmail(email);
+    setStatus(true);
     await myaxios
-      .get("api/v1/registration/get-code", { params: { email } })
+      .get("api/v1/recovery/get-code", { params: { email } })
       .then(() => {
         setLoginSystemTab(2);
       })
@@ -152,12 +153,10 @@ export function Login_ConnectionSystem({ setShowes }) {
   // ============================== END RECOVERY PASSWORD CONFIG ========================
 
   // ======================= OTP COUNT DOWN CONFIG =============================
-  const [status, setStatus] = useState(false);
   const sendOtpAgain = async () => {
-    setStatus(true);
     setRecoveryError("");
     await myaxios
-      .get("api/v1/registration/get-code", {
+      .get("api/v1/recovery/get-code", {
         params: {
           email: recoveryEmail,
         },
@@ -445,7 +444,11 @@ export function Login_ConnectionSystem({ setShowes }) {
               </ButtonSignUp>
             </div>
             <Paragraphs>
-              Didn’t get an email? <OtpTimer passRecover={sendOtpAgain} />
+              Didn’t get an email?{" "}
+              <OtpTimer
+                passRecover={sendOtpAgain}
+                initialStatus={initialStatus}
+              />
             </Paragraphs>
           </Container>
         </Main>
@@ -549,7 +552,10 @@ export function SignUp_ConnectionSystem({
   }, [getUserNameValue, tabIndex]);
 
   const [termsError, setTermsError] = useState("");
+  const [initialStatus, setStatus] = useState(false);
+
   const handleRegisterOtp = async ({ email, terms, password }) => {
+    setStatus(true);
     setTermsError("");
     setGetEmail(email);
     setGetPassword(password);
@@ -607,10 +613,9 @@ export function SignUp_ConnectionSystem({
   // ======================= OTP COUNT DOWN CONFIG =============================
   const [recoveryError, setRecoveryError] = useState(null);
   const [recoverySuccess, setRecoverySuccess] = useState(null);
-
   const sendOtpAgain = async () => {
     await myaxios
-      .get("api/v1/registration/get-code", {
+      .get("api/v1/recovery/get-code", {
         params: {
           email: getEmail,
         },
@@ -975,7 +980,10 @@ export function SignUp_ConnectionSystem({
               <Paragraph>Enter the code we sent to your email </Paragraph>
               <div className="content_container" style={{ height: "60px" }}>
                 {/* <Edit className='edit_number'>Edit phone number</Edit> */}
-                <OtpTimer passRecover={sendOtpAgain} initialStatus={status} />
+                <OtpTimer
+                  passRecover={sendOtpAgain}
+                  initialStatus={initialStatus}
+                />
               </div>
               <div className="otp_input_div">
                 <OtpInput
