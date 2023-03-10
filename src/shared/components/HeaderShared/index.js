@@ -86,6 +86,7 @@ export const HeaderShared = () => {
         setError("Something went wrong...");
       });
   };
+
   return (
     <HeaderContainer>
       <section className="logoSection">
@@ -198,10 +199,17 @@ export const HeaderShared = () => {
         </>
       ) : (
         <section className="log-in-out-Section">
+          {show && (
+            <SignUp_ConnectionSystem
+              setregisterModal={setShow}
+              setShowes={setShowes}
+            />
+          )}
           {showes ? (
-            <Login_ConnectionSystem setShowes={setShowes} register={setShow} />
-          ) : show ? (
-            <SignUp_ConnectionSystem setShow={setShow} login={setShowes} />
+            <Login_ConnectionSystem
+              setShowes={setShowes}
+              showRegister={setShow}
+            />
           ) : (
             <div
               style={{

@@ -5,17 +5,24 @@ import {
   OpacityBlog,
   Container,
   Button1,
+  Emails,
   ForgotPassword,
 } from "../Login/Login.Styled";
+import EmailConfirm from "../PhoneNumber";
 import { Tabs, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { BiX } from "react-icons/bi";
 import {
+  Againsms,
+  Edit,
   Paragraph,
   Second,
   Title,
 } from "../PhoneNumber/Phone.Styled";
 import OtpInput from "react-otp-input";
+
+import TestImage from "../../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png";
+
 import {
   ButtonSignUp,
   Button2,
@@ -41,18 +48,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import {
+  Calendar,
   Number,
   Options,
   Selects,
 } from "../Information/Information.Styled";
+import { useRef } from "react";
 import {
+  Autotravel,
   Interest,
+  Notdark,
   Time,
 } from "../Interests/Interests.Styled";
 import { MultiSelect } from "@mantine/core";
+import { CgTrash } from "react-icons/cg";
 import {
   ButtonCon,
   ButtonLater,
+  DivImg,
+  Image,
   List,
   ListtoList,
   MainDiv,
@@ -67,12 +81,10 @@ import {
   Send,
 } from "../PasswordRecoveryMessage/RecoveryMessage.Styled";
 import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
-import { setmodalToggle } from "../../../store/slices/modalSlice";
-
-export function Login_ConnectionSystem({ setShowes, reg }) {
+export function Login_ConnectionSystem({ setShowes, showRegister }) {
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
 
@@ -80,9 +92,8 @@ export function Login_ConnectionSystem({ setShowes, reg }) {
   // Recovery Password - 1
   // Password recovery message - 2
   // ============================== LOGIN CONFIG ========================================
-  const modalToggle = useSelector((state) => state.modal.modalToggleOption)
+
   const dispatch = useDispatch();
-  const [selectIndexModal, setSelectIndexModal] = useState(0)
   const [error, setError] = useState();
   const [showPass, setShowPass] = useState(false);
   const [showViaEmail, setShowViaEmail] = useState(false);
@@ -93,8 +104,6 @@ export function Login_ConnectionSystem({ setShowes, reg }) {
       password: "",
     },
   });
-
-  console.log(modalToggle, "MODAL TOGGLE IS >>>>>>>>>>>>> ")
 
   const handleLoginWithEmail = ({ email, password }) => {
     setError("");
@@ -190,7 +199,10 @@ export function Login_ConnectionSystem({ setShowes, reg }) {
     }
   };
   // ======================= END OTP COUNT DOWN CONFIG =========================
-
+  const showSignUp = () => {
+    setShowes(false);
+    showRegister(true);
+  };
   return (
     <Tabs selectedIndex={changeLoginSystemTab}>
       {/* ============================= LOGIN MODAL ================================== */}
@@ -204,7 +216,7 @@ export function Login_ConnectionSystem({ setShowes, reg }) {
             <Title>Log in</Title>
             <Paragraph>
               Not a user?
-              <Button2 onClick={() => setShowes(false)}>Sign up</Button2>
+              <Button2 onClick={showSignUp}>Sign up</Button2>
             </Paragraph>
             <Facebook className="cursor-pointer">
               <BsFacebook
@@ -455,9 +467,9 @@ export function Login_ConnectionSystem({ setShowes, reg }) {
 }
 
 export function SignUp_ConnectionSystem({
-  setShow,
   setregisterModal,
-  login,
+  setEmailOtpModal,
+  setShowes,
 }) {
   // MODAL CONFIGURATION =============
   const [tabIndex, setTabIndex] = useState(0);
@@ -748,6 +760,11 @@ export function SignUp_ConnectionSystem({
         .catch((err) => setError(err.message));
     }
   };
+
+  const showLoginModal = () => {
+    setregisterModal(false);
+    setShowes(true);
+  };
   // ============================ END PASPORT CONFIG ===============================
   return (
     <Tabs selectedIndex={tabIndex}>
@@ -768,7 +785,8 @@ export function SignUp_ConnectionSystem({
             </Button1>
             <Title>Sign Up</Title>
             <Paragraph>
-              Already have account?<Button2 onClick={ () => setShow(true) }> Log in</Button2>
+              Already have account?
+              <Button2 onClick={showLoginModal}> Log in</Button2>
             </Paragraph>
             <Facebook className="cursor-pointer">
               <BsFacebook

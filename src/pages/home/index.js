@@ -4,6 +4,11 @@ import {
   SignUp_ConnectionSystem,
 } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 import {
+  Image,
+  MediaQuery,
+  Menu,
+  Box,
+  Text,
   Grid,
   Container,
   Progress,
@@ -11,6 +16,9 @@ import {
 } from "@mantine/core";
 import {
   Link,
+  Navigate,
+  Outlet,
+  redirect,
   useNavigate,
 } from "react-router-dom";
 import HowItWorks from "../../shared/components/howitworks";
@@ -33,6 +41,7 @@ import {
 import {
   HomeCenter,
   HomeConatiner,
+  HomeTop,
   GifwRAP,
   Gifname,
   GifDesc,
@@ -41,21 +50,47 @@ import {
   GifHeader,
   WishesText,
   WishesBtn,
+  CardSections,
   InsiderContainer,
+  PartnersText,
+  Item,
+  WishCreationInput,
+  WishCreationButton,
   ButtonDefault,
   SeeAllWish,
 } from "./Home.Styled";
+import { Carddata } from "./CardData";
 import FaqSection from "../../shared/components/faq";
+import { sideImages } from "../../utils/dummy-data/main-top-images";
+import { Button } from "../../shared/ui/Button";
+import profile_picture from "../../assets/images/ffb7d96c688377cdff8f8399e25f6508.png";
+import profile_picture1 from "../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png";
+import icon_1 from "../../assets/images/86dd3c4e9ee1a89490042c6a4a8895fb.png";
+import icon_2 from "../../assets/images/d371531b922f3e8c0e8f0dfe4782d86e.png";
+import { ReactComponent as ArrowDownIcon } from "../../style/icons/button-icons/arrow-down.svg";
+import { ReactComponent as FireworkIcon } from "../../style/icons/big-star.svg";
+import { CustomInput } from "../../shared/ui/İnput";
 import img12 from "../../assets/images/image 12.png";
 import img13 from "../../assets/images/image 13.png";
+import { ReactComponent as Logo } from "../../style/icons/wl.svg";
 import img14 from "../../assets/images/image 14.png";
 import IphoneImage from "../../assets/images/preview@1x.png";
+import { CarouselPartners } from "./PartnersFoto";
+import { SmSliderItem } from "./SmSliderItem";
+import OwlCarousel from "react-owl-carousel";
+import Carousel from "react-bootstrap/Carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ReactComponent as GridIcon } from "../../style/icons/grid-icon.svg";
+import Autholog from "../../shared/LogIn-SingUp/Autholog";
+import Autho from "../../shared/LogIn-SingUp/Autho";
+import { HomeLoginHeader } from "../../shared/components/HeaderLogin/homeloginheader";
+import HeaderShared from "../../shared/components/HeaderShared";
+import axios from "axios";
 import HomeBanner from "./HomeBanner";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Pagination } from "swiper";
+import { A11y, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -170,10 +205,11 @@ const Home = () => {
   }
   return (
     <>
-      {showes && <Login_ConnectionSystem setShowes={setShowes} />}
+      {showes && <Login_ConnectionSystem setShowes={setShowes} showRegister={ setregisterModal } />}
       {registerModal && (
         <SignUp_ConnectionSystem
           setregisterModal={setregisterModal}
+          setShowes={setShowes}
           setEmailOtpModal={setEmailOtpModal}
         />
       )}
@@ -234,6 +270,7 @@ const Home = () => {
                           className="wish__slider__image"
                           src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                         />
+                        {console.log(getWishData.user)}
                         <img
                           className="wish__slider__icon"
                           id={getWishData.user.username}
