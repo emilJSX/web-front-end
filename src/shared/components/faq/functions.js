@@ -24,7 +24,6 @@ export function SetFaqOpitions(element){
         child12[0].setAttribute('style', 'color: #3800B0');
         child13[0].setAttribute('style', 'color: #3800B0');
         needed_element.setAttribute('id', id + '_active');
-        console.log(needed_element.getAttribute("id"));
 
     }else{
         let needed_element = document.querySelector('#' + id);
@@ -36,6 +35,5 @@ export function SetFaqOpitions(element){
         child12[0].setAttribute('style', 'color: #110035');
         child13[0].setAttribute('style', 'color: #110035');
         needed_element.setAttribute('id',  needed_element.id.replace("_active"));
-        console.log(needed_element.getAttribute("id"));
     }
 }

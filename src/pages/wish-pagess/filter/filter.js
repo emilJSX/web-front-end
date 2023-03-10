@@ -29,16 +29,13 @@ class FilterColumns extends React.Component {
   };
 
   changeHandler = index => {
-    console.log("inside columnfilter method");
     const filterItems = [];
 
     filterItems.push(...this.state.filterItems);
     filterItems[index].selected = !filterItems[index].selected;
-    console.log(filterItems);
     const selectedItems = filterItems
       .filter(item => item.selected === true)
       .map(item => item.name);
-    console.log(selectedItems);
     this.setState({
       selectedItems: selectedItems
     });

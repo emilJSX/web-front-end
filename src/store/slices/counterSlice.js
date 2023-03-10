@@ -12,7 +12,6 @@ export const counterSlice = createSlice({
     reducers: {
 
         loginControll:(state,action)=> {
-            console.log("STATE IS CHANGE")
             state.loginStepper = !state.loginStepper
         },
         drawerControll:(state,action)=>{

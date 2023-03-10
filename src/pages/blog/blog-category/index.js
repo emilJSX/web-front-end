@@ -27,17 +27,27 @@ import React from "react";
 import { myaxios } from "../../../api/myaxios";
 const BlogCategory = () => {
   const navigate = useNavigate();
-
-  const getResultSearch = () => {
-    navigate("/blog-search-result");
-  };
-
   const [GetUserCategoryId, setUserCategoryId] = useState();
   const [GetUserSearch, setUserSearch] = useState();
+  const [categories, setCategories] = useState();
   const [getResultApiSearch, setResultApiSearch] = useState();
   const [DataSkip, setDataSkip] = useState();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/blog/categories/get")
+      .then(({ data }) => {
+        setCategories(data?.data);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
+
+  const buttonTitles = [
+    { id: 0, title: "All" },
+  ];
+
   useEffect(() => {
     setLoading(true);
     myaxios
@@ -122,6 +132,31 @@ const BlogCategory = () => {
                     id={title.id}
                   >
                     {title.title}
+                  </button>
+                </Tab>
+              ))}
+              {categories?.map((category) => (
+                <Tab value={category.name}>
+                  <button
+                    className={
+                      category.id == 0
+                        ? "all-btn selection-button"
+                        : "other-btn selection-button"
+                    }
+                    onClick={(e) => {
+                      handleClickGetIDCategory(e),
+                        document
+                          .querySelectorAll(".selection-button")
+                          .forEach((element) => {
+                            element.id === e.currentTarget.id
+                              ? (element.className = "all-btn selection-button")
+                              : (element.className =
+                                  "other-btn selection-button");
+                          });
+                    }}
+                    id={category.id}
+                  >
+                    {category.name}
                   </button>
                 </Tab>
               ))}

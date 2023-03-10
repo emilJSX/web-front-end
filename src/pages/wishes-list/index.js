@@ -38,7 +38,6 @@ const WishList = () => {
   const [getSearchValue, setSearchValue] = useState("");
   const [getCategoryId, setCategoryId] = useState(null);
 
-  const getUserToken = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -176,6 +175,31 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
+          {buttonTitles?.map((category) => (
+              <Tab value={category.title}>
+                <button
+                  className={
+                    category.id == 0
+                      ? "all-btn selection-button"
+                      : "other-btn selection-button"
+                  }
+                  onClick={(e) => {
+                    handleClickGetIDCategory(e),
+                      document
+                        .querySelectorAll(".selection-button")
+                        .forEach((element) => {
+                          element.id === e.currentTarget.id
+                            ? (element.className = "all-btn selection-button")
+                            : (element.className =
+                                "other-btn selection-button");
+                        });
+                  }}
+                  id={category.id}
+                >
+                  {category.title}
+                </button>
+              </Tab>
+            ))}
             {categories?.map((category) => (
               <Tab value={category.name}>
                 <button

@@ -39,48 +39,27 @@ import ContactsPage from "./pages/contacts/contacts-subscribers";
 import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
-
-
-
-
+import PrivateRoot from "./privateRoots";
 
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
-  console.log(isAuth);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
+        <PrivateRoot userAuth={isAuth} />
 
         <Routes>
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/calendar" element={<Calendar />} /> {/* + */}
-          <Route path="/rating" element={<Rating />} />
-          <Route path="/wish-edit" element={<Editing_Wish />} /> {/* + */}
-          <Route path="/creating-wish" element={<Created_Wish />} />{" "}
-          {/* problem */}
-          <Route
-            path="/creating-wish-success"
-            element={<Created_Success_Wish />}
-          />{" "}
-          {/* + */}
           <Route
             path="/other-user-wish-complete"
             element={<Wish_pages_second />}
           />
-          <Route path="/my-wish-complete" element={<Wish_pages_four />} />
-          <Route path="/my-wish" element={<Wish_pages_three />} />
           <Route path="/wish/:slug" element={<Wish_pages />} />
           <Route path="/wish-list" element={<WishList />} /> {/* + */}
-          <Route path="/profile-edit" element={<ProfileEdit />} /> {/* + */}
           <Route path="/only-search" element={<Onlysearch />} />
-          <Route path="/contacts-profile" element={<ContactsPage />} />{" "}
           {/* + */}
           <Route path="/search" element={<Search />} /> {/* + */}
           <Route path="/profile/:slug" element={<OtherUserProfile />} />
-          <Route path="/set-new-password" element={<Finally />} />
-          <Route path="/my-profile" element={<MyProfile />} /> {/*  */}
-          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/blog-post" element={<BlogPost />} />
           <Route
             path="/blog-search-result-notfound"
@@ -90,7 +69,7 @@ const App = () => {
           <Route path="/blog-category" element={<BlogCategory />} /> {/* - */}
           <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
           <Route path="/privacy" element={<Privacy />} /> {/* + */}
-          <Route path="/404" element={<ErrorPage />} /> {/* + */}
+          <Route path="*" element={<ErrorPage />} /> {/* + */}
           <Route path="/faq" element={<FaqPage />} /> {/* + */}
           <Route path="/contact" element={<Contact />} /> {/* + */}
           <Route index element={<Home />} />
@@ -103,5 +82,3 @@ const App = () => {
 };
 
 export default App;
-
-

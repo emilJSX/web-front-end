@@ -55,7 +55,6 @@ function LoginSystem({ nextsteplog, backSign, setShowes }) {
   const [getUserAuthToken, setUserAuthToken] = useState();
 
   const handleLoginWithEmail = ({ values }) => {
-    console.log(values);
     // myaxios.get("sanctum/csrf-cookie").then(() => {
     //   myaxios
     //     .post(
@@ -119,7 +118,6 @@ function LoginSystem({ nextsteplog, backSign, setShowes }) {
         <LoginSocialFacebook
           appId="488149573514075"
           onResolve={(responseFb) => {
-            console.log(responseFb);
           }}
           onReject={(error) => {
             console.log(error);

@@ -76,7 +76,6 @@ function Login({ setShow, nextsteplog, backSign, setShowes }) {
           document.cookie = "UserToken=" + response.data.data.token;
           setUserAuthToken(response.data.data.token);
           document.cookie = "UserMessage=" + response.data.data.message;
-          console.log(JSON.stringify(response.data));
           navigate("/my-profile");
         })
         .catch(function (error) {
@@ -115,7 +114,6 @@ function Login({ setShow, nextsteplog, backSign, setShowes }) {
         <LoginSocialFacebook
           appId="488149573514075"
           onResolve={(responseFb) => {
-            console.log(responseFb);
           }}
           onReject={(error) => {
             console.log(error);

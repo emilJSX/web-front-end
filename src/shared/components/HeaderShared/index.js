@@ -199,9 +199,9 @@ export const HeaderShared = () => {
       ) : (
         <section className="log-in-out-Section">
           {showes ? (
-            <Login_ConnectionSystem setShowes={setShowes} />
+            <Login_ConnectionSystem setShowes={setShowes} register={setShow} />
           ) : show ? (
-            ""
+            <SignUp_ConnectionSystem setShow={setShow} login={setShowes} />
           ) : (
             <div
               style={{

@@ -106,7 +106,6 @@ const FaqSection = () => {
   const AnswerQuestionData = [];
   const ResultAnQuData = [];
   const TestApi = [];
-  console.log(ResultAnQuData);
 
   FaqData.map((item) => {
     AnswerQuestionData.push(item);
