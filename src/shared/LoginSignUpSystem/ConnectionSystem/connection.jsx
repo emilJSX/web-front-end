@@ -179,7 +179,8 @@ export function Login_ConnectionSystem({ setShowes }) {
 
       const formData = new FormData();
       formData.append("email", email);
-      formData.append("full_name", name);
+      // formData.append("full_name", name);
+      formData.append("name", name);
       formData.append("avatar", picture.data.url);
       formData.append("provider", provider);
       formData.append("provider_id", provider_id);
@@ -744,6 +745,7 @@ export function SignUp_ConnectionSystem({
       await myaxiosprivate
         .post("/api/v1/auth/social?", formData)
         .then((res) => {
+          console.log(res);
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);
