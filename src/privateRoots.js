@@ -12,11 +12,12 @@ import ContactsPage from "./pages/contacts/contacts-subscribers";
 import Finally from "./pages/set-new-password";
 import MyProfile from "./pages/my-profile";
 import SettingsPage from "./pages/settings";
+import ErrorPage from "./pages/404";
 
 const PrivateRoot = ({ userAuth }) => {
   return (
     <>
-      {userAuth ? (
+      {userAuth == true ? (
         <Routes>
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} />
@@ -32,6 +33,7 @@ const PrivateRoot = ({ userAuth }) => {
           <Route path="/profile-edit" element={<ProfileEdit />} />
           <Route path="/contacts-profile" element={<ContactsPage />} />
           <Route path="/set-new-password" element={<Finally />} />
+          <Route path="*" element={<ErrorPage />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>

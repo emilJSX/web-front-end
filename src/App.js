@@ -69,7 +69,6 @@ const App = () => {
           <Route path="/blog-category" element={<BlogCategory />} /> {/* - */}
           <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
           <Route path="/privacy" element={<Privacy />} /> {/* + */}
-          <Route path="*" element={<ErrorPage />} /> {/* + */}
           <Route path="/faq" element={<FaqPage />} /> {/* + */}
           <Route path="/contact" element={<Contact />} /> {/* + */}
           <Route index element={<Home />} />
