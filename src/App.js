@@ -1,6 +1,6 @@
 import React from "react";
 import AppProvider from "./provider/AppProvider";
-import { redirect, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./style/theme";
 import GlobalStyle from "./style/global";
@@ -14,28 +14,15 @@ import BlogCategory from "./pages/blog/blog-category";
 import BlogSearchResult from "./pages/blog/blog-search-result";
 import BlogSRNotFound from "./pages/blog/blogsearch-noResult";
 import BlogPost from "./pages/blog/blog-post";
-import SettingsPage from "./pages/settings";
 import "react-datepicker/dist/react-datepicker.css";
 import "./index.css";
 import "./style/pages/home.css";
-import MyProfile from "./pages/my-profile";
-import Finally from "./pages/set-new-password";
 import OtherUserProfile from "./pages/OtherUserProfile";
 import Search from "./pages/search";
 import Onlysearch from "./pages/search/Onlysearch";
-import ProfileEdit from "./pages/my-profile-edit/";
 import WishList from "./pages/wishes-list";
 import Wish_pages_second from "./pages/wish-pagess/indexsecond";
 import Wish_pages from "./pages/wish-pagess";
-import Wish_pages_four from "./pages/wish-pagess/indexfour";
-import Wish_pages_three from "./pages/wish-pagess/indexthree";
-import Created_Success_Wish from "./pages/creating-success-wish";
-import Created_Wish from "./pages/creating-wish";
-import Editing_Wish from "./pages/editing-wish";
-import Rating from "./pages/rating";
-import Calendar from "./pages/calendar";
-import Payment from "./pages/payment";
-import ContactsPage from "./pages/contacts/contacts-subscribers";
 import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
@@ -61,6 +48,7 @@ const App = () => {
           <Route path="/search" element={<Search />} /> {/* + */}
           <Route path="/profile/:slug" element={<OtherUserProfile />} />
           <Route path="/blog-post" element={<BlogPost />} />
+          <Route path="/404" element={<ErrorPage />} />
           <Route
             path="/blog-search-result-notfound"
             element={<BlogSRNotFound />}
