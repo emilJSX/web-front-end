@@ -109,3 +109,7 @@ b
 2src/pages/blog/blog-search-result/BlogSR.Styled.js,1\c\1c1d2b36ec0b553f92fc1ecab2939adfcd10b6b9
 B
 src/style/theme.js,9\1\91a63bb0933a40c5cece50c7658159f110a57d49
+=
+src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
+U
+%src/shared/components/layout/index.js,8\4\8488e71fd4069d78ef645b4f43c9aa7e0ea365b1

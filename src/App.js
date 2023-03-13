@@ -27,6 +27,8 @@ import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
 import PrivateRoot from "./privateRoots";
+import { MediaQuery } from "@mantine/core";
+import { AsideComponent } from "./shared/components/aside";
 
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
@@ -64,6 +66,9 @@ const App = () => {
           <Route path="home" element={<Home />}></Route>
         </Routes>
       </AppProvider>
+      <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+        <AsideComponent hiddenBreakpoint="sm" />
+      </MediaQuery>
     </ThemeProvider>
   );
 };
