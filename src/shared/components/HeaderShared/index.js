@@ -17,7 +17,7 @@ import { Box, Burger, Loader, MediaQuery } from "@mantine/core";
 import { DotsToggle } from "../../ui/dots-toggle-menu";
 import { ReactComponent as StarsIcon } from "../../../style/icons/small-stars.svg";
 import { ReactComponent as GridIcon } from "../../../style/icons/grid-icon.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import MyProfile from "../../../pages/my-profile";
 import { FiChevronDown } from "react-icons/fi";
 import { IoCalendarOutline, IoNotificationsOutline } from "react-icons/io5";
@@ -44,6 +44,8 @@ export const HeaderShared = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState();
   const [loading, setLoading] = useState();
+  const { pathname } = useLocation();
+  console.log(pathname);
   const toggleOptions = () => {
     setOpenedMenu(!getOpenedMenu);
   };
@@ -93,7 +95,9 @@ export const HeaderShared = () => {
         <a href="/">
           <WishLogo />
         </a>
-        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
+        {/* {pathname !== "/search" && ( */}
+          <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
+        {/* )} */}
         <ul>
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
