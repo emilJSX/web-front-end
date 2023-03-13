@@ -44,20 +44,18 @@ export const HeaderShared = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState();
   const [loading, setLoading] = useState();
-  const { pathname } = useLocation();
-  console.log(pathname);
   const toggleOptions = () => {
     setOpenedMenu(!getOpenedMenu);
   };
 
   function GetWishNameForCreation() {
-    // if (isAuth) {
-    //   console.log("TRUE")
-    //   navigate("/creating-wish");
-    // } else {
-    //   setShowes(true);
-    //   console.log("False")
-    // }
+    if (isAuth) {
+      console.log("TRUE");
+      navigate("/creating-wish");
+    } else {
+      setShowes(true);
+      console.log("False");
+    }
   }
 
   useEffect(() => {
@@ -95,9 +93,7 @@ export const HeaderShared = () => {
         <a href="/">
           <WishLogo />
         </a>
-        {/* {pathname !== "/search" && ( */}
-          <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
-        {/* )} */}
+        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
         <ul>
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
@@ -179,8 +175,8 @@ export const HeaderShared = () => {
               />
               <ProfilWish>{userData?.info.wishes_count} wishes • $0</ProfilWish>
               <div
-                className="dropdown-menu-logined"
-                style={{ display: !getOpenedMenu ? "none" : "block" }}
+                className={!getOpenedMenu ? "hidden dropdown-menu-logined" : "block dropdown-menu-logined z-10"}
+                // style={{ display: !getOpenedMenu ? "none" : "block" }}
               >
                 <div className="body-menu-logined">
                   <ul>

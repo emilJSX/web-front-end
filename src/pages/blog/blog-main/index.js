@@ -31,9 +31,6 @@ import React from "react";
 import { myaxios } from "../../../api/myaxios";
 import moment from "moment";
 
-
-
-
 const MainBlog = () => {
   const navigate = useNavigate();
   const [GetUserCategoryId, setUserCategoryId] = useState();
@@ -80,13 +77,13 @@ const MainBlog = () => {
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
   );
 
-  const buttonTitles = [
-    { id: 0, title: "All" },
-  ];
+  const buttonTitles = [{ id: 0, title: "All" }];
 
   const handleClickGetIDCategory = (event) => {
     setUserCategoryId(event.currentTarget.id);
   };
+
+  console.log(getResultApiSearch);
 
   if (loading) {
     return (
@@ -118,7 +115,7 @@ const MainBlog = () => {
         <ButtonSection>
           <div className="btn-section">
             <div className="btn-container">
-            {buttonTitles?.map((category) => (
+              {buttonTitles?.map((category) => (
                 <Tab value={category.title}>
                   <button
                     className={
@@ -169,7 +166,7 @@ const MainBlog = () => {
                 </Tab>
               ))}
             </div>
-          </div> 
+          </div>
           <div
             className="input-section"
             style={{
@@ -210,7 +207,7 @@ const MainBlog = () => {
                 <p className="top-txt"></p>
                 <h2>{setLoadingBlog[0]?.title}</h2>
                 <p className="txt">{setLoadingBlog[0]?.content}</p>
-                <Link to="/blog-post">Read article</Link>
+                <Link to="/blog-post/${}">Read article</Link>
               </div>
             </Grid.Col>
           </Grid>
