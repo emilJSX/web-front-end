@@ -190,7 +190,7 @@ function Wish_pages() {
       <div className="content-container">
         <Main_page_top className="main-page-top">
           <Left_div>
-            <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
+            <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px] mb-3">
               <Left_image src={UserGetCreationImgWish} />
             </div>
             <Share slug={GetUserWishDataResult?.slug} />

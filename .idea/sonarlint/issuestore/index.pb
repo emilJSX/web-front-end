@@ -55,8 +55,6 @@ M
 src/shared/ui/Button/index.js,2\5\258c1f71a1983b6a5b2f876adc39c0801ad08c7e
 b
 2src/shared/components/HeaderLogin/Header.Styled.js,2\e\2e8fcfcf954be340b2b107aa836f6291f0da7ba2
-W
-'src/pages/my-profile/MyProfile.style.js,a\9\a91271383ba05c7d3ba897913ccfd3685ce0dc7b
 U
 %src/pages/calendar/Calendar.styled.js,f\f\ffe04a123ddc8acdb95bdd90b13d4739c80b4eb5
 X
@@ -85,8 +83,6 @@ I
 src/pages/search/index.js,d\e\decee9276a6d6ef8797dfc1f384f55fbcec79bdb
 S
 #src/pages/wish-pagess/Add.styled.js,f\e\fe4d48d423ba60e26fa04830b8495e44250df12c
-Z
-*src/pages/wish-pagess/Wish-pages.styled.js,5\b\5b33a131f8185ebb847a206f440b37264a1582f1
 Y
 )src/shared/components/breadcrumb/index.js,4\0\406ccff37477faf110e7365821f782caf05994c9
 [
