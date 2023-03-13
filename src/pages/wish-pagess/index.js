@@ -173,7 +173,6 @@ function Wish_pages() {
       })
       .then((res) => {
         setGetUserData(res?.data?.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("");

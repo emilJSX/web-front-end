@@ -5,7 +5,6 @@ function CalendarWishX() {
   const [value, onChange] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   let GetApiDate = value.getDate() + "." + parseInt(value.getMonth()+1) + "." + value.getFullYear();
-  console.log(GetApiDate)
   const handleChange = value => {
     setDate(value);
     setShowCalendar(false);

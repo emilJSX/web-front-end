@@ -71,7 +71,6 @@ import EmailConfirm from "../PhoneNumber";
         url: "https://api.wishx.me/api/v1/registration/get-code",
         params: {email: getEmail}
       }).then(function (response) {
-        console.log(response, "OTP CODE")
         getEmailConfirm()
         // ==================================================
         axios

@@ -188,7 +188,6 @@ function MyVerticallyCenteredModal(props) {
 function Wish_pages() {
   const { state } = useLocation();
   const navigate = useNavigate();
-  console.log(state);
   const GetUserTokenCreationWish = localStorage.getItem("UserToken=");
   const [modalShow, setModalShow] = useState(false);
   const [GetUserWishDataResult, setGetUserData] = useState([]);
@@ -205,7 +204,6 @@ function Wish_pages() {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         setGetUserData(data?.data);
       })
       .catch((err) => {

@@ -9,7 +9,6 @@ export const DotsToggle = () => {
     const {toggle} = useSelector(store => store.counter);
 const handleToggle = () =>{
     dispatch(drawerControll());
-    console.log('++++')
 }
     return (
         <div onClick={handleToggle} display={{ display: 'block' }}>

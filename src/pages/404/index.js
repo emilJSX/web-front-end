@@ -3,8 +3,19 @@ import { ReactComponent as ErrorFoto } from "../../style/icons/404.svg";
 import { Buttons, ErrorImage, ErrorSection } from "./404.Styled";
 import { Button } from '@mantine/core';
 import FaqSection from "../../shared/components/faq";
+import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
+    var navigate = useNavigate()
+
+    function HomePageURL() {
+        navigate("/")
+    }
+
+    function WishesPageURL() {
+        navigate("/wish-list")
+    }
+
     return (
         <ErrorSection fluid>
             <ErrorImage>
@@ -15,9 +26,9 @@ const ErrorPage = () => {
             </div>
 
             <Buttons>
-                <Button style={{ background: "#3800B0" }}>Go to wishes list page</Button>
+                <Button onClick={WishesPageURL} style={{ background: "#3800B0" }}>Go to wishes list page</Button>
                 <div style={{ width: 162 }}>
-                    <Button className="btn" fullWidth variant="outline">
+                    <Button onClick={HomePageURL}  className="btn" fullWidth variant="outline">
                         Go to main page
                     </Button>
                 </div>

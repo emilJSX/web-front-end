@@ -90,8 +90,6 @@ const OtherUserProfile = () => {
   const { slug } = useParams();
   const [isFollowing, setIsFollowing] = useState();
   const [loading, setLoading] = useState(true);
-  // const [displayFollow, setdisplayFollow] = useState("block");
-  // const [displayUnfollow, setdisplayUnfollow] = useState("none");
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
   console.log(state);
