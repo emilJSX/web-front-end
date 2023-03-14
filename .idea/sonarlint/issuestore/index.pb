@@ -23,8 +23,6 @@ M
 src/pages/my-profile/index.js,4\8\4888332648f4c5f2dc4adbec168f1fbf002bc5ac
 a
 1src/shared/LoginSignUpSystem/PhoneNumber/index.js,c\2\c2bd4049f888c115dcbd3665694b603117685f14
-<
-package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 Q
 !src/shared/LogIn-SingUp/Login.jsx,3\9\39a3149e9f6da92e5f67383ddd5212e2eb96d0a0
 b
@@ -74,8 +72,6 @@ $src/pages/wish-pagess/indexsecond.js,e\e\ee221ba0e006e88e16478b2728805f4764973
 S
 #src/pages/wish-pagess/indexthree.js,3\f\3f46956d9bc81e9fb718ea6d5ed0e191173d5825
 N
-src/pages/wish-pagess/index.js,0\1\01042053f314b05c7ecc715f1c326b2174cd01a3
-N
 src/pages/search/Onlysearch.js,1\a\1a49aa6731f41d8ba2c578722ed85510b1ed3991
 N
 src/pages/wishes-list/index.js,7\f\7f382efa0d1a7dc5bad04e391bca14eaf7013357
@@ -105,7 +101,32 @@ b
 2src/pages/blog/blog-search-result/BlogSR.Styled.js,1\c\1c1d2b36ec0b553f92fc1ecab2939adfcd10b6b9
 B
 src/style/theme.js,9\1\91a63bb0933a40c5cece50c7658159f110a57d49
-=
-src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
 U
 %src/shared/components/layout/index.js,8\4\8488e71fd4069d78ef645b4f43c9aa7e0ea365b1
+M
+src/store/slices/authSlice.js,3\b\3b29a2e6f8796b30fa402d4d7190e94cefe778fd
+[
++src/shared/components/HeaderShared/index.js,c\7\c73a31b0dffec7baacc1ed00c0a8dce88ea1dac8
+W
+'src/shared/ui/dots-toggle-menu/index.js,b\b\bb281f3f74d7dd81f88442e4ac5d218d4ca93e1d
+C
+src/privateRoots.js,2\0\20d8c43cf2aed9652c60f547bbf7a8361f2214a6
+M
+src/pages/home/Home.Styled.js,b\4\b4fd72d472c5297f560573def4dc7f082211d109
+L
+src/pages/home/HomeBanner.js,9\6\965fb4703da4f1dcc22bb50172bb88d5da3ce9ed
+P
+ src/store/slices/counterSlice.js,f\e\fefb9590bd118084582bd11428753ea84e547e58
+[
++src/shared/components/aside/Aside.Styled.js,a\d\ad0c0d3fed21ec4a50ce74859ad5ea4227d177e6
+T
+$src/shared/components/aside/index.js,d\b\dbaf6f29c155685055517dac07fe41750c4176e8
+W
+'src/pages/my-profile/MyProfile.style.js,a\9\a91271383ba05c7d3ba897913ccfd3685ce0dc7b
+:
+
+src/App.js,1\e\1e43fa63aecd2127be034b3fb9d4caa172275714
+K
+src/provider/AppProvider.js,4\0\40817315c30da4059c26a04fdce1f3812f5ae15f
+N
+src/pages/wish-pagess/Share.js,a\4\a492593a93b7fe0a81530b73d0e2a01a89b3002f
