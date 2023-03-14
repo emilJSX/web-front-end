@@ -485,7 +485,7 @@ const MyProfile = () => {
                                 <Lastprice></Lastprice>
                               </Price>
                               <LastDiv>
-                                <Share slug={userDataWish.slug} />
+                                <Share slug={userDataWish.slug} page={"wish"} />
                                 <div
                                   className="edit-details-btn"
                                   style={{ display: "flex" }}

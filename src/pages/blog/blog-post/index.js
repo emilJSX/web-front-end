@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, Image } from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { Grid, Image, Loader } from "@mantine/core";
 import {
   BlogPostSection,
   OtherBlogPost,
@@ -24,125 +24,180 @@ import whatsapp from "../../../style/icons/whatsapp.svg";
 import sms from "../../../style/icons/sms.svg";
 import link from "../../../style/icons/link-2.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
-
+import { Link, useLocation, useParams } from "react-router-dom";
+import { myaxios } from "../../../api/myaxios";
+import Share from "../../wish-pagess/Share";
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+  timeZoneName: "short",
+};
 const BlogPost = () => {
+  const { slug } = useParams();
+  const [blogPost, setBlogPost] = useState([]);
+  const [otherBlogs, setOtherBlogs] = useState([]);
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const date = new Date(blogPost.date);
+  const readableDate = date.toLocaleString("en-Us", options);
+
+  useEffect(() => {
+    setLoading(true);
+    myaxios
+      .get(`/api/v1/blog/articles/by-slug?slug=${slug}`)
+      .then(({ data }) => {
+        setBlogPost(data.data.article);
+        myaxios
+          .get(
+            `/api/v1/blog/articles/get?category_id=${data.data.article.category.id}`
+          )
+          .then(({ data }) => {
+            setOtherBlogs(data.data.list);
+          })
+          .catch((err) => setError(err.message));
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+  if (loading) {
     return (
-        <>
-            <BlogPostSection>
-                <div className="rule-section">
-                    {/*<p>Main {">"} Blog {">"} Travel {">"} </p>*/}
-                    <CustomBreadcrumb links={[
-                        {
-                            title: 'Main',
-                            to: '/'
-                        },
-                        {
-                            title: 'Blog',
-                            to: "/blog-main"
-                        },
-                        {
-                            title: 'Travel',
-                        },
-                        {
-                            title: 'Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola',
-                        },
-                    ]} />
-                </div>
-                <div className="main-txt">
-                    <h1>Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola</h1>
-                    <p>May 20 {"|"} Travel</p>
-                </div>
-                <ColaImg className="first-image-container">
-                    <img className="first-image" alt=""
-                        src={colapostimg}
+      <div className="flex justify-center items-center h-96">
+        <Loader size="xl" />
+      </div>
+    );
+  }
+  return (
+    <>
+      <BlogPostSection>
+        <div className="rule-section">
+          {/*<p>Main {">"} Blog {">"} Travel {">"} </p>*/}
+          <CustomBreadcrumb
+            links={[
+              {
+                title: "Main",
+                to: "/",
+              },
+              {
+                title: "Blog",
+                to: "/main-blog",
+              },
+              {
+                title: "Travel",
+              },
+              {
+                title: blogPost.title,
+              },
+            ]}
+          />
+        </div>
+        <div className="main-txt">
+          <h1>{blogPost.title}</h1>
+          <p>{readableDate + " | " + blogPost?.category?.name}</p>
+        </div>
+        <ColaImg className="first-image-container">
+          <img
+            className="first-image"
+            alt={blogPost.title}
+            src={`${process.env.REACT_APP_API_URL}${blogPost.thumb}`}
+          />
+        </ColaImg>
+        <div className="mt-5">
+          <p className="first-txt">{blogPost?.partials[0]?.content}</p>
+        </div>
+        <h1 className="custom-txt">{blogPost?.partials[0]?.title}</h1>
+        <p className="second-txt">{blogPost?.partials[0]?.content}</p>
+        <ColaImg className="first-image-container">
+          {blogPost?.partials[0]?.image && (
+            <img
+              className="first-image"
+              alt=""
+              src={`${process.env.REACT_APP_API_URL}${blogPost?.partials[0]?.image}`}
+            />
+          )}
+        </ColaImg>
+        <p className="second-txt">
+          <p className="first-txt">
+            {blogPost?.partials[0]?.content
+              ? blogPost?.partials[0]?.content
+              : "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32."}
+          </p>
+        </p>
+        <h3 className="finishing-touch">The finishing touch</h3>
+        <p className="second-txt">
+          {" "}
+          {blogPost?.partials[0]?.content
+            ? blogPost?.partials[0]?.content
+            : "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32."}
+        </p>
+        <div className="social-icons">
+          <Share slug={blogPost?.slug} page={"blog-post"} />
+        </div>
+      </BlogPostSection>
+
+      <LineImage
+        className="md:block hidden"
+        p={0}
+        style={{ paddingBottom: "50px" }}
+        fluid
+      >
+        <div className="line-flex">
+          {Lineimg.data.map(({ url }) => (
+            <Image width={126.6} src={url} />
+          ))}
+        </div>
+      </LineImage>
+
+      <OtherBlogPost>
+        <h1 className="blogposttop-text">Other posts by the theme</h1>
+        <BlogOtherCard style={{ maxWidth: "1180px" }}>
+          <Grid>
+            {otherBlogs.map((item) => (
+              <Grid.Col xs={12} sm={6} md={4} lg={4}>
+                <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }}>
+                  <CardActionArea className="card-action-area">
+                    <CardMedia
+                      component="img"
+                      image={`${process.env.REACT_APP_API_URL}${item.thumb}`}
+                      width="340px"
+                      height="230px"
+                      style={{ borderRadius: "20px" }}
                     />
-                </ColaImg>
-                <div className="mt-5">
-                    <p className="first-txt">
-                        Now that the event is mere weeks away, it dawned on me that I've never actually done a bridal show booth before, or any booth for that matter. Yikes. Just as I was getting ready to hit the panic button, the ultra-talented Sarah Campbell from Intrigue Design invited me to her Annapolis studio to borrow props from her collection. Thank you, Jesus.<br />
-                        <br />
-                        When a creative-at-heart person such as myself invests fifteen years in the corporate world and then finally takes a leap of faith to start over where they really belong, getting the chance to tour an award-winning design studio is like heaven on earth. Not to mention, the opportunity to brainstorm with an expert like Sarah. Priceless. <br />
-                        <br />
-                        I arrived in the morning and Sarah and her team were busy at work on their last big wedding of the year! White blooms for days. Just breathtaking.
-                    </p>
-                </div>
-                <h1 className="custom-txt">Custom Las Vegas-Themed Corporate Event Gifts for Coca-Cola</h1>
-                <p className="second-txt">
-                    When a creative-at-heart person such as myself invests fifteen years in the corporate world and then finally takes a leap of faith to start over where they really belong, getting the chance to tour an award-winning design studio is like heaven on earth. Not to mention, the opportunity to brainstorm with an expert like Sarah. Priceless. <br />
-                    <br />
-                    I arrived in the morning and Sarah and her team were busy at work on their last big wedding of the year! White blooms for days. Just breathtaking.
-                </p>
-                <ColaImg className="first-image-container">
-                    <img className="first-image" alt=""
-                         src={colagrid}
-                    />
-                </ColaImg>
-                <p className="second-txt">
-                    When a creative-at-heart person such as myself invests fifteen years in the corporate world and then finally takes a leap of faith to start over where they really belong, getting the chance to tour an award-winning design studio is like heaven on earth. Not to mention, the opportunity to brainstorm with an expert like Sarah. Priceless. <br />
-                    <br />
-                    I arrived in the morning and Sarah and her team were busy at work on their last big wedding of the year! White blooms for days. Just breathtaking.
-                </p>
-                <h3 className="finishing-touch">The finishing touch</h3>
-                <p className="second-txt"> We included a custom branded double sided notecard with Coca-Cola's logo in white text. We love how the notecard coordinated perfectly with the Coca-Cola red ribbon and gift tag. <br />
-                    <br />
-                    We hoped you enjoyed learning about these unique custom corporate event gifts! If you enjoyed reading this, you'll love this blog post where we break down our favorite in-person corporate event gifts of 2021. And since corporate events are back in full swing, if you're interested in creating your own custom gift design, we'd love to connect. Happy {"(corporate)"} gifting!
-                </p>
-                <div className="social-icons">
-                    <p className="text-[14px] leading-[1.3] font-semibold" style={{ color: "#3800B0", textAlign: "start" }}>Share</p>
-                    <a href="#"><Image className="icon" src={fb} /></a>
-                    <a href="#"><Image className="icon" src={twitter} /></a>
-                    <a href="#"><Image className="icon" src={telegram} /></a>
-                    <a href="#"><Image className="icon" src={whatsapp} /></a>
-                    <a href="#"><Image className="icon" src={sms} /></a>
-                    <a href="#"><Image className="icon" src={link} /></a>
-                </div>
-            </BlogPostSection>
+                    <CardContent style={{ padding: "0", paddingTop: "20px" }}>
+                      <Typography gutterBottom variant="h5" component="div">
+                        <p className="date-category">
+                          {item.date} - {item?.category?.name}
+                        </p>
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <h1 className="title-card">{item.title}</h1>
+                        <p className="text-card">{item.partials[0].content}</p>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions className="p-0">
+                    <Link
+                      to={`/blog-post/${item.slug}`}
+                      className="read-article"
+                    >
+                      Read article
+                    </Link>
+                  </CardActions>
+                </Card>
+              </Grid.Col>
+            ))}
+          </Grid>
+        </BlogOtherCard>
+      </OtherBlogPost>
+    </>
+  );
+};
 
-            <LineImage className="md:block hidden" p={0} style={{paddingBottom: "50px"}} fluid>
-                <div className="line-flex">
-                    {Lineimg.data.map(({ url }) => (
-                        <Image width={126.6} src={url} />
-                    ))}
-                </div>
-            </LineImage>
-
-            <OtherBlogPost>
-                    <h1 className="blogposttop-text">Other posts by the theme</h1>
-                    <BlogOtherCard style={{maxWidth: "1180px"}}>
-                        <Grid>
-                            {OtherBlogpost.data.map(({ foto, date, category, title, text }) => (
-                                <Grid.Col xs={12} sm={6} md={4} lg={4}>
-                                    <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }} >
-                                        <CardActionArea className="card-action-area">
-                                            <CardMedia
-                                                component="img"
-                                                image={foto}
-                                                width="340px"
-                                                height="230px"
-                                                style={{ borderRadius: "20px" }}
-                                            />
-                                            <CardContent style={{ padding: "0", paddingTop: "20px" }}>
-                                                <Typography gutterBottom variant="h5" component="div">
-                                                    <p className='date-category'>{date} - {category}</p>
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    <h1 className='title-card'>{title}</h1>
-                                                    <p className='text-card'>{text}</p>
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                        <CardActions className="p-0">
-                                            <a href="#" className="read-article">Read article</a>
-                                        </CardActions>
-                                    </Card>
-                                </Grid.Col>
-                            ))}
-                        </Grid>
-
-                    </BlogOtherCard>
-                </OtherBlogPost>
-        </>
-    )
-}
-
-export default BlogPost
+export default BlogPost;

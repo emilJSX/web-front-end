@@ -83,7 +83,7 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
-  console.log(getResultApiSearch);
+  // console.log(getResultApiSearch[0]);
 
   if (loading) {
     return (
@@ -199,15 +199,19 @@ const MainBlog = () => {
             <Grid.Col className="col-root-img" p={0} span={6}>
               <Image
                 className="img-section"
-                src={`${process.env.REACT_APP_API_URL}${setLoadingBlog[0]?.image}`}
+                src={`${process.env.REACT_APP_API_URL}${getResultApiSearch[0]?.thumb}`}
               />
             </Grid.Col>
             <Grid.Col span={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <h2>{setLoadingBlog[0]?.title}</h2>
-                <p className="txt">{setLoadingBlog[0]?.content}</p>
-                <Link to="/blog-post/${}">Read article</Link>
+                <h2>{getResultApiSearch[0]?.title}</h2>
+                <p className="txt">
+                  {getResultApiSearch[0]?.partials[0]?.content}
+                </p>
+                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+                  Read article
+                </Link>
               </div>
             </Grid.Col>
           </Grid>
@@ -263,7 +267,9 @@ const MainBlog = () => {
                       </CardContent>
                     </CardActionArea>
                     <CardActions className="p-0">
-                      <Link to="/blog-post">Read article</Link>
+                      <Link to={`/blog-post/${AllBlog.slug}`}>
+                        Read article
+                      </Link>
                     </CardActions>
                   </Card>
                 </Grid.Col>
