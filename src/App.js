@@ -30,6 +30,7 @@ import PrivateRoot from "./privateRoots";
 import { MediaQuery } from "@mantine/core";
 import { AsideComponent } from "./shared/components/aside";
 import WishDesign from "./pages/wish/WishDesign";
+import Finally from "./pages/set-new-password";
 
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
@@ -44,6 +45,7 @@ const App = () => {
             path="/other-user-wish-complete"
             element={<Wish_pages_second />}
           />
+          <Route path="/set-new-password" element={<Finally />} />
           <Route path="/wish-design" element={<WishDesign />} />
           <Route path="/wish/:slug" element={<Wish_pages />} />
           <Route path="/wish-list" element={<WishList />} /> {/* + */}
