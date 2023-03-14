@@ -27,6 +27,9 @@ import PartnersPage from "./pages/partners/partners-page";
 import { useAuthSelector } from "./store/slices/authSlice";
 import { useSelector } from "react-redux";
 import PrivateRoot from "./privateRoots";
+import { MediaQuery } from "@mantine/core";
+import { AsideComponent } from "./shared/components/aside";
+import WishDesign from "./pages/wish/WishDesign";
 
 const App = () => {
   const isAuth = useSelector(useAuthSelector);
@@ -41,6 +44,7 @@ const App = () => {
             path="/other-user-wish-complete"
             element={<Wish_pages_second />}
           />
+          <Route path="/wish-design" element={<WishDesign />} />
           <Route path="/wish/:slug" element={<Wish_pages />} />
           <Route path="/wish-list" element={<WishList />} /> {/* + */}
           <Route path="/only-search" element={<Onlysearch />} />
@@ -64,6 +68,9 @@ const App = () => {
           <Route path="home" element={<Home />}></Route>
         </Routes>
       </AppProvider>
+      <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+        <AsideComponent hiddenBreakpoint="sm" />
+      </MediaQuery>
     </ThemeProvider>
   );
 };

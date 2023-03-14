@@ -23,6 +23,7 @@ export const CustomAside = styled(Aside)`
         flex-direction: column;
         gap:32px;
         align-items:center;
+      margin-bottom: 32px;
 
         .log-in {
             color: white;
@@ -50,7 +51,7 @@ export const CustomAside = styled(Aside)`
         display:flex;
         flex-direction:column;
         align-items: center;
-        justify-content:space-between;
+        //justify-content:space-between;
         height:calc(100vh - 200px);
         overflow: auto;
     }

@@ -11,7 +11,7 @@ const handleToggle = () =>{
     dispatch(drawerControll());
 }
     return (
-        <div onClick={handleToggle} display={{ display: 'block' }}>
+        <div onClick={handleToggle}>
             {
                  toggle ? <XIcon /> : <DotsToggleIcon />
             }

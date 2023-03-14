@@ -810,7 +810,7 @@ export const LastDiv = styled.div`
 `;
 export const SosialN = styled.div`
     width: 80%;
-    height: 56px;
+    //height: 56px;
     display: flex;
     background: #F7F8FA;
     border: 1px solid #EBE5F7;
