@@ -50,7 +50,7 @@ const WishDesign = () => {
     <div className="pt-10 bg-[#EBE5F7]">
       <div className="container">
         <div className="flex mb-[72px] relative">
-          <div className="mr-6 mb-6 sticky top-4 sticky-top flex-1 h-max">
+          <div className="flex-[1.2] mr-6 mb-6 sticky top-4 sticky-top h-max">
             <div className="rounded-[24px] mb-4">
               <img src={WishImage} alt=""/>
             </div>
