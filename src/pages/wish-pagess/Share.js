@@ -11,7 +11,7 @@ import { BsFacebook, BsTwitter, BsWhatsapp } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLinksFill } from "react-icons/ri";
-function Share({ slug }) {
+function Share({ slug,page }) {
   const [error, setError] = useState("");
   async function handleCopyLink(link) {
     try {
@@ -31,22 +31,22 @@ function Share({ slug }) {
       >
         Share
       </div>
-      <FacebookShareButton url={`https://dev.wishx.me/${slug}`}>
+      <FacebookShareButton url={`https://dev.wishx.me/${page}/${slug}`}>
         <BsFacebook className="Facebook" />
       </FacebookShareButton>
-      <TwitterShareButton url={`https://dev.wishx.me/${slug}`}>
+      <TwitterShareButton url={`https://dev.wishx.me/${page}/${slug}`}>
         <BsTwitter className="twitter" />
       </TwitterShareButton>
-      <TelegramShareButton url={`https://dev.wishx.me/${slug}`}>
+      <TelegramShareButton url={`https://dev.wishx.me/${page}/${slug}`}>
         <FaTelegram className="telegram" />
       </TelegramShareButton>
-      <WhatsappShareButton url={`https://dev.wishx.me/wish/${slug}`}>
+      <WhatsappShareButton url={`https://dev.wishx.me/${page}/${slug}`}>
         <BsWhatsapp className="whatsapp" />
       </WhatsappShareButton>
-      <EmailShareButton url={`https://dev.wishx.me/wish/${slug}`}>
+      <EmailShareButton url={`https://dev.wishx.me/${page}/${slug}`}>
         <IoMailOutline className="mail" />
       </EmailShareButton>
-      <a onClick={() => handleCopyLink(`https://dev.wishx.me/wish/${slug}`)}>
+      <a onClick={() => handleCopyLink(`https://dev.wishx.me/${page}/${slug}`)}>
         <RiLinksFill className="link" />
       </a>
     </SosialN>

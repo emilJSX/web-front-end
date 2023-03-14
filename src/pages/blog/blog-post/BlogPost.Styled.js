@@ -1,7 +1,7 @@
 import { Grid, Container } from "@mantine/core";
 import styled from "styled-components";
 
-export const BlogPostSection = styled(Container) `
+export const BlogPostSection = styled(Container)`
     text-align: center;
     oveflow: hidden;
     border-radius: 24px;
@@ -16,12 +16,14 @@ export const BlogPostSection = styled(Container) `
         .mantine-Image-figure{
             overflow: hidden;
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.temp}) {
                 width: 343px;
                 height: 240px;
             }
 
-            @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+            @media screen and (min-width: ${({ theme }) =>
+              theme.breakPoints.temp}) {
                 width: 896px;
                 height: 440px;
             }
@@ -38,17 +40,20 @@ export const BlogPostSection = styled(Container) `
           max-height: 580px !important;
           border-radius: 20px;
           
-          @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) { 
+          @media screen and (max-width: ${({ theme }) =>
+            theme.breakPoints.sm}) { 
             max-height: 280px !important;
           }
         }
       
-        // @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        // @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
         //     width: 343px;
         //     height: 240px;
         // }
         //
-        // @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        // @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
         //     width: 664px;
         //     height: 400px;
         // }
@@ -110,11 +115,13 @@ export const BlogPostSection = styled(Container) `
     .first-txt {
         text-align: start;
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 60%;
         }
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 80%;
         }
     }
@@ -124,11 +131,13 @@ export const BlogPostSection = styled(Container) `
         display: flex;
         justify-content: center;
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 60%;
         }
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 80%;
         }
     }
@@ -137,11 +146,13 @@ export const BlogPostSection = styled(Container) `
         text-align: start;
         padding-top: 30px;
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 60%;
         }
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
             width: 80%;
         }
     }
@@ -167,90 +178,135 @@ export const BlogPostSection = styled(Container) `
         width: 100%;
         align-items: center;
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
            padding-right: 200px;
         }
 
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.temp}) {
+        @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.temp}) {
            padding-right: 0;
         }
+
     }
+    .Facebook{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
+    
+    
+    .twitter{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
+    
+    
+    .telegram{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
+    
+    
+    .whatsapp{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
+    
+    
+    .mail{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
+    
+    
+    .link{
+        margin-left: 10px;
+        color: #2D008D;
+        font-size: 23px;
+    }
+    
 }
-`
+`;
 
-export const OtherBlogPost = styled(Container) `
-    max-width: 1180px !important;
-    padding-bottom: 100px;
-    
-    .blogposttop-text {
-        font-size: 40px;
-        padding-top: 30px;
-        padding-bottom: 50px;
-        font-weight: 600;
-        padding-left: 10px;
-    }
+export const OtherBlogPost = styled(Container)`
+  max-width: 1180px !important;
+  padding-bottom: 100px;
 
-    .date-category {
-        color: #110035;
-        font-size: 14px;
-        font-weight: 400;
-        opacity: 0.4;
-      
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-            font-size: 12px;
-        }
-    }
-    
-    .title-card {
-        color: #0B0023;
-        font-weight: 600;
-        font-size: 24px;
-        margin-bottom: 8px;
-      
-        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-            font-size: 20px;
-        }
-    }
+  .blogposttop-text {
+    font-size: 40px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    font-weight: 600;
+    padding-left: 10px;
+  }
 
-    .text-card {
-        font-size: 14px;
-        color: #110035;
-        margin-bottom: 16px;
-    }
-    
-    .read-article {
-        color: #3800B0 !important;
-        font-size: 14px;
-        padding: 0;
-        margin: 0;
-        text-decoration: none;
-        font-weight: 600;
-    }
-`
+  .date-category {
+    color: #110035;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.4;
 
-export const BlogOtherCard = styled(Container) `
-
-`
-
-export const ColaImg = styled(Container) `
-    .colapostimg {
-        border: 0;
-        padding-left: 50px;
-        padding-top: 20px;
-        border-radius: 25px !important;
-        height: 300px !important;
-        width: 95% !important; 
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+      font-size: 12px;
     }
-`
+  }
+
+  .title-card {
+    color: #0b0023;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 8px;
+
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+      font-size: 20px;
+    }
+  }
+
+  .text-card {
+    font-size: 14px;
+    color: #110035;
+    margin-bottom: 16px;
+  }
+
+  .read-article {
+    color: #3800b0 !important;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    font-weight: 600;
+  }
+`;
+
+export const BlogOtherCard = styled(Container)``;
+
+export const ColaImg = styled(Container)`
+  .colapostimg {
+    border: 0;
+    padding-left: 50px;
+    padding-top: 20px;
+    border-radius: 25px !important;
+    height: 300px !important;
+    width: 95% !important;
+  }
+`;
 
 export const LineImage = styled(Container)`
-    .line-flex {
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-    }
-`
+  .line-flex {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+`;
 
-export const BottomSection = styled(Container) `
-
-`
+export const BottomSection = styled(Container)``;

@@ -1,5 +1,5 @@
 import { Grid, Image, Button, Slider, Loader } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Body,
   ButtonSection,
@@ -108,6 +108,8 @@ const MyProfile = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [joinDate, setJoinDate] = useState();
   const [wishes, setWishes] = useState();
+  const [coverImg, setCoverImg] = useState();
+
   var tabs_storage = [
     {
       value: "act",
@@ -204,6 +206,31 @@ const MyProfile = () => {
   function getWishIdForResultPage(id) {
     navigate("/my-wish", { state: { id } });
   }
+  const fileInputRef = useRef();
+  const handleInputOpen = () => {
+    fileInputRef.current.click();
+  };
+  const [uploadMessage, setUploadMessage] = useState("");
+  const handleCoverChange = async (e) => {
+    const file = e.target.files[0];
+    setCoverImg(file);
+    console.log(coverImg);
+    const formData = new FormData();
+    formData.append("file", file && file);
+
+    file &&
+      (await myaxiosprivate
+        .post("/api/v1/profiles/cover-image/update", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          setTimeout(() => {
+            setUploadMessage("File is uploading...");
+            location.reload();
+          }, 150);
+        })
+        .catch((err) => console.log(err.message)));
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -215,14 +242,37 @@ const MyProfile = () => {
     <Body>
       <div className="main-container">
         <div>
-          <FotoSection fluid>
-            <img
-              id="rainbow"
-              radius="lg"
-              className="rainbow"
-              src={estetika}
-              height={300}
+          <FotoSection fluid className="relative mt-4">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleCoverChange}
+              className="file-uploader"
+              style={{ display: "none" }}
             />
+            <button
+              onClick={handleInputOpen}
+              className="change-photo-button absolute top-0 right-20 m-4 p-2 bg-white text-[#6033c0] text-sm font-semibold rounded"
+            >
+              Change cover photo
+            </button>
+            {uploadMessage ? (
+              <div className="flex justify-center items-center h-[300px]">
+                <Loader size="sm" className="mr-2" />
+                {uploadMessage}
+              </div>
+            ) : (
+              <img
+                id="rainbow"
+                radius="lg"
+                className="rainbow w-full h-[300px] bg-center bg-cover"
+                src={
+                  userProfile.info.background_image
+                    ? userProfile.info.background_image
+                    : estetika
+                }
+              />
+            )}
           </FotoSection>
         </div>
 
@@ -233,13 +283,16 @@ const MyProfile = () => {
                 <img
                   id="rainbow"
                   radius="lg"
-                  className="rainbow"
-                  src={estetika}
-                  height={300}
+                  className="rainbow md:w-full w-[96.8%] h-[300px] bg-center bg-cover"
+                  src={
+                    userProfile.info.background_image
+                      ? userProfile.info.background_image
+                      : estetika
+                  }
                 />
               </MobileTopCoverImageSection>
               <LeftSection>
-                <DisplayTopImgCard>
+                <DisplayTopImgCard className="mt-3">
                   <Image
                     radius="100px"
                     style={{ border: "3px solid white !important;" }}
@@ -432,7 +485,7 @@ const MyProfile = () => {
                                 <Lastprice></Lastprice>
                               </Price>
                               <LastDiv>
-                                <Share slug={userDataWish.slug} />
+                                <Share slug={userDataWish.slug} page={"wish"} />
                                 <div
                                   className="edit-details-btn"
                                   style={{ display: "flex" }}

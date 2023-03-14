@@ -15,7 +15,7 @@ export const SearchInput = ({ iconHave = true, size = "xl", myUserId }) => {
     <CustomSearchBar
       type="search"
       rightSection={
-        iconHave ? <SearchIcon onClick={getSearchResultPage} /> : <></>
+        iconHave && <SearchIcon onClick={getSearchResultPage} /> 
       }
       rightSectionWidth={55}
       size={size}

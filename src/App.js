@@ -51,7 +51,7 @@ const App = () => {
           {/* + */}
           <Route path="/search" element={<Search />} /> {/* + */}
           <Route path="/profile/:slug" element={<OtherUserProfile />} />
-          <Route path="/blog-post" element={<BlogPost />} />
+          <Route path="/blog-post/:slug" element={<BlogPost />} />
           <Route path="/404" element={<ErrorPage />} />
           <Route
             path="/blog-search-result-notfound"
@@ -68,7 +68,7 @@ const App = () => {
           <Route path="home" element={<Home />}></Route>
         </Routes>
       </AppProvider>
-      <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
         <AsideComponent hiddenBreakpoint="sm" />
       </MediaQuery>
     </ThemeProvider>
