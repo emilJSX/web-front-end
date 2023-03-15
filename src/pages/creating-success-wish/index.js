@@ -81,9 +81,9 @@ const Created_Success_Wish = () => {
   }, []);
 
   const GetUserEditWishPage = () => {
-    navigate("/wish-edit", { state: GetUserWishData });
+    navigate("/wish-edit", { state: GetUserWishData.id });
   };
-
+  console.log(GetUserWishData)
   const [userData, setUserData] = useState();
   const { state } = useLocation();
   const getCopySlug = GetUserWishData.slug;

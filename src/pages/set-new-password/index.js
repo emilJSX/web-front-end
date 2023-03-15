@@ -54,6 +54,7 @@ function Finally() {
           flexDirection: "column",
         }}
       >
+        
         <TopNavigator className="sm-buttons-conatiner">
           <div className="flex items-center justify-center mb-4">
             <CustomBreadcrumb

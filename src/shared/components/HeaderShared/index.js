@@ -17,7 +17,7 @@ import { Box, Burger, Loader, MediaQuery } from "@mantine/core";
 import { DotsToggle } from "../../ui/dots-toggle-menu";
 import { ReactComponent as StarsIcon } from "../../../style/icons/small-stars.svg";
 import { ReactComponent as GridIcon } from "../../../style/icons/grid-icon.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import MyProfile from "../../../pages/my-profile";
 import { FiChevronDown } from "react-icons/fi";
 import { IoCalendarOutline, IoNotificationsOutline } from "react-icons/io5";
@@ -49,13 +49,13 @@ export const HeaderShared = () => {
   };
 
   function GetWishNameForCreation() {
-    // if (isAuth) {
-    //   console.log("TRUE")
-    //   navigate("/creating-wish");
-    // } else {
-    //   setShowes(true);
-    //   console.log("False")
-    // }
+    if (isAuth) {
+      console.log("TRUE");
+      navigate("/creating-wish");
+    } else {
+      setShowes(true);
+      console.log("False");
+    }
   }
 
   useEffect(() => {
@@ -175,8 +175,8 @@ export const HeaderShared = () => {
               />
               <ProfilWish>{userData?.info.wishes_count} wishes • $0</ProfilWish>
               <div
-                className="dropdown-menu-logined"
-                style={{ display: !getOpenedMenu ? "none" : "block" }}
+                className={!getOpenedMenu ? "hidden dropdown-menu-logined" : "block dropdown-menu-logined z-10"}
+                // style={{ display: !getOpenedMenu ? "none" : "block" }}
               >
                 <div className="body-menu-logined">
                   <ul>

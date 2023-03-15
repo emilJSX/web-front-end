@@ -31,9 +31,6 @@ import React from "react";
 import { myaxios } from "../../../api/myaxios";
 import moment from "moment";
 
-
-
-
 const MainBlog = () => {
   const navigate = useNavigate();
   const [GetUserCategoryId, setUserCategoryId] = useState();
@@ -80,13 +77,13 @@ const MainBlog = () => {
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
   );
 
-  const buttonTitles = [
-    { id: 0, title: "All" },
-  ];
+  const buttonTitles = [{ id: 0, title: "All" }];
 
   const handleClickGetIDCategory = (event) => {
     setUserCategoryId(event.currentTarget.id);
   };
+
+  // console.log(getResultApiSearch[0]);
 
   if (loading) {
     return (
@@ -118,7 +115,7 @@ const MainBlog = () => {
         <ButtonSection>
           <div className="btn-section">
             <div className="btn-container">
-            {buttonTitles?.map((category) => (
+              {buttonTitles?.map((category) => (
                 <Tab value={category.title}>
                   <button
                     className={
@@ -169,7 +166,7 @@ const MainBlog = () => {
                 </Tab>
               ))}
             </div>
-          </div> 
+          </div>
           <div
             className="input-section"
             style={{
@@ -202,15 +199,19 @@ const MainBlog = () => {
             <Grid.Col className="col-root-img" p={0} span={6}>
               <Image
                 className="img-section"
-                src={`${process.env.REACT_APP_API_URL}${setLoadingBlog[0]?.image}`}
+                src={`${process.env.REACT_APP_API_URL}${getResultApiSearch[0]?.thumb}`}
               />
             </Grid.Col>
             <Grid.Col span={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <h2>{setLoadingBlog[0]?.title}</h2>
-                <p className="txt">{setLoadingBlog[0]?.content}</p>
-                <Link to="/blog-post">Read article</Link>
+                <h2>{getResultApiSearch[0]?.title}</h2>
+                <p className="txt">
+                  {getResultApiSearch[0]?.partials[0]?.content}
+                </p>
+                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+                  Read article
+                </Link>
               </div>
             </Grid.Col>
           </Grid>
@@ -266,7 +267,9 @@ const MainBlog = () => {
                       </CardContent>
                     </CardActionArea>
                     <CardActions className="p-0">
-                      <Link to="/blog-post">Read article</Link>
+                      <Link to={`/blog-post/${AllBlog.slug}`}>
+                        Read article
+                      </Link>
                     </CardActions>
                   </Card>
                 </Grid.Col>

@@ -56,7 +56,7 @@ function Search() {
   }, []);
   // INFINITY SCROLL
   const { myUserId } = state;
-  
+
   // END INFINITY SCROLL
 
   function getWishIdForResult(slug) {
@@ -89,7 +89,7 @@ function Search() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [state.getSearchValue]);
 
   useEffect(() => {
     setError("");
@@ -109,7 +109,7 @@ function Search() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [state.getSearchValue]);
 
   const getResultSearchingData = () => {
     setError("");
