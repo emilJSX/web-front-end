@@ -103,7 +103,7 @@ export const Left_image = styled.img`
   width: 100%;
   height: auto;
   background: white;
-  max-width: 440px;
+  // max-width: 440px;
 `;
 export const Left_buttons = styled.div`
   //width: 664px;

@@ -133,7 +133,7 @@ const MyProfile = () => {
       spanTitle: "0",
     },
   ];
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -243,7 +243,7 @@ const MyProfile = () => {
     <Body>
       <div className="main-container">
         <div>
-          <FotoSection fluid className="relative mt-4">
+          <FotoSection fluid className="relative mt-3 sm:mt-5">
             <input
               type="file"
               ref={fileInputRef}
@@ -293,7 +293,7 @@ const MyProfile = () => {
                 />
               </MobileTopCoverImageSection>
               <LeftSection>
-                <DisplayTopImgCard className="mt-3">
+                <DisplayTopImgCard className="mt-16">
                   <Image
                     radius="100px"
                     style={{ border: "3px solid white !important;" }}

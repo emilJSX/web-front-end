@@ -157,15 +157,15 @@ const SetGenderButtonsClick = () => {
   }
 };
 
-const SetSaveAndCancelButtonsClick = () => {
-  let SaveAndCancel = document.querySelectorAll(".saveAndCancel");
+// const SetSaveAndCancelButtonsClick = () => {
+//   let SaveAndCancel = document.querySelectorAll(".saveAndCancel");
 
-  for (const iterator of SaveAndCancel) {
-    iterator.addEventListener("click", (e) => {
-      OnClickSaveOrCancelButton(e.currentTarget);
-    });
-  }
-};
+//   for (const iterator of SaveAndCancel) {
+//     iterator.addEventListener("click", (e) => {
+//       OnClickSaveOrCancelButton(e.currentTarget);
+//     });
+//   }
+// };
 
 // const OnClickSaveOrCancelButton = (clicked) => {
 //   clicked.preventDefault();
@@ -398,7 +398,7 @@ const ProfileEdit = () => {
     setClickOnOptions();
     SetProfileEditButtonsEvent();
     SetGenderButtonsClick();
-    SetSaveAndCancelButtonsClick();
+    // SetSaveAndCancelButtonsClick();
   });
 
   const data = [
@@ -544,9 +544,13 @@ const ProfileEdit = () => {
       );
       setValue("dob", userInfo.dob);
       setValue("number", userInfo.number);
-      setValue("about", userInfo.about);
+      setValue(
+        "about",
+        typeof userInfo?.about === "string" ? userInfo.about : ""
+      );
     }
   }, [userInfo]);
+
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -554,10 +558,10 @@ const ProfileEdit = () => {
   const handleFileSelect = (e) => {
     setFile(e.target.files[0]);
   };
-  const handleChangeUserInfo = (e) => {
-    const { name, value } = e.target;
-    setUserInfo((prevState) => ({ ...prevState, [name]: value }));
-  };
+  // const handleChangeUserInfo = (e) => {
+  //   const { name, value } = e.target;
+  //   setUserInfo((prevState) => ({ ...prevState, [name]: value }));
+  // };
 
   useEffect(() => {
     setUserInfo({ ...userInfo, dob: dateValue });
@@ -936,8 +940,8 @@ const ProfileEdit = () => {
                       </div>
                     </div>
                     {errors.about && (
-                      <p className="mx-10 mt-2 text-red-500 text-xs">
-                        {errors.about}
+                      <p className="mx-2 mt-2 text-red-500 text-xs">
+                        {errors.about.message}
                       </p>
                     )}
                     <div className="text-area-container">
@@ -950,7 +954,11 @@ const ProfileEdit = () => {
                         // onChange={handleChangeUserInfo}
                         {...register("about", {
                           required: "About is required",
-                          min: 10,
+                          minLength: {
+                            value: 10,
+                            message:
+                              "About should be at least 10 characters long",
+                          },
                         })}
                         className="text-area"
                         placeholder="About you"
