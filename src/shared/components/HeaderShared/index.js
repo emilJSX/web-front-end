@@ -136,7 +136,7 @@ export const HeaderShared = () => {
             )}
 
             <Card>
-              <a href="/my-profile">
+              <Link to="/my-profile">
                 <ProfilP>
                   <img
                     style={{
@@ -153,14 +153,14 @@ export const HeaderShared = () => {
                     }
                   />
                 </ProfilP>
-              </a>
-              <a href="/my-profile">
+              </Link>
+              <Link to="/my-profile">
                 <ProfilName>
                   {userData?.info.full_name == null
                     ? "does not exist"
                     : userData?.info.full_name}
                 </ProfilName>
-              </a>
+              </Link>
               <FiChevronDown
                 onClick={toggleOptions}
                 className="cursor-pointer"
@@ -175,7 +175,11 @@ export const HeaderShared = () => {
               />
               <ProfilWish>{userData?.info.wishes_count} wishes • $0</ProfilWish>
               <div
-                className={!getOpenedMenu ? "hidden dropdown-menu-logined" : "block dropdown-menu-logined z-10"}
+                className={
+                  !getOpenedMenu
+                    ? "hidden dropdown-menu-logined"
+                    : "block dropdown-menu-logined z-10"
+                }
                 // style={{ display: !getOpenedMenu ? "none" : "block" }}
               >
                 <div className="body-menu-logined">
