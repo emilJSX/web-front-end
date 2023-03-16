@@ -49,12 +49,12 @@ const WishDesign = () => {
   return (
     <div className="pt-10 bg-[#EBE5F7]">
       <div className="container">
-        <div className="flex mb-[72px] relative">
-          <div className="flex-[1.2] mr-6 mb-6 sticky top-4 sticky-top h-max">
+        <div className="md:flex mb-[72px] relative">
+          <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4">
               <img src={WishImage} alt=""/>
             </div>
-            <div className="bg-white rounded-[24px] p-8 flex items-center justify-between mb-4">
+            <div className="bg-white rounded-[24px] p-4 md:p-8 flex items-center justify-between mb-4">
               <button className="font-dynamic font-dynamic--sm text-[#3800B0]" style={{ "--fw": 600 }}>Share</button>
               <button className="text-[#3800B0] text-xl">
                 <BsFacebook/>
@@ -82,7 +82,7 @@ const WishDesign = () => {
           </div>
           <div className="flex-[1.5]">
             <div className="rounded-[24px] bg-[#2D008D] p-1">
-              <div className="my-10 px-12">
+              <div className="my-6 md:my-10 px-6 lg:px-12">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center mr-3">
                     <img
@@ -90,7 +90,7 @@ const WishDesign = () => {
                       src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
                       alt=""
                     />
-                    <div className="flex items-center">
+                    <div className="flex items-center flex-wrap">
                       <span className="mr-[6px] text-sm text-white tracking-[0.01em] font-semibold leading-[1.3]">Anne Hathaway</span>
                       <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">for birthday on 23.09.2023</span>
                     </div>
@@ -99,17 +99,17 @@ const WishDesign = () => {
                     <IoNotificationsOutline/>
                   </button>
                 </div>
-                <h2 className="text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">Bvlgari Le Gemme Onekh Eau
+                <h2 className="text-[28px] lg:text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">Bvlgari Le Gemme Onekh Eau
                   de Parfum, 100 ml</h2>
                 <p className="leading-[1.6] font-regular text-[#EBE5F7]">Bvlgari Le Gemme Onekh Eau de Parfum, 100
                   ml</p>
               </div>
-              <div className="rounded-[24px] bg-[#EBE5F7] py-10 px-12 mb-1">
+              <div className="rounded-[24px] bg-[#EBE5F7] py-[20px] md:py-10 px-[20px] md:px-6 lg:px-12 mb-1">
                 <div className="flex items-center justify-between">
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Target: $500</p>
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Final: 08.03.2023</p>
                 </div>
-                <div className="rounded-[48px] bg-[#BFACE9] h-1 my-6">
+                <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">
                   <div className="bg-[#3800B0] rounded-[48px] w-1/3 h-full"></div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -120,7 +120,7 @@ const WishDesign = () => {
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">$375 left</p>
                 </div>
               </div>
-              <div className="rounded-[24px] bg-white py-10 px-12 mb-1">
+              <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-[13px] leading-[1.4] font-medium text-[#110035]">Your gift amount</p>
                   <div>
@@ -131,7 +131,7 @@ const WishDesign = () => {
                     />
                   </div>
                 </div>
-                <div className="flex border !border-[2px] border-solid border-[#EBE5F7] rounded-[8px] h-20 mb-6">
+                <div className="flex border !border-[2px] border-solid border-[#EBE5F7] rounded-[8px] h-16 lg:h-20 mb-6">
                   {giftAmounts.map((amount, index) => (
                     <button
                       key={index}
@@ -166,7 +166,7 @@ const WishDesign = () => {
                   </button>
                 </div>
                 <button
-                  className="mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">Сongratulate
+                  className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">Сongratulate
                 </button>
               </div>
             </div>
@@ -272,11 +272,11 @@ const WishDesign = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-[24px] bg-white py-20 relative -bottom-[42px]">
+      <div className="rounded-[24px] bg-white py-10 md:py-20 relative -bottom-[42px]">
         <div className="container">
-          <h3 className="text-[40px] leading-[1.2] font-semibold mb-[64px]">Breadley Cooper’s other wishes</h3>
+          <h3 className="text-[32px] md:text-[40px] leading-[1.2] font-semibold mb-8 md:mb-[64px]">Breadley Cooper’s other wishes</h3>
           <div className="flex overflow-x-auto gap-6">
-            <div className="relative shrink-0 max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
+            <div className="relative shrink-0 min-w-[280px] max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
               <a className="absolute top-0 bottom-0 right-0 left-0" href=""></a>
               <img className="rounded-[24px] object-fill min-h-[240px] max-h-[320px]" src="https://images.unsplash.com/photo-1544569975-8e155329f348?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80" alt=""/>
               <div className="p-8">
@@ -297,7 +297,7 @@ const WishDesign = () => {
                 </div>
               </div>
             </div>
-            <div className="relative shrink-0 max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
+            <div className="relative shrink-0 min-w-[280px] max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
               <a className="absolute top-0 bottom-0 right-0 left-0" href=""></a>
               <img className="rounded-[24px] object-fill min-h-[240px] max-h-[320px]" src="https://images.unsplash.com/photo-1544569975-8e155329f348?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80" alt=""/>
               <div className="p-8">
@@ -318,7 +318,7 @@ const WishDesign = () => {
                 </div>
               </div>
             </div>
-            <div className="relative shrink-0 max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
+            <div className="relative shrink-0 min-w-[280px] max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
               <a className="absolute top-0 bottom-0 right-0 left-0" href=""></a>
               <img className="rounded-[24px] object-fill min-h-[240px] max-h-[320px]" src="https://images.unsplash.com/photo-1544569975-8e155329f348?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80" alt=""/>
               <div className="p-8">
@@ -339,7 +339,7 @@ const WishDesign = () => {
                 </div>
               </div>
             </div>
-            <div className="relative shrink-0 max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
+            <div className="relative shrink-0 min-w-[280px] max-w-[380px] h-max flex-1 rounded-[24px] border border-solid border-[#EBE5F7]">
               <a className="absolute top-0 bottom-0 right-0 left-0" href=""></a>
               <img className="rounded-[24px] object-fill min-h-[240px] max-h-[320px]" src="https://images.unsplash.com/photo-1544569975-8e155329f348?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80" alt=""/>
               <div className="p-8">
