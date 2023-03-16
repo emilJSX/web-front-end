@@ -60,7 +60,7 @@ import {
   Notdark,
   Time,
 } from "../Interests/Interests.Styled";
-import { MultiSelect } from "@mantine/core";
+import { MultiSelect, Stack } from "@mantine/core";
 import { CgTrash } from "react-icons/cg";
 import {
   ButtonCon,
@@ -84,6 +84,10 @@ import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { TextField } from "@mui/material";
+import moment from "moment";
 export function Login_ConnectionSystem({ setShowes, showRegister }) {
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
@@ -506,6 +510,7 @@ export function SignUp_ConnectionSystem({
 
   const getProfileUrl = () => {
     navigate("/my-profile");
+    location.reload();
   };
 
   const {
@@ -593,22 +598,27 @@ export function SignUp_ConnectionSystem({
   });
 
   // UPDATE PROFILE API
-
+  const [dobError, setDobError] = useState("");
   const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
-    await myaxiosprivate
-      .post("api/v1/profiles/update", {
-        full_name: formData.full_name,
-        phone: formData.phone,
-        dob: formData.dob,
-        country: formData.country,
-      })
-      .then(() => {
-        setTabIndex(3);
-      })
-      .catch((err) => {
-        setProfileErr(err.message);
-      });
+    const date = moment(formData.dob, "DD.MM.YYYY", true);
+    if (date.isValid()) {
+      await myaxiosprivate
+        .post("api/v1/profiles/update", {
+          full_name: formData.full_name,
+          phone: formData.phone,
+          dob: formData.dob,
+          country: formData.country,
+        })
+        .then(() => {
+          setTabIndex(3);
+        })
+        .catch((err) => {
+          setProfileErr(err.message);
+        });
+    } else {
+      setDobError("Invalid birthday");
+    }
   };
 
   // END UPDATE PROFILE API
@@ -1079,12 +1089,16 @@ export function SignUp_ConnectionSystem({
                 }
                 placeholder="Full name"
               />
+              {dobError && (
+                <p className="mx-14 my-2 text-red-500 text-xs">{dobError}</p>
+              )}
               <Number
                 className="mb-3"
                 required
-                id="number"
                 type="text"
+                name="dob"
                 placeholder="Date of birth (expample: 12.09.2023)"
+                pattern="\d{2}\.\d{2}\.\d{4}"
                 onChange={(e) =>
                   setFormData({
                     ...formData,
@@ -1092,6 +1106,7 @@ export function SignUp_ConnectionSystem({
                   })
                 }
               />
+
               <div
                 style={{
                   width: "100%",
@@ -1227,10 +1242,19 @@ export function SignUp_ConnectionSystem({
                   </ListtoList>
                 </ul>
               </List>
-              <ButtonCon type="submit" onClick={() => setTabIndex(5)}>
+              <ButtonCon
+                type="submit"
+                disabled={!selectPassport}
+                onClick={() => setTabIndex(5)}
+              >
                 Continue
               </ButtonCon>
-              <ButtonLater onClick={() => navigate("/my-profile")}>
+              <ButtonLater
+                onClick={() => {
+                  navigate("/my-profile");
+                  location.reload();
+                }}
+              >
                 Later
               </ButtonLater>
             </form>

@@ -31,7 +31,7 @@ const PrivateRoot = ({ userAuth }) => {
           <Route path="/my-wish" element={<Wish_pages_three />} />
           <Route path="/profile-edit" element={<ProfileEdit />} />
           <Route path="/contacts-profile" element={<ContactsPage />} />
-          <Route path="/set-new-password" element={<Finally />} />
+          {/*  */}
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>

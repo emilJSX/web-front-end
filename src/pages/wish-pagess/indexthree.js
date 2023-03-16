@@ -266,10 +266,13 @@ function Wish_pages() {
       <div className="content-container">
         <Main_page_top className="main-page-top">
           <Left_div>
-            <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
-              <Left_image src={UserGetCreationImgWish} />
+            <div className="relative flex items-center justify-center  bg-white rounded-[24px] mb-3">
+              <Left_image
+                className="rounded-[24px]"
+                src={UserGetCreationImgWish}
+              />
             </div>
-            <Share slug={GetUserWishDataResult?.slug} />
+            <Share slug={GetUserWishDataResult?.slug} page="wish" />
             <Button
               variant="primary"
               className="save-changes-button"

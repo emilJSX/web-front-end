@@ -205,7 +205,12 @@ const Home = () => {
   }
   return (
     <>
-      {showes && <Login_ConnectionSystem setShowes={setShowes} showRegister={ setregisterModal } />}
+      {showes && (
+        <Login_ConnectionSystem
+          setShowes={setShowes}
+          showRegister={setregisterModal}
+        />
+      )}
       {registerModal && (
         <SignUp_ConnectionSystem
           setregisterModal={setregisterModal}
@@ -266,28 +271,39 @@ const Home = () => {
                   <SwiperSlide className="wish__slider__slide">
                     <div className="wish__slider">
                       <div className="wish__slider__left">
-                        <img
-                          className="wish__slider__image"
-                          src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
-                        />
-                        {console.log(getWishData.user)}
-                        <img
-                          className="wish__slider__icon"
-                          id={getWishData.user.username}
-                          onClick={(e) => getUserSlugForProfile(e.target.id)}
-                          src={`${getWishData.user.image}`}
-                          alt=""
-                        />
+                        <Link to={`/wish/${getWishData.slug}`}>
+                          <img
+                            className="wish__slider__image"
+                            src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
+                          />
+                        </Link>
+                        <Link to={`/profile/${getWishData.user.username}`}>
+                          <img
+                            className="wish__slider__icon"
+                            id={getWishData.user.username}
+                            onClick={(e) => getUserSlugForProfile(e.target.id)}
+                            src={
+                              getWishData.user.image
+                                ? getWishData.user.image
+                                : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                            }
+                            alt=""
+                          />
+                        </Link>
                       </div>
                       <div className="wish__slider__right">
                         <div className="wish__slider__top">
-                          <h5
-                            id={getWishData.user.username}
-                            onClick={(e) => getUserSlugForProfile(e.target.id)}
-                            className="wish__slider__top--title"
-                          >
-                            {getWishData.user.full_name}
-                          </h5>
+                          <Link to={`/profile/${getWishData.user.username}`}>
+                            <h5
+                              id={getWishData.user.username}
+                              onClick={(e) =>
+                                getUserSlugForProfile(e.target.id)
+                              }
+                              className="wish__slider__top--title cursor-pointer"
+                            >
+                              {getWishData.user.full_name}
+                            </h5>
+                          </Link>
                           <h5 className="wish__slider__top--subtitle">
                             raised ${getWishData.donate.received}
                           </h5>
@@ -296,21 +312,14 @@ const Home = () => {
                           <h5 className="wish__slider__top--subtitle">
                             and get a gift he wished of:
                           </h5>
-                          <h5 className="wish__slider__top--heading">
-                            {getWishData.title}
-                          </h5>
+                          <Link to={`/wish/${getWishData.slug}`}>
+                            <h5 className="wish__slider__top--heading">
+                              {getWishData.title}
+                            </h5>
+                          </Link>
                         </div>
                         <div className="wish__slider__link">
-                          <Link
-                            name={getWishData.slug}
-                            // onClick={(e) =>
-                            // getWishIdForResult(e.currentTarget.name)
-                            // }
-                            to={{
-                              pathname: "/wish/" + getWishData.slug,
-                              state: getWishData.slug,
-                            }}
-                          >
+                          <Link to={`/wish/${getWishData.slug}`}>
                             View details
                           </Link>
                         </div>

@@ -156,3 +156,32 @@
 body {
     position: relative;
 }
+
+.font-dynamic {
+    --fs: 1rem;
+    font-size: var(--fs);
+    --fw: 400;
+    font-weight: var(--fw);
+    --lh: 1.4;
+    line-height: var(--lh);
+}
+
+.font-dynamic--sm {
+    --fs: 0.875rem;
+    font-size: var(--fs);
+    --fw: 400;
+    font-weight: var(--fw);
+    --lh: 1.4;
+    line-height: var(--lh);
+}
+
+.font-dynamic--md {
+    --fs: 1.125rem;
+    font-size: var(--fs);
+    --fw: 400;
+    font-weight: var(--fw);
+    --lh: 1.4;
+    line-height: var(--lh);
+}
+
+

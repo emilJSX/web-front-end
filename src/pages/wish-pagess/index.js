@@ -190,10 +190,13 @@ function Wish_pages() {
       <div className="content-container">
         <Main_page_top className="main-page-top">
           <Left_div>
-            <div className="relative flex items-center justify-center py-[80px] px-6 bg-white rounded-[24px]">
-              <Left_image src={UserGetCreationImgWish} />
+            <div className="relative flex items-center justify-center bg-white rounded-[24px] mb-3">
+              <Left_image
+                src={UserGetCreationImgWish}
+                className="rounded-[24px]"
+              />
             </div>
-            <Share slug={GetUserWishDataResult?.slug} />
+            <Share slug={GetUserWishDataResult?.slug} page="wish" />
             {/* <Button variant="primary" className='save-changes-button' onClick={() => setModalShow(true)}
                             style={{ border: '0', display: 'flex', justifyContent: 'center' }}> */}
             <Left_report>
@@ -205,6 +208,7 @@ function Wish_pages() {
           <Right_div>
             <Right_top_div>
               <Top_title>
+                {console.log(GetUserWishDataResult)}
                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
                 <Birthday>
                   {GetUserWishDataResult?.user?.name}{" "}

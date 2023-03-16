@@ -15,6 +15,7 @@ export const myaxiosprivate = axios.create({
     "Cache-Control": "no-cache",
   },
 });
+
 const errorHandler = (error) => {
   let message = "An error occurred, please try again later.";
   if (error.response) {
