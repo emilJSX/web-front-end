@@ -113,8 +113,11 @@ function Calendar() {
       });
   };
 
+  console.log(currentMonth)
+
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
+  const getFormatDay = currentMonth.format(dateFormatDay);
 
   if (loading) {
     return (
@@ -134,7 +137,11 @@ function Calendar() {
               <Dateblue>
                 <IoCalendarOutline className="calendar" />
                 <p className="month_year">
-                  {getFormatMonthTxt} {getFormatMonthYear}
+                  <p className="getFormatDay">{getFormatDay}</p>
+
+                  <p>
+                    {getFormatMonthTxt} {getFormatMonthYear}
+                  </p>
                 </p>
               </Dateblue>
               <BsChevronRight onClick={() => nextMonth()} className="right" />

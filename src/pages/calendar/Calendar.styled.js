@@ -88,6 +88,14 @@ export const Dateblue    = styled.div`
     float: left;
     background: #3800B0;
     margin-right: 8px;
+
+    .getFormatDay {
+        display: none;
+
+        @media (min-width: 375px) and (max-width: 500px) {
+            display: flex;
+        }
+    }
     .calendar{
         color: white;
         float: left;
@@ -100,6 +108,8 @@ export const Dateblue    = styled.div`
         font-weight: 600;
         font-size: 14px;
         color: white;
+        display: flex;
+        gap: 6px;
         margin: 19px 0 19px 14px;
         float: left;
     }
