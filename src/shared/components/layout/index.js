@@ -10,10 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { drawerControll } from '../../../store/slices/counterSlice'
 
 export const Layout = ({ children }) => {
-    // const [toggleOpen, setToggleOpen] = useState(false)
     const {toggle} = useSelector(state=>state.counter);
     const { pathname } = useLocation();
-//flase -> active
 
 
     return (

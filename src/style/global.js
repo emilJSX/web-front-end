@@ -23,6 +23,8 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         font-family: 'Steppe' !important;  
+        width: 100vw;
+        height: 100vh;
     }
 `;
 export default GlobalStyle;

@@ -166,8 +166,7 @@ export const ButtonSection = styled(Grid) `
 
         border: 2px solid rgb(229 228 228);
         border-radius:13px;
-        overflow: hidden;
-
+VNHFE32Wx
 
         @media(max-width: 1000px){
             width: 100%;
