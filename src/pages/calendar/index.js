@@ -33,6 +33,8 @@ import {
   Price_div,
   MobileCalendar,
   BlurCount,
+  MobileDateDiv,
+  MobileDateBlue,
 } from "./Calendar.styled";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { IoChevronUpOutline, IoCalendarOutline } from "react-icons/io5";
@@ -66,6 +68,7 @@ function Calendar() {
   const [getAllCalendar, setAllCalendar] = useState([]);
   const [getCalendarthisday, setCalendarthisday] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(dayjs());
+  const [currentDay, setCurrentDay] = useState(dayjs());
   const theme = useMantineTheme();
 
   useEffect(() => {
@@ -88,8 +91,38 @@ function Calendar() {
       });
   }, [currentMonth]);
 
+  useEffect(() => {
+    setError("")
+    setLoading(true)
+    const getFullCalendarDate = currentDay.format(
+      `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
+    );
+    myaxiosprivate
+    .get("/api/v1/wish/calendar", {
+      params: {date: getFullCalendarDate}
+    })
+    .then((res) => {
+      setAllCalendar(res?.data?.data)
+      setLoading(false)
+    })
+    .catch((err) => {
+      setLoading(false)
+      setError(err.message)
+    })
+  }, [currentDay])
+
   const nextMonth = () => {
     setCurrentMonth((currentMonth) => currentMonth.add(1, "month"));
+  };
+
+  const nextDay = () => {
+    setCurrentDay((currentday) => currentday.add(1, "day"));
+    console.log(currentDay)
+  };
+
+  const prevDay = () => {
+    setCurrentDay((currentday) => currentday.subtract(1, "day"));
+    console.log(currentDay)
   };
 
   const prevMonth = () => {
@@ -113,8 +146,6 @@ function Calendar() {
       });
   };
 
-  console.log(currentMonth)
-
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
   const getFormatDay = currentMonth.format(dateFormatDay);
@@ -137,13 +168,25 @@ function Calendar() {
               <Dateblue>
                 <IoCalendarOutline className="calendar" />
                 <p className="month_year">
-                  <p className="getFormatDay">{getFormatDay}</p>
-
                   <p>
                     {getFormatMonthTxt} {getFormatMonthYear}
                   </p>
                 </p>
               </Dateblue>
+
+              <MobileDateDiv>
+                <BsChevronLeft onClick={() => prevMonth()} className="left" />
+                <MobileDateBlue>
+                  <p className="month_year">
+                    <p className="getFormatDay">{getFormatDay}</p>
+
+                    <p>
+                      {getFormatMonthTxt} {getFormatMonthYear}
+                    </p>
+                  </p>
+                </MobileDateBlue>
+              </MobileDateDiv>
+
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
             <ShowToday>Show today</ShowToday>
@@ -246,63 +289,64 @@ function Calendar() {
 
       <MobileCalendar>
         {/* {getCalendarthisday.map((e) => ( */}
-          <Accordion
-            expanded
-            style={{ background: "aliceblue", boxShadow: "none" }}
-          >
-            <>
-              {/* {console.log(e)} */}
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography>
-                  {/* {console.log(e)} */}
-                  <Middle_page_top>
-                    <Middle_top_photo
-                      src={
-                        "https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
-                      }
-                    />
-                    <Middle_top_word>Charlyn Kitchen</Middle_top_word>
-                    <BsCheckCircleFill className="check" />
-                  </Middle_page_top>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails style={{ background: "aliceblue" }}>
-                <Typography>
-                  <Birthday>For son's birthday</Birthday>
-                  <Card>
-                    <Card_photo src="https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                    <Card_title>
-                      Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                    </Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">$2,542 raised</p>
-                      <p className="pright">$8.558 left</p>
-                    </Price_div>
-                  </Card>
-                  <Card>
-                    <Card_photo src="https://s3-alpha-sig.figma.com/img/7a13/853d/5d0d146ae7a6e4682bc61537b7b633d4?Expires=1665360000&Signature=L8HGJ-bGQZ~0ftE0Y4wVuz~GkSb-a-qvgZKR65wV8CnIvBCMaZOyd4TkQfDePyKk1q6-usYss9-Bmq7L0X1Tu6Qb-4C~F967nZ8VdFwpfyRAddYmIFnK5Zm6Kz4YVgC42pPKKCjcbbgEmODx5WEnrZ1xeL4h42TjYeG-kI2dJ8Vgm3rU0cg3HwQF7M4u-nnGkTbpCyGWIqSw6vv5WvM6gLvIe3l6Vs9hg14mn2-cJUXx7zKO5OZKVjm9GnaUQhma-qDKlVWnXhXYBbkTh-uoDq87evaiON7LVXbf~UEck8VJxZe7lld2SkmHYi4nzPk8QnDcj~KEAp4Th3C75jVW4g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                    <Card_title>
-                      Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                    </Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">$2,542 raised</p>
-                      <p className="pright">$8.558 left</p>
-                    </Price_div>
-                  </Card>
-                </Typography>
-              </AccordionDetails>
-            </>
-          </Accordion>
+        <Accordion
+          expanded
+          style={{ background: "aliceblue", boxShadow: "none" }}
+        >
+          <>
+            {/* {console.log(e)} */}
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>
+                {/* {console.log(e)} */}
+                <Middle_page_top>
+                  <Middle_top_photo
+                    src={
+                      "https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    }
+                  />
+                  {/* ========================================================================== */}
+                  <Middle_top_word onClick={nextDay}>Charlyn Kitchen</Middle_top_word>
+                  <BsCheckCircleFill className="check" />
+                </Middle_page_top>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails style={{ background: "aliceblue" }}>
+              <Typography>
+                <Birthday>For son's birthday</Birthday>
+                <Card>
+                  <Card_photo src="https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
+                  <Card_title>
+                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
+                  </Card_title>
+                  <Loading_big>
+                    <Loading_blue></Loading_blue>
+                  </Loading_big>
+                  <Price_div>
+                    <p className="pleft">$2,542 raised</p>
+                    <p className="pright">$8.558 left</p>
+                  </Price_div>
+                </Card>
+                <Card>
+                  <Card_photo src="https://s3-alpha-sig.figma.com/img/7a13/853d/5d0d146ae7a6e4682bc61537b7b633d4?Expires=1665360000&Signature=L8HGJ-bGQZ~0ftE0Y4wVuz~GkSb-a-qvgZKR65wV8CnIvBCMaZOyd4TkQfDePyKk1q6-usYss9-Bmq7L0X1Tu6Qb-4C~F967nZ8VdFwpfyRAddYmIFnK5Zm6Kz4YVgC42pPKKCjcbbgEmODx5WEnrZ1xeL4h42TjYeG-kI2dJ8Vgm3rU0cg3HwQF7M4u-nnGkTbpCyGWIqSw6vv5WvM6gLvIe3l6Vs9hg14mn2-cJUXx7zKO5OZKVjm9GnaUQhma-qDKlVWnXhXYBbkTh-uoDq87evaiON7LVXbf~UEck8VJxZe7lld2SkmHYi4nzPk8QnDcj~KEAp4Th3C75jVW4g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
+                  <Card_title>
+                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
+                  </Card_title>
+                  <Loading_big>
+                    <Loading_blue></Loading_blue>
+                  </Loading_big>
+                  <Price_div>
+                    <p className="pleft">$2,542 raised</p>
+                    <p className="pright">$8.558 left</p>
+                  </Price_div>
+                </Card>
+              </Typography>
+            </AccordionDetails>
+          </>
+        </Accordion>
         {/* ))} */}
       </MobileCalendar>
 
