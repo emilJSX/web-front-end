@@ -218,8 +218,8 @@ const OtherUserProfile = () => {
   }
   return (
     <Body>
-      {showes ? <Login_ConnectionSystem showRegister={setShow} setShowes={setShowes} /> : null}
-      {show ? <SignUp_ConnectionSystem setShowes={setShowes} setregisterModal={setShow} /> : null}
+      {showes && <Login_ConnectionSystem showRegister={setShow} setShowes={setShowes} /> }
+      {show && <SignUp_ConnectionSystem setShowes={setShowes} setregisterModal={setShow} />}
       <div className="main-container">
         <div>
           <FotoSection fluid>
