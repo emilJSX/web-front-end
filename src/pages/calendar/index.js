@@ -92,24 +92,24 @@ function Calendar() {
   }, [currentMonth]);
 
   useEffect(() => {
-    setError("")
-    setLoading(true)
+    setError("");
+    setLoading(true);
     const getFullCalendarDate = currentDay.format(
       `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
     );
     myaxiosprivate
-    .get("/api/v1/wish/calendar", {
-      params: {date: getFullCalendarDate}
-    })
-    .then((res) => {
-      setAllCalendar(res?.data?.data)
-      setLoading(false)
-    })
-    .catch((err) => {
-      setLoading(false)
-      setError(err.message)
-    })
-  }, [currentDay])
+      .get("/api/v1/wish/calendar", {
+        params: { date: getFullCalendarDate },
+      })
+      .then((res) => {
+        setAllCalendar(res?.data?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err.message);
+      });
+  }, [currentDay]);
 
   const nextMonth = () => {
     setCurrentMonth((currentMonth) => currentMonth.add(1, "month"));
@@ -117,12 +117,12 @@ function Calendar() {
 
   const nextDay = () => {
     setCurrentDay((currentday) => currentday.add(1, "day"));
-    console.log(currentDay)
+    console.log(currentDay);
   };
 
   const prevDay = () => {
     setCurrentDay((currentday) => currentday.subtract(1, "day"));
-    console.log(currentDay)
+    console.log(currentDay);
   };
 
   const prevMonth = () => {
@@ -148,7 +148,7 @@ function Calendar() {
 
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
-  const getFormatDay = currentMonth.format(dateFormatDay);
+  const getFormatDay = currentDay.format(dateFormatDay);
 
   if (loading) {
     return (
@@ -173,19 +173,6 @@ function Calendar() {
                   </p>
                 </p>
               </Dateblue>
-
-              <MobileDateDiv>
-                <BsChevronLeft onClick={() => prevMonth()} className="left" />
-                <MobileDateBlue>
-                  <p className="month_year">
-                    <p className="getFormatDay">{getFormatDay}</p>
-
-                    <p>
-                      {getFormatMonthTxt} {getFormatMonthYear}
-                    </p>
-                  </p>
-                </MobileDateBlue>
-              </MobileDateDiv>
 
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
@@ -300,8 +287,25 @@ function Calendar() {
               aria-controls="panel2a-content"
               id="panel2a-header"
             >
+
               <Typography>
-                {/* {console.log(e)} */}
+              <MobileDateDiv>
+                    <BsChevronLeft onClick={() => prevDay()} className="left" />
+                    <MobileDateBlue>
+                      <p className="month_year">
+                        <p className="getFormatDay">{getFormatDay}</p>
+
+                        <p>
+                          {getFormatMonthTxt} {getFormatMonthYear}
+                        </p>
+                      </p>
+                    </MobileDateBlue>
+                    <BsChevronRight
+                      onClick={() => nextDay()}
+                      className="right"
+                    />
+                  </MobileDateDiv>
+
                 <Middle_page_top>
                   <Middle_top_photo
                     src={
@@ -309,7 +313,8 @@ function Calendar() {
                     }
                   />
                   {/* ========================================================================== */}
-                  <Middle_top_word onClick={nextDay}>Charlyn Kitchen</Middle_top_word>
+                  
+                  <Middle_top_word>Charlyn Kitchen</Middle_top_word>
                   <BsCheckCircleFill className="check" />
                 </Middle_page_top>
               </Typography>

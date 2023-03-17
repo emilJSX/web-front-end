@@ -452,6 +452,7 @@ export const MobileDateDiv = styled.div`
   height: 56px;
   margin: 35px 0 35px 24px;
   float: left;
+  z-index:99;
 
   @media (min-width: 670px){
     display: none !important;
