@@ -197,15 +197,19 @@ const MainBlog = () => {
         <CardTopSection fluid>
           <Grid className="grid-root">
             <Grid.Col className="col-root-img" p={0} span={6}>
-              <Image
-                className="img-section"
-                src={`${process.env.REACT_APP_API_URL}${getResultApiSearch[0]?.thumb}`}
-              />
+              <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+                <Image
+                  className="img-section"
+                  src={`${process.env.REACT_APP_API_URL}${getResultApiSearch[0]?.thumb}`}
+                />
+              </Link>
             </Grid.Col>
             <Grid.Col span={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <p className="top-title">{getResultApiSearch[0]?.title}</p>
+                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+                  <p className="top-title">{getResultApiSearch[0]?.title}</p>
+                </Link>
                 <p className="txt">
                   {getResultApiSearch[0]?.partials[0]?.content}
                 </p>
@@ -234,12 +238,14 @@ const MainBlog = () => {
                     style={{ boxShadow: "none" }}
                   >
                     <CardActionArea className="card-blog">
-                      <CardMedia
-                        component="img"
-                        image={`${process.env.REACT_APP_API_URL}${AllBlog?.thumb}`}
-                        height="230px"
-                        style={{ borderRadius: "20px" }}
-                      />
+                      <Link to={`/blog-post/${AllBlog?.slug}`}>
+                        <CardMedia
+                          component="img"
+                          image={`${process.env.REACT_APP_API_URL}${AllBlog?.thumb}`}
+                          height="230px"
+                          style={{ borderRadius: "20px" }}
+                        />
+                      </Link>
                       <CardContent
                         className="card-blog"
                         style={{ padding: "0", paddingTop: "20px" }}
@@ -259,7 +265,9 @@ const MainBlog = () => {
                           variant="body2"
                           color="text.secondary"
                         >
-                          <h1 className="title-card">{AllBlog?.title}</h1>
+                          <Link to={`/blog-post/${AllBlog.slug}`}>
+                            <h1 className="title-card">{AllBlog?.title}</h1>
+                          </Link>
                           <p className="text-card">
                             {AllBlog?.partials[0]?.content}
                           </p>
