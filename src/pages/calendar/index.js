@@ -256,7 +256,25 @@ function Calendar() {
               id="panel2a-header"
             >
               <Typography>
-                {/* {console.log(e)} */}
+              <MobileDateDiv>
+                    <BsChevronLeft onClick={() => prevDay()} className="left" />
+                    <MobileDateBlue>
+                      <p className="month_year">
+                        <p className="getFormatDay">{getFormatDay}</p>
+
+                        <p>
+                          {getFormatMonthTxt} {getFormatMonthYear}
+                        </p>
+                      </p>
+                    </MobileDateBlue>
+                    <BsChevronRight
+                      onClick={() => nextDay()}
+                      className="right"
+                    />
+                  </MobileDateDiv>
+
+
+
                 <Middle_page_top>
                   <Middle_top_photo
                     src={
