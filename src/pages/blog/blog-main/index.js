@@ -205,7 +205,7 @@ const MainBlog = () => {
             <Grid.Col span={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <h2>{getResultApiSearch[0]?.title}</h2>
+                <p className="top-title">{getResultApiSearch[0]?.title}</p>
                 <p className="txt">
                   {getResultApiSearch[0]?.partials[0]?.content}
                 </p>

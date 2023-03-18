@@ -33,6 +33,8 @@ import {
   Price_div,
   MobileCalendar,
   BlurCount,
+  MobileDateDiv,
+  MobileDateBlue,
 } from "./Calendar.styled";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { IoChevronUpOutline, IoCalendarOutline } from "react-icons/io5";
@@ -66,6 +68,7 @@ function Calendar() {
   const [getAllCalendar, setAllCalendar] = useState([]);
   const [getCalendarthisday, setCalendarthisday] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(dayjs());
+  const [currentDay, setCurrentDay] = useState(dayjs());
   const theme = useMantineTheme();
   const currentDayRef = useRef(null);
   useEffect(() => {
@@ -88,8 +91,38 @@ function Calendar() {
       });
   }, [currentMonth]);
 
+  useEffect(() => {
+    setError("");
+    setLoading(true);
+    const getFullCalendarDate = currentDay.format(
+      `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
+    );
+    myaxiosprivate
+      .get("/api/v1/wish/calendar", {
+        params: { date: getFullCalendarDate },
+      })
+      .then((res) => {
+        setAllCalendar(res?.data?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err.message);
+      });
+  }, [currentDay]);
+
   const nextMonth = () => {
     setCurrentMonth((currentMonth) => currentMonth.add(1, "month"));
+  };
+
+  const nextDay = () => {
+    setCurrentDay((currentday) => currentday.add(1, "day"));
+    console.log(currentDay);
+  };
+
+  const prevDay = () => {
+    setCurrentDay((currentday) => currentday.subtract(1, "day"));
+    console.log(currentDay);
   };
 
   const prevMonth = () => {
@@ -115,6 +148,7 @@ function Calendar() {
 
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
+  const getFormatDay = currentDay.format(dateFormatDay);
 
   const showToday = () => {
     if (currentDayRef.current) {
@@ -139,9 +173,12 @@ function Calendar() {
               <Dateblue>
                 <IoCalendarOutline className="calendar" />
                 <p className="month_year">
-                  {getFormatMonthTxt} {getFormatMonthYear}
+                  <p>
+                    {getFormatMonthTxt} {getFormatMonthYear}
+                  </p>
                 </p>
               </Dateblue>
+
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
             <ShowToday onClick={showToday} className="cursor-pointer">
@@ -257,8 +294,27 @@ function Calendar() {
               aria-controls="panel2a-content"
               id="panel2a-header"
             >
+
+
               <Typography>
-                {/* {console.log(e)} */}
+              <MobileDateDiv>
+                    <BsChevronLeft onClick={() => prevDay()} className="left" />
+                    <MobileDateBlue>
+                      <p className="month_year">
+                        <p className="getFormatDay">{getFormatDay}</p>
+
+                        <p>
+                          {getFormatMonthTxt} {getFormatMonthYear}
+                        </p>
+                      </p>
+                    </MobileDateBlue>
+                    <BsChevronRight
+                      onClick={() => nextDay()}
+                      className="right"
+                    />
+                  </MobileDateDiv>
+
+
                 <Middle_page_top>
                   <Middle_top_photo
                     src={

@@ -81,6 +81,7 @@ import { DateTime } from "luxon";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import { useSelector } from "react-redux";
 import { useAuthSelector } from "../../store/slices/authSlice";
+import { Login_ConnectionSystem, SignUp_ConnectionSystem } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
@@ -217,8 +218,8 @@ const OtherUserProfile = () => {
   }
   return (
     <Body>
-      {showes ? <Autholog setShow={setShow} setShowes={setShowes} /> : null}
-      {show ? <Autho setShow={setShow} /> : null}
+      {showes && <Login_ConnectionSystem showRegister={setShow} setShowes={setShowes} /> }
+      {show && <SignUp_ConnectionSystem setShowes={setShowes} setregisterModal={setShow} />}
       <div className="main-container">
         <div>
           <FotoSection fluid>
