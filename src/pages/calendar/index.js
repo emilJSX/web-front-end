@@ -38,7 +38,7 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { IoChevronUpOutline, IoCalendarOutline } from "react-icons/io5";
 import { GrClose } from "react-icons/gr";
 import { BsCheckCircleFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMantineTheme, Modal, Loader } from "@mantine/core";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -67,7 +67,7 @@ function Calendar() {
   const [getCalendarthisday, setCalendarthisday] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const theme = useMantineTheme();
-
+  const currentDayRef = useRef(null);
   useEffect(() => {
     setError("");
     setLoading(true);
@@ -116,6 +116,11 @@ function Calendar() {
   const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
   const getFormatMonthYear = currentMonth.format(dateFormatYear);
 
+  const showToday = () => {
+    if (currentDayRef.current) {
+      currentDayRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -139,12 +144,15 @@ function Calendar() {
               </Dateblue>
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
-            <ShowToday>Show today</ShowToday>
+            <ShowToday onClick={showToday} className="cursor-pointer">
+              Show today
+            </ShowToday>
           </Toppage>
           <Big_calendar_bigdiv>
             <Calendar_first_empty>{}</Calendar_first_empty>
             {getAllCalendar?.map((e) => (
               <Calendar_item
+                ref={e.current ? currentDayRef : null}
                 style={{ border: e.current == true ? "2px solid #3800B0" : "" }}
                 className="calendar_item"
               >
@@ -171,8 +179,7 @@ function Calendar() {
                     ))}
 
                     <Person_item_second>
-                      <a
-                        href="#"
+                      <Link
                         onClick={() => {
                           setOpened(true);
                           getCalendarThisDay(e.date);
@@ -185,7 +192,7 @@ function Calendar() {
                         ) : (
                           ""
                         )}
-                      </a>
+                      </Link>
                     </Person_item_second>
                   </Calendar_item_into>
                 </Calendar_item_item>
@@ -239,63 +246,63 @@ function Calendar() {
 
       <MobileCalendar>
         {/* {getCalendarthisday.map((e) => ( */}
-          <Accordion
-            expanded
-            style={{ background: "aliceblue", boxShadow: "none" }}
-          >
-            <>
-              {/* {console.log(e)} */}
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography>
-                  {/* {console.log(e)} */}
-                  <Middle_page_top>
-                    <Middle_top_photo
-                      src={
-                        "https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
-                      }
-                    />
-                    <Middle_top_word>Charlyn Kitchen</Middle_top_word>
-                    <BsCheckCircleFill className="check" />
-                  </Middle_page_top>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails style={{ background: "aliceblue" }}>
-                <Typography>
-                  <Birthday>For son's birthday</Birthday>
-                  <Card>
-                    <Card_photo src="https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                    <Card_title>
-                      Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                    </Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">$2,542 raised</p>
-                      <p className="pright">$8.558 left</p>
-                    </Price_div>
-                  </Card>
-                  <Card>
-                    <Card_photo src="https://s3-alpha-sig.figma.com/img/7a13/853d/5d0d146ae7a6e4682bc61537b7b633d4?Expires=1665360000&Signature=L8HGJ-bGQZ~0ftE0Y4wVuz~GkSb-a-qvgZKR65wV8CnIvBCMaZOyd4TkQfDePyKk1q6-usYss9-Bmq7L0X1Tu6Qb-4C~F967nZ8VdFwpfyRAddYmIFnK5Zm6Kz4YVgC42pPKKCjcbbgEmODx5WEnrZ1xeL4h42TjYeG-kI2dJ8Vgm3rU0cg3HwQF7M4u-nnGkTbpCyGWIqSw6vv5WvM6gLvIe3l6Vs9hg14mn2-cJUXx7zKO5OZKVjm9GnaUQhma-qDKlVWnXhXYBbkTh-uoDq87evaiON7LVXbf~UEck8VJxZe7lld2SkmHYi4nzPk8QnDcj~KEAp4Th3C75jVW4g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                    <Card_title>
-                      Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                    </Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">$2,542 raised</p>
-                      <p className="pright">$8.558 left</p>
-                    </Price_div>
-                  </Card>
-                </Typography>
-              </AccordionDetails>
-            </>
-          </Accordion>
+        <Accordion
+          expanded
+          style={{ background: "aliceblue", boxShadow: "none" }}
+        >
+          <>
+            {/* {console.log(e)} */}
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>
+                {/* {console.log(e)} */}
+                <Middle_page_top>
+                  <Middle_top_photo
+                    src={
+                      "https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+                    }
+                  />
+                  <Middle_top_word>Charlyn Kitchen</Middle_top_word>
+                  <BsCheckCircleFill className="check" />
+                </Middle_page_top>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails style={{ background: "aliceblue" }}>
+              <Typography>
+                <Birthday>For son's birthday</Birthday>
+                <Card>
+                  <Card_photo src="https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
+                  <Card_title>
+                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
+                  </Card_title>
+                  <Loading_big>
+                    <Loading_blue></Loading_blue>
+                  </Loading_big>
+                  <Price_div>
+                    <p className="pleft">$2,542 raised</p>
+                    <p className="pright">$8.558 left</p>
+                  </Price_div>
+                </Card>
+                <Card>
+                  <Card_photo src="https://s3-alpha-sig.figma.com/img/7a13/853d/5d0d146ae7a6e4682bc61537b7b633d4?Expires=1665360000&Signature=L8HGJ-bGQZ~0ftE0Y4wVuz~GkSb-a-qvgZKR65wV8CnIvBCMaZOyd4TkQfDePyKk1q6-usYss9-Bmq7L0X1Tu6Qb-4C~F967nZ8VdFwpfyRAddYmIFnK5Zm6Kz4YVgC42pPKKCjcbbgEmODx5WEnrZ1xeL4h42TjYeG-kI2dJ8Vgm3rU0cg3HwQF7M4u-nnGkTbpCyGWIqSw6vv5WvM6gLvIe3l6Vs9hg14mn2-cJUXx7zKO5OZKVjm9GnaUQhma-qDKlVWnXhXYBbkTh-uoDq87evaiON7LVXbf~UEck8VJxZe7lld2SkmHYi4nzPk8QnDcj~KEAp4Th3C75jVW4g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
+                  <Card_title>
+                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
+                  </Card_title>
+                  <Loading_big>
+                    <Loading_blue></Loading_blue>
+                  </Loading_big>
+                  <Price_div>
+                    <p className="pleft">$2,542 raised</p>
+                    <p className="pright">$8.558 left</p>
+                  </Price_div>
+                </Card>
+              </Typography>
+            </AccordionDetails>
+          </>
+        </Accordion>
         {/* ))} */}
       </MobileCalendar>
 

@@ -33,17 +33,16 @@ import {
 import { logout, useAuthSelector } from "../../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { myaxiosprivate, updateToken } from "../../../api/myaxios";
-export const HeaderShared = () => {
+export const HeaderShared = ({ user, error, loading }) => {
   const [opened, setOpened] = useState(false);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
   const [getOpenedMenu, setOpenedMenu] = useState(false);
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
   const navigate = useNavigate();
   const isAuth = useSelector(useAuthSelector);
   const dispatch = useDispatch();
   const [userData, setUserData] = useState();
-  const [loading, setLoading] = useState();
   const toggleOptions = () => {
     setOpenedMenu(!getOpenedMenu);
   };
@@ -58,20 +57,6 @@ export const HeaderShared = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await myaxiosprivate.get("/api/v1/user");
-        setUserData(data.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    isAuth && fetchUserData();
-  }, []);
   const handleLogout = async () => {
     await myaxiosprivate
       .post("/api/v1/logout")
@@ -83,17 +68,17 @@ export const HeaderShared = () => {
         window.location.reload();
       })
       .catch(() => {
-        setError("Something went wrong...");
+        setErrors("Something went wrong...");
       });
   };
 
   return (
     <HeaderContainer>
       <section className="logoSection">
-        <a href="/">
+        <Link to="/">
           <WishLogo />
-        </a>
-        <SearchInput iconHave={true} size="xl" myUserId={userData?.user_id} />
+        </Link>
+        <SearchInput iconHave={true} size="xl" myUserId={user?.user_id} />
         <ul>
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
@@ -105,11 +90,11 @@ export const HeaderShared = () => {
       </section>
       {/*     float: right;
     position: absolute; */}
-      {userData ? (
+      {user ? (
         <>
           <div className="container-mobile-menu">
             <CardIcon>
-              <a href="/calendar">
+              <Link to="/calendar">
                 <IoCalendarOutline
                   style={{
                     fontSize: "21px",
@@ -118,7 +103,7 @@ export const HeaderShared = () => {
                     float: "left",
                   }}
                 />
-              </a>
+              </Link>
               {/* <a href=''><AiOutlineMessage style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/></a> */}
               <IoNotificationsOutline
                 style={{
@@ -129,7 +114,7 @@ export const HeaderShared = () => {
                 }}
               />
             </CardIcon>
-            {userData.wishes?.active?.length === 0 && (
+            {user.wishes?.active?.length === 0 && (
               <CreateWishBtn>
                 <Link to="/creating-wish">Create a wish</Link>
               </CreateWishBtn>
@@ -147,18 +132,18 @@ export const HeaderShared = () => {
                       height: "45px",
                     }}
                     src={
-                      userData?.info?.avatar == null
+                      user?.info?.avatar == null
                         ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                        : `${userData.info?.avatar}`
+                        : `${user.info?.avatar}`
                     }
                   />
                 </ProfilP>
               </Link>
               <Link to="/my-profile">
                 <ProfilName>
-                  {userData?.info.full_name == null
+                  {user?.info.full_name == null
                     ? "does not exist"
-                    : userData?.info.full_name}
+                    : user?.info.full_name}
                 </ProfilName>
               </Link>
               <FiChevronDown
@@ -173,7 +158,7 @@ export const HeaderShared = () => {
                   left: "51px",
                 }}
               />
-              <ProfilWish>{userData?.info.wishes_count} wishes • $0</ProfilWish>
+              <ProfilWish>{user?.info.wishes_count} wishes • $0</ProfilWish>
               <div
                 className={
                   !getOpenedMenu
