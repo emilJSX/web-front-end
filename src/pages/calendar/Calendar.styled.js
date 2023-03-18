@@ -46,10 +46,9 @@ export const Datediv = styled.div`
     display: none;
   }
 
-
   @media (min-width: 375px) and (max-width: 670px) {
     display: none;
-  } 
+  }
 
   @media (max-width: 400px) {
     display: block;
@@ -452,9 +451,10 @@ export const MobileDateDiv = styled.div`
   height: 56px;
   margin: 35px 0 35px 24px;
   float: left;
-  z-index:99;
+  position: relative;
+  z-index: 99;
 
-  @media (min-width: 670px){
+  @media (min-width: 670px) {
     display: none !important;
   }
 
