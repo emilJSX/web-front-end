@@ -9,7 +9,6 @@ import HeaderShared from "../HeaderShared";
 import { useDispatch, useSelector } from "react-redux";
 import { drawerControll } from "../../../store/slices/counterSlice";
 import { useAuthSelector } from "../../../store/slices/authSlice";
-import { myaxiosprivate } from "../../../api/myaxios";
 
 export const Layout = ({ children }) => {
   // const [toggleOpen, setToggleOpen] = useState(false)

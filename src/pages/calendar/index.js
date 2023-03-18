@@ -69,67 +69,89 @@ function Calendar() {
   const [getCalendarthisday, setCalendarthisday] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [currentDay, setCurrentDay] = useState(dayjs());
+  const [currentDate, setCurrentDate] = useState(dayjs());
+  const [expand, setExpand] = useState(false);
   const theme = useMantineTheme();
   const currentDayRef = useRef(null);
-  useEffect(() => {
-    setError("");
-    setLoading(true);
-    const getFullCalendarDate = currentMonth.format(
-      `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
-    );
-    myaxiosprivate
-      .get("/api/v1/wish/calendar", {
-        params: { date: getFullCalendarDate },
-      })
-      .then((res) => {
-        setAllCalendar(res?.data?.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false); //show error message
-        setError(err.message); //if error redirect or show error message
-      });
-  }, [currentMonth]);
+
+  const toggleAcordion = () => {
+    setExpand((prev) => !prev);
+  };
 
   useEffect(() => {
     setError("");
-    setLoading(true);
-    const getFullCalendarDate = currentDay.format(
+    const getFullCalendarDate = currentDate.format(
       `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
     );
-    myaxiosprivate
-      .get("/api/v1/wish/calendar", {
-        params: { date: getFullCalendarDate },
-      })
-      .then((res) => {
-        setAllCalendar(res?.data?.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setError(err.message);
-      });
-  }, [currentDay]);
+    if (!/Mobi/.test(navigator.userAgent)) {
+      myaxiosprivate
+        .get("/api/v1/wish/calendar", {
+          params: { date: getFullCalendarDate },
+        })
+        .then((res) => {
+          setAllCalendar(res?.data?.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false); //show error message
+          setError(err.message); //if error redirect or show error message
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
+  useEffect(() => {
+    setError("");
+    const getFullCalendarDate = currentDate.format(
+      `${dateFormatDay}-${dateFormatMouth}-${dateFormatYear}`
+    );
+    !/Mobi/.test(navigator.userAgent) &&
+      myaxiosprivate
+        .get("/api/v1/wish/calendar", {
+          params: { date: getFullCalendarDate },
+        })
+        .then((res) => {
+          setAllCalendar(res?.data?.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setError(err.message);
+        });
+  }, [currentDate]);
   const nextMonth = () => {
-    setCurrentMonth((currentMonth) => currentMonth.add(1, "month"));
-  };
-
-  const nextDay = () => {
-    setCurrentDay((currentday) => currentday.add(1, "day"));
-    console.log(currentDay);
-  };
-
-  const prevDay = () => {
-    setCurrentDay((currentday) => currentday.subtract(1, "day"));
-    console.log(currentDay);
+    setCurrentDate((current) => current.add(1, "month"));
   };
 
   const prevMonth = () => {
-    setCurrentMonth((currentMonth) => currentMonth.subtract(1, "month"));
+    setCurrentDate((current) => current.subtract(1, "month"));
+  };
+  const nextDay = () => {
+    const newDate = currentDate.add(1, "day");
+    setCurrentDate(newDate);
+    console.log(newDate);
+    const formattedDate = dayjs(newDate.$d).format("DD.MM.YYYY");
+    getCalendarThisDay(formattedDate);
+    console.log(formattedDate);
+  };
+
+  const prevDay = () => {
+    let checkLast = currentDay.startOf("month").$D;
+    if (currentDay.$D === checkLast) {
+      setCurrentDate((current) => current.subtract(1, "month"));
+    }
+    const newDate = currentDate.subtract(1, "day");
+    setCurrentDate(newDate);
+    console.log(newDate);
+    const formattedDate = dayjs(newDate.$d).format("DD.MM.YYYY");
+
+    getCalendarThisDay(formattedDate);
+    console.log(formattedDate);
   };
 
   const getCalendarThisDay = async (date) => {
+    setLoading(true);
     setError("");
     await myaxiosprivate
       .get("/api/v1/wish/calendar/day", {
@@ -140,16 +162,19 @@ function Calendar() {
       })
       .then((res) => {
         setCalendarthisday(res.data.data);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
       });
   };
 
-  const getFormatMonthTxt = currentMonth.format(dateFormatMouthTxt);
-  const getFormatMonthYear = currentMonth.format(dateFormatYear);
-  const getFormatDay = currentDay.format(dateFormatDay);
+  const getFormatMonthTxt = currentDate.format(dateFormatMouthTxt);
+  const getFormatMonthYear = currentDate.format(dateFormatYear);
+  const getFormatDay = currentDate.format(dateFormatDay);
 
+  console.log(getFormatDay);
+  console.log(currentDate);
   const showToday = () => {
     if (currentDayRef.current) {
       currentDayRef.current.scrollIntoView({ behavior: "smooth" });
@@ -173,12 +198,9 @@ function Calendar() {
               <Dateblue>
                 <IoCalendarOutline className="calendar" />
                 <p className="month_year">
-                  <p>
-                    {getFormatMonthTxt} {getFormatMonthYear}
-                  </p>
+                  {getFormatMonthTxt} {getFormatMonthYear}
                 </p>
               </Dateblue>
-
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
             <ShowToday onClick={showToday} className="cursor-pointer">
@@ -280,85 +302,67 @@ function Calendar() {
           </Small_middle_page>
         </Small_main_page>
       )}
-
       <MobileCalendar>
         {/* {getCalendarthisday.map((e) => ( */}
-        <Accordion
-          expanded
-          style={{ background: "aliceblue", boxShadow: "none" }}
-        >
-          <>
-            {/* {console.log(e)} */}
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-
-
-              <Typography>
-              <MobileDateDiv>
-                    <BsChevronLeft onClick={() => prevDay()} className="left" />
-                    <MobileDateBlue>
-                      <p className="month_year">
-                        <p className="getFormatDay">{getFormatDay}</p>
-
-                        <p>
-                          {getFormatMonthTxt} {getFormatMonthYear}
-                        </p>
-                      </p>
-                    </MobileDateBlue>
-                    <BsChevronRight
-                      onClick={() => nextDay()}
-                      className="right"
+        <MobileDateDiv>
+          <BsChevronLeft onClick={() => prevDay()} className="left" />
+          <MobileDateBlue>
+            <p className="month_year">
+              <p className="getFormatDay">{getFormatDay}</p>
+              <p>
+                {getFormatMonthTxt} {getFormatMonthYear}
+              </p>
+            </p>
+          </MobileDateBlue>
+          <BsChevronRight onClick={() => nextDay()} className="right" />
+        </MobileDateDiv>
+        {!getCalendarthisday && <p>No such wish found in this date</p>}
+        {getCalendarthisday?.map((item) => (
+          <Accordion
+            expanded={expand}
+            style={{ background: "aliceblue", boxShadow: "none" }}
+          >
+            <>
+              {console.log(item)}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                onClick={toggleAcordion}
+              >
+                <Typography>
+                  <Middle_page_top>
+                    <Middle_top_photo src={item?.user?.image} />
+                    <Middle_top_word>{item?.user?.full_name}</Middle_top_word>
+                    <BsCheckCircleFill className="check" />
+                  </Middle_page_top>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails style={{ background: "aliceblue" }}>
+                <Typography>
+                  <Birthday>{item.wish_list[0].occasion}</Birthday>
+                  <Card>
+                    <Card_photo
+                      src={`${process.env.REACT_APP_API_URL}${item.wish_list[0].image}`}
                     />
-                  </MobileDateDiv>
-
-
-                <Middle_page_top>
-                  <Middle_top_photo
-                    src={
-                      "https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
-                    }
-                  />
-                  <Middle_top_word>Charlyn Kitchen</Middle_top_word>
-                  <BsCheckCircleFill className="check" />
-                </Middle_page_top>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails style={{ background: "aliceblue" }}>
-              <Typography>
-                <Birthday>For son's birthday</Birthday>
-                <Card>
-                  <Card_photo src="https://s3-alpha-sig.figma.com/img/c7d0/94b8/f7a79cec1ce11b80662d8a8d0f1d0c49?Expires=1665360000&Signature=aFiqkqWq6TL0hBee09vOJs-WujxfC3eoa3GlCszilbnL5EY9ofvsY-qP1G1ybZSbvPApjvOoEO7W22LRroN8PDSkVyYHjtWatp30ZX82fJTdLL~nIoqPLBg2tBwiU4dHzBGHnkXWF1mZ2sBy08tFwyVHlGMnOAFv0NgebE~qOZgPudngw-QNmZSpv8Li4WEXCJpnAEIsmJ2-DD98njmkuwGUms2d~p2VDYg76hPADBcmwCF2d8WSHzrO8zypgqphfqzcWWGrte0qUWXpJg84H~NOAeN2Dv-cRB6HkpsTx4bwd5VbRyXWqgDZhkdpVBHW~bjHMdpK4cZHbwK0QsDO6w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                  <Card_title>
-                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                  </Card_title>
-                  <Loading_big>
-                    <Loading_blue></Loading_blue>
-                  </Loading_big>
-                  <Price_div>
-                    <p className="pleft">$2,542 raised</p>
-                    <p className="pright">$8.558 left</p>
-                  </Price_div>
-                </Card>
-                <Card>
-                  <Card_photo src="https://s3-alpha-sig.figma.com/img/7a13/853d/5d0d146ae7a6e4682bc61537b7b633d4?Expires=1665360000&Signature=L8HGJ-bGQZ~0ftE0Y4wVuz~GkSb-a-qvgZKR65wV8CnIvBCMaZOyd4TkQfDePyKk1q6-usYss9-Bmq7L0X1Tu6Qb-4C~F967nZ8VdFwpfyRAddYmIFnK5Zm6Kz4YVgC42pPKKCjcbbgEmODx5WEnrZ1xeL4h42TjYeG-kI2dJ8Vgm3rU0cg3HwQF7M4u-nnGkTbpCyGWIqSw6vv5WvM6gLvIe3l6Vs9hg14mn2-cJUXx7zKO5OZKVjm9GnaUQhma-qDKlVWnXhXYBbkTh-uoDq87evaiON7LVXbf~UEck8VJxZe7lld2SkmHYi4nzPk8QnDcj~KEAp4Th3C75jVW4g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
-                  <Card_title>
-                    Sneakers for boys Adidas GZ0648, blue, mesh, size 35
-                  </Card_title>
-                  <Loading_big>
-                    <Loading_blue></Loading_blue>
-                  </Loading_big>
-                  <Price_div>
-                    <p className="pleft">$2,542 raised</p>
-                    <p className="pright">$8.558 left</p>
-                  </Price_div>
-                </Card>
-              </Typography>
-            </AccordionDetails>
-          </>
-        </Accordion>
+                    <Card_title>{item?.wish_list[0]?.title}</Card_title>
+                    <Loading_big>
+                      <Loading_blue></Loading_blue>
+                    </Loading_big>
+                    <Price_div>
+                      <p className="pleft">
+                        ${item.wish_list[0]?.donate?.received} raised
+                      </p>
+                      <p className="pright">
+                        ${item.wish_list[0]?.donate?.left} left
+                      </p>
+                    </Price_div>
+                  </Card>
+                </Typography>
+              </AccordionDetails>
+            </>
+          </Accordion>
+        ))}
         {/* ))} */}
       </MobileCalendar>
 
