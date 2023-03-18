@@ -7,6 +7,12 @@ export const BlogMainSection = styled(Container) `
     overflow-x: hidden;
     padding-right: 130px;
 
+    .p-0 a{
+        color: #3800B0;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
 
     .all-btn {
         border: 2px solid #3800B0;
@@ -160,15 +166,7 @@ export const ButtonSection = styled(Grid) `
 
         border: 2px solid rgb(229 228 228);
         border-radius:13px;
-        width: 100%;
-        overflow: hidden;
-
-
-
-        @media(min-width: 1000px){
-            width: 45%;
-        }
-
+VNHFE32Wx
 
         @media(max-width: 1000px){
             width: 100%;
@@ -289,7 +287,11 @@ export const CardTopSection = styled(Container) `
     border-radius: 20px;
     padding: 0px !important;
 
-    
+    .top-title {
+        color: #FFFFFF;
+        font-weigh: 600;
+        font-size: 40px;
+    }
 
     .mantine-Image-image {
         border-radius: 17px;
@@ -379,6 +381,8 @@ export const BlogCard = styled(Container) `
         padding-bottom: 15px;
         padding-top: 10px;
         font-size: 16px;
+        font-weight: 400;
+        color: #110035;
     }
 
     .read-article {

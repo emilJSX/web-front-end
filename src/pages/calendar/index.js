@@ -144,9 +144,7 @@ function Calendar() {
               </Dateblue>
               <BsChevronRight onClick={() => nextMonth()} className="right" />
             </Datediv>
-            <ShowToday onClick={showToday} className="cursor-pointer">
-              Show today
-            </ShowToday>
+            <ShowToday onClick={showToday} className="cursor-pointer">Show today</ShowToday>
           </Toppage>
           <Big_calendar_bigdiv>
             <Calendar_first_empty>{}</Calendar_first_empty>
