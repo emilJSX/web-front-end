@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Calendar from "./pages/calendar";
 import Created_Success_Wish from "./pages/creating-success-wish";
 import Created_Wish from "./pages/creating-wish";
@@ -14,9 +14,12 @@ import MyProfile from "./pages/my-profile";
 import SettingsPage from "./pages/settings";
 
 const PrivateRoot = ({ userAuth }) => {
+  if (!userAuth) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
-      {userAuth == true ? (
+      {userAuth && (
         <Routes>
           <Route path="/payment" element={<Payment />} />
           <Route path="/calendar" element={<Calendar />} />
@@ -35,8 +38,6 @@ const PrivateRoot = ({ userAuth }) => {
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
-      ) : (
-        ""
       )}
     </>
   );

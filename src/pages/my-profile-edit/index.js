@@ -59,9 +59,10 @@ import {
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxios, myaxiosprivate, updateToken } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
-import { logout } from "../../store/slices/authSlice";
+import { logout, useAuthSelector } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -207,9 +208,12 @@ function MyVerticallyCenteredModal(props) {
   // const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [reason, setReason] = useState();
+  const [email, setEmail] = useState();
   const [reasons, setReasons] = useState([]);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
+  const [status, setStatus] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     setError("");
@@ -220,14 +224,16 @@ function MyVerticallyCenteredModal(props) {
       })
       .catch((err) => setError(err.message));
   }, []);
-  const handleDelete = async () => {
+  const handleDelete = async (otp) => {
     props.onHide();
+    console.log(otp, reason, comment);
     await myaxiosprivate
       .get("/api/v1/profiles/delete?", {
         params: {
           type: reason,
           // password,
           comment,
+          otp,
         },
       })
       .then((res) => {
@@ -238,6 +244,23 @@ function MyVerticallyCenteredModal(props) {
         window.location.reload();
       })
       .catch((err) => setError(err.message));
+  };
+
+  const showOtpModal = async () => {
+    setStatus(true);
+    await myaxiosprivate
+      .get("api/v1/profiles/change/get-code", {
+        params: {
+          email: email,
+        },
+      })
+      .then(({ data }) => {
+        console.log(data);
+        setShow(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   if (error) {
@@ -277,6 +300,7 @@ function MyVerticallyCenteredModal(props) {
             >
               {reasons?.map((item) => (
                 <FormControlLabel
+                  key={item.id}
                   value={item.id}
                   control={<Radio />}
                   label={item.name}
@@ -285,10 +309,17 @@ function MyVerticallyCenteredModal(props) {
             </RadioGroup>
           </FormControl>
         </div>
-        <div className="reson-text-input">
+        <div className="reson-text-input flex flex-col">
+          <input
+            type="email"
+            className="info_input"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <input
             type="text"
-            className="info_input"
+            className="info_input mt-2"
             placeholder="Describe your reason"
             disabled={reason !== "Other"}
             value={comment}
@@ -297,8 +328,16 @@ function MyVerticallyCenteredModal(props) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleDelete}>Delete account</Button>
+        <Button onClick={showOtpModal}>Delete account</Button>
       </Modal.Footer>
+
+      {show && (
+        <OtpModal
+          handleRegister={handleDelete}
+          status={status}
+          show={setShow}
+        />
+      )}
     </Modal>
   );
 }
@@ -375,7 +414,6 @@ const ProfileEdit = () => {
   const [confirm, setConfirm] = useState(false);
   const [value, onChange] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-
   const OnSeclectCountry = (country) => {
     SetCountryName(country.innerHTML);
     document
@@ -654,7 +692,32 @@ const ProfileEdit = () => {
       });
     }
   };
-
+  const [show, setShow] = useState(false);
+  const showOtpModal = async () => {
+    await myaxiosprivate
+      .get("api/v1/profiles/change/get-code", {
+        params: {
+          email: userInfo.email,
+        },
+      })
+      .then(({ data }) => {
+        setStatus(true);
+        setShow(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [oldPassword, setOldPass] = useState();
+  const [new_password, setNewPassword] = useState();
+  const [status, setStatus] = useState(false);
+  const handleNewPassword = async (otp) => {
+    await myaxiosprivate.post("/api/v1/profiles/store/password", {
+      code: Number(otp),
+      password: oldPassword,
+      new_password,
+    });
+  };
   // ============================================================================================================================
 
   // ======================================================= GET COUNTRIES ============================================
@@ -993,6 +1056,8 @@ const ProfileEdit = () => {
                 {/* <PasswordSettingsInputs> */}
                 <Password
                   className="info_input"
+                  value={oldPassword}
+                  onChange={(e) => setOldPass(e.target.value)}
                   placeholder="Old Password"
                   type={password ? "password" : "text"}
                 />
@@ -1000,13 +1065,27 @@ const ProfileEdit = () => {
                 {/* <PasswordSettingsInputs> */}
                 <Password
                   className="info_input"
+                  value={new_password}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="New Password"
                   type={password ? "password" : "text"}
                 />
                 {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
-                  <button className="password-save-button">Save</button>
+                  <button
+                    className="password-save-button"
+                    onClick={showOtpModal}
+                  >
+                    Save
+                  </button>
                 </div>
+                {show && (
+                  <OtpModal
+                    show={setShow}
+                    handleRegister={handleNewPassword}
+                    status={status}
+                  />
+                )}
                 <h1 className="connetc-sosial-netwok-title">
                   Connect sosial networks
                 </h1>
