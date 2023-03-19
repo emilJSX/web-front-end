@@ -213,7 +213,7 @@ const ContactsPage = () => {
               </DontHaveDataSection>
             ) : (
               isFollowersData?.map((data) => (
-                <UserContentDiv>
+                <UserContentDiv key={data?.id}>
                   <UserImage
                     src={`${
                       data?.image
@@ -258,7 +258,7 @@ const ContactsPage = () => {
               </DontHaveDataSection>
             ) : (
               isFollowsData?.map((dataFollows) => (
-                <UserContentDiv>
+                <UserContentDiv key={dataFollows?.id}>
                   <UserImage
                     src={`${
                       dataFollows.image

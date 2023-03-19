@@ -16,24 +16,22 @@ export const Layout = ({ children }) => {
   const { toggle } = useSelector((state) => state.counter);
   const { pathname } = useLocation();
   const [userData, setUserData] = useState();
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const isAuth = useSelector(useAuthSelector);
   //flase -> active
   useEffect(() => {
-    setLoading(true);
-    isAuth &&
-      myaxiosprivate
-        .get("/api/v1/user")
-        .then(({ data }) => {
-          setUserData(data.data);
-          console.log(data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setError(err.message);
-          setLoading(false);
-        });
+    const fetchUser = async () => {
+      try {
+        const { data } = await myaxiosprivate.get("/api/v1/user");
+        setUserData(data.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    isAuth && fetchUser();
   }, []);
   return (
     <AppShell
