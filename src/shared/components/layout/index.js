@@ -9,6 +9,7 @@ import HeaderShared from "../HeaderShared";
 import { useDispatch, useSelector } from "react-redux";
 import { drawerControll } from "../../../store/slices/counterSlice";
 import { useAuthSelector } from "../../../store/slices/authSlice";
+import { myaxiosprivate } from "../../../api/myaxios";
 
 export const Layout = ({ children }) => {
   // const [toggleOpen, setToggleOpen] = useState(false)
@@ -20,20 +21,20 @@ export const Layout = ({ children }) => {
   const isAuth = useSelector(useAuthSelector);
   //flase -> active
   useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await myaxiosprivate.get("/api/v1/user");
-        setUserData(data.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-    isAuth && fetchUserData();
+    setLoading(true);
+    isAuth &&
+      myaxiosprivate
+        .get("/api/v1/user")
+        .then(({ data }) => {
+          setUserData(data.data);
+          console.log(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
   }, []);
-
   return (
     <AppShell
       padding="0"

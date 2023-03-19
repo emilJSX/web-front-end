@@ -71,7 +71,6 @@ export const HeaderShared = ({ user, error, loading }) => {
         setErrors("Something went wrong...");
       });
   };
-
   return (
     <HeaderContainer>
       <section className="logoSection">
