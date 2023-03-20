@@ -51,12 +51,12 @@ export const Datediv = styled.div`
   }
 
   @media (max-width: 400px) {
-    display: block;
+    display: none;
     margin: -58px 0 35px 60px;
   }
 
   @media (min-width: 400px) and (max-width: 500px) {
-    display: block;
+    display: none;
     margin: -58px 0 35px 70px;
   }
 
@@ -447,25 +447,25 @@ export const BlurCount = styled.p`
 `;
 
 export const MobileDateDiv = styled.div`
-  width: 350px;
+  width: 330px;
   height: 56px;
-  margin: 35px 0 35px 24px;
-  float: left;
+  margin: 35px 0 35px 30px;
   position: relative;
+  float:left;
   z-index: 99;
-
+ 
   @media (min-width: 670px) {
     display: none !important;
   }
 
   @media (max-width: 400px) {
     display: block;
-    margin: -58px 0 35px 60px;
+    margin: -60px 0 35px 30px;
   }
 
   @media (min-width: 400px) and (max-width: 500px) {
     display: block;
-    margin: -58px 0 35px 70px;
+    margin: -60px 0 35px 35px;
   }
 
   .left {

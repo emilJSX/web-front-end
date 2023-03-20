@@ -23,7 +23,7 @@ export const AsideComponent = () => {
   const [show, setShow] = useState(false);
   const [getUserLoginData, setUserLoginData] = useState();
   const [error, setError] = useState("");
-  const toggle = useSelector(state => state.counter.toggle)
+  const toggle = useSelector((state) => state.counter.toggle);
   // const [isShow,setisShow] = useState(false);
   const navigate = useNavigate();
 
@@ -59,6 +59,7 @@ export const AsideComponent = () => {
           <div className="aside-container">
             <ul>
               <img
+                className="rounded-3xl"
                 style={{ width: "50px" }}
                 src={
                   getUserLoginData?.avatar == null
