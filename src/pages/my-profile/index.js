@@ -266,7 +266,7 @@ const MyProfile = () => {
               <img
                 id="rainbow"
                 radius="lg"
-                className="rainbow w-full h-[300px] bg-center bg-cover"
+                className="rainbow w-full h-[300px] bg-center bg-cover rounded-xl"
                 src={
                   userProfile.info.background_image
                     ? userProfile.info.background_image

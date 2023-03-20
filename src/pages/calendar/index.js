@@ -111,8 +111,8 @@ function Calendar() {
         .get("/api/v1/wish/calendar", {
           params: { date: getFullCalendarDate },
         })
-        .then((res) => {
-          setAllCalendar(res?.data?.data);
+        .then(({ data }) => {
+          setAllCalendar(data?.data);
           setLoading(false);
         })
         .catch((err) => {
