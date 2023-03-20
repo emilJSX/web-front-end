@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WishImage from "../../assets/images/wish.png";
 import { BsFacebook, BsFillHandThumbsUpFill, BsHandThumbsUp, BsThreeDots, BsTwitter, BsWhatsapp } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa";
@@ -12,6 +12,8 @@ import BurgerIcon from "../../assets/svg/burger.svg"
 import FlowersIcon from "../../assets/svg/flowers.svg"
 import CoffeeIcon from "../../assets/svg/coffee.svg"
 import { HiOutlineFilter } from "react-icons/hi";
+import { useLocation, useParams } from "react-router-dom";
+import { myaxios, myaxiosprivate } from "../../api/myaxios";
 
 export const giftAmounts = [
   {
@@ -45,6 +47,51 @@ const WishDesign = () => {
   const [congratsVisibility, setCongratsVisibility] = useState("public")
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("public")
   const [selectedAmount, setSelectedAmount] = useState(null)
+  const [getCategoryId, setCategoryId] = useState(null);
+  const { slug } = useParams();
+  const [GetUserWishDataResult, setGetUserData] = useState([]);
+  const [getAllWishData, setAllWishData] = useState([]);
+  const { state } = useLocation();
+
+  const handleClickGetIDCategory = (event) => {
+    setCategoryId(event.currentTarget.id);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    myaxios
+      .get("/api/v1/wish/slug/", {
+        params: {
+          slug: state ? state : slug,
+        },
+      })
+      .then((res) => {
+        setGetUserData(res?.data?.data);
+      })
+      .catch((err) => {
+        console.log("");
+      });
+
+      myaxiosprivate
+      .get("/api/v1/wish/list", {
+        params: {
+          skip: 0,
+          ...(getCategoryId && { category_id: +getCategoryId }),
+        },
+      })
+      .then(({ data }) => {
+        setAllWishData(data.data.results);
+      })
+      .catch((err) => setError(err.message))
+      
+  }, []);
+  const [modalShow, setModalShow] = useState(false);
+
+  //   Get WISH IMAGE API
+  const WishCreationImage = GetUserWishDataResult.image;
+  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
+  //   END
+
 
   return (
     <div className="pt-10 bg-[#EBE5F7]">
@@ -52,7 +99,7 @@ const WishDesign = () => {
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4">
-              <img src={WishImage} alt=""/>
+              <img src={UserGetCreationImgWish} alt=""/>
             </div>
             <div className="bg-white rounded-[24px] p-4 md:p-8 flex items-center justify-between mb-4">
               <button className="font-dynamic font-dynamic--sm text-[#3800B0]" style={{ "--fw": 600 }}>Share</button>
@@ -75,10 +122,10 @@ const WishDesign = () => {
                 <RiLinksFill/>
               </button>
             </div>
-            <button className="flex items-center text-[#8866D0]">
+            {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
-            </button>
+            </button> */}
           </div>
           <div className="flex-[1.5]">
             <div className="rounded-[24px] bg-[#2D008D] p-1">
@@ -91,22 +138,20 @@ const WishDesign = () => {
                       alt=""
                     />
                     <div className="flex items-center flex-wrap">
-                      <span className="mr-[6px] text-sm text-white tracking-[0.01em] font-semibold leading-[1.3]">Anne Hathaway</span>
-                      <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">for birthday on 23.09.2023</span>
+                      <span className="mr-[6px] text-sm text-white tracking-[0.01em] font-semibold leading-[1.3]">{GetUserWishDataResult?.user?.name}</span>
+                      <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">for birthday on {GetUserWishDataResult?.date}</span>
                     </div>
                   </div>
                   <button className="text-white text-xl">
                     <IoNotificationsOutline/>
                   </button>
                 </div>
-                <h2 className="text-[28px] lg:text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">Bvlgari Le Gemme Onekh Eau
-                  de Parfum, 100 ml</h2>
-                <p className="leading-[1.6] font-regular text-[#EBE5F7]">Bvlgari Le Gemme Onekh Eau de Parfum, 100
-                  ml</p>
+                <h2 className="text-[28px] lg:text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">{GetUserWishDataResult?.title}</h2>
+                <p className="leading-[1.6] font-regular text-[#EBE5F7]">{GetUserWishDataResult?.description}</p>
               </div>
               <div className="rounded-[24px] bg-[#EBE5F7] py-[20px] md:py-10 px-[20px] md:px-6 lg:px-12 mb-1">
                 <div className="flex items-center justify-between">
-                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Target: $500</p>
+                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Target: ${GetUserWishDataResult?.donate?.target}</p>
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Final: 08.03.2023</p>
                 </div>
                 <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">
@@ -114,7 +159,7 @@ const WishDesign = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">$125 raised</span>
+                    <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">${GetUserWishDataResult?.date} raised</span>
                     <span className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">25% </span>
                   </p>
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">$375 left</p>
@@ -272,7 +317,7 @@ const WishDesign = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-[24px] bg-white py-10 md:py-20 relative -bottom-[42px]">
+      {/* <div className="rounded-[24px] bg-white py-10 md:py-20 relative -bottom-[42px]">
         <div className="container">
           <h3 className="text-[32px] md:text-[40px] leading-[1.2] font-semibold mb-8 md:mb-[64px]">Breadley Cooper’s other wishes</h3>
           <div className="flex overflow-x-auto gap-6">
@@ -363,7 +408,7 @@ const WishDesign = () => {
           </div>
           <button className="mt-16 w-full rounded-[8px] px-5 py-3 text-[13px] leading-[1.6] font-regular text-[#3800B0] border border-solid border-[#3800B0]">See more wishes</button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
