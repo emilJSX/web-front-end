@@ -208,7 +208,6 @@ function Wish_pages() {
           <Right_div>
             <Right_top_div>
               <Top_title>
-                {console.log(GetUserWishDataResult)}
                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
                 <Birthday>
                   {GetUserWishDataResult?.user?.name}{" "}

@@ -46,8 +46,7 @@ const App = () => {
             element={<Wish_pages_second />}
           />
           <Route path="/set-new-password" element={<Finally />} />
-          <Route path="/wish-design" element={<WishDesign />} />
-          <Route path="/wish/:slug" element={<Wish_pages />} />
+          <Route path="/wish/:slug" element={<WishDesign />} />
           <Route path="/wish-list" element={<WishList />} /> {/* + */}
           <Route path="/only-search" element={<Onlysearch />} />
           {/* + */}
