@@ -14,9 +14,6 @@ import MyProfile from "./pages/my-profile";
 import SettingsPage from "./pages/settings";
 
 const PrivateRoot = ({ userAuth }) => {
-  if (!userAuth) {
-    return <Navigate to="/" replace />;
-  }
   return (
     <>
       {userAuth && (

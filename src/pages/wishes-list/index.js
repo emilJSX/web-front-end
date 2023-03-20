@@ -91,14 +91,14 @@ const WishList = () => {
     rootMargin: "0px 0px 400px 0px",
   });
 
-  useEffect(() => {
-    myaxios.get('/api/v1/wish/categories/get', {
-    }).then((res)=> {
-      setCategoryWish(res.data.data)
-    }).catch((err) => {
-      console.log(err)
-    })
-  },[])
+  // useEffect(() => {
+  //   myaxios.get('/api/v1/wish/categories/get', {
+  //   }).then((res)=> {
+  //     setCategoryWish(res.data.data)
+  //   }).catch((err) => {
+  //     console.log(err)
+  //   })
+  // },[])
 
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, { state: slug });
