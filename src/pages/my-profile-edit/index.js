@@ -572,6 +572,8 @@ const ProfileEdit = () => {
     };
     fetchCountryAndUserData();
   }, []);
+
+  console.log(userInfo);
   useEffect(() => {
     if (userInfo) {
       setValue("full_name", userInfo.full_name);
@@ -587,8 +589,7 @@ const ProfileEdit = () => {
         typeof userInfo?.about === "string" ? userInfo.about : ""
       );
     }
-  }, [userInfo]);
-
+  }, []);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -650,9 +651,13 @@ const ProfileEdit = () => {
     );
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append("country", userInfo.country?.id ?? country);
+    formData.append(
+      "country",
+      userInfo.country?.id || userInfo.country || country.id
+    );
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
 
+    console.log(userInfo.country, country, userInfo.country.id);
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
         headers: {
@@ -898,7 +903,7 @@ const ProfileEdit = () => {
                           <li
                             key={country.id}
                             value={country.name}
-                            onClick={(e) =>
+                            onClick={() =>
                               setUserInfo({
                                 ...userInfo,
                                 country: country.id,
