@@ -36,7 +36,10 @@ export const Layout = ({ children }) => {
   return (
     <AppShell
       padding="0"
-      style={{ backgroundColor: toggle ? "#22006a" : "#fff" }}
+      style={{
+        backgroundColor: toggle ? "#22006a" : "#fff",
+        overflowX: "hidden",
+      }}
       header={
         pathname !== "/" &&
         pathname !== "/home" && (

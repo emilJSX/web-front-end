@@ -196,7 +196,7 @@ const MainBlog = () => {
         </ButtonSection>
         <CardTopSection fluid>
           <Grid className="grid-root">
-            <Grid.Col className="col-root-img" p={0} span={6}>
+            <Grid.Col className="col-root-img" p={0} md={6}>
               <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
                 <Image
                   className="img-section"
@@ -204,11 +204,13 @@ const MainBlog = () => {
                 />
               </Link>
             </Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col md={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
-                  <p className="top-title">{getResultApiSearch[0]?.title}</p>
+                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`} className='break-all'>
+                  <p className="top-title ">
+                    {getResultApiSearch[0]?.title}
+                  </p>
                 </Link>
                 <p className="txt">
                   {getResultApiSearch[0]?.partials[0]?.content}
@@ -266,7 +268,9 @@ const MainBlog = () => {
                           color="text.secondary"
                         >
                           <Link to={`/blog-post/${AllBlog.slug}`}>
-                            <h1 className="title-card">{AllBlog?.title}</h1>
+                            <h1 className="title-card break-all p-2">
+                              {AllBlog?.title}
+                            </h1>
                           </Link>
                           <p className="text-card">
                             {AllBlog?.partials[0]?.content}
