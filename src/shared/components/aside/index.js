@@ -17,26 +17,14 @@ import {
 import { useDrawer } from "../../../hooks/useDrawer";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { useAuthSelector } from "../../../store/slices/authSlice";
-export const AsideComponent = () => {
+export const AsideComponent = ({user}) => {
   const isAuth = useSelector(useAuthSelector);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
-  const [getUserLoginData, setUserLoginData] = useState();
   const [error, setError] = useState("");
   const toggle = useSelector((state) => state.counter.toggle);
   // const [isShow,setisShow] = useState(false);
   const navigate = useNavigate();
-
-  // onClik = () =>{setShow(!show)}
-
-  useEffect(() => {
-    myaxiosprivate
-      .get("/api/v1/user", {})
-      .then(({ data }) => {
-        setUserLoginData(data.data.info);
-      })
-      .catch((err) => setError(err.message));
-  }, []);
   function LogoutApi() {
     useDrawer();
     setError("");
@@ -62,16 +50,16 @@ export const AsideComponent = () => {
                 className="rounded-3xl"
                 style={{ width: "50px" }}
                 src={
-                  getUserLoginData?.avatar == null
+                  !user?.info?.avatar
                     ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                    : `${getUserLoginData.avatar}`
+                    : `${user?.info.avatar}`
                 }
               />
               <a href="/my-profile">
                 <li className="login-aside-element">
-                  {getUserLoginData?.full_name == null
+                  {!user?.info.full_name 
                     ? "does not exist"
-                    : getUserLoginData?.full_name}
+                    : user?.info.full_name}
                 </li>
               </a>
               <a className="login-aside-element" href="/my-profile">

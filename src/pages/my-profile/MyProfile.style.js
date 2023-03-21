@@ -273,7 +273,7 @@ padding-bottom: 50px;
 
 .mail{
     margin-left: 10px;
-    color: #2D008D;
+    color: #2D008D;F
     font-size: 23px;
 }
 

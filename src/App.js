@@ -1,6 +1,6 @@
 import React from "react";
 import AppProvider from "./provider/AppProvider";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./style/theme";
 import GlobalStyle from "./style/global";
@@ -24,23 +24,124 @@ import WishList from "./pages/wishes-list";
 import Wish_pages_second from "./pages/wish-pagess/indexsecond";
 import Wish_pages from "./pages/wish-pagess";
 import PartnersPage from "./pages/partners/partners-page";
-import { useAuthSelector } from "./store/slices/authSlice";
-import { useSelector } from "react-redux";
-import PrivateRoot from "./privateRoots";
-import { MediaQuery } from "@mantine/core";
-import { AsideComponent } from "./shared/components/aside";
 import WishDesign from "./pages/wish/WishDesign";
 import Finally from "./pages/set-new-password";
+import ProtectedRoute from "./ProtectedRoute";
+import MyProfile from "./pages/my-profile";
+import SettingsPage from "./pages/settings";
+import ContactsPage from "./pages/contacts/contacts-subscribers";
+import ProfileEdit from "./pages/my-profile-edit";
+import Wish_pages_four from "./pages/wish-pagess/indexfour";
+import Created_Success_Wish from "./pages/creating-success-wish";
+import Created_Wish from "./pages/creating-wish";
+import Editing_Wish from "./pages/editing-wish";
+import { Rating } from "@mui/material";
+import Calendar from "./pages/calendar";
+import Payment from "./pages/payment";
+import Wish_pages_three from "./pages/wish-pagess/indexthree";
 
 const App = () => {
-  const isAuth = useSelector(useAuthSelector);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
-        <PrivateRoot userAuth={isAuth} />
-
         <Routes>
+          <Route
+            path="/my-profile"
+            element={
+              <ProtectedRoute>
+                <MyProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <ProtectedRoute>
+                <Payment />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <ProtectedRoute>
+                <Calendar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/rating"
+            element={
+              <ProtectedRoute>
+                <Rating />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wish-edit"
+            element={
+              <ProtectedRoute>
+                <Editing_Wish />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/creating-wish"
+            element={
+              <ProtectedRoute>
+                <Created_Wish />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/creating-wish-success"
+            element={
+              <ProtectedRoute>
+                <Created_Success_Wish />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-wish-complete"
+            element={
+              <ProtectedRoute>
+                <Wish_pages_four />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-wish"
+            element={
+              <ProtectedRoute>
+                <Wish_pages_three />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile-edit"
+            element={
+              <ProtectedRoute>
+                <ProfileEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/contacts-profile"
+            element={
+              <ProtectedRoute>
+                <ContactsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/other-user-wish-complete"
             element={<Wish_pages_second />}
@@ -64,14 +165,11 @@ const App = () => {
           <Route path="/privacy" element={<Privacy />} /> {/* + */}
           <Route path="/faq" element={<FaqPage />} /> {/* + */}
           <Route path="/contact" element={<Contact />} /> {/* + */}
-          <Route index element={<Home />} />
           <Route path="/partners-coupon" element={<PartnersPage />} />
-          <Route path="home" element={<Home />}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </AppProvider>
-      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-        <AsideComponent hiddenBreakpoint="sm" />
-      </MediaQuery>
     </ThemeProvider>
   );
 };
