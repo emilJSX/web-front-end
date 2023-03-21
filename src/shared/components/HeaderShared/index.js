@@ -168,12 +168,15 @@ export const HeaderShared = ({ user, error, loading }) => {
               >
                 <div className="body-menu-logined">
                   <ul>
-                    <Link to="/profile-edit">
+                    <Link
+                      to="/profile-edit"
+                      onClick={() => setOpenedMenu(false)}
+                    >
                       <li className="edit-personal-info-btn">
                         Edit personal info
                       </li>
                     </Link>
-                    <Link to="/settings">
+                    <Link to="/settings" onClick={() => setOpenedMenu(false)}>
                       <li className="settings-btn">Settings</li>
                     </Link>
                     <Link onClick={handleLogout}>

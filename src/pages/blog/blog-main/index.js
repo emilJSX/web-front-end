@@ -208,7 +208,7 @@ const MainBlog = () => {
               <div className="read-section">
                 <p className="top-txt"></p>
                 <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`} className='break-all'>
-                  <p className="top-title ">
+                  <p className="top-title md:pr-4">
                     {getResultApiSearch[0]?.title}
                   </p>
                 </Link>

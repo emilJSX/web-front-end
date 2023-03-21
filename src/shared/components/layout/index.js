@@ -48,13 +48,15 @@ export const Layout = ({ children }) => {
       }
       footer={<Footer />}
       asideOffsetBreakpoint="sm"
-      // aside={
-      //     <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-      //         <div>
-      //             <AsideComponent hidden={!toggle} hiddenBreakpoint="sm" />
-      //         </div>
-      //     </MediaQuery >
-      // }
+      aside={
+        <div>
+          <AsideComponent
+            user={userData}
+            hidden={!toggle}
+            hiddenBreakpoint="sm"
+          />
+        </div>
+      }
     >
       {children}
     </AppShell>
