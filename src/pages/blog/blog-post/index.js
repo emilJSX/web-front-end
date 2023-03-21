@@ -67,6 +67,9 @@ const BlogPost = () => {
         setLoading(false);
       });
   }, []);
+
+  const truncate = (input) =>
+    input?.length > 300 ? `${input.substring(0, 100)}...` : input;
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -99,7 +102,7 @@ const BlogPost = () => {
           />
         </div>
         <div className="main-txt">
-          <h1>{blogPost.title}</h1>
+          <h1 className="break-all">{blogPost.title}</h1>
           <p>{readableDate + " | " + blogPost?.category?.name}</p>
         </div>
         <ColaImg className="first-image-container">
@@ -123,20 +126,20 @@ const BlogPost = () => {
             />
           )}
         </ColaImg>
-        <p className="second-txt">
+        {/* <p className="second-txt">
           <p className="first-txt">
             {blogPost?.partials[0]?.content
               ? blogPost?.partials[0]?.content
               : "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32."}
           </p>
         </p>
-        <h3 className="finishing-touch">The finishing touch</h3>
-        <p className="second-txt">
+        {/* <h3 className="finishing-touch">The finishing touch</h3> */}
+        {/* <p className="second-txt">
           {" "}
           {blogPost?.partials[0]?.content
             ? blogPost?.partials[0]?.content
             : "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32."}
-        </p>
+        </p>  */}
         <div className="social-icons">
           <Share slug={blogPost?.slug} page={"blog-post"} />
         </div>
@@ -178,7 +181,9 @@ const BlogPost = () => {
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         <h1 className="title-card">{item.title}</h1>
-                        <p className="text-card">{item.partials[0].content}</p>
+                        <p className="text-card break-all">
+                          {truncate(item.partials[0].content)}
+                        </p>
                       </Typography>
                     </CardContent>
                   </CardActionArea>
