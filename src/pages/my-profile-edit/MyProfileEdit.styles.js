@@ -52,73 +52,70 @@ export const Header = styled.div`
     @media (max-width: 645px) {
       padding-left: 30px;
       justify-content: start;
-   }
-      
- }
-      
-   .main-page-title{
-     width: 100%;
-     display: flex;
-     align-items: center;
-     font-family: 'Steppe';
-     font-style: normal;
-     font-weight: 600;
-     font-size: 56px;
-     line-height: 140%;
-     font-feature-settings: 'liga' off;
-     color: #0B0023;
-     display: flex;
-     justify-content: start;
-     
-     @media(min-width: 1200px){
-        padding-left: 60px;   
-     }
-      
-      @media (max-width: 1200px) {
-        //height: 70px;
-        font-size: 40px;
-        justify-content: center;
-      }
-      
-      @media(max-width: 645px){
-         padding-left: 30px;
-         justify-content: start;
-         
-      }
-            
-   }
+    }
+  }
+
+  .main-page-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: "Steppe";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 56px;
+    line-height: 140%;
+    font-feature-settings: "liga" off;
+    color: #0b0023;
+    display: flex;
+    justify-content: start;
+
+    @media (min-width: 1200px) {
+      padding-left: 60px;
+    }
+
+    @media (max-width: 1200px) {
+      //height: 70px;
+      font-size: 40px;
+      justify-content: center;
+    }
+
+    @media (max-width: 645px) {
+      padding-left: 30px;
+      justify-content: start;
+    }
+  }
 `;
 
-  // .main-page-title {
-  //   height: 80px;
-  //   width: 100%;
-  //   display: flex;
-  //   align-items: center;
-  //   font-family: "Steppe";
-  //   font-style: normal;
-  //   font-weight: 600;
-  //   font-size: 56px;
-  //   line-height: 140%;
-  //   font-feature-settings: "liga" off;
-  //   color: #0b0023;
-  //   display: flex;
-  //   justify-content: start;
+// .main-page-title {
+//   height: 80px;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   font-family: "Steppe";
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 56px;
+//   line-height: 140%;
+//   font-feature-settings: "liga" off;
+//   color: #0b0023;
+//   display: flex;
+//   justify-content: start;
 
-  //   @media (min-width: 1200px) {
-  //     padding-left: 60px;
-  //   }
+//   @media (min-width: 1200px) {
+//     padding-left: 60px;
+//   }
 
-  //   @media (max-width: 1200px) {
-  //     height: 70px;
-  //     font-size: 40px;
-  //     justify-content: center;
-  //   }
+//   @media (max-width: 1200px) {
+//     height: 70px;
+//     font-size: 40px;
+//     justify-content: center;
+//   }
 
-  //   @media (max-width: 645px) {
-  //     padding-left: 30px;
-  //     justify-content: start;
-  //   }
-  // }
+//   @media (max-width: 645px) {
+//     padding-left: 30px;
+//     justify-content: start;
+//   }
+// }
 // `;
 
 export const EditingButtons = styled.div`
@@ -131,19 +128,18 @@ export const EditingButtons = styled.div`
   z-index: 10;
   margin-bottom: 24px;
 
-  @media(max-width: 1200px){
-   justify-content: center;
-   //margin: 0;
+  @media (max-width: 1200px) {
+    justify-content: center;
+    //margin: 0;
   }
 
   @media (min-width: 1200px) {
     margin-left: 40px;
   }
 
-  
-  @media(max-width: 645px){
-   padding: 0;
-   justify-content: start;
+  @media (max-width: 645px) {
+    padding: 0;
+    justify-content: start;
     margin-left: 16px;
     margin-bottom: 24px;
   }
@@ -207,7 +203,6 @@ export const Section = styled.div`
 export const EditingItem = styled.div``;
 
 export const ProfilePicture = styled.div`
-  
   //height: 150px;
   width: 100%;
   padding-left: 50px;
@@ -791,7 +786,7 @@ export const PasswordSettings = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
 
   @media (max-width: 1200px) {
     align-items: center;
@@ -836,7 +831,7 @@ export const PasswordSettings = styled.div`
     height: 100px;
 
     @media (min-width: 1200px) {
-      padding-left: 50px;
+      // padding-left: 50px;
     }
 
     @media (max-width: 1200px) {
@@ -856,7 +851,6 @@ export const PasswordSettings = styled.div`
       height: 56px;
       background: #3800b0;
       border-radius: 8px;
-      border: 2px solid black;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -919,14 +913,12 @@ export const PasswordSettings = styled.div`
          width: 90%;
       }
    }
-`
-
+`;
 
 export const PictureUpload = styled.div`
   width: 100%;
-   padding-bottom: 50px;
-`
-
+  padding-bottom: 50px;
+`;
 
 export const PictureUploadComponents = styled.div`
       display: flex;
@@ -1087,8 +1079,8 @@ export const PasswordSettingsInputs = styled.div`
   width: 550px;
   // min-height: 250px;
   padding: 24px;
-  background: #F7F8FA;
-  border: 1px dashed #BFACE9;
+  background: #f7f8fa;
+  border: 1px dashed #bface9;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -1144,11 +1136,20 @@ export const Password = styled.input`
     height: 56px;
     width: 90%;
     border-radius: 8px;
+    margin-left:26px
+  }
+  @media (max-width: 480px) {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    width: 90%;
+    border-radius: 8px;
+    margin-left:20px
   }
 `;
 
 export const SosialMediaButtons = styled.div`
-  padding-left: 40px;
+  // padding-left: 40px;
   padding-bottom: 80px;
 
   @media (max-width: 645px) {
@@ -1500,31 +1501,31 @@ export const StatusPedding = styled.div`
       width: 100%;
     }
 
-   @media(max-width: 645px){
-     display: flex;
-     justify-content: center;
-     text-align: start;
-     padding-left: 16px;
-     width: 90%;
-     font-size: 15px;
-   }
-}
+    @media (max-width: 645px) {
+      display: flex;
+      justify-content: center;
+      text-align: start;
+      padding-left: 16px;
+      width: 90%;
+      font-size: 15px;
+    }
+  }
 
-.contact-administration-title{
-   padding-left: 50px;
-   height: 40px;
-   display: flex;
-   align-items: flex-end;
-   font-family: 'Steppe';
-   font-style: normal;
-   font-weight: 600;
-   font-size: 14px;
-   line-height: 130%;
-   letter-spacing: 0.01em;
-   font-feature-settings: 'liga' off;
-   color: #3800B0;
+  .contact-administration-title {
+    padding-left: 50px;
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    font-family: "Steppe";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-feature-settings: "liga" off;
+    color: #3800b0;
 
-   @media(max-width: 1200px){
+    @media (max-width: 1200px) {
       display: flex;
       justify-content: center;
       text-align: start;
@@ -1558,8 +1559,8 @@ export const StatusPedding = styled.div`
       justify-content: start;
       width: 90%;
       padding-left: 16px;
-   }
-}
+    }
+  }
 
   .contact-administration-title:hover {
     text-decoration: underline;
@@ -1611,61 +1612,61 @@ export const Compleated = styled.div`
     font-feature-settings: "liga" off;
     color: #110035;
 
-   .verification-compleated-title{
+    .verification-compleated-title {
       padding-left: 50px;
       padding-top: 20px;
       padding-bottom: 30px;
-      font-family: 'Steppe';
+      font-family: "Steppe";
       font-style: normal;
       font-weight: 600;
       font-size: 24px;
       line-height: 120%;
-      font-feature-settings: 'liga' off;
+      font-feature-settings: "liga" off;
       color: #110035;
 
-      @media(max-width: 1200px){
-         display: flex;
-         justify-content: center;
-         padding-left: 0px;
-         width: 100%;
-         font-size: 18px;
+      @media (max-width: 1200px) {
+        display: flex;
+        justify-content: center;
+        padding-left: 0px;
+        width: 100%;
+        font-size: 18px;
       }
 
-      @media(max-width: 645px){
-         display: flex;
-         justify-content: center;
-         padding-left: 24px;
-         padding-right: 24px;
-         width: 100%;
-         font-size: 18px;
+      @media (max-width: 645px) {
+        display: flex;
+        justify-content: center;
+        padding-left: 24px;
+        padding-right: 24px;
+        width: 100%;
+        font-size: 18px;
       }
-   }
+    }
 
-   .moderator-compleating{
+    .moderator-compleating {
       padding-left: 50px;
-      font-family: 'Inter';
+      font-family: "Inter";
       font-style: normal;
       font-weight: 400;
       font-size: 14px;
       line-height: 160%;
-      font-feature-settings: 'liga' off;
+      font-feature-settings: "liga" off;
       color: #110035;
 
-      @media(max-width: 1200px){
-         padding-left: 0px;
-         display: flex;
-         justify-content: center;
+      @media (max-width: 1200px) {
+        padding-left: 0px;
+        display: flex;
+        justify-content: center;
       }
 
-      @media(max-width: 645px){
-         padding-left: 24px;
-         padding-right: 24px;
-         display: flex;
-         justify-content: center;
+      @media (max-width: 645px) {
+        padding-left: 24px;
+        padding-right: 24px;
+        display: flex;
+        justify-content: center;
       }
-   }
+    }
 
-   .contact-administration-title{
+    .contact-administration-title {
       padding-left: 50px;
       height: 40px;
       display: flex;
