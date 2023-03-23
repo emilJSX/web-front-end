@@ -63,6 +63,7 @@ import { logout, useAuthSelector } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
+
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
@@ -206,7 +207,6 @@ const SetGenderButtonsClick = () => {
 
 function MyVerticallyCenteredModal(props) {
   // const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [reason, setReason] = useState();
   const [email, setEmail] = useState();
   const [reasons, setReasons] = useState([]);
@@ -214,7 +214,6 @@ function MyVerticallyCenteredModal(props) {
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
   const [status, setStatus] = useState(false);
-  const dispatch = useDispatch();
   useEffect(() => {
     setError("");
     myaxios
@@ -237,11 +236,7 @@ function MyVerticallyCenteredModal(props) {
         },
       })
       .then((res) => {
-        localStorage.clear();
-        dispatch(logout());
-        updateToken(null);
-        navigate("/");
-        window.location.reload();
+        props.confirm();
       })
       .catch((err) => setError(err.message));
   };
@@ -273,7 +268,7 @@ function MyVerticallyCenteredModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
+      <Modal.Header closeButton={true} closeVariant="X">
         <Modal.Title id="contained-modal-title-vcenter">
           Delete your account
         </Modal.Title>
@@ -378,6 +373,16 @@ function MyVerticallyCenteredModal(props) {
 // };
 
 function DeleteAccountConfirmSmyle(props) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    localStorage.clear();
+    dispatch(logout());
+    updateToken(null);
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <Modal
       {...props}
@@ -400,7 +405,7 @@ function DeleteAccountConfirmSmyle(props) {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={handleDelete}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
@@ -573,7 +578,6 @@ const ProfileEdit = () => {
     fetchCountryAndUserData();
   }, []);
 
-  console.log(userInfo);
   useEffect(() => {
     if (userInfo) {
       setValue("full_name", userInfo.full_name);
@@ -1078,7 +1082,7 @@ const ProfileEdit = () => {
                 {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
                   <button
-                    className="password-save-button"
+                    className="password-save-button text-white  md:ml-1"
                     onClick={showOtpModal}
                   >
                     Save
@@ -1091,8 +1095,8 @@ const ProfileEdit = () => {
                     status={status}
                   />
                 )}
-                <h1 className="connetc-sosial-netwok-title">
-                  Connect sosial networks
+                <h1 className="connetc-sosial-netwok-title ml-3 ">
+                  Connect social networks
                 </h1>
                 <SosialMediaButtons>
                   <button className="facebook-button">
@@ -1304,8 +1308,9 @@ const ProfileEdit = () => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => {
-          setModalShow(false), setConfirm(true);
+          setModalShow(false);
         }}
+        confirm={() => setConfirm(true)}
       />
       <DeleteAccountConfirmSmyle
         show={confirm}
