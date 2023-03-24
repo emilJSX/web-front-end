@@ -82,9 +82,19 @@ export const HeaderShared = ({ user, error, loading }) => {
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
           </li>
-          {/* <li><Button variant='white'><Link>How it works</Link></Button></li> */}
-          {/* <li><Button variant='white'><Link>Partners</Link></Button></li> */}
-          {/* <li><Button variant='white'><Link>Blog</Link></Button></li> */}
+          {!user && (
+            <div className="menu">
+              <li className="all-wishes-btn pr-2">
+                <Link to="/faq">How it works</Link>
+              </li>
+              <li className="all-wishes-btn pr-2">
+                <Link to="/partners-coupon">Partners</Link>
+              </li>
+              <li className="all-wishes-btn pr-1">
+                <Link to="/main-blog">Blog</Link>
+              </li>
+            </div>
+          )}
         </ul>
       </section>
       {/*     float: right;
