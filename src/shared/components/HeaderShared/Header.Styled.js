@@ -11,7 +11,7 @@ export const HeaderContainer = styled(Header)`
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  overflow-x: hidden;
+  overflow: hidden;
   .dots-icon {
     display: flex;
     gap: 28px;
@@ -36,7 +36,6 @@ export const HeaderContainer = styled(Header)`
     @media (min-width: 768px) and (max-width: 828px) {
       width: 100px;
     }
-  
 
     a:hover {
       color: #3800b0;

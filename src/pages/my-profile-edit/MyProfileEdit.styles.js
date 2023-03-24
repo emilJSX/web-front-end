@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ProfileEditing = styled.div`
-  overflow: hidden;
+  overflow-x: hidden;
   margin: auto;
 
   display: flex;

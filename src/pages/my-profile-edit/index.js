@@ -63,6 +63,8 @@ import { logout, useAuthSelector } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
+import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
+import { BiX } from "react-icons/bi";
 
 const SetProfileEditButtonsEvent = () => {
   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -208,7 +210,6 @@ const SetGenderButtonsClick = () => {
 function MyVerticallyCenteredModal(props) {
   // const [password, setPassword] = useState("");
   const [reason, setReason] = useState();
-  const [email, setEmail] = useState();
   const [reasons, setReasons] = useState([]);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
@@ -244,11 +245,7 @@ function MyVerticallyCenteredModal(props) {
   const showOtpModal = async () => {
     setStatus(true);
     await myaxiosprivate
-      .get("api/v1/profiles/change/get-code", {
-        params: {
-          email: email,
-        },
-      })
+      .get("api/v1/profiles/change/get-code")
       .then(({ data }) => {
         console.log(data);
         setShow(true);
@@ -268,10 +265,13 @@ function MyVerticallyCenteredModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton={true} closeVariant="X">
+      <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
           Delete your account
         </Modal.Title>
+        <Button1 onClick={props.onHide}>
+          <BiX style={{ fontSize: "20px" }} />
+        </Button1>
       </Modal.Header>
       <Modal.Body>
         {/* <h1 className="enter-password-title">
@@ -305,13 +305,6 @@ function MyVerticallyCenteredModal(props) {
           </FormControl>
         </div>
         <div className="reson-text-input flex flex-col">
-          <input
-            type="email"
-            className="info_input"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
           <input
             type="text"
             className="info_input mt-2"
