@@ -27,21 +27,21 @@ export const HomeConatiner = styled(Container)`
 
 `;
 
-
 export const SeeAllWish = styled.button`
   width: 100%;
   background: white;
   border: 1px solid #cdaaff;
   padding: 9px;
   border-radius: 8px;
-  color: #3800B0;
+  color: #3800b0;
   margin-top: 50px;
-  
-    &:hover {
-      text-decoration: none;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    }
-`
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  }
+`;
 
 export const HomeTop = styled(Grid)`
   /* padding-top:24px; */
@@ -54,7 +54,7 @@ export const HomeTop = styled(Grid)`
   .how-it-works {
     margin-left: 10px;
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
-        display:none;
+      display: none;
     }
   }
 
@@ -135,7 +135,7 @@ export const HomeTop = styled(Grid)`
         font-size: clamp(2.5rem, 72px, 4.5rem);
         color: ${({ theme }) => theme.colors.primary5};
         text-align: center;
-        
+
         @media (min-width: 1100px) and (max-width: 1284px) {
           font-size: 55px;
         }
@@ -172,7 +172,7 @@ export const HomeTop = styled(Grid)`
       font-weight: 500;
       font-size: 14px;
       margin-left: 8px;
-      color: #3800B0;
+      color: #3800b0;
       padding-inline-end: 14%;
       margin-top: 6px;
     }
@@ -247,11 +247,10 @@ export const HomeTop = styled(Grid)`
         font-size: 14px;
       }
 
-      
       @media (min-width: 993px) and (max-width: 1032px) {
         font-size: 13px;
       }
-      
+
       @media (min-width: 1033px) and (max-width: 1124px) {
         font-size: 14px;
       }
@@ -318,117 +317,116 @@ export const HomeTop = styled(Grid)`
   }
 `;
 
-
 export const WishCreationInput = styled.input`
   width: 100%;
-  color: #969BB8;
+  color: #969bb8;
   font-weight: 600;
   font-size: 20px;
   padding: 16px 24px;
   height: 56px;
   border-radius: 16px;
-  border: 1px solid #F7F8FA;
+  border: 1px solid #f7f8fa;
 
   &:focus {
     border: 1px solid red;
   }
-`
+`;
 
 export const WishCreationButton = styled.button`
-
-display:flex;
-align-items:center;
-background-color: #3800B0;
-border: 1px solid #3800B0;
-color: white;
-justify-content: center;
-gap: ${({ size }) => size !== 'm' ? '8px' : '12px'};
-height: ${({ size }) => size == 'm' ? '40px' : '40px'};
-/* padding: ${({ size }) => size == 'm' ? '12px 24px' : '12px 16px'}; */
-padding: ${({ size, variant }) => {
-    if (variant !== 'white') return size == 'm' ? '5px 12px' : '12px 16px';
+  display: flex;
+  align-items: center;
+  background-color: #3800b0;
+  border: 1px solid #3800b0;
+  color: white;
+  justify-content: center;
+  gap: ${({ size }) => (size !== "m" ? "8px" : "12px")};
+  height: ${({ size }) => (size == "m" ? "40px" : "40px")};
+  /* padding: ${({ size }) => (size == "m" ? "12px 24px" : "12px 16px")}; */
+  padding: ${({ size, variant }) => {
+    if (variant !== "white") return size == "m" ? "5px 12px" : "12px 16px";
     else 0;
-}};
-border-radius: 8px;
-transition: 0.2s all;
-cursor: pointer;
-font-feature-settings: 'liga' off;
-font-weight: 600;
-letter-spacing: 0.01em;
-background-color:${({ variant, theme }) => {
-    if (variant == 'default') return theme.colors.primary5;
-    else if (variant == 'outlined') return 'inherit';
-    else if (variant == 'white') return 'inherit';
+  }};
+  border-radius: 8px;
+  transition: 0.2s all;
+  cursor: pointer;
+  font-feature-settings: "liga" off;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background-color: ${({ variant, theme }) => {
+    if (variant == "default") return theme.colors.primary5;
+    else if (variant == "outlined") return "inherit";
+    else if (variant == "white") return "inherit";
     else return theme.primary5;
-}};
-border: ${({ variant }) => variant !== 'white' ? '1px' : '0px'} solid ${({ variant, theme }) => {
-    if (variant == 'default') return theme.colors.primary5;
-    else if (variant == 'outlined') return theme.colors.primary2;
-    else return theme.primary5;
-}};
-font-size: ${({ size }) => {
-    if (size == 'm') return '14px';
-    if (size == 's') return '13px';
-    if (size == 'xs') return '12px';
-    else return '14px';
-}};
+  }};
+  border: ${({ variant }) => (variant !== "white" ? "1px" : "0px")} solid
+    ${({ variant, theme }) => {
+      if (variant == "default") return theme.colors.primary5;
+      else if (variant == "outlined") return theme.colors.primary2;
+      else return theme.primary5;
+    }};
+  font-size: ${({ size }) => {
+    if (size == "m") return "14px";
+    if (size == "s") return "13px";
+    if (size == "xs") return "12px";
+    else return "14px";
+  }};
 
-:hover {
-    box-shadow:${({ variant }) => variant == 'default' ? '0px 8px 16px rgba(34, 0, 106, 0.24)' : 'none'};
-    filter:${({ variant }) => variant == 'outlined' ? ' drop-shadow(0px 4px 8px rgba(56, 0, 176, 0.32))' : 'none'};
-    border:${({ variant, theme }) => {
-    if (variant == 'outlined') return `1px solid ${theme.colors.primary3}`;
-    else if (variant == 'default') return `1px solid ${theme.colors.primary6}`;
-    else '0px solid';
-}};
-  background: #30058b;
-  color:${({ variant, theme }) => {
-    if (variant == 'default') return '#fff';
-    else if (variant == 'outlined') return theme.colors.primary5;
-    else if (variant == 'white') return theme.colors.primary3;
-    else return '#fff';
-}};
-    
+  :hover {
+    box-shadow: ${({ variant }) =>
+      variant == "default" ? "0px 8px 16px rgba(34, 0, 106, 0.24)" : "none"};
+    filter: ${({ variant }) =>
+      variant == "outlined"
+        ? " drop-shadow(0px 4px 8px rgba(56, 0, 176, 0.32))"
+        : "none"};
+    border: ${({ variant, theme }) => {
+      if (variant == "outlined") return `1px solid ${theme.colors.primary3}`;
+      else if (variant == "default")
+        return `1px solid ${theme.colors.primary6}`;
+      else "0px solid";
+    }};
+    background: #30058b;
+    color: ${({ variant, theme }) => {
+      if (variant == "default") return "#fff";
+      else if (variant == "outlined") return theme.colors.primary5;
+      else if (variant == "white") return theme.colors.primary3;
+      else return "#fff";
+    }};
 
-a{
-    color:${({ variant, theme }) => {
-    if (variant == 'default') return '#fff';
-    else if (variant == 'outlined') return theme.colors.primary5;
-    else if (variant == 'white') return theme.colors.primary3;
-    else return '#fff';
-}}};
+    a {
+      color: ${({ variant, theme }) => {
+        if (variant == "default") return "#fff";
+        else if (variant == "outlined") return theme.colors.primary5;
+        else if (variant == "white") return theme.colors.primary3;
+        else return "#fff";
+      }};
+    }
+  }
 
- };
+  :active {
+    box-shadow: none;
+    filter: none;
+    background-color: ${({ variant, theme }) => {
+      if (variant == "default") return theme.colors.primary7;
+      else if (variant == "outlined") return "inherit";
+      else if (variant == "white") return "inherit";
+      else return theme.primary7;
+    }};
 
- :active {
-    box-shadow:none;
-    filter:none;
-    background-color:${({ variant, theme }) => {
-    if (variant == 'default') return theme.colors.primary7;
-    else if (variant == 'outlined') return 'inherit';
-    else if (variant == 'white') return 'inherit';
-    else return theme.primary7;
-}};
-    
-    border:${({ variant, theme }) => {
-    if (variant == 'outlined') return `1px solid ${theme.colors.primary3}`;
-    else if (variant == 'default') return `1px solid ${theme.colors.primary6}`;
-    else '0px solid';
-}};
+    border: ${({ variant, theme }) => {
+      if (variant == "outlined") return `1px solid ${theme.colors.primary3}`;
+      else if (variant == "default")
+        return `1px solid ${theme.colors.primary6}`;
+      else "0px solid";
+    }};
 
-    color:${({ variant, theme }) => {
-    if (variant == 'default') return '#fff';
-    else if (variant == 'outlined') return theme.colors.primary5;
-    else if (variant == 'white') return theme.colors.primary6;
-    else return '#fff';
-}};
-
- }
-
-
-
-`
-
+    color: ${({ variant, theme }) => {
+      if (variant == "default") return "#fff";
+      else if (variant == "outlined") return theme.colors.primary5;
+      else if (variant == "white") return theme.colors.primary6;
+      else return "#fff";
+    }};
+  }
+`;
 
 export const HomeCenter = styled.div`
 z-index: 10;
@@ -505,7 +503,9 @@ overflow: hidden;
         background: #160046;
         border: 0;
 
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.extra_small}) and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.extra_small}) and (max-width: ${({ theme }) =>
+  theme.breakPoints.sm}){
           display: none;
         }
 
@@ -611,7 +611,9 @@ overflow: hidden;
             width: auto;
           }
 
-          @media screen and (min-width: ${({ theme }) => theme.breakPoints.extra_small}) and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+          @media screen and (min-width: ${({ theme }) =>
+            theme.breakPoints.extra_small}) and (max-width: ${({ theme }) =>
+  theme.breakPoints.xs}){
             transform: translate(100px, 0px)
           }
 
@@ -625,11 +627,13 @@ overflow: hidden;
             justify-content: center;
             align-items: center;
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               width: 280px
             }
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.sm}){
                width: 250px;
             }
 
@@ -651,23 +655,27 @@ overflow: hidden;
                 margin-top: 1px;
               }
                 
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.xl}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.xl}){
                 right: 12px;
                 top: 12px;
               }
 
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.lg}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.lg}){
                 right: 12px;
                 top: 12px;
               }
                 
               
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.md}){
                  left: 12px;
                  top: 74%;
               }
 
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.sm}){
                   left: 12px;
                   bottom: 0px;
               }
@@ -691,7 +699,8 @@ overflow: hidden;
             padding-top: 20px;
             padding-left: 20px;
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               width: 100%
             }
             
@@ -747,7 +756,8 @@ overflow: hidden;
 
               }
               
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.md}){
                display:block;
                padding-top:5px;
               }
@@ -795,7 +805,9 @@ overflow: hidden;
           margin-left: 0;
         }
         
-        @media screen and (min-width: ${({ theme }) => theme.breakPoints.extra_small}) and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+        @media screen and (min-width: ${({ theme }) =>
+          theme.breakPoints.extra_small}) and (max-width: ${({ theme }) =>
+  theme.breakPoints.sm}){
           display: none;
         }
 
@@ -888,11 +900,11 @@ export const WishesText = styled.h2`
   padding-top: 100px;
 
   .wishes-text {
-  font-size: 40px;
-  color: #110035;
-  font-weight: bold;
-}
-`
+    font-size: 40px;
+    color: #110035;
+    font-weight: bold;
+  }
+`;
 
 export const WishesBtn = styled(Container)`
   width: 100%;
@@ -901,22 +913,22 @@ export const WishesBtn = styled(Container)`
   .partner-btn {
     width: 100%;
     background: white;
-    color: #3800B0;
+    color: #3800b0;
     margin-top: 50px;
   }
 
-  .owl-carousel{
-    padding-top:50px;
+  .owl-carousel {
+    padding-top: 50px;
   }
 
   .owl-carousel .owl-nav .owl-prev {
     font-size: 50px;
-    color: #3800B0;
+    color: #3800b0;
     position: absolute;
     top: 45%;
     left: -10%;
 
-    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
       display: none;
     }
   }
@@ -931,12 +943,12 @@ export const WishesBtn = styled(Container)`
 
   .owl-carousel .owl-nav .owl-next {
     font-size: 50px;
-    color: #3800B0;
+    color: #3800b0;
     position: absolute;
     top: 45%;
     right: -10%;
 
-    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
       display: none;
     }
   }
@@ -944,7 +956,7 @@ export const WishesBtn = styled(Container)`
   .owl-carousel .owl-item img {
     border-radius: 50px;
   }
-`
+`;
 
 export const PartnersText = styled(Container)`
   .partners-text {
@@ -953,13 +965,13 @@ export const PartnersText = styled(Container)`
     margin-left: -22%;
     padding-top: 100px;
 
-    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+    @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
       text-align: center;
       margin-left: 0px;
       font-size: 30px;
     }
   }
-`
+`;
 
 export const InsiderContainer = styled(Container)`
    background: #00FF9E;
@@ -1054,18 +1066,21 @@ export const InsiderContainer = styled(Container)`
 
             font-feature-settings: 'liga' off;
 
-            @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
+            @media screen and (min-width: ${({ theme }) =>
+              theme.breakPoints.lg}){
               font-family: 'Steppe';
               font-size: 40px;
             }
 
-            @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (min-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               font-family: 'Steppe';
               font-size: 40px;
               width: 318px;
             }
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               font-family: 'Steppe';
               font-size: 80px;
               //width: 90%;
@@ -1073,7 +1088,8 @@ export const InsiderContainer = styled(Container)`
               text-align:center;
             }
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.sm}){
               font-family: 'Steppe';
               font-size: 32px;
               width: 100%;
@@ -1113,12 +1129,14 @@ export const InsiderContainer = styled(Container)`
             margin: 0;
 
 
-            @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (min-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               font-size: 13px;
               width: 320px;
             }
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               font-family: 'Inter';
               font-style: normal;
               font-weight: 400;
@@ -1141,7 +1159,8 @@ export const InsiderContainer = styled(Container)`
               
             }
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.xs}){
               font-family: 'Inter';
               font-style: normal;
               font-weight: 400;
@@ -1154,7 +1173,8 @@ export const InsiderContainer = styled(Container)`
             }
 
             
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.sm}){
               font-family: 'Inter';
               font-style: normal;
               font-weight: 400;
@@ -1164,7 +1184,8 @@ export const InsiderContainer = styled(Container)`
               align-items:start;
             }
             //
-            // @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}){
+            // @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.xs}){
             //   font-family: 'Inter';
             //   font-style: normal;
             //   font-weight: 400;
@@ -1227,7 +1248,8 @@ export const InsiderContainer = styled(Container)`
             height: 100%;
             width: 50%;
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               width: 100%;
             }
 
@@ -1253,7 +1275,8 @@ export const InsiderContainer = styled(Container)`
                   color: white;
                   font-size: 40px;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 20px;
                   }
                 }
@@ -1263,7 +1286,8 @@ export const InsiderContainer = styled(Container)`
                   font-size: 16px;
                   margin-top: 10px;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 10px;
                   }
                 }
@@ -1276,11 +1300,13 @@ export const InsiderContainer = styled(Container)`
                   line-height: 120%;
                   color: white;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.lg}){
                     font-size: 40px;
                   }
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 20px;
                   }
                 }
@@ -1314,7 +1340,8 @@ export const InsiderContainer = styled(Container)`
                   color: white;
                   font-size: 40px;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 20px;
                   }
                 }
@@ -1324,7 +1351,8 @@ export const InsiderContainer = styled(Container)`
                   font-size: 16px;
                   margin-top: 10px;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 10px;
                   }
                 }
@@ -1337,11 +1365,13 @@ export const InsiderContainer = styled(Container)`
                   line-height: 120%;
                   color: white;
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.lg}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.lg}){
                     font-size: 40px;
                   }
 
-                  @media screen and (min-width: ${({ theme }) => theme.breakPoints.md}){
+                  @media screen and (min-width: ${({ theme }) =>
+                    theme.breakPoints.md}){
                     font-size: 20px;
                   }
                 }
@@ -1359,7 +1389,8 @@ export const InsiderContainer = styled(Container)`
             align-items:center;
             justify-content:center;
 
-            @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+            @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}){
               width: 100%;
               justify-content:center;
             }
@@ -1372,7 +1403,8 @@ export const InsiderContainer = styled(Container)`
               border-radius: 24px;
               margin: 0;
 
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+              @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.md}){
                 display: flex;
                 justify-content: center;
               }
@@ -1387,236 +1419,209 @@ export const InsiderContainer = styled(Container)`
         }
     }
   }
-`
-
+`;
 
 export const Item = styled.div`
-   .owl-carousel{
-    
+  .owl-carousel {
+    height: 100%;
+
+    .owl-stage-outer {
       height: 100%;
 
-      .owl-stage-outer{
-        
+      .owl-stage {
         height: 100%;
 
-         .owl-stage{
+        .owl-item {
+          height: 100%;
+          display: flex;
+          justify-content: center;
 
-            height: 100%;
+          .item {
+            height: 90%;
+            width: 80%;
+            background: #160046;
+            border-radius: 32px;
 
-            .owl-item {
-              
+            @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.md}) {
+              width: 300px;
+            }
+
+            .slider-content {
               height: 100%;
-              display: flex;
-              justify-content: center;
 
-              .item{
+              .image {
+                position: relative;
+                height: 50%;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 20px;
+                border-radius: 24px;
 
-                height: 90%;
-                width: 80%;
-                background: #160046;
-                border-radius: 32px;
-
-                @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-                   width: 300px;
+                .icon {
+                  position: absolute;
+                  border-radius: 50px;
+                  height: 40px;
+                  width: 40px;
+                  left: 20px;
+                  bottom: 0;
+                  overflow: hidden;
+                  right: 12px;
+                  border: 4px solid #160046;
+                  border-radius: 24px;
+                  background: #160046;
                 }
-    
 
-                .slider-content{
-
+                img {
                   height: 100%;
+                  width: 100%;
+                }
+              }
 
-                  
+              .title {
+                height: 50%;
+              }
+            }
+          }
+        }
 
-                  .image{
-                    position: relative;
+        .owl-item.active {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+
+          @media screen and (max-width: ${({ theme }) =>
+              theme.breakPoints.md}) {
+            min-width: 300px;
+            transform: translate(30px, 0px);
+          }
+
+          .item {
+            height: 90%;
+            width: 80%;
+            background: #160046;
+            border-radius: 32px;
+
+            @media screen and (max-width: ${({ theme }) =>
+                theme.breakPoints.md}) {
+              width: 300px;
+            }
+
+            .slider-content {
+              height: 100%;
+
+              .image {
+                position: relative;
+                height: 50%;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 20px;
+                border-radius: 24px;
+
+                .icon {
+                  position: absolute;
+                  border-radius: 50px;
+                  height: 40px;
+                  width: 40px;
+                  left: 20px;
+                  bottom: 0;
+                  overflow: hidden;
+                }
+
+                img {
+                  height: 100%;
+                  width: 100%;
+                }
+              }
+
+              .title {
+                height: 50%;
+                width: 50%;
+                padding-left: 20px;
+                padding-bottom: 20px;
+                padding-top: 20px;
+
+                .top {
+                  height: 20%;
+                  width: 100%;
+
+                  .user-name {
+                    color: white;
+                    font-family: "Steppe";
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 140%;
                     height: 50%;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    padding-top: 20px;
-                    border-radius: 24px;
-
-                    .icon{
-                      position: absolute;
-                      border-radius: 50px;
-                      height: 40px;
-                      width: 40px;
-                      left: 20px;
-                      bottom: 0;
-                      overflow: hidden;
-                      right: 12px;
-                      border: 4px solid #160046;
-                      border-radius: 24px; 
-                      background: #160046;
-
-                    }
-
-                    img{
-                      height: 100%;
-                      width: 100%;
-                    }
-
+                    display: flex;
+                    aling-items: center;
+                    width: 200px;
                   }
 
-                  .title{
-
+                  .summ {
+                    color: white;
                     height: 50%;
+                    display: flex;
+                    align-items: center;
+                    color: #ffffff;
+                    opacity: 0.56;
+                    font-family: "Steppe";
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 140%;
+                  }
+                }
 
+                .center {
+                  height: 60%;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  aling-items: center;
+                  flex-direction: column;
+
+                  .main-subtitle {
+                    font-family: "Steppe";
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 11px;
+                    line-height: 140%;
+                    color: #ffffff;
+
+                    opacity: 0.56;
+                  }
+
+                  .main-title {
+                    font-family: "Steppe";
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 20px;
+                    line-height: 120%;
+                    color: #ffffff;
+                    width: 200px;
+                  }
+                }
+
+                .bottom {
+                  height: 20%;
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+
+                  .bottom-title {
+                    color: white;
                   }
                 }
               }
             }
-            
-            .owl-item.active {
-              
-              height: 100%;
-              display: flex;
-              justify-content: center;
-
-              @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-                min-width: 300px;
-                transform: translate(30px, 0px);
-              }
-
-              .item{
-
-                height: 90%;
-                width: 80%;
-                background: #160046;
-                border-radius: 32px;
-
-                @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
-                   width: 300px;
-                }
-    
-
-                .slider-content{
-
-                  height: 100%;
-
-                  .image{
-                    position: relative;
-                    height: 50%;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    padding-top: 20px;
-                    border-radius: 24px;
-
-                    .icon{
-                      position: absolute;
-                      border-radius: 50px;
-                      height: 40px;
-                      width: 40px;
-                      left: 20px;
-                      bottom: 0;
-                      overflow: hidden;
-
-                    }
-
-                    img{
-                      height: 100%;
-                      width: 100%;
-                    }
-
-                  }
-
-                  .title{
-
-                    height: 50%;
-                    width: 50%;
-                    padding-left: 20px;
-                    padding-bottom: 20px;
-                    padding-top: 20px;
-                    
-                    .top{
-                      height: 20%;
-                      width: 100%;
-        
-                      .user-name{
-                        color:white;
-                        font-family: 'Steppe';
-                        font-style: normal;
-                        font-weight: 600;
-                        font-size: 16px;
-                        line-height: 140%;
-                        height: 50%;
-                        display: flex;
-                        aling-items: center;
-                        width: 200px;
-        
-                      }
-        
-                      .summ{
-                        color: white;
-                        height: 50%;
-                        display: flex;
-                        align-items: center;
-                        color: #FFFFFF;
-                        opacity: 0.56;
-                        font-family: 'Steppe';
-                        font-style: normal;
-                        font-weight: 500;
-                        font-size: 14px;
-                        line-height: 140%;
-                      }
-                    }
-
-                    .center{
-                      height: 60%;
-                      width: 100%;
-                      display: flex;
-                      justify-content: center;
-                      aling-items: center;
-                      flex-direction: column;
-        
-                      .main-subtitle{
-                        font-family: 'Steppe';
-                        font-style: normal;
-                        font-weight: 500;
-                        font-size: 11px;
-                        line-height: 140%;
-                        color: #FFFFFF;
-        
-                        opacity: 0.56;
-        
-                      }
-
-
-                      .main-title{
-                        font-family: 'Steppe';
-                        font-style: normal;
-                        font-weight: 600;
-                        font-size: 20px;
-                        line-height: 120%;
-                        color: #FFFFFF;
-                        width: 200px;
-                        
-                      }
-                    }
-
-                    .bottom{
-                      height: 20%;
-                      width: 100%;
-                      display: flex;
-                      align-items: center;
-        
-                      .bottom-title{
-                        
-                        color: white;
-        
-                      }
-                    }
-
-                  }
-                }
-              }
-            }
-         }
-
+          }
+        }
       }
-
-   }
-`
+    }
+  }
+`;
 
 export const ButtonDefault = styled.button`
-
-`
+  
+`;
