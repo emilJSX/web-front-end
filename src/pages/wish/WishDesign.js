@@ -121,8 +121,8 @@ const WishDesign = () => {
                     <img
                       className="rounded-full w-6 h-6 mr-3"
                       src={
-                        GetUserWishDataResult?.user.image
-                          ? GetUserWishDataResult?.user.image
+                        GetUserWishDataResult?.user?.image
+                          ? GetUserWishDataResult?.user?.image
                           : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
                       }
                       alt=""

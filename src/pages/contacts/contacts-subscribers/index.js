@@ -224,7 +224,7 @@ const ContactsPage = () => {
                   <Link to={`/profile/${data?.name}`}>
                     <UserUsername>{data?.full_name}</UserUsername>
                   </Link>
-                  {/* <BsCheckCircleFill className="check" /> */}
+                  {data.verify && <BsCheckCircleFill className="check" />}
                   <Subscribebtn
                     className="cursor-pointer"
                     id={data.id}
@@ -269,7 +269,9 @@ const ContactsPage = () => {
                   <Link to={`/profile/${dataFollows?.name}`}>
                     <UserUsername>{dataFollows.full_name}</UserUsername>
                   </Link>
-                  {/* <BsCheckCircleFill className="check" /> */}
+                  {dataFollows.verify && (
+                    <BsCheckCircleFill className="check" />
+                  )}
                   <Unsubscribe
                     className="cursor-pointer"
                     onClick={() => unfollowUser(dataFollows)}

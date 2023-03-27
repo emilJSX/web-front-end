@@ -146,6 +146,7 @@ const MyProfile = () => {
       try {
         const { data } = await myaxiosprivate.get("/api/v1/user/");
         setUserProfile(data.data);
+        setJoinDate(data.data.joined);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -154,26 +155,6 @@ const MyProfile = () => {
     };
     fetchUserData();
   }, []);
-
-  useEffect(() => {
-    const fetchJoinDate = async () => {
-      setLoading(true);
-      try {
-        if (!userProfile) {
-          return;
-        }
-        const { data } = await myaxiosprivate.get("/api/v1/user/other", {
-          params: { user_id: userProfile.user_id },
-        });
-        setJoinDate(data.data.info.joined);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-    fetchJoinDate();
-  }, [userProfile]);
   useEffect(() => {
     const fetchUserWishes = async () => {
       try {
@@ -185,7 +166,7 @@ const MyProfile = () => {
     };
     fetchUserWishes();
   }, []);
-
+  console.log(userProfile);
   const navigate = useNavigate();
   function getWishesListRoute() {
     navigate("/wish-list");
@@ -268,8 +249,8 @@ const MyProfile = () => {
                 radius="lg"
                 className="rainbow w-full h-[300px] bg-center bg-cover rounded-xl"
                 src={
-                  userProfile.info.background_image
-                    ? userProfile.info.background_image
+                  userProfile?.info?.background_image
+                    ? userProfile?.info?.background_image
                     : estetika
                 }
               />
@@ -286,8 +267,8 @@ const MyProfile = () => {
                   radius="lg"
                   className="rainbow md:w-full w-[96.8%] h-[300px] bg-center bg-cover"
                   src={
-                    userProfile.info.background_image
-                      ? userProfile.info.background_image
+                    userProfile?.info?.background_image
+                      ? userProfile?.info?.background_image
                       : estetika
                   }
                 />
@@ -318,11 +299,13 @@ const MyProfile = () => {
                       : `${userProfile?.info?.avatar}`
                   }
                 />
-                <Namesurname>{userProfile?.info?.full_name}</Namesurname>
-                {/* <HiBadgeCheck className='bluechek' /> */}
+                <Namesurname>
+                  {userProfile?.info?.full_name}
+                  {userProfile.verify && <HiBadgeCheck className="bluechek" />}
+                </Namesurname>
                 <TagName> @{userProfile?.info?.slug}</TagName>
                 <Text>
-                  {userProfile.info.interests
+                  {userProfile?.info?.interests
                     .map((item) => item.name)
                     .join(", ")}
                 </Text>

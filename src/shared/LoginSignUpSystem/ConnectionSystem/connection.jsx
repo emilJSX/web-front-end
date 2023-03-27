@@ -602,7 +602,11 @@ export function SignUp_ConnectionSystem({
   const handleUpdateInfoProfile = async (e) => {
     e.preventDefault();
     const date = moment(formData.dob, "DD.MM.YYYY", true);
-    if (date.isValid()) {
+    let validPhone =
+      /([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/.test(
+        formData.phone
+      );
+    if (date.isValid() && validPhone) {
       await myaxiosprivate
         .post("api/v1/profiles/update", {
           full_name: formData.full_name,
@@ -617,7 +621,7 @@ export function SignUp_ConnectionSystem({
           setProfileErr(err.message);
         });
     } else {
-      setDobError("Invalid birthday");
+      setDobError("Invalid birthday or phone number");
     }
   };
 
@@ -1048,6 +1052,9 @@ export function SignUp_ConnectionSystem({
               {profileErr && (
                 <p className="mx-14 my-2 text-red-500 text-xs">{profileErr}</p>
               )}
+              {dobError && (
+                <p className="mx-14 my-2 text-red-500 text-xs">{dobError}</p>
+              )}
               <Selects
                 onChange={(e) =>
                   setFormData({
@@ -1067,7 +1074,7 @@ export function SignUp_ConnectionSystem({
               </Selects>
               <Number
                 id="number"
-                type="text"
+                type="tel"
                 required
                 onChange={(e) =>
                   setFormData({
@@ -1089,9 +1096,7 @@ export function SignUp_ConnectionSystem({
                 }
                 placeholder="Full name"
               />
-              {dobError && (
-                <p className="mx-14 my-2 text-red-500 text-xs">{dobError}</p>
-              )}
+
               <Number
                 className="mb-3"
                 required

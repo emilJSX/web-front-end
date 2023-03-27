@@ -66,90 +66,90 @@ import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
 import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
 import { BiX } from "react-icons/bi";
 
-const SetProfileEditButtonsEvent = () => {
-  const edit_buttons = document.querySelectorAll(".editing-buttons");
+// const SetProfileEditButtonsEvent = () => {
+//   const edit_buttons = document.querySelectorAll(".editing-buttons");
 
-  for (const iterator of edit_buttons) {
-    iterator.addEventListener("click", (e) => {
-      OnSetProfileEditPathClick(e.currentTarget);
-    });
-  }
-};
+//   for (const iterator of edit_buttons) {
+//     iterator.addEventListener("click", (e) => {
+//       OnSetProfileEditPathClick(e.currentTarget);
+//     });
+//   }
+// };
 
-const OnSetProfileEditPathClick = (clicked) => {
-  let element_id = clicked.getAttribute("id");
+// const OnSetProfileEditPathClick = (clicked) => {
+//   let element_id = clicked.getAttribute("id");
 
-  switch (element_id) {
-    case "editing-buttons1":
-      document
-        .querySelector("#editing-buttons1")
-        .setAttribute(
-          "style",
-          "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
-        );
-      document
-        .querySelector("#editing-buttons2")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons3")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons4")
-        .setAttribute("style", "background: white; border: 0;");
-      break;
-    case "editing-buttons2":
-      document
-        .querySelector("#editing-buttons1")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons2")
-        .setAttribute(
-          "style",
-          "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
-        );
-      document
-        .querySelector("#editing-buttons3")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons4")
-        .setAttribute("style", "background: white; border: 0;");
-      break;
-    case "editing-buttons3":
-      document
-        .querySelector("#editing-buttons1")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons2")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons3")
-        .setAttribute(
-          "style",
-          "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
-        );
-      document
-        .querySelector("#editing-buttons4")
-        .setAttribute("style", "background: white; border: 0;");
-      break;
-    case "editing-buttons4":
-      document
-        .querySelector("#editing-buttons1")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons2")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons3")
-        .setAttribute("style", "background: white; border: 0;");
-      document
-        .querySelector("#editing-buttons4")
-        .setAttribute(
-          "style",
-          "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
-        );
-      break;
-  }
-};
+//   switch (element_id) {
+//     case "editing-buttons1":
+//       document
+//         .querySelector("#editing-buttons1")
+//         .setAttribute(
+//           "style",
+//           "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
+//         );
+//       document
+//         .querySelector("#editing-buttons2")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons3")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons4")
+//         .setAttribute("style", "background: white; border: 0;");
+//       break;
+//     case "editing-buttons2":
+//       document
+//         .querySelector("#editing-buttons1")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons2")
+//         .setAttribute(
+//           "style",
+//           "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
+//         );
+//       document
+//         .querySelector("#editing-buttons3")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons4")
+//         .setAttribute("style", "background: white; border: 0;");
+//       break;
+//     case "editing-buttons3":
+//       document
+//         .querySelector("#editing-buttons1")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons2")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons3")
+//         .setAttribute(
+//           "style",
+//           "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
+//         );
+//       document
+//         .querySelector("#editing-buttons4")
+//         .setAttribute("style", "background: white; border: 0;");
+//       break;
+//     case "editing-buttons4":
+//       document
+//         .querySelector("#editing-buttons1")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons2")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons3")
+//         .setAttribute("style", "background: white; border: 0;");
+//       document
+//         .querySelector("#editing-buttons4")
+//         .setAttribute(
+//           "style",
+//           "background: #EBE5F7; border: 2px solid #3800B0; border-radius: 8px;"
+//         );
+//       break;
+//   }
+// };
 
 const SetGenderButtonsClick = () => {
   let gender_buttuns = document.querySelectorAll(".gender_buttuns");
@@ -430,12 +430,12 @@ const ProfileEdit = () => {
     }
   };
 
-  useEffect(() => {
-    setClickOnOptions();
-    SetProfileEditButtonsEvent();
-    SetGenderButtonsClick();
-    // SetSaveAndCancelButtonsClick();
-  });
+  // useEffect(() => {
+  //   setClickOnOptions();
+  //   SetProfileEditButtonsEvent();
+  //   SetGenderButtonsClick();
+  //   // SetSaveAndCancelButtonsClick();
+  // });
 
   const data = [
     {
@@ -594,6 +594,10 @@ const ProfileEdit = () => {
   const handleFileSelect = (e) => {
     setFile(e.target.files[0]);
   };
+
+  useEffect(() => {
+    setUserInfo({ ...userInfo, avatar: file && URL.createObjectURL(file) });
+  }, [file]);
   // const handleChangeUserInfo = (e) => {
   //   const { name, value } = e.target;
   //   setUserInfo((prevState) => ({ ...prevState, [name]: value }));
@@ -653,16 +657,15 @@ const ProfileEdit = () => {
       userInfo.country?.id || userInfo.country || country.id
     );
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
-
-    console.log(userInfo.country, country, userInfo.country.id);
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Successfully updated");
+        location.reload();
       })
       .catch((err) => {
         toast.error(err.message);
@@ -721,7 +724,6 @@ const ProfileEdit = () => {
     });
   };
   // ============================================================================================================================
-
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
 
