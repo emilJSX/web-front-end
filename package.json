@@ -57,6 +57,7 @@
     "reactjs-social-login": "^2.6.2",
     "sass": "^1.57.1",
     "sassy-datepicker": "^0.10.2",
+    "socket.io-client": "^4.6.1",
     "source-map-loader": "^4.0.1",
     "styled-components": "^5.3.5",
     "styled-system": "^5.1.5",
