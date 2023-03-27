@@ -47,12 +47,9 @@ const WishList = () => {
 
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
-
   const [categories, setCategories] = useState();
 
-  const buttonTitles = [
-    { id: 0, title: "All" },
-  ];
+  const buttonTitles = [{ id: 0, title: "All" }];
 
   const [sentryRef] = useInfiniteScroll({
     loading: loading,
@@ -152,7 +149,7 @@ const WishList = () => {
       </div>
     );
   }
-  
+
   return (
     <BlogMainSection fluid>
       <div className="instruction">
@@ -175,8 +172,8 @@ const WishList = () => {
       <ButtonSection>
         <div className="btn-section">
           <div className="btn-container">
-          {buttonTitles?.map((category) => (
-              <Tab value={category.title}>
+            {buttonTitles?.map((category) => (
+              <Tab key={category.id} value={category.title}>
                 <button
                   className={
                     category.id == 0
@@ -201,7 +198,7 @@ const WishList = () => {
               </Tab>
             ))}
             {categories?.map((category) => (
-              <Tab value={category.name}>
+              <Tab key={category.id} value={category.name}>
                 <button
                   className={
                     category.id == 0
@@ -259,7 +256,7 @@ const WishList = () => {
         <Grid>
           {getAllWishData?.length === 0 && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
-            <Grid.Col xs={12} sm={6} md={3} lg={3}>
+            <Grid.Col key={getWishList.id} xs={12} sm={6} md={3} lg={3}>
               <Wrapper
                 className="cart-item"
                 onMouseOver={(e) => {
@@ -301,7 +298,7 @@ const WishList = () => {
                   </button>
                   <div className="image-background"></div>
                   <ImgWrapper
-                    src={`https://api.wishx.me${getWishList.image}`}
+                    src={`${process.env.REACT_APP_API_URL}${getWishList.image}`}
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>

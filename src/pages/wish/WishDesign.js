@@ -21,6 +21,7 @@ import CoffeeIcon from "../../assets/svg/coffee.svg";
 import { HiOutlineFilter } from "react-icons/hi";
 import { useLocation, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
+import Share from "../wish-pagess/Share";
 
 export const giftAmounts = [
   {
@@ -95,7 +96,7 @@ const WishDesign = () => {
 
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
   //   END
 
   return (
@@ -106,32 +107,7 @@ const WishDesign = () => {
             <div className="rounded-[24px] mb-4">
               <img src={UserGetCreationImgWish} alt="" />
             </div>
-            <div className="bg-white rounded-[24px] p-4 md:p-8 flex items-center justify-between mb-4">
-              <button
-                className="font-dynamic font-dynamic--sm text-[#3800B0]"
-                style={{ "--fw": 600 }}
-              >
-                Share
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <BsFacebook />
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <BsTwitter />
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <FaTelegram />
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <BsWhatsapp />
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <IoMailOutline />
-              </button>
-              <button className="text-[#3800B0] text-xl">
-                <RiLinksFill />
-              </button>
-            </div>
+            <Share page="wish" slug={state ? state : slug} />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
@@ -144,7 +120,11 @@ const WishDesign = () => {
                   <div className="flex items-center mr-3">
                     <img
                       className="rounded-full w-6 h-6 mr-3"
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+                      src={
+                        GetUserWishDataResult?.user?.image
+                          ? GetUserWishDataResult?.user?.image
+                          : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                      }
                       alt=""
                     />
                     <div className="flex items-center flex-wrap">

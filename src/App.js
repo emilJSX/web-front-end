@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppProvider from "./provider/AppProvider";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
@@ -39,8 +39,17 @@ import { Rating } from "@mui/material";
 import Calendar from "./pages/calendar";
 import Payment from "./pages/payment";
 import Wish_pages_three from "./pages/wish-pagess/indexthree";
+import { io } from "socket.io-client";
 
 const App = () => {
+  useEffect(() => {
+    let socket = io(`${process.env.REACT_APP_API_URL}/socket_io/`);
+    socket.on("notifications.90", (data) => {
+      console.log(data);
+    });
+    console.log(socket);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />

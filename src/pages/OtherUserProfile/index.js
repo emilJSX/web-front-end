@@ -81,7 +81,10 @@ import { DateTime } from "luxon";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import { useSelector } from "react-redux";
 import { useAuthSelector } from "../../store/slices/authSlice";
-import { Login_ConnectionSystem, SignUp_ConnectionSystem } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
+import {
+  Login_ConnectionSystem,
+  SignUp_ConnectionSystem,
+} from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
@@ -218,8 +221,15 @@ const OtherUserProfile = () => {
   }
   return (
     <Body>
-      {showes && <Login_ConnectionSystem showRegister={setShow} setShowes={setShowes} /> }
-      {show && <SignUp_ConnectionSystem setShowes={setShowes} setregisterModal={setShow} />}
+      {showes && (
+        <Login_ConnectionSystem showRegister={setShow} setShowes={setShowes} />
+      )}
+      {show && (
+        <SignUp_ConnectionSystem
+          setShowes={setShowes}
+          setregisterModal={setShow}
+        />
+      )}
       <div className="main-container">
         <div>
           <FotoSection fluid>
@@ -267,6 +277,10 @@ const OtherUserProfile = () => {
                     ? UserInfoProfile?.info?.full_name
                     : "FullName does not exist"}
                 </Namesurname>
+                {console.log(UserInfoProfile)}
+                {UserInfoProfile?.verify && (
+                  <HiBadgeCheck className="bluechek" />
+                )}
                 {/* <HiBadgeCheck className='bluechek' /> */}
                 <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
                 {/* <Text>Spec, Child, Chaos and Shadow</Text> */}

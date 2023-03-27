@@ -167,7 +167,11 @@ export const HeaderShared = ({ user, error, loading }) => {
                   left: "51px",
                 }}
               />
-              <ProfilWish>{user?.info.wishes_count} wishes • $0</ProfilWish>
+              {console.log(user)}
+              <ProfilWish>
+                {user?.info.wishes_count} wishes •{" "}
+                {user?.balance ? "$" + user.balance : "$0"}
+              </ProfilWish>
               <div
                 className={
                   !getOpenedMenu
