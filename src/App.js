@@ -43,8 +43,8 @@ import { io } from "socket.io-client";
 
 const App = () => {
   useEffect(() => {
-    let socket = io(`${process.env.REACT_APP_API_URL}/socket_io/`);
-    socket.on("notifications.90", (data) => {
+    let socket = io();
+    socket.on("/notifications.90", (data) => {
       console.log(data);
     });
     console.log(socket);

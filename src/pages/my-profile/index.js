@@ -166,7 +166,6 @@ const MyProfile = () => {
     };
     fetchUserWishes();
   }, []);
-  console.log(userProfile);
   const navigate = useNavigate();
   function getWishesListRoute() {
     navigate("/wish-list");
@@ -196,7 +195,6 @@ const MyProfile = () => {
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
     setCoverImg(file);
-    console.log(coverImg);
     const formData = new FormData();
     formData.append("file", file && file);
 
@@ -211,7 +209,7 @@ const MyProfile = () => {
             location.reload();
           }, 150);
         })
-        .catch((err) => console.log(err.message)));
+        .catch((err) => console.log(err.message))); //set error
   };
   if (loading) {
     return (
