@@ -47,11 +47,7 @@ const App = () => {
   const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
-    let socket = io(`${process.env.REACT_APP_API_URL}/socket.io/`, {
-      auth: {
-        token: token,
-      },
-    });
+    let socket = io(`${process.env.REACT_APP_API_URL}/socket.io/`);
     socket.on("connect", () => {
       console.log("Socket connected:", socket.id);
     });

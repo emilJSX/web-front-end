@@ -1446,7 +1446,7 @@ export const PictureDropDown = styled.div`
 `;
 
 export const StatusPedding = styled.div`
-  display: none;
+
   @media (max-width: 645px) {
     display: flex;
     flex-direction: column;
@@ -1569,7 +1569,6 @@ export const StatusPedding = styled.div`
 `;
 
 export const Compleated = styled.div`
-  display: none;
   .compleated-icon {
     height: 120px;
     display: flex;
