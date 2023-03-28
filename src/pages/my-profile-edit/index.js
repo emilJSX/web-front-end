@@ -690,6 +690,7 @@ const ProfileEdit = () => {
           toast.success("Successfully send passport", {
             position: toast.POSITION.TOP_RIGHT,
           });
+          location.reload();
         });
     } catch (error) {
       toast.error("Please check your details", {
