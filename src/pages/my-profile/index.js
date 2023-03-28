@@ -606,7 +606,7 @@ const MyProfile = () => {
                   ) : (
                     <div>
                       <CardLonger>
-                        <NotWishes>Yo don’t have any wishes</NotWishes>
+                        <NotWishes>You don’t have any wishes</NotWishes>
                         <Buttons>
                           <Buttonleft>Create a wish</Buttonleft>
                           <Buttonright onClick={getWishesListRoute}>
