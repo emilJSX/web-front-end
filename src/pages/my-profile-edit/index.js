@@ -1116,7 +1116,31 @@ const ProfileEdit = () => {
               </PasswordSettings>
             </TabPanel>
             <TabPanel value="verification">
-              <PictureUpload>
+              {userInfo.verify === null && (
+                <StatusPedding className="status-padding">
+                  <h1 className="status-pedding-title">Status pending</h1>
+                  <p className="status-pedding-main-title">
+                    Your documents have been sent for verification! Moderators
+                    will <br />
+                    review your application as soon as possible. Thanks for
+                    waiting
+                  </p>
+                  <h5
+                    className="contact-administration-title"
+                    onClick={() => {
+                      document
+                        .querySelector(".status-padding")
+                        .setAttribute("style", "display: none");
+                      document
+                        .querySelector(".compleated")
+                        .setAttribute("style", "display: block");
+                    }}
+                  >
+                    Contact the administration
+                  </h5>
+                </StatusPedding>
+              )}
+              {userInfo.verify === false && (
                 <PictureUploadComponents className="picture-upload">
                   <form onSubmit={handleVerifyPassport}>
                     <p className="title">
@@ -1178,28 +1202,8 @@ const ProfileEdit = () => {
                     </div>
                   </form>
                 </PictureUploadComponents>
-                <StatusPedding className="status-padding">
-                  <h1 className="status-pedding-title">Status pending</h1>
-                  <p className="status-pedding-main-title">
-                    Your documents have been sent for verification! Moderators
-                    will <br />
-                    review your application as soon as possible. Thanks for
-                    waiting
-                  </p>
-                  <h5
-                    className="contact-administration-title"
-                    onClick={() => {
-                      document
-                        .querySelector(".status-padding")
-                        .setAttribute("style", "display: none");
-                      document
-                        .querySelector(".compleated")
-                        .setAttribute("style", "display: block");
-                    }}
-                  >
-                    Contact the administration
-                  </h5>
-                </StatusPedding>
+              )}
+              {userInfo.verify && (
                 <Compleated className="compleated">
                   <div className="compleated-icon">
                     <div className="compleated-icon-item">
@@ -1216,7 +1220,8 @@ const ProfileEdit = () => {
                     Contact the administration
                   </h5>
                 </Compleated>
-              </PictureUpload>
+              )}
+              <PictureUpload></PictureUpload>
             </TabPanel>
             <TabPanel value="sociallink">
               <ToastContainer />
