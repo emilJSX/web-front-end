@@ -357,33 +357,4 @@ const ContactsPage = () => {
   );
 };
 
-// class ContactsPage extends Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {isVisible: false}
-//         this.onToggle = this.onToggle.bind(this);
-//     }
-
-//     onToggle(e) {
-//         this.setState({isVisible: !this.state.isVisible})
-//     }
-
-//     componentWillUnmount() {
-//         console.log("TEST COMPONENT DID MOUNTTTTTTTTTTTTTTTTTTTT")
-//         const GetUserAuthToken =  localStorage.getItem("UserToken=")
-//         axios.get("https://api.wishx.me/api/v1/follows/list?skip=0", {
-//             headers: {
-//                 'Authorization': `Bearer ${GetUserAuthToken}`
-//             }
-//         }).then((userFollowsData) => {
-//             const getResultDataFollows = userFollowsData.data.data
-//             this.setState({getResultDataFollows})
-
-//         })
-//     }
-
-//     render() {
-//         console.log(this.state, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-//         return (
-
 export default ContactsPage;

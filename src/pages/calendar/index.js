@@ -130,10 +130,8 @@ function Calendar() {
   const nextDay = () => {
     const newDate = currentDate.add(1, "day");
     setCurrentDate(newDate);
-    console.log(newDate);
     const formattedDate = dayjs(newDate.$d).format("DD.MM.YYYY");
     getCalendarThisDay(formattedDate);
-    console.log(formattedDate);
   };
 
   const prevDay = () => {
@@ -143,11 +141,9 @@ function Calendar() {
     }
     const newDate = currentDate.subtract(1, "day");
     setCurrentDate(newDate);
-    console.log(newDate);
     const formattedDate = dayjs(newDate.$d).format("DD.MM.YYYY");
 
     getCalendarThisDay(formattedDate);
-    console.log(formattedDate);
   };
 
   const getCalendarThisDay = async (date) => {
@@ -173,8 +169,6 @@ function Calendar() {
   const getFormatMonthYear = currentDate.format(dateFormatYear);
   const getFormatDay = currentDate.format(dateFormatDay);
 
-  console.log(getFormatDay);
-  console.log(currentDate);
   const showToday = () => {
     if (currentDayRef.current) {
       currentDayRef.current.scrollIntoView({ behavior: "smooth" });
@@ -323,7 +317,6 @@ function Calendar() {
             style={{ background: "aliceblue", boxShadow: "none" }}
           >
             <>
-              {console.log(item)}
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -389,7 +382,6 @@ function Calendar() {
                 paddingBottom: "15px;",
               }}
             >
-              {console.log(getCalendarthisday)}
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"

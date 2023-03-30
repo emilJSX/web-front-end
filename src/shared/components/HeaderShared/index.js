@@ -49,11 +49,9 @@ export const HeaderShared = ({ user, error, loading }) => {
 
   function GetWishNameForCreation() {
     if (isAuth) {
-      console.log("TRUE");
       navigate("/creating-wish");
     } else {
       setShowes(true);
-      console.log("False");
     }
   }
 
@@ -167,7 +165,6 @@ export const HeaderShared = ({ user, error, loading }) => {
                   left: "51px",
                 }}
               />
-              {console.log(user)}
               <ProfilWish>
                 {user?.info.wishes_count} wishes •{" "}
                 {user?.balance ? "$" + user.balance : "$0"}

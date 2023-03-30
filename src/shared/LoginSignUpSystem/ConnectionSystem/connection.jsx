@@ -763,7 +763,6 @@ export function SignUp_ConnectionSystem({
       await myaxiosprivate
         .post("/api/v1/auth/social?", formData)
         .then((res) => {
-          console.log(res);
           const token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);

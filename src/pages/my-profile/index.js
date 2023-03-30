@@ -192,6 +192,7 @@ const MyProfile = () => {
     fileInputRef.current.click();
   };
   const [uploadMessage, setUploadMessage] = useState("");
+  const [coverError, setCoverError] = useState("");
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
     setCoverImg(file);
@@ -209,7 +210,7 @@ const MyProfile = () => {
             location.reload();
           }, 150);
         })
-        .catch((err) => console.log(err.message))); //set error
+        .catch((err) => setCoverError(err.message))); //set error
   };
   if (loading) {
     return (

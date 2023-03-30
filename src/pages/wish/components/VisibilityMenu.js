@@ -81,7 +81,6 @@ const VisibilityMenu = ({ controlLabel, setVisibility, menuId }) => {
     const id = e.target.id;
     const selectedOption = options.find((option) => option.id === id)
     if (selectedOption) {
-      console.log(setVisibility)
       setVisibility(selectedOption.title)
     }
   }

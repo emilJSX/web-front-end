@@ -83,7 +83,6 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
-  // console.log(getResultApiSearch[0]);
 
   if (loading) {
     return (
