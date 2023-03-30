@@ -504,7 +504,7 @@ const MyProfile = () => {
                               Explore wishes
                             </Buttonright>
                           </Buttons>
-                          <Glasses src={file1} />
+                          {/*<Glasses src={file1} />*/}
                         </CardLonger>
                         {/* <Division>
                                                         <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>

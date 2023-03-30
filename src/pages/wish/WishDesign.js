@@ -105,7 +105,7 @@ const WishDesign = () => {
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4">
-              <img src={UserGetCreationImgWish} alt="" />
+              <img className="rounded-[24px]" src={UserGetCreationImgWish} alt="" />
             </div>
             <Share page="wish" slug={state ? state : slug} />
             {/* <button className="flex items-center text-[#8866D0]">

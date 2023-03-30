@@ -17,10 +17,6 @@ Q
 !src/shared/LogIn-SingUp/Third.jsx,2\c\2c4cdb921952da4e6e1e4af7e87da9aac6a57765
 O
 src/pages/editing-wish/index.js,a\1\a1c124d4015a0574d8c48b994a6dc84ae7b0b9d3
-P
- src/pages/my-profile/CardData.js,8\b\8b1bd2e067d4bfb783a5107cb0ff20cd0004cbf6
-M
-src/pages/my-profile/index.js,4\8\4888332648f4c5f2dc4adbec168f1fbf002bc5ac
 a
 1src/shared/LoginSignUpSystem/PhoneNumber/index.js,c\2\c2bd4049f888c115dcbd3665694b603117685f14
 Q
@@ -43,12 +39,6 @@ j
 :src/pages/contacts/contacts-subscribers/UnsubscribeData.js,9\2\9280184b6c43c818e7d8dafcc29da0081830c262
 i
 9src/pages/contacts/contacts-subscribers/SuggestionData.js,f\3\f3500e93442dfa5f8c1a8225477596319e05aa9a
-`
-0src/pages/contacts/contacts-subscribers/index.js,2\f\2fa684aacb30467299e74c2d6b355425e320dffb
-R
-"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf
-a
-1src/pages/my-profile-edit/MyProfileEdit.styles.js,4\3\43753aa3382d2c0fa44d8491d444092c52bdbc19
 M
 src/shared/ui/Button/index.js,2\5\258c1f71a1983b6a5b2f876adc39c0801ad08c7e
 b
@@ -65,12 +55,6 @@ H
 src/assets/svg/stamp.svg,7\0\708a6c70def68e9b72cc35c3170ce5d6a10f3762
 U
 %src/pages/search/SearchCard.styled.js,0\0\00d1b12d5f5b4906f3ceb41c0baabdf30cb3e47d
-R
-"src/pages/wish-pagess/indexfour.js,9\4\94316b81c6008d8a5ed20dafd85a647c34d91dba
-T
-$src/pages/wish-pagess/indexsecond.js,e\e\ee221ba0e006e88e16478b2728805f47649739fd
-S
-#src/pages/wish-pagess/indexthree.js,3\f\3f46956d9bc81e9fb718ea6d5ed0e191173d5825
 N
 src/pages/search/Onlysearch.js,1\a\1a49aa6731f41d8ba2c578722ed85510b1ed3991
 N
@@ -86,15 +70,11 @@ Y
 Q
 !src/pages/blog/blog-post/index.js,d\e\de8fe41623504097974c5dbf551bb7b32d8970c4
 [
-+src/pages/blog/blog-main/BlogMain.Styled.js,4\7\4764ae83317be4465cc9f2a1a31e90a3e7e5541d
-[
 +src/pages/blog/blogsearch-noResult/index.js,2\1\21047b382e9b262414bbad760880ee7e00a3f414
 M
 src/shared/ui/İnput/index.js,7\7\77d57be81efbc8ecb05a571b016751eb0109e4dd
 T
 $src/shared/ui/İnput/Input.Styled.js,d\5\d5be77ead974be2fba060eb92a1cfaea772128a6
-Q
-!src/pages/blog/blog-main/index.js,3\1\3111626b5edceb76bf9adff48f45223646e7e9cf
 Z
 *src/pages/blog/blog-search-result/index.js,a\5\a5d4acd902fd4e3dcd106c46e876de6898af8e8f
 b
@@ -121,11 +101,6 @@ P
 +src/shared/components/aside/Aside.Styled.js,a\d\ad0c0d3fed21ec4a50ce74859ad5ea4227d177e6
 T
 $src/shared/components/aside/index.js,d\b\dbaf6f29c155685055517dac07fe41750c4176e8
-W
-'src/pages/my-profile/MyProfile.style.js,a\9\a91271383ba05c7d3ba897913ccfd3685ce0dc7b
-:
-
-src/App.js,1\e\1e43fa63aecd2127be034b3fb9d4caa172275714
 K
 src/provider/AppProvider.js,4\0\40817315c30da4059c26a04fdce1f3812f5ae15f
 N

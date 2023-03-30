@@ -266,64 +266,47 @@ export const Pass = styled.a`
     }
 `;
 export const CardLonger = styled.div`
-    margin-top: 24px;
-    width: 98%;
-    height: 375px;
-    border-radius: 24px;
-    margin-bottom: 64px;
-    @media(max-width: 480px){
-        width: 343px;
-        height: 144px;
-        border-radius: 16px;
-        margin: 16px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    margin: 48px 72px 48px auto;
+    max-width: 520px;
+    
+    @media (max-width: 992px) {
+        margin: 48px auto;
     }
- 
-  
 `;
 export const NotWishes = styled.p`
-
-    width: 510px;
-    height: 48px;
-    float: right;
     font-weight: 600;
-    font-family: revert;
     font-size: 40px;
     color: #6033C0;
+    text-align: center;
+    margin-bottom: 8px;
 `;
 export const Buttons = styled.div`
-width: 400px;
-height: 56px;
-
+    display: flex;
+    justify-content: center;
 `;
 export const Buttonleft = styled.button`
-    width: 150px;
     background: #3800B0;
-    height: 56px;
-    float: left;
     border-radius: 8px;
     text-align: center;
     color: white;
     font-size: 14px;
-    margin-top: 35px;
-    margin-left: 34px;
+    margin-right: 34px;
+    padding: 16px 24px;
 `;
 export const Buttonright = styled.button`
-    width: 144px;
-    height: 56px;
-    float: right;
     border-radius: 8px;
     text-align: center;
     color: #3800B0;
     border: 1px solid #3800B0;
     font-size: 14px;
-    margin-top: 35px;
+    padding: 16px 24px;
 `;
 export const Glasses = styled.img`
     width: 262px;
-    height: 240px;
-    margin-left: 85px;
-    margin-top: 125px;
-
+    margin-top: 24px;
+    align-self: center;
 `;
 
 export const Division = styled.div`
