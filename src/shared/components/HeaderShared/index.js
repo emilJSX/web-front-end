@@ -33,8 +33,10 @@ import {
 import { logout, useAuthSelector } from "../../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { myaxiosprivate, updateToken } from "../../../api/myaxios";
+import Notification from "../NotificationMenu/Notification";
 export const HeaderShared = ({ user, error, loading }) => {
   const [opened, setOpened] = useState(false);
+  const [notifShow, setNotifShow] = useState(false);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
   const [getOpenedMenu, setOpenedMenu] = useState(false);
@@ -45,6 +47,7 @@ export const HeaderShared = ({ user, error, loading }) => {
   const [userData, setUserData] = useState();
   const toggleOptions = () => {
     setOpenedMenu(!getOpenedMenu);
+    notifShow && setNotifShow(false);
   };
 
   function GetWishNameForCreation() {
@@ -119,8 +122,12 @@ export const HeaderShared = ({ user, error, loading }) => {
                   color: "#3800B0",
                   float: "left",
                 }}
+                onClick={() => {
+                  setNotifShow(!notifShow), setOpenedMenu(false);
+                }}
               />
             </CardIcon>
+              <Notification show={notifShow} />
             {user.wishes?.active?.length === 0 && (
               <CreateWishBtn>
                 <Link to="/creating-wish">Create a wish</Link>
