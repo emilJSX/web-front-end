@@ -89,8 +89,6 @@ M
 +src/shared/components/HeaderShared/index.js,c\7\c73a31b0dffec7baacc1ed00c0a8dce88ea1dac8
 W
 'src/shared/ui/dots-toggle-menu/index.js,b\b\bb281f3f74d7dd81f88442e4ac5d218d4ca93e1d
-C
-src/privateRoots.js,2\0\20d8c43cf2aed9652c60f547bbf7a8361f2214a6
 M
 src/pages/home/Home.Styled.js,b\4\b4fd72d472c5297f560573def4dc7f082211d109
 L
@@ -103,5 +101,25 @@ T
 $src/shared/components/aside/index.js,d\b\dbaf6f29c155685055517dac07fe41750c4176e8
 K
 src/provider/AppProvider.js,4\0\40817315c30da4059c26a04fdce1f3812f5ae15f
-N
-src/pages/wish-pagess/Share.js,a\4\a492593a93b7fe0a81530b73d0e2a01a89b3002f
+<
+src/index.js,f\9\f900edc44cb929c2267a16100a32851f6d5b477d
+H
+src/style/pages/home.css,0\1\01a3ce8fb8e7cbdfc17d00c661e961cd704fdaf7
+<
+package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
+=
+src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
+Z
+*src/pages/wish-pagess/Wish-pages.styled.js,5\b\5b33a131f8185ebb847a206f440b37264a1582f1
+P
+ src/pages/my-profile/CardData.js,8\b\8b1bd2e067d4bfb783a5107cb0ff20cd0004cbf6
+\
+,src/pages/my-profile/MyprofilSecond.style.js,f\b\fb60cab23ba2d353677dd9b8ddd13f77efa5d74b
+M
+src/pages/my-profile/index.js,4\8\4888332648f4c5f2dc4adbec168f1fbf002bc5ac
+`
+0src/pages/contacts/contacts-subscribers/index.js,2\f\2fa684aacb30467299e74c2d6b355425e320dffb
+n
+>src/pages/contacts/contacts-subscribers/CSubscribers.styled.js,0\e\0e38250e45a18d28b3d23cd70a2af249e7d78164
+R
+"src/pages/my-profile-edit/index.js,9\6\963a314b0151fc582710759733dbcfac5925f1cf

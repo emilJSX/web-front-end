@@ -41,6 +41,8 @@ import Payment from "./pages/payment";
 import Wish_pages_three from "./pages/wish-pagess/indexthree";
 import { io } from "socket.io-client";
 import { myaxios } from "./api/myaxios";
+import MyWish from "./pages/wish/MyWish";
+import MyWishCompleted from "./pages/wish/MyWishCompleted";
 // import Echo from "laravel-echo/dist/echo";
 
 const App = () => {
@@ -175,6 +177,8 @@ const App = () => {
           />
           <Route path="/set-new-password" element={<Finally />} />
           <Route path="/wish/:slug" element={<WishDesign />} />
+          <Route path="/wish/me" element={<MyWish />} />
+          <Route path="/wish/me/completed" element={<MyWishCompleted />} />
           <Route path="/wish-list" element={<WishList />} /> {/* + */}
           <Route path="/only-search" element={<Onlysearch />} />
           {/* + */}
