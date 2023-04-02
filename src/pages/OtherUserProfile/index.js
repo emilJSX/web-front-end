@@ -96,7 +96,6 @@ const OtherUserProfile = () => {
   const [loading, setLoading] = useState(true);
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
-  console.log(state);
   const tabs_storage = [
     {
       value: "act",
@@ -211,7 +210,6 @@ const OtherUserProfile = () => {
     }
   };
   // END FOLLOW API
-  console.log(UserInfoProfile);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -277,7 +275,6 @@ const OtherUserProfile = () => {
                     ? UserInfoProfile?.info?.full_name
                     : "FullName does not exist"}
                 </Namesurname>
-                {console.log(UserInfoProfile)}
                 {UserInfoProfile?.verify && (
                   <HiBadgeCheck className="bluechek" />
                 )}

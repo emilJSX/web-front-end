@@ -226,7 +226,6 @@ function MyVerticallyCenteredModal(props) {
   }, []);
   const handleDelete = async (otp) => {
     props.onHide();
-    console.log(otp, reason, comment);
     await myaxiosprivate
       .get("/api/v1/profiles/delete?", {
         params: {
@@ -247,11 +246,10 @@ function MyVerticallyCenteredModal(props) {
     await myaxiosprivate
       .get("api/v1/profiles/change/get-code")
       .then(({ data }) => {
-        console.log(data);
         setShow(true);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message);
       });
   };
 
@@ -711,7 +709,7 @@ const ProfileEdit = () => {
         setShow(true);
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message);
       });
   };
   const [oldPassword, setOldPass] = useState();

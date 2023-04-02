@@ -158,11 +158,7 @@ const Home = () => {
   }
 
   function getUserSlugForProfile(id) {
-    if (!id) {
-      console.log(" ");
-    } else {
-      navigate("/profile/" + id, { state: id });
-    }
+    id && navigate("/profile/" + id, { state: id });
   }
 
   const [show, setShow] = useState(false);

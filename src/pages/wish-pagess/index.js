@@ -175,7 +175,7 @@ function Wish_pages() {
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
-        console.log("");
+        setError(err.message);
       });
   }, []);
   const [modalShow, setModalShow] = useState(false);

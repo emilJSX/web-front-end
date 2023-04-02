@@ -77,7 +77,7 @@ const WishDesign = () => {
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
-        console.log("");
+        setError(err.messaage);
       });
 
     myaxiosprivate
