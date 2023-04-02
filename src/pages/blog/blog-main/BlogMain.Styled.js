@@ -65,28 +65,31 @@ export const BlogMainSection = styled(Container)`
   }
 
   .grid-root {
+    margin: 0;
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
       display: block;
+      width: 100%;
+      margin: 0;
     }
   }
 
   .col-root-img {
-    @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-      max-width: 97.6%;
-    }
-
-    @media (min-width: 355px) and (max-width: 370px) {
-      max-width: 97.7%;
-    }
-    @media (min-width: 370px) and (max-width: 390px) {
-      max-width: 97.8%;
-    }
-    @media (min-width: 390px) and (max-width: 400px) {
-      max-width: 97.9%;
-    }
-    @media (min-width: 400px) and (max-width: 431px) {
-      max-width: 98.2%;
-    }
+    // @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    //   //max-width: 97.6%;
+    // }
+    //
+    // @media (min-width: 355px) and (max-width: 370px) {
+    //   max-width: 97.7%;
+    // }
+    // @media (min-width: 370px) and (max-width: 390px) {
+    //   max-width: 97.8%;
+    // }
+    // @media (min-width: 390px) and (max-width: 400px) {
+    //   max-width: 97.9%;
+    // }
+    // @media (min-width: 400px) and (max-width: 431px) {
+    //   max-width: 98.2%;
+    // }
   }
 
   .instruction h2 {
@@ -105,19 +108,29 @@ export const BlogMainSection = styled(Container)`
 
   .img-section {
     object-fit: cover;
-    width: 98%;
+    //width: 98%;
     height: auto;
-    margin-left: 8px;
+    //margin-left: 8px;
 
     @media screen and (min-width: ${({ theme }) => theme.breakPoints.sm}) {
       height: 100%;
     }
 
-    @media (min-width: 430px) {
-      width: 99%;
-    }
+    //@media (min-width: 430px) {
+    //  width: 99%;
+    //}
 
     figure {
+      
+      img {
+        height: 100% !important;
+        object-fit: fill !important;
+        
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+          height: 220px !important;
+        }
+      }
+      
       @media screen and (min-width: ${({ theme }) => theme.breakPoints.sm}) {
         height: 100%;
       }
@@ -130,7 +143,6 @@ export const BlogMainSection = styled(Container)`
         img {
           @media screen and (min-width: ${({ theme }) =>
               theme.breakPoints.sm}) {
-            //height: 100% !important;
           }
         }
       }
@@ -308,7 +320,7 @@ export const CardTopSection = styled(Container)`
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
       font-size: 15px;
       color: #ebe5f7;
-      width: 231%;
+      //width: 231%;
       padding-right: 25px;
       padding-top: 10px;
     }
@@ -328,12 +340,10 @@ export const CardTopSection = styled(Container)`
   }
 
   .read-section {
-    padding-top: 20px;
-    padding-left: 30px;
+    padding: 20px;
 
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-      padding-left: 15px;
-      padding-bottom: 24px;
+      padding: 16px 16px 48px;
     }
   }
 `;

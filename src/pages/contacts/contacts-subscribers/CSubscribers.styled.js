@@ -2,26 +2,26 @@ import { Container } from "@mantine/core";
 import styled from "styled-components";
 
 export const ContactsMainContainer = styled.div`
-    margin: 30px 655px 0px 400px;
+    margin: 30px 655px 48px 400px;
 
     @media (min-width: 1000px) and (max-width: 1200px) {
-        margin: 30px 229px 0px 223px;
+        margin: 30px 229px 48px 223px;
     }
 
     @media (min-width: 768px) and (max-width: 1000px) {
-        margin: 30px 173px 0px 74px;
+        margin: 30px 173px 48px 74px;
     }
 
     @media (min-width: 500px) and (max-width: 650px) {
-        margin: 30px 173px 0px 40px;
+        margin: 30px 173px 48px 40px;
     }
 
     @media (min-width: 650px) and (max-width: 768px){
-        margin: 30px 173px 0px 140px;
+        margin: 30px 173px 48px 140px;
     }
 
     @media (max-width: 500px){
-        margin: 30px 173px 0px 30px;
+        margin: 30px 173px 48px 30px;
     }
 
     .btn-section {

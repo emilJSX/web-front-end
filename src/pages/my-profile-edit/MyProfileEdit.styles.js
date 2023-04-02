@@ -10,6 +10,26 @@ export const ProfileEditing = styled.div`
   .modal-header {
     background: red;
   }
+
+
+  .connect-sosial-netwok-title {
+    width: 100%;
+    font-family: "Steppe";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
+    font-feature-settings: "liga" off;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    margin-left: 50px !important;
+    margin-bottom: 24px;
+    
+    @media (max-width: 768px) {
+      margin-left: 24px !important;
+    }
+  }
 `;
 
 export const LittleContainer = styled.div`
@@ -799,7 +819,6 @@ export const PasswordSettings = styled.div`
   .password-change-title {
     display: flex;
     align-items: flex-end;
-    height: 100px;
     width: 550px;
     font-family: "Steppe";
     font-style: normal;
@@ -809,9 +828,9 @@ export const PasswordSettings = styled.div`
     font-feature-settings: "liga" off;
     color: #000000;
 
-    @media (min-width: 1200px) {
-      padding-left: 50px;
-    }
+    //@media (min-width: 1200px) {
+    //  padding-left: 50px;
+    //}
 
     @media (max-width: 1200px) {
       padding: 0;
@@ -847,7 +866,7 @@ export const PasswordSettings = styled.div`
 
     .password-save-button {
       margin-top: 30px;
-      width: 535px;
+      width: 550px;
       height: 56px;
       background: #3800b0;
       border-radius: 8px;
@@ -913,6 +932,31 @@ export const PasswordSettings = styled.div`
          width: 90%;
       }
    }
+
+    .connect-sosial-netwok-title {
+      height: 150px;
+      width: 100%;
+      font-family: "Steppe";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 28px;
+      line-height: 120%;
+      font-feature-settings: "liga" off;
+      color: #000000;
+      display: flex;
+      align-items: center;
+
+      @media (max-width: 645px) {
+        justify-content: start !important;
+        padding-left: 40px;
+      }
+
+      @media(max-width: 645px){
+        padding-right: 0;
+        padding-left: 16px;
+      }
+    }
+
 `;
 
 export const PictureUpload = styled.div`
@@ -928,6 +972,7 @@ export const PictureUploadComponents = styled.div`
 
       @media(max-width: 645px){
         align-items: center;
+        margin: 0 24px;
       }
 
       @media(max-width: 1200px){
@@ -943,6 +988,10 @@ export const PictureUploadComponents = styled.div`
       .send-btn-passport {
          display: flex;
          justify-content: center;
+        
+          @media(max-width: 645px){
+            justify-content: stretch;
+          }
       }
 
 
@@ -1042,31 +1091,7 @@ export const PictureUploadComponents = styled.div`
         width: 90%;
       }
     }
-  }
 
-  .connetc-sosial-netwok-title {
-    height: 150px;
-    width: 100%;
-    font-family: "Steppe";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 28px;
-    line-height: 120%;
-    font-feature-settings: "liga" off;
-    color: #000000;
-    display: flex;
-    align-items: center;
-
-    @media (max-width: 645px) {
-      justify-content: start !important;
-      padding-left: 40px;
-    }
-
-      @media(max-width: 645px){
-         padding-right: 0;
-        padding-left: 16px;
-      }
-   }
 `;
 
 //     @media (min-width: 1200px) {

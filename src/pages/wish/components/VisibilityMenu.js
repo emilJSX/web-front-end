@@ -7,6 +7,7 @@ import PeopleIcon from "../../../assets/svg/profile-2user.svg";
 import SmilesIcon from "../../../assets/svg/smiles.svg";
 import GhostIcon from "../../../assets/svg/ghost.svg";
 import menuStyles from "./menu.module.css";
+import { useMediaQuery } from "@mantine/hooks";
 
 const useMenuStyles = createStyles((theme) => ({
   body: {
@@ -69,6 +70,7 @@ const options = [
 
 const VisibilityMenu = ({ controlLabel, setVisibility, menuId }) => {
   const { classes: menuClasses } = useMenuStyles();
+  const isMobile = useMediaQuery("(max-width: 1000px)")
 
   const menuClassnames = {
     body: menuClasses.body,
@@ -88,11 +90,11 @@ const VisibilityMenu = ({ controlLabel, setVisibility, menuId }) => {
   return (
     <Menu
       shadow="md"
-      size={420}
+      size={isMobile ? 320 : 420}
       trigger="hover"
       closeOnItemClick={false}
       closeOnScroll={false}
-      position="left"
+      position={isMobile ? "bottom" : "left"}
       classNames={menuClassnames}
       menuId={menuId}
       id={menuId}

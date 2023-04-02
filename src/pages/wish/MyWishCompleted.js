@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
-import WishImage from "../../assets/images/wish.png";
-import {
-  BsFacebook,
-  BsFillHandThumbsUpFill,
-  BsHandThumbsUp,
-  BsThreeDots,
-  BsTwitter,
-  BsWhatsapp,
-} from "react-icons/bs";
-import { FaTelegram } from "react-icons/fa";
-import { IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
-import { RiLinksFill } from "react-icons/ri";
-import { FiAlertTriangle, FiThumbsUp } from "react-icons/fi";
-import VisibilityMenu from "./components/VisibilityMenu";
+import { BsFillHandThumbsUpFill, BsHandThumbsUp, BsThreeDots, } from "react-icons/bs";
 import DonutIcon from "../../assets/svg/donut.svg";
 import SweetIcon from "../../assets/svg/sweet.svg";
 import BurgerIcon from "../../assets/svg/burger.svg";
 import FlowersIcon from "../../assets/svg/flowers.svg";
 import CoffeeIcon from "../../assets/svg/coffee.svg";
 import { HiOutlineFilter } from "react-icons/hi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
+import { Menu } from "@mantine/core";
+import { FaPen } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoImageOutline } from "react-icons/io5";
+import StampIcon from "../../assets/svg/stamp.svg";
+import WishConfetti from "../../assets/svg/wish-confetti.svg";
+import Confetti from "react-confetti";
 
 export const giftAmounts = [
   {
@@ -50,13 +44,14 @@ export const giftAmounts = [
   },
 ];
 
-const WishDesign = () => {
+const MyWishCompleted = () => {
   const [wisherVisibility, setWisherVisibility] = useState("public");
   const [congratsVisibility, setCongratsVisibility] = useState("public");
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [getCategoryId, setCategoryId] = useState(null);
-  const { slug } = useParams();
+  // const { slug } = useParams();
+  const slug = "wx11"
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const { state } = useLocation();
@@ -77,7 +72,7 @@ const WishDesign = () => {
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
-        setError(err.messaage);
+        console.log("");
       });
 
     myaxiosprivate
@@ -101,13 +96,15 @@ const WishDesign = () => {
 
   return (
     <div className="pt-10 bg-[#EBE5F7]">
+      <Confetti/>
       <div className="container">
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4 relative">
-              <img className="rounded-[24px]" src={UserGetCreationImgWish} alt="" />
+              <img className="rounded-[24px]" src={UserGetCreationImgWish} alt=""/>
+              <img className="absolute top-[2px] right-[2px]" src={StampIcon} alt=""/>
             </div>
-            <Share page="wish" slug={state ? state : slug} />
+            <Share page="wish" slug={state ? state : slug}/>
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
@@ -137,7 +134,32 @@ const WishDesign = () => {
                     </div>
                   </div>
                   <button className="text-white text-xl">
-                    <IoNotificationsOutline />
+                    <Menu
+                      size={"sm"}
+                      position="right"
+                      classNames={{
+                        body: "rounded-[16px]",
+                      }}
+                      control={
+                        <button className="flex items-center text-white">
+                          <BsThreeDots/>
+                        </button>
+                      }
+                    >
+                      <Menu.Item>
+                        <button className="flex items-center text-[#3800B0]">
+                          <FaPen className="text-sm !text-[#3800B0]"/>
+                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Edit</span>
+                        </button>
+                      </Menu.Item>
+                      <Menu.Item>
+                        <button className="flex items-center text-[#3800B0]">
+                          <RiDeleteBin6Line className="text-sm !text-[#3800B0]"/>
+                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Delete</span>
+                        </button>
+                      </Menu.Item>
+                    </Menu>
+                    {/*<IoNotificationsOutline/>*/}
                   </button>
                 </div>
                 <h2 className="text-[28px] lg:text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">
@@ -147,95 +169,170 @@ const WishDesign = () => {
                   {GetUserWishDataResult?.description}
                 </p>
               </div>
-              <div className="rounded-[24px] bg-[#EBE5F7] py-[20px] md:py-10 px-[20px] md:px-6 lg:px-12 mb-1">
-                <div className="flex items-center justify-between">
-                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    Target: ${GetUserWishDataResult?.donate?.target}
-                  </p>
-                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    Final: 08.03.2023
-                  </p>
+              <div className="rounded-[20px] bg-[#3800B0] p-6 lg:p-12 flex justify-between">
+                <div>
+                  <div className="flex items-center mb-4">
+                    <p className="text-[#00FF9E] leading-[1.4] font-semibold mr-2">$2 542 total raised</p>
+                    <p className="text-sm leading-[1.4] font-semibold text-white">120%</p>
+                  </div>
+                  <p className="text-sm leading-[1.4] font-semibold text-white">Bradley Cooper reached his goal
+                    ($10,000) and now he can get the gift he dreamed of.</p>
                 </div>
-                <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">
-                  <div className="bg-[#3800B0] rounded-[48px] w-1/3 h-full"></div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">
-                      ${GetUserWishDataResult?.date} raised
-                    </span>
-                    <span className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">
-                      25%{" "}
-                    </span>
-                  </p>
-                  <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    $375 left
-                  </p>
-                </div>
+                <img className="ml-[24px] md:ml-12" src={WishConfetti} alt=""/>
               </div>
-              <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-[13px] leading-[1.4] font-medium text-[#110035]">
-                    Your gift amount
-                  </p>
-                  <div>
-                    <VisibilityMenu
-                      menuId="gift-amount"
-                      controlLabel={giftAmountVisibility}
-                      setWisherVisibility={setGiftAmountVisibility}
-                    />
+              <div className="rounded-[20px] bg-[#fff] mt-1 p-6 lg:p-12">
+                <div className="flex md:flex-row flex-col">
+                  <img className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
+                       src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                       alt=""/>
+                  <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">Thank your friends and show the
+                    report</p>
+                </div>
+                <div className="mt-12 flex justify-between flex-wrap">
+                  <div
+                    className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
+                    <div className="flex items-center">
+                      <IoImageOutline className="text-[#3800B0] mr-2"/>
+                      <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Attach a photo</p>
+                    </div>
+                    <div className="ml-3 flex items-center">
+                      <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
+                        <img
+                          className="w-full h-full rounded-[4px]"
+                          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                          alt=""/>
+                        <button
+                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
+                          <RiDeleteBin6Line className="text-[#3800B0] text-sm"/>
+                        </button>
+                      </div>
+                      <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
+                        <img
+                          className="w-full h-full rounded-[4px]"
+                          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                          alt=""/>
+                        <button
+                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
+                          <RiDeleteBin6Line className="text-[#3800B0] text-sm"/>
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex  !border-[2px] border-solid border-[#EBE5F7] rounded-[8px] h-16 lg:h-20 mb-6">
-                  {giftAmounts.map((amount, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedAmount(amount.value)}
-                      className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] 
-                      !border-[2px] border-solid transition-all duration-300 ease-in-out
-                      rounded-md ${
-                        selectedAmount === amount.value
-                          ? "bg-[#EBE5F7] border-[#3800B0]"
-                          : "border-transparent"
-                      }`}
-                    >
-                      {amount.icon ? (
-                        <img className="mb-1" src={amount.icon} alt="" />
-                      ) : null}
-                      <span className="text-[13px] leading-[1.3] font-semibold text-[#160046]">
-                        {amount.value}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between mb-3">
-                  <p className="leading-[1.2] font-semibold text-[#0C0E19]">
-                    Ilya Davidov
-                  </p>
-                  <div>
-                    <VisibilityMenu
-                      menuId="wisher"
-                      controlLabel={wisherVisibility}
-                      setWisherVisibility={setWisherVisibility}
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-3">
-                  <p className="leading-[1.2] font-semibold text-[#8E93AF]">
-                    Your congratulations
-                  </p>
-                  <button>
-                    <VisibilityMenu
-                      menuId="congrats"
-                      controlLabel={congratsVisibility}
-                      setVisibility={setCongratsVisibility}
-                    />
+                  <button
+                    className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]">Send
                   </button>
                 </div>
-                <button className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">
-                  Сongratulate
-                </button>
               </div>
+              {/*<div className="rounded-[24px] bg-[#EBE5F7] py-[20px] md:py-10 px-[20px] md:px-6 lg:px-12 mb-1">*/}
+              {/*  <div className="flex items-center justify-between">*/}
+              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
+              {/*      Target: ${GetUserWishDataResult?.donate?.target}*/}
+              {/*    </p>*/}
+              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
+              {/*      Final: 08.03.2023*/}
+              {/*    </p>*/}
+              {/*  </div>*/}
+              {/*  <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">*/}
+              {/*    <div className="bg-[#3800B0] rounded-[48px] w-1/3 h-full"></div>*/}
+              {/*  </div>*/}
+              {/*  <div className="flex items-center justify-between">*/}
+              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
+              {/*      <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">*/}
+              {/*        ${GetUserWishDataResult?.date} raised*/}
+              {/*      </span>*/}
+              {/*      <span className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">*/}
+              {/*        25%{" "}*/}
+              {/*      </span>*/}
+              {/*    </p>*/}
+              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
+              {/*      $375 left*/}
+              {/*    </p>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
+              {/*<div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">*/}
+              {/*  <div className="flex md:justify-start justify-between flex-wrap">*/}
+              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
+              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">256</p>*/}
+              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Views</p>*/}
+              {/*    </div>*/}
+              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
+              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">8</p>*/}
+              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Gifts</p>*/}
+              {/*    </div>*/}
+              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
+              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">$12</p>*/}
+              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Avg gift*/}
+              {/*        amount</p>*/}
+              {/*    </div>*/}
+              {/*    <div className="">*/}
+              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">3 days</p>*/}
+              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">To funding*/}
+              {/*        ending</p>*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
+              {/*  /!*  <p className="text-[13px] leading-[1.4] font-medium text-[#110035]">*!/*/}
+              {/*  /!*    Your gift amount*!/*/}
+              {/*  /!*  </p>*!/*/}
+              {/*  /!*  <div>*!/*/}
+              {/*  /!*    <VisibilityMenu*!/*/}
+              {/*  /!*      menuId="gift-amount"*!/*/}
+              {/*  /!*      controlLabel={giftAmountVisibility}*!/*/}
+              {/*  /!*      setWisherVisibility={setGiftAmountVisibility}*!/*/}
+              {/*  /!*    />*!/*/}
+              {/*  /!*  </div>*!/*/}
+              {/*  /!*</div>*!/*/}
+              {/*  /!*<div className="flex  !border-[2px] border-solid border-[#EBE5F7] rounded-[8px] h-16 lg:h-20 mb-6">*!/*/}
+              {/*  /!*  {giftAmounts.map((amount, index) => (*!/*/}
+              {/*  /!*    <button*!/*/}
+              {/*  /!*      key={index}*!/*/}
+              {/*  /!*      onClick={() => setSelectedAmount(amount.value)}*!/*/}
+              {/*  /!*      className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] *!/*/}
+              {/*  /!*      !border-[2px] border-solid transition-all duration-300 ease-in-out*!/*/}
+              {/*  /!*      rounded-md ${*!/*/}
+              {/*  /!*        selectedAmount === amount.value*!/*/}
+              {/*  /!*          ? "bg-[#EBE5F7] border-[#3800B0]"*!/*/}
+              {/*  /!*          : "border-transparent"*!/*/}
+              {/*  /!*      }`}*!/*/}
+              {/*  /!*    >*!/*/}
+              {/*  /!*      {amount.icon ? (*!/*/}
+              {/*  /!*        <img className="mb-1" src={amount.icon} alt=""/>*!/*/}
+              {/*  /!*      ) : null}*!/*/}
+              {/*  /!*      <span className="text-[13px] leading-[1.3] font-semibold text-[#160046]">*!/*/}
+              {/*  /!*        {amount.value}*!/*/}
+              {/*  /!*      </span>*!/*/}
+              {/*  /!*    </button>*!/*/}
+              {/*  /!*  ))}*!/*/}
+              {/*  /!*</div>*!/*/}
+              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
+              {/*  /!*  <p className="leading-[1.2] font-semibold text-[#0C0E19]">*!/*/}
+              {/*  /!*    Ilya Davidov*!/*/}
+              {/*  /!*  </p>*!/*/}
+              {/*  /!*  <div>*!/*/}
+              {/*  /!*    <VisibilityMenu*!/*/}
+              {/*  /!*      menuId="wisher"*!/*/}
+              {/*  /!*      controlLabel={wisherVisibility}*!/*/}
+              {/*  /!*      setWisherVisibility={setWisherVisibility}*!/*/}
+              {/*  /!*    />*!/*/}
+              {/*  /!*  </div>*!/*/}
+              {/*  /!*</div>*!/*/}
+              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
+              {/*  /!*  <p className="leading-[1.2] font-semibold text-[#8E93AF]">*!/*/}
+              {/*  /!*    Your congratulations*!/*/}
+              {/*  /!*  </p>*!/*/}
+              {/*  /!*  <button>*!/*/}
+              {/*  /!*    <VisibilityMenu*!/*/}
+              {/*  /!*      menuId="congrats"*!/*/}
+              {/*  /!*      controlLabel={congratsVisibility}*!/*/}
+              {/*  /!*      setVisibility={setCongratsVisibility}*!/*/}
+              {/*  /!*    />*!/*/}
+              {/*  /!*  </button>*!/*/}
+              {/*  /!*</div>*!/*/}
+              {/*  /!*<button*!/*/}
+              {/*  /!*  className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">*!/*/}
+              {/*  /!*  Сongratulate*!/*/}
+              {/*  /!*</button>*!/*/}
+              {/*</div>*/}
             </div>
             <div className="mt-7">
               <div className="flex items-center justify-between mb-2">
@@ -248,7 +345,7 @@ const WishDesign = () => {
                   </span>
                 </div>
                 <button className="mr-2 text-[#3800B0] text-lg">
-                  <HiOutlineFilter />
+                  <HiOutlineFilter/>
                 </button>
               </div>
               <div className="rounded-[24px] p-6 bg-white my-2">
@@ -271,7 +368,7 @@ const WishDesign = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
+                      <BsThreeDots/>
                     </button>
                   </div>
                 </div>
@@ -284,7 +381,7 @@ const WishDesign = () => {
                       257
                     </span>
                     {/*<BsHandThumbsUp />*/}
-                    <BsFillHandThumbsUpFill />
+                    <BsFillHandThumbsUpFill/>
                   </button>
                 </div>
                 <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] p-3 flex justify-between">
@@ -323,7 +420,7 @@ const WishDesign = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
+                      <BsThreeDots/>
                     </button>
                   </div>
                 </div>
@@ -335,7 +432,7 @@ const WishDesign = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp />
+                    <BsHandThumbsUp/>
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>
@@ -360,7 +457,7 @@ const WishDesign = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
+                      <BsThreeDots/>
                     </button>
                   </div>
                 </div>
@@ -384,7 +481,7 @@ const WishDesign = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp />
+                    <BsHandThumbsUp/>
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>
@@ -489,4 +586,4 @@ const WishDesign = () => {
   );
 };
 
-export default WishDesign;
+export default MyWishCompleted;

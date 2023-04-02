@@ -784,7 +784,7 @@ const ProfileEdit = () => {
                 </Tab> */}
               </div>
             </EditingButtons>
-            <TabPanel value="personalinfo">
+            <TabPanel className="md:ml-10" value="personalinfo">
               <Section>
                 <form onSubmit={handleSubmit(handleUpdateInfoProfile)}>
                   <EditingItem>
@@ -1053,7 +1053,7 @@ const ProfileEdit = () => {
                 </form>
               </Section>
             </TabPanel>
-            <TabPanel value="passwordlogin">
+            <TabPanel className="md:ml-10" value="passwordlogin">
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
                 {/* <PasswordSettingsInputs> */}
@@ -1089,7 +1089,7 @@ const ProfileEdit = () => {
                     status={status}
                   />
                 )}
-                <h1 className="connetc-sosial-netwok-title ml-3 ">
+                <h1 className="connect-sosial-netwok-title ml-3 ">
                   Connect social networks
                 </h1>
                 <SosialMediaButtons>
@@ -1114,7 +1114,7 @@ const ProfileEdit = () => {
                 </SosialMediaButtons>
               </PasswordSettings>
             </TabPanel>
-            <TabPanel value="verification">
+            <TabPanel className="md:ml-10" value="verification">
               {userInfo.verify === null && (
                 <StatusPedding className="status-padding">
                   <h1 className="status-pedding-title">Status pending</h1>

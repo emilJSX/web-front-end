@@ -507,7 +507,8 @@ export const CardLong = styled.div`
 
     .image-container-1{
         height: 100%;
-        width: 40%;
+        width: 35%;
+      flex-shrink: 0;
 
         img{
            margin: 0;
