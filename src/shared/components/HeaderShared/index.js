@@ -88,7 +88,7 @@ export const HeaderShared = ({ user, error }) => {
           <WishLogo />
         </Link>
         <SearchInput iconHave={true} size="xl" myUserId={user?.user_id} />
-        <ul>
+        <ul className="pt-2">
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
           </li>

@@ -32,11 +32,12 @@ export const HeaderContainer = styled(Header)`
     color: #3800b0;
     font-weight: 600;
     font-size: 14px;
-
     @media (min-width: 768px) and (max-width: 828px) {
       width: 100px;
     }
-
+    a {
+      color: #3800b0;
+    }
     a:hover {
       color: #3800b0;
       text-decoration: none;

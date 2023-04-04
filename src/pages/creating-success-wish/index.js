@@ -13,7 +13,7 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from "react-icons/fa";
-import { Grid, Loader, Progress } from "@mantine/core";
+import { Grid,Progress } from "@mantine/core";
 import ponchik from "../../style/icons/poncik.png";
 import userphoto from "../../style/icons/userphoto.png";
 import navigationArrowIcon from "../../style/navigationIcons/arrow-right.png";
@@ -22,6 +22,7 @@ import linkIcon from "../../style/navigationIcons/link-2.png";
 import RedoIcon from "../../style/navigationIcons/redo.png";
 import sendIcon from "../../style/navigationIcons/send-2.png";
 import smsIcon from "../../style/navigationIcons/sms.png";
+import Loader from "../../shared/ui/Loader";
 
 import {
   MainContainer,
@@ -101,9 +102,7 @@ const Created_Success_Wish = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
+        <Loader />
     );
   }
 

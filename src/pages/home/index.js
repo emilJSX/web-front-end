@@ -193,11 +193,7 @@ const Home = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <>
@@ -264,7 +260,10 @@ const Home = () => {
                 onSwiper={(swiper) => setSwiper(swiper)}
               >
                 {getAllWishData?.results?.map((getWishData) => (
-                  <SwiperSlide className="wish__slider__slide">
+                  <SwiperSlide
+                    key={getWishData.slug}
+                    className="wish__slider__slide"
+                  >
                     <div className="wish__slider">
                       <div className="wish__slider__left">
                         <Link to={`/wish/${getWishData.slug}`}>
@@ -350,7 +349,7 @@ const Home = () => {
         </WishesText>
         <Grid>
           {getPopularWish?.map((getWishData) => (
-            <Grid.Col xs={12} sm={6} md={3} lg={3}>
+            <Grid.Col xs={12} sm={6} md={3} lg={3} key={getWishData.id}>
               <Wrapper
                 key={getWishData.id}
                 className="cart-item"
@@ -393,11 +392,11 @@ const Home = () => {
                   </ButtonDefault>
                   <div className="image-background"></div>
                   <ImgWrapper
-                    src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
+                    src={`${process.env.REACT_APP_API_URL}/${getWishData.image}`}
                   ></ImgWrapper>
                 </div>
                 <ContentWrapper>
-                  <Link to={`/wish/${getWishData.user.username}`}>
+                  <Link to={`/wish/${getWishData.slug}`}>
                     <Title>{getWishData.title}</Title>
                   </Link>
 

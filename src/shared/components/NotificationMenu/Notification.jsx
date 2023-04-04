@@ -33,7 +33,9 @@ function Notification({ show, notifications }) {
         {notifications.length === 0 ? (
           <li className="rounded-lg border border-[#3800B0] px-2 py-2 my-1 mx-2 min-h-[72px] flex  align-center">
             {" "}
-            <p>There is no notification for you...</p>
+            <p className="text-[#3800B0] text-[14px]">
+              There is no notification for you right now. Check out later...
+            </p>
           </li>
         ) : (
           notifications.map((item) => (

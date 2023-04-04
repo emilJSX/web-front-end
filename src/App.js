@@ -1,182 +1,86 @@
-import React, { useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import AppProvider from "./provider/AppProvider";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./style/theme";
+import { Rating } from "@mui/material";
+
 import GlobalStyle from "./style/global";
-import Home from "./pages/home";
-import Privacy from "./pages/privacy";
-import Contact from "./pages/contact";
-import ErrorPage from "./pages/404";
-import FaqPage from "./pages/faq";
-import MainBlog from "./pages/blog/blog-main";
-import BlogCategory from "./pages/blog/blog-category";
-import BlogSearchResult from "./pages/blog/blog-search-result";
-import BlogSRNotFound from "./pages/blog/blogsearch-noResult";
-import BlogPost from "./pages/blog/blog-post";
 import "react-datepicker/dist/react-datepicker.css";
 import "./index.css";
 import "./style/pages/home.css";
-import OtherUserProfile from "./pages/OtherUserProfile";
-import Search from "./pages/search";
-import Onlysearch from "./pages/search/Onlysearch";
-import WishList from "./pages/wishes-list";
-import Wish_pages_second from "./pages/wish-pagess/indexsecond";
-import Wish_pages from "./pages/wish-pagess";
-import PartnersPage from "./pages/partners/partners-page";
-import WishDesign from "./pages/wish/WishDesign";
-import Finally from "./pages/set-new-password";
+
+const Home = lazy(() => import("./pages/home"));
+const Privacy = lazy(() => import("./pages/privacy"));
+const Contact = lazy(() => import("./pages/contact"));
+const ErrorPage = lazy(() => import("./pages/404"));
+const WishList = lazy(() => import("./pages/wishes-list"));
+const FaqPage = lazy(() => import("./pages/faq"));
+const MainBlog = lazy(() => import("./pages/blog/blog-main"));
+const BlogCategory = lazy(() => import("./pages/blog/blog-category"));
+const BlogSearchResult = lazy(() => import("./pages/blog/blog-search-result"));
+const BlogSRNotFound = lazy(() => import("./pages/blog/blogsearch-noResult"));
+const BlogPost = lazy(() => import("./pages/blog/blog-post"));
+import { generateRoutes, routes } from "./routes";
 import ProtectedRoute from "./ProtectedRoute";
-import MyProfile from "./pages/my-profile";
-import SettingsPage from "./pages/settings";
-import ContactsPage from "./pages/contacts/contacts-subscribers";
-import ProfileEdit from "./pages/my-profile-edit";
-import Wish_pages_four from "./pages/wish-pagess/indexfour";
-import Created_Success_Wish from "./pages/creating-success-wish";
-import Created_Wish from "./pages/creating-wish";
-import Editing_Wish from "./pages/editing-wish";
-import { Rating } from "@mui/material";
-import Calendar from "./pages/calendar";
-import Payment from "./pages/payment";
-import Wish_pages_three from "./pages/wish-pagess/indexthree";
-import { myaxios } from "./api/myaxios";
-import MyWish from "./pages/wish/MyWish";
-import MyWishCompleted from "./pages/wish/MyWishCompleted";
-// import Echo from "laravel-echo/dist/echo";
-
+const OtherUserProfile = lazy(() => import("./pages/OtherUserProfile"));
+const Search = lazy(() => import("./pages/search"));
+const Onlysearch = lazy(() => import("./pages/search/Onlysearch"));
+const Wish_pages_second = lazy(() => import("./pages/wish-pagess/indexsecond"));
+const PartnersPage = lazy(() => import("./pages/partners/partners-page"));
+const WishDesign = lazy(() => import("./pages/wish/WishDesign"));
+const Finally = lazy(() => import("./pages/set-new-password"));
+const MyWish = lazy(() => import("./pages/wish/MyWish"));
+const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
+import Loader from "./shared/ui/Loader";
 const App = () => {
- 
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppProvider>
-        <Routes>
-          <Route
-            path="/my-profile"
-            element={
-              <ProtectedRoute>
-                <MyProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/payment"
-            element={
-              <ProtectedRoute>
-                <Payment />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/calendar"
-            element={
-              <ProtectedRoute>
-                <Calendar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/rating"
-            element={
-              <ProtectedRoute>
-                <Rating />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/wish-edit"
-            element={
-              <ProtectedRoute>
-                <Editing_Wish />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/creating-wish"
-            element={
-              <ProtectedRoute>
-                <Created_Wish />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/creating-wish-success"
-            element={
-              <ProtectedRoute>
-                <Created_Success_Wish />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-wish-complete"
-            element={
-              <ProtectedRoute>
-                <Wish_pages_four />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-wish"
-            element={
-              <ProtectedRoute>
-                <Wish_pages_three />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile-edit"
-            element={
-              <ProtectedRoute>
-                <ProfileEdit />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/contacts-profile"
-            element={
-              <ProtectedRoute>
-                <ContactsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <SettingsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/other-user-wish-complete"
-            element={<Wish_pages_second />}
-          />
-          <Route path="/set-new-password" element={<Finally />} />
-          <Route path="/wish/:slug" element={<WishDesign />} />
-          <Route path="/wish/me" element={<MyWish />} />
-          <Route path="/wish/me/completed" element={<MyWishCompleted />} />
-          <Route path="/wish-list" element={<WishList />} /> {/* + */}
-          <Route path="/only-search" element={<Onlysearch />} />
-          {/* + */}
-          <Route path="/search" element={<Search />} /> {/* + */}
-          <Route path="/profile/:slug" element={<OtherUserProfile />} />
-          <Route path="/blog-post/:slug" element={<BlogPost />} />
-          <Route path="/404" element={<ErrorPage />} />
-          <Route
-            path="/blog-search-result-notfound"
-            element={<BlogSRNotFound />}
-          />
-          <Route path="/blog-search-result" element={<BlogSearchResult />} />
-          <Route path="/blog-category" element={<BlogCategory />} /> {/* - */}
-          <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
-          <Route path="/privacy" element={<Privacy />} /> {/* + */}
-          <Route path="/faq" element={<FaqPage />} /> {/* + */}
-          <Route path="/contact" element={<Contact />} /> {/* + */}
-          <Route path="/partners-coupon" element={<PartnersPage />} />
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <ProtectedRoute>
+                    <route.element />
+                  </ProtectedRoute>
+                }
+              />
+            ))}
+            <Route
+              path="/other-user-wish-complete"
+              element={<Wish_pages_second />}
+            />
+            <Route path="/set-new-password" element={<Finally />} />
+            <Route path="/wish/:slug" element={<WishDesign />} />
+            <Route path="/wish/me" element={<MyWish />} />
+            <Route path="/wish/me/completed" element={<MyWishCompleted />} />
+            <Route path="/wish-list" element={<WishList />} /> {/* + */}
+            <Route path="/only-search" element={<Onlysearch />} />
+            {/* + */}
+            <Route path="/search" element={<Search />} /> {/* + */}
+            <Route path="/profile/:slug" element={<OtherUserProfile />} />
+            <Route path="/blog-post/:slug" element={<BlogPost />} />
+            <Route path="/404" element={<ErrorPage />} />
+            <Route
+              path="/blog-search-result-notfound"
+              element={<BlogSRNotFound />}
+            />
+            <Route path="/blog-search-result" element={<BlogSearchResult />} />
+            <Route path="/blog-category" element={<BlogCategory />} /> {/* - */}
+            <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
+            <Route path="/privacy" element={<Privacy />} /> {/* + */}
+            <Route path="/faq" element={<FaqPage />} /> {/* + */}
+            <Route path="/contact" element={<Contact />} /> {/* + */}
+            <Route path="/partners-coupon" element={<PartnersPage />} />
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+          </Routes>
+        </Suspense>
       </AppProvider>
     </ThemeProvider>
   );

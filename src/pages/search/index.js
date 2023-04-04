@@ -17,7 +17,7 @@ import {
   Loading,
 } from "./SearchCard.styled";
 import { Carddata } from "./CardData";
-import { Grid, Loader, Progress } from "@mantine/core";
+import { Grid, Progress } from "@mantine/core";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import {
@@ -30,6 +30,8 @@ import {
   Searchdiv,
   Tag,
 } from "./Search.Styled";
+import Loader from "../../shared/ui/Loader";
+
 import { HiBadgeCheck, HiOutlineFilter } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
@@ -151,11 +153,7 @@ function Search() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -290,6 +288,7 @@ function Search() {
             <Grid className="griddiv">
               {getAllPeopleData?.map((index) => (
                 <Personal>
+                  {console.log(index)}
                   <Photo
                     src={
                       index?.image
@@ -309,9 +308,8 @@ function Search() {
                   >
                     @{index?.username}
                   </Tag>
+                  {index?.verify && <HiBadgeCheck className="check" />}
                 </Personal>
-
-                //<HiBadgeCheck className="check"/>
               ))}
             </Grid>
             {/* <Loading onClick={OnclickProfileInfinity}>Get More Users</Loading> */}

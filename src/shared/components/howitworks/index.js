@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Grid, Loader } from "@mantine/core";
+import { Image, Grid } from "@mantine/core";
 import girlfoto from "../../../style/icons/girl.jpg";
 import LeftArrow from "../../../assets/svg/arrow-left.svg";
 import RightArrow from "../../../assets/svg/arrow-right.svg";
@@ -11,12 +11,12 @@ import {
   NavigationTop,
 } from "./HowItwors.styled.js";
 import OwlCarousel from "react-owl-carousel";
-import { HIWSliderData } from "./HiwSlider";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useEffect } from "react";
 import CustomBreadcrumb from "../breadcrumb";
 import { myaxiosprivate } from "../../../api/myaxios";
+import Loader from "../../ui/Loader";
 
 const HowItWorks = ({ isHome = false }) => {
   const [error, setError] = useState("");
@@ -36,11 +36,7 @@ const HowItWorks = ({ isHome = false }) => {
     window.scrollTo(0, 0);
   }, []);
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <HIWContainer fluid>
@@ -76,7 +72,11 @@ const HowItWorks = ({ isHome = false }) => {
         className="grid-hiw"
       >
         <Grid.Col className="grid-one" xl={6} lg={6} md={12} sm={12} xs={12}>
-          <img className="img-girl" src={girlfoto} />
+          <img
+            className="img-girl"
+            src={girlfoto}
+            sizes="(max-width: 500px) 375px, 828px"
+          />
         </Grid.Col>
         <Grid.Col className="grid-two" xl={6} lg={6} md={12} sm={12} xs={12}>
           <HiwSliderSection>
@@ -95,7 +95,7 @@ const HowItWorks = ({ isHome = false }) => {
               ]}
             >
               {data?.map((item) => (
-                <div className="item">
+                <div key={item.step} className="item">
                   {/* <img
                     className="img-girl"
                     src={`${process.env.REACT_APP_API_URL}${item.image}`}

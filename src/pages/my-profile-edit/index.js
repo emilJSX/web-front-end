@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Loader, MultiSelect } from "@mantine/core";
+import { MultiSelect } from "@mantine/core";
+import Loader from "../../shared/ui/Loader";
+
 import Calendar from "react-calendar";
 import "../../shared/components/Calendar/calendar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -741,11 +743,7 @@ const ProfileEdit = () => {
   ];
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   // =================================================================================================================
   return (
