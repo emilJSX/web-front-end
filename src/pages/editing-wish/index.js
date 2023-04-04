@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Loader, MultiSelect } from "@mantine/core";
+import {  MultiSelect } from "@mantine/core";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,6 +23,7 @@ import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
+import Loader from "../../shared/ui/Loader";
 
 const Editing_Wish = () => {
   const { state } = useLocation();
@@ -228,9 +229,7 @@ const Editing_Wish = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
+        <Loader/>
     );
   }
 

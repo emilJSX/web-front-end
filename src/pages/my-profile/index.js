@@ -1,4 +1,4 @@
-import { Grid, Image, Button, Slider, Loader } from "@mantine/core";
+import { Grid, Image, Button, Slider } from "@mantine/core";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Body,
@@ -40,6 +40,8 @@ import {
   MobileTopCoverImageSection,
   ShowBirtdayInWish,
 } from "./MyProfile.style";
+import Loader from "../../shared/ui/Loader";
+
 import estetika from "../../style/icons/estetika.png";
 import tomcruse from "../../style/icons/tomcruse.png";
 import { Tab, Tabs, TabPanel } from "react-tabs";
@@ -213,11 +215,7 @@ const MyProfile = () => {
         .catch((err) => setCoverError(err.message))); //set error
   };
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <Body>

@@ -1,5 +1,7 @@
 import react, { useEffect, useState } from "react";
-import { Grid, Loader } from "@mantine/core";
+import { Grid } from "@mantine/core";
+import Loader from "../../../shared/ui/Loader";
+
 import {
   BlogCard,
   BlogMainSection,
@@ -44,9 +46,7 @@ const BlogCategory = () => {
       .catch((err) => setError(err.message));
   }, []);
 
-  const buttonTitles = [
-    { id: 0, title: "All" },
-  ];
+  const buttonTitles = [{ id: 0, title: "All" }];
 
   useEffect(() => {
     setLoading(true);
@@ -81,11 +81,7 @@ const BlogCategory = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Grid, Image, Button, Slider, Loader, Progress } from "@mantine/core";
+import { Grid, Image, Button, Slider, Progress } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import {
   Body,
@@ -50,6 +50,8 @@ import {
   Prices,
   Wrapper,
 } from "./Oup.Style";
+import Loader from "../../shared/ui/Loader";
+
 import estetika from "../../style/icons/estetika.png";
 import { Tab, Tabs, TabPanel } from "react-tabs";
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from "react-icons/bs";
@@ -211,11 +213,7 @@ const OtherUserProfile = () => {
   };
   // END FOLLOW API
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   return (
     <Body>

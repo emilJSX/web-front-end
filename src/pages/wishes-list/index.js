@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Container, Input, Image, Progress, Loader } from "@mantine/core";
+import { Grid, Container, Input, Image, Progress} from "@mantine/core";
 import {
   BlogCard,
   BlogMainSection,
@@ -8,6 +8,8 @@ import {
   PaginationSection,
 } from "./WishesList.styled";
 import { CustomInput } from "../../shared/ui/İnput";
+import Loader from "../../shared/ui/Loader";
+
 import {
   Wrapper,
   ImgWrapper,
@@ -143,11 +145,7 @@ const WishList = () => {
     setCategoryId(event.currentTarget.id);
   };
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

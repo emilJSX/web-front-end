@@ -41,7 +41,7 @@ import { IoChevronUpOutline, IoCalendarOutline } from "react-icons/io5";
 import { GrClose } from "react-icons/gr";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
-import { useMantineTheme, Modal, Loader } from "@mantine/core";
+import { useMantineTheme, Modal } from "@mantine/core";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -54,6 +54,7 @@ import { format } from "date-fns";
 import locale from "dayjs/locale/en";
 import dayjs from "dayjs";
 import { myaxiosprivate } from "../../api/myaxios";
+import Loader from "../../shared/ui/Loader";
 
 const dateFormatMouthTxt = "MMMM";
 const dateFormatMouth = "MM";
@@ -176,9 +177,9 @@ function Calendar() {
   };
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
+      
+        <Loader />
+      
     );
   }
   return (

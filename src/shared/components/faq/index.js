@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Grid, Button, Loader } from "@mantine/core";
+import { Grid, Button } from "@mantine/core";
 import { FaqContainer, ImageSector } from "./faq.Styled";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -11,6 +11,7 @@ import foto from "../../../style/icons/lamp.png";
 import { SetFaqSecId, SetFaqOpitions } from "./functions";
 import { useEffect } from "react";
 import { myaxios, myaxiosprivate } from "../../../api/myaxios";
+import Loader from "../../ui/Loader";
 
 const ChangeButtonStyle = (neededButton) => {
   const buttonsArray = document.querySelectorAll(".faq-button");
@@ -21,7 +22,6 @@ const ChangeButtonStyle = (neededButton) => {
       : button.setAttribute("class", "faq-button another-btn");
   });
 };
-
 
 const buttonTitles = [
   { id: 0, title: "All" },
@@ -122,9 +122,7 @@ const FaqSection = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
+        <Loader  />
     );
   }
 
@@ -134,13 +132,13 @@ const FaqSection = () => {
       <Tabs defaultValue="return-refunds">
         <Grid className="main-container">
           <Grid.Col md={4} className="left-col flex flex-col justify-between">
-            <div className="navigator-section">
-              {FaqData.map((button) => (
-                <Tab value={button}>
-                  <NavigatorSection button={button} />
-                </Tab>
-              ))}
-            </div>
+              <TabList className='navigator-section'>
+                {FaqData.map((button, index) => (
+                  <Tab key={index} value={button}>
+                    <NavigatorSection button={button} />
+                  </Tab>
+                ))}
+              </TabList>
             <ImageSector>
               <img className="foto_faq" src={foto} />
             </ImageSector>
@@ -154,8 +152,8 @@ const FaqSection = () => {
                   className="tab-panel"
                   id={`${index}`}
                 >
-                  {mapItems.parts.map((e) => (
-                    <Accordion className="faq-sect">
+                  {mapItems.parts.map((e, index) => (
+                    <Accordion key={index} className="faq-sect">
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"

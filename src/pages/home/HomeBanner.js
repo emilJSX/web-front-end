@@ -70,7 +70,7 @@ const HomeBanner = ({ showLoginModal, showSignUpModal, createWish }) => {
           </div>
           <Link
             to="/wish-list"
-            class="md:hidden flex items-center gap-2.5 mt-3"
+            className="md:hidden flex items-center gap-2.5 mt-3"
           >
             <GridIcon />
             <span className="text-[14px] leading-[18px] mt-1 font-semibold text-white tracking-[0.01em]">

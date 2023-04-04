@@ -1,5 +1,7 @@
 import react, { useEffect } from "react";
-import { Button, Grid, Image, Loader } from "@mantine/core";
+import { Button, Grid, Image } from "@mantine/core";
+import Loader from "../../../shared/ui/Loader";
+
 import {
   BlogCard,
   BlogMainSection,
@@ -7,29 +9,28 @@ import {
   CardTopSection,
   PaginationSection,
 } from "./BlogMain.Styled";
-import mountn from "../../../style/icons/moutn.jpg";
+// import mountn from "../../../style/icons/moutn.jpg";
 import { Tab, Tabs, TabPanel } from "react-tabs";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions } from "@mui/material";
-import { BlogDataCard } from "./BlogCardData";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
-import Stack from "@mui/material/Stack";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+// import { BlogDataCard } from "./BlogCardData";
+// import Pagination from "@mui/material/Pagination";
+// import PaginationItem from "@mui/material/PaginationItem";
+// import Stack from "@mui/material/Stack";
+// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faSearch } from "@fortawesome/free-solid-svg-icons";
+// import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.svg";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
-import moment from "moment";
 
 const MainBlog = () => {
   const navigate = useNavigate();
@@ -40,6 +41,10 @@ const MainBlog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/categories/get")
@@ -83,13 +88,8 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
-
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
-    );
+    return <Loader />;
   }
   const breadCrumb = [
     {
@@ -206,7 +206,10 @@ const MainBlog = () => {
             <Grid.Col md={6}>
               <div className="read-section">
                 <p className="top-txt"></p>
-                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`} className='break-all'>
+                <Link
+                  to={`/blog-post/${getResultApiSearch[0]?.slug}`}
+                  className="break-all"
+                >
                   <p className="top-title md:pr-4">
                     {getResultApiSearch[0]?.title}
                   </p>

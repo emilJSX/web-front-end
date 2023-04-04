@@ -73,7 +73,7 @@ export const AsideComponent = ({user}) => {
               </a>
               <hr className="hr-aside" />
               {asideLinkLogined.map((e, i) => (
-                <li>
+                <li key={i}>
                   <Link to={e.href} className="aside-link-element">
                     <p>{e.name}</p>
                   </Link>
@@ -91,7 +91,7 @@ export const AsideComponent = ({user}) => {
           <div className="aside-container">
             <ul>
               {asideLinks.map((e, i) => (
-                <li>
+                <li key={i}>
                   <Link to={e.href} className="aside-link-element">
                     <p>{e.name}</p>
                   </Link>

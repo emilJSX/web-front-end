@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Image, Loader } from "@mantine/core";
+import { Grid, Image } from "@mantine/core";
+import Loader from "../../../shared/ui/Loader";
+
 import {
   BlogPostSection,
   OtherBlogPost,
@@ -72,9 +74,9 @@ const BlogPost = () => {
     input?.length > 300 ? `${input.substring(0, 100)}...` : input;
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <Loader size="xl" />
-      </div>
+     
+        <Loader />
+      
     );
   }
   return (
