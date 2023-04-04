@@ -34,8 +34,8 @@ import { logout, useAuthSelector } from "../../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { myaxiosprivate, updateToken } from "../../../api/myaxios";
 import Notification from "../NotificationMenu/Notification";
-export const HeaderShared = ({ user, error, loading }) => {
-  const [opened, setOpened] = useState(false);
+import { echo } from "../../../helpers/notif";
+export const HeaderShared = ({ user, error }) => {
   const [notifShow, setNotifShow] = useState(false);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
@@ -44,7 +44,7 @@ export const HeaderShared = ({ user, error, loading }) => {
   const navigate = useNavigate();
   const isAuth = useSelector(useAuthSelector);
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState();
+  const [notifications, setNotifications] = useState([]);
   const toggleOptions = () => {
     setOpenedMenu(!getOpenedMenu);
     notifShow && setNotifShow(false);
@@ -72,6 +72,15 @@ export const HeaderShared = ({ user, error, loading }) => {
         setErrors("Something went wrong...");
       });
   };
+
+  useEffect(() => {
+    isAuth &&
+      echo
+        .private(`notifications.${user?.user_id}`)
+        .listen("Notification", (e) => {
+          setNotifications(e);
+        });
+  }, []);
   return (
     <HeaderContainer>
       <section className="logoSection">
@@ -127,7 +136,7 @@ export const HeaderShared = ({ user, error, loading }) => {
                 }}
               />
             </CardIcon>
-              <Notification show={notifShow} />
+            <Notification show={notifShow} notifications={notifications} />
             {user.wishes?.active?.length === 0 && (
               <CreateWishBtn>
                 <Link to="/creating-wish">Create a wish</Link>

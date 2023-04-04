@@ -40,17 +40,12 @@ import Calendar from "./pages/calendar";
 import Payment from "./pages/payment";
 import Wish_pages_three from "./pages/wish-pagess/indexthree";
 import { myaxios } from "./api/myaxios";
-import { echo } from "./helpers/notif";
 import MyWish from "./pages/wish/MyWish";
 import MyWishCompleted from "./pages/wish/MyWishCompleted";
 // import Echo from "laravel-echo/dist/echo";
 
 const App = () => {
-  useEffect(() => {
-    echo.private(`notifications.90`).listen("Notification", (e) => {
-      console.log(e);
-    });
-  }, []);
+ 
 
   return (
     <ThemeProvider theme={theme}>

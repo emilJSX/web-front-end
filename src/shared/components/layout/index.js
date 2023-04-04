@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { drawerControll } from "../../../store/slices/counterSlice";
 import { useAuthSelector } from "../../../store/slices/authSlice";
 import { myaxiosprivate } from "../../../api/myaxios";
+import { echo } from "../../../helpers/notif";
 
 export const Layout = ({ children }) => {
   // const [toggleOpen, setToggleOpen] = useState(false)
@@ -33,6 +34,8 @@ export const Layout = ({ children }) => {
     };
     isAuth && fetchUser();
   }, []);
+
+  
   return (
     <AppShell
       padding="0"
@@ -43,7 +46,11 @@ export const Layout = ({ children }) => {
       header={
         pathname !== "/" &&
         pathname !== "/home" && (
-          <HeaderShared user={userData} loading={loading} error={error} />
+          <HeaderShared
+            user={userData}
+            loading={loading}
+            error={error}
+          />
         )
       }
       footer={<Footer />}
