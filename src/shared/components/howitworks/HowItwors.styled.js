@@ -82,7 +82,9 @@ export const HIWContainer = styled(Container)`
     padding-top: 20px;
     height: 100%;
   }
-
+  .owl-nav {
+    margin-top: 0 !important;
+  }
   .owl-carousel.owl-drag .owl-item {
     height: 80%;
   }
