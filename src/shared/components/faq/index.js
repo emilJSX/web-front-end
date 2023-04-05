@@ -7,7 +7,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import foto from "../../../style/icons/lamp.png";
+import foto from "../../../style/icons/lamp.webp";
 import { SetFaqSecId, SetFaqOpitions } from "./functions";
 import { useEffect } from "react";
 import { myaxios, myaxiosprivate } from "../../../api/myaxios";
@@ -23,14 +23,14 @@ const ChangeButtonStyle = (neededButton) => {
   });
 };
 
-const buttonTitles = [
-  { id: 0, title: "All" },
-  { id: 1, title: "Travel" },
-  { id: 2, title: "Sport" },
-  { id: 3, title: "Gadgets" },
-  { id: 4, title: "Photo & Videos" },
-  { id: 5, title: "Clothes" },
-];
+// const buttonTitles = [
+//   { id: 0, title: "All" },
+//   { id: 1, title: "Travel" },
+//   { id: 2, title: "Sport" },
+//   { id: 3, title: "Gadgets" },
+//   { id: 4, title: "Photo & Videos" },
+//   { id: 5, title: "Clothes" },
+// ];
 
 const NavigatorSection = ({ button }) => {
   const buttonClass = ["faq-button first-btn", "faq-button another-btn"];
@@ -75,7 +75,7 @@ const ChangeButtonStyleSm = (neededButton) => {
 };
 
 const FaqSection = () => {
-  const [QuestionItem, setQuestionItem] = useState([]);
+  // const [QuestionItem, setQuestionItem] = useState([]);
   const [FaqData, setFaqData] = useState([]);
 
   useEffect(() => {
@@ -121,9 +121,7 @@ const FaqSection = () => {
   }
 
   if (loading) {
-    return (
-        <Loader  />
-    );
+    return <Loader />;
   }
 
   return (
@@ -132,13 +130,13 @@ const FaqSection = () => {
       <Tabs defaultValue="return-refunds">
         <Grid className="main-container">
           <Grid.Col md={4} className="left-col flex flex-col justify-between">
-              <TabList className='navigator-section'>
-                {FaqData.map((button, index) => (
-                  <Tab key={index} value={button}>
-                    <NavigatorSection button={button} />
-                  </Tab>
-                ))}
-              </TabList>
+            <TabList className="navigator-section">
+              {FaqData.map((button, index) => (
+                <Tab key={index} value={button}>
+                  <NavigatorSection button={button} />
+                </Tab>
+              ))}
+            </TabList>
             <ImageSector>
               <img className="foto_faq" src={foto} />
             </ImageSector>

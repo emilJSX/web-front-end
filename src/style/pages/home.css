@@ -40,7 +40,7 @@
 .banner__right__content--top {
   @apply hidden md:flex absolute -top-[24px] right-0 w-[42%] h-[50%] z-[1] min-w-[320px];
 
-  background-image: url("../../assets/svg/guitar.png");
+  background-image: url("../../assets/svg/guitar.webp");
   background-repeat: no-repeat;
   background-size: clamp(250px, 80%, 80%);
   background-position: right;
@@ -57,7 +57,7 @@
 .banner__right__content--bottom {
   @apply hidden md:flex absolute bottom-[48px] right-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
 
-  background-image: url("../../assets/svg/banner-boy.png");
+  background-image: url("../../assets/svg/banner-boy.webp");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right;
@@ -66,7 +66,7 @@
 .banner__left__content--top {
   @apply absolute -top-[32px] left-20 w-[42%] h-[50%] z-[1] min-w-[320px];
 
-  background-image: url("../../assets/svg/headphone.png");
+  background-image: url("../../assets/svg/headphone.webp");
   background-repeat: no-repeat;
   background-size: clamp(180px, 40%, 40%);
   background-position: left;
@@ -106,7 +106,7 @@
 .banner__left__content--bottom {
   @apply absolute bottom-[42px] left-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
 
-  background-image: url("../../assets/svg/banner-girl.png");
+  background-image: url("../../assets/svg/banner-girl.webp");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: left;

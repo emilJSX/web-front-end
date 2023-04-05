@@ -551,11 +551,20 @@ const MyProfile = () => {
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess
+                              id={userDataWish.id}
+                              onClick={(e) =>
+                                getWishIdForResultPage(e.target.id)
+                              }
                               src={`https://api.wishx.me/${userDataWish.image}`}
                             />
                           </div>
                           <div className="content-title">
-                            <Title>
+                            <Title
+                              id={userDataWish.id}
+                              onClick={(e) =>
+                                getWishIdForResultPage(e.target.id)
+                              }
+                            >
                               <p className="second-card-title">
                                 {userDataWish.title}
                               </p>
