@@ -90,7 +90,7 @@ const HowItWorks = ({ isHome = false }) => {
               nav={true}
               items={1}
               navText={[
-                `<img src="${LeftArrow}" alt=""/>`,
+                `<img src="${LeftArrow}" alt="" />`,
                 `<img src="${RightArrow}" alt=""/>`,
               ]}
             >
