@@ -184,7 +184,7 @@
 }
 
 .wish__slider__image {
-  @apply rounded-[24px] w-full h-auto md:w-[256px] md:h-[256px] object-cover;
+  @apply rounded-[24px]  w-[256px] h-[256px] object-cover;
 }
 
 .wish__slider__icon {
@@ -233,6 +233,7 @@
   content: url("../../assets/svg/arrow-left.svg");
   color: white;
   font-size: initial;
+  margin-top: 5px;
   @apply flex items-center justify-center;
 }
 
@@ -240,12 +241,13 @@
   content: url("../../assets/svg/arrow-right.svg");
   color: white;
   font-size: initial;
+  margin-top: 5px;
   @apply flex items-center justify-center;
 }
 
 @media screen and (max-width: 768px) {
   .wish__slider__slide {
-    width: auto !important;
+    /* width: 300px !important; */
     height: auto !important;
   }
 }

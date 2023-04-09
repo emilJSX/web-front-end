@@ -12,7 +12,6 @@ import {
   Grid,
   Container,
   Progress,
-  Loader,
 } from "@mantine/core";
 import {
   Link,
@@ -69,10 +68,10 @@ import FaqSection from "../../shared/components/faq";
 // import icon_2 from "../../assets/images/d371531b922f3e8c0e8f0dfe4782d86e.png";
 // import { ReactComponent as ArrowDownIcon } from "../../style/icons/button-icons/arrow-down.svg";
 // import { ReactComponent as FireworkIcon } from "../../style/icons/big-star.svg";
-import { CustomInput } from "../../shared/ui/İnput";
+// import { CustomInput } from "../../shared/ui/İnput";
 import img12 from "../../assets/images/image 12.webp";
 import img13 from "../../assets/images/image 13.webp";
-import { ReactComponent as Logo } from "../../style/icons/wl.svg";
+// import { ReactComponent as Logo } from "../../style/icons/wl.svg";
 import img14 from "../../assets/images/image 14.webp";
 import IphoneImage from "../../assets/images/preview@1x.webp";
 // import { CarouselPartners } from "./PartnersFoto";
@@ -90,13 +89,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import axios from "axios";
 import HomeBanner from "./HomeBanner";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Navigation, Pagination } from "swiper";
+import { A11y, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { myaxios } from "../../api/myaxios";
 import { useAuthSelector } from "../../store/slices/authSlice";
 import { useSelector } from "react-redux";
+import Loader from "../../shared/ui/Loader";
+
 const Home = () => {
   const isAuth = useSelector(useAuthSelector);
   const navigate = useNavigate();
@@ -106,8 +107,8 @@ const Home = () => {
     }
   });
 
-  const [modalShow, setModalShow] = useState(false);
-  const [opened, setOpened] = useState(false);
+  // const [modalShow, setModalShow] = useState(false);
+  // const [opened, setOpened] = useState(false);
   const [getWishName, setWishName] = useState("");
   const [getAllWishData, setAllWishData] = useState([]);
 
@@ -191,7 +192,6 @@ const Home = () => {
     body.setAttribute("style", "overflow-x: hidden");
     setEmailOtpModal(!show);
   };
-
   if (loading) {
     return <Loader />;
   }
@@ -233,18 +233,13 @@ const Home = () => {
             </div>
             <div className="wish__slider__wrapper">
               <Swiper
-                spaceBetween={24}
-                slidesPerView={2}
                 breakpoints={{
-                  0: {
-                    slidesPerView: 1,
+                  320: {
+                    slidesPerView: 1.2,
                     spaceBetween: 16,
                   },
-                  768: {
-                    slidesPerView: 1,
-                    spaceBetween: 24,
-                  },
-                  1024: {
+                  // desktop >= 991
+                  640: {
                     slidesPerView: 2,
                     spaceBetween: 24,
                   },
