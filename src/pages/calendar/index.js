@@ -200,7 +200,7 @@ function Calendar() {
           </Toppage>
           <Big_calendar_bigdiv>
             <Calendar_first_empty>{}</Calendar_first_empty>
-            {getAllCalendar?.map((e,i) => (
+            {getAllCalendar?.map((e, i) => (
               <Calendar_item
                 key={i}
                 ref={e.current ? currentDayRef : null}

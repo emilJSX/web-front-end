@@ -101,7 +101,7 @@ export const Photo = styled.img`
 
 export const Name = styled.p`
 
-    width: 155px;
+    width: 175px;
     height: 28px;
     text-align: center;
     display: block; 
@@ -133,13 +133,13 @@ export const Tag = styled.p`
 
 export const Searchdiv = styled.div`
 
-    margin: 34px 0 0 27%;
+    margin: 34px 0 0 29%;
     height: 56px; 
     width: 62.2%; 
     border-radius: 8px;
 
     .lupa{
-        font-size: 56px;
+        // font-size: 56px;
         padding: 10px;
         border-radius: 0 8px 8px 0;
         color: black;
@@ -147,7 +147,7 @@ export const Searchdiv = styled.div`
         float:right;
         cursor: pointer;
         width: 10%;
-        height: 55px;
+        height: 56px;
     }
     .filter{
         display:none;

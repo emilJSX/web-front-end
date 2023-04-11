@@ -555,7 +555,7 @@ const MyProfile = () => {
                               onClick={(e) =>
                                 getWishIdForResultPage(e.target.id)
                               }
-                              src={`https://api.wishx.me/${userDataWish.image}`}
+                              src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
                             />
                           </div>
                           <div className="content-title">

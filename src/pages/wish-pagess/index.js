@@ -182,7 +182,7 @@ function Wish_pages() {
 
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `https://api.wishx.me/${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
   //   END
 
   return (
