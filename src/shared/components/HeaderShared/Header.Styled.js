@@ -110,12 +110,12 @@ export const Card = styled.div`
   }
 
   .dropdown-menu-logined {
+    width: 85%;
     background: #ffffff;
     border-radius: 16px;
     position: absolute;
     top: 70px;
-    padding: 15px;
-    padding-top: 5px;
+    padding: 5px 15px !important;
 
     li {
       list-style: none;

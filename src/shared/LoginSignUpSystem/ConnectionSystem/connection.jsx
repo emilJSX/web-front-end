@@ -22,6 +22,7 @@ import {
 import OtpInput from "react-otp-input";
 
 import TestImage from "../../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png";
+import "../../components/Calendar/calendar.css";
 
 import {
   ButtonSignUp,
@@ -47,12 +48,7 @@ import { FaApple, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import {
-  Calendar,
-  Number,
-  Options,
-  Selects,
-} from "../Information/Information.Styled";
+import { Number, Options, Selects } from "../Information/Information.Styled";
 import { useRef } from "react";
 import {
   Autotravel,
@@ -62,6 +58,7 @@ import {
 } from "../Interests/Interests.Styled";
 import { MultiSelect, Stack } from "@mantine/core";
 import { CgTrash } from "react-icons/cg";
+import Calendar from "react-calendar";
 import {
   ButtonCon,
   ButtonLater,
@@ -84,7 +81,11 @@ import { myaxios, myaxiosprivate, updateToken } from "../../../api/myaxios";
 import { useDispatch } from "react-redux";
 import OtpTimer from "./OtpTimer";
 import { setUserToken } from "../../../store/slices/authSlice";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  DatePicker,
+  DesktopDatePicker,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { TextField } from "@mui/material";
 import moment from "moment";
@@ -151,6 +152,9 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
       })
       .catch((err) => {
         setRecoveryError(err.message);
+        setTimeout(() => {
+          setRecoveryError(" ");
+        }, 3000);
       });
   };
 
@@ -315,6 +319,11 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
                         type={!showPass ? "password" : "text"}
                         {...register("password", {
                           required: "Password is required",
+                          minLength: {
+                            value: 5,
+                            message:
+                              "Password must be at least 5 characters long",
+                          },
                         })}
                       />
                       <AiOutlineEye
@@ -569,7 +578,13 @@ export function SignUp_ConnectionSystem({
     setTermsError("");
     setGetEmail(email);
     setGetPassword(password);
-    if (terms) {
+    if (
+      terms &&
+      userNameCheckLength === "" &&
+      getUsernameRegex === "" &&
+      userNameErrorMessage === "" &&
+      userNameAviableMessage
+    ) {
       await myaxios
         .get("/api/v1/registration/get-code", { params: { email: email } })
         .then((res) => {
@@ -577,9 +592,20 @@ export function SignUp_ConnectionSystem({
         })
         .catch((err) => {
           setErrorMessage(err.message);
+          setTimeout(() => {
+            setErrorMessage(" ");
+          }, 3000);
         });
     } else {
-      setTermsError("You need to read and accept terms of use");
+      !terms && setTermsError("You need to read and accept terms of use");
+      userNameCheckLength !== " " &&
+        setUsernameCheckLength(
+          "Write correct username.(username must be at least 6 symbols, no symbols allowed)"
+        );
+      setTimeout(() => {
+        setTermsError(" ");
+        setUsernameCheckLength("");
+      }, 3000);
     }
   };
 
@@ -588,15 +614,45 @@ export function SignUp_ConnectionSystem({
   // ======================= YOUR INFORMATION CONFIG ===========================
   const [profileErr, setProfileErr] = useState(null);
   const [getCountryList, setCountryList] = useState([]);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
-    dob: "",
+    dob: moment(),
     country: "",
     interests: [],
     file: null,
   });
-
+  const calendarRef = useRef(null);
+  useEffect(() => {
+    const closeCalendar = (e) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+        setShowCalendar(false);
+      }
+    };
+    document.addEventListener("mousedown", closeCalendar);
+    return () => {
+      document.removeEventListener("mousedown", closeCalendar);
+    };
+  }, [showCalendar]);
+  const getPhonePrefix = (countryId) => {
+    const country = getCountryList.find((c) => c.id === countryId);
+    return country ? country.prefix : "";
+  };
+  const handleCalendarChange = (e) => {
+    setFormData({
+      ...formData,
+      dob: e,
+    }),
+      setShowCalendar(false);
+  };
+  useEffect(() => {
+    let phonePrefix = getPhonePrefix(+formData.country);
+    setFormData((prevData) => ({
+      ...prevData,
+      phone: phonePrefix,
+    }));
+  }, [formData.country]);
   // UPDATE PROFILE API
   const [dobError, setDobError] = useState("");
   const handleUpdateInfoProfile = async (e) => {
@@ -611,7 +667,7 @@ export function SignUp_ConnectionSystem({
         .post("api/v1/profiles/update", {
           full_name: formData.full_name,
           phone: formData.phone,
-          dob: formData.dob,
+          dob: moment(formData.dob).format("DD.MM.YYYY"),
           country: formData.country,
         })
         .then(() => {
@@ -622,6 +678,9 @@ export function SignUp_ConnectionSystem({
         });
     } else {
       setDobError("Invalid birthday or phone number");
+      setTimeout(() => {
+        setDobError(" ");
+      }, 3000);
     }
   };
 
@@ -646,6 +705,9 @@ export function SignUp_ConnectionSystem({
         setRecoveryError(
           err?.message != null ? err.message : "Something went wrong..."
         );
+        setTimeout(() => {
+          setRecoveryError(" ");
+        }, 3000);
       });
   };
 
@@ -678,11 +740,17 @@ export function SignUp_ConnectionSystem({
             });
           } catch (error) {
             setOtpError("Something went wrong...");
+            setTimeout(() => {
+              setOtpError(" ");
+            }, 3000);
           }
         }
       })
       .catch(() => {
         setOtpError("OTP code is wrong");
+        setTimeout(() => {
+          setOtpError(" ");
+        }, 3000);
       });
   };
 
@@ -702,6 +770,9 @@ export function SignUp_ConnectionSystem({
       })
       .catch(() => {
         setInterestErr("Something went wrong ...");
+        setTimeout(() => {
+          setInterestErr(" ");
+        }, 2000);
       });
   };
 
@@ -732,6 +803,9 @@ export function SignUp_ConnectionSystem({
       })
       .catch((err) => {
         setPassportErr(err.message);
+        setTimeout(() => {
+          setPassportErr(" ");
+        }, 3000);
       });
   };
 
@@ -770,7 +844,12 @@ export function SignUp_ConnectionSystem({
           navigate("/my-profile");
           window.location.reload();
         })
-        .catch((err) => setError(err.message));
+        .catch((err) => {
+          setError(err.message);
+          setTimeout(() => {
+            setError(" ");
+          }, 3000);
+        });
     }
   };
 
@@ -825,6 +904,7 @@ export function SignUp_ConnectionSystem({
                 client_id={process.env.REACT_APP_GOOGLE_APP_ID}
                 onResolve={handleSocialLogin}
                 onReject={(err) => setError(err.message)}
+                className="cursor-pointer"
               >
                 <Google>
                   <FaGoogle
@@ -837,7 +917,7 @@ export function SignUp_ConnectionSystem({
                   <GoogleP>Google</GoogleP>
                 </Google>
               </LoginSocialGoogle>
-              <Apple>
+              <Apple className="cursor-pointer">
                 <FaApple
                   style={{
                     color: "white",
@@ -886,7 +966,6 @@ export function SignUp_ConnectionSystem({
 
                   <Username
                     placeholder="Username"
-                    style={{ width: "400px", marginTop: "13px" }}
                     required
                     onChange={debounce((e) => {
                       if (e) setUserNameValue(e.target.value);
@@ -925,7 +1004,11 @@ export function SignUp_ConnectionSystem({
                       placeholder="Password"
                       {...register("password", {
                         required: "Password is required",
-                        min: 5,
+                        minLength: {
+                          value: 5,
+                          message:
+                            "Password must be at least 5 characters long",
+                        },
                       })}
                       type={password ? "password" : "text"}
                       style={{ width: "400px" }}
@@ -943,17 +1026,12 @@ export function SignUp_ConnectionSystem({
                       {errors.password.message}
                     </p>
                   )}
-                  {termsError && (
-                    <p className="mx-14 my-2 text-red-500 text-xs">
-                      {termsError}
-                    </p>
-                  )}
+
                   <div
                     style={{
                       width: "100%",
                       display: "flex",
                       paddingLeft: "40px",
-                      paddingBottom: "12px",
                       marginTop: "16px",
                     }}
                   >
@@ -969,6 +1047,9 @@ export function SignUp_ConnectionSystem({
                       </ParagraphChek>
                     </Link>
                   </div>
+                  {termsError && (
+                    <p className="mx-14  text-red-500 text-xs">{termsError}</p>
+                  )}
                   <div
                     style={{
                       width: "100%",
@@ -1051,9 +1132,7 @@ export function SignUp_ConnectionSystem({
               {profileErr && (
                 <p className="mx-14 my-2 text-red-500 text-xs">{profileErr}</p>
               )}
-              {dobError && (
-                <p className="mx-14 my-2 text-red-500 text-xs">{dobError}</p>
-              )}
+
               <Selects
                 onChange={(e) =>
                   setFormData({
@@ -1067,22 +1146,42 @@ export function SignUp_ConnectionSystem({
                 </Options>
                 {getCountryList.map((data) => (
                   <>
+                    {/* {console.log(data)} */}
                     <Options value={data.id}>{data.name}</Options>
                   </>
                 ))}
               </Selects>
-              <Number
+              {/* <Input
                 id="number"
-                type="tel"
-                required
+                value={formData.phone}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     phone: e.target.value,
                   })
                 }
+                className='text-sm mt-[16px] mx-[32px] md:mx-[40px] p-[16px] w-[200px] md:w-[400px] rounded-[8px]'
                 placeholder="Phone number"
-              />
+              /> */}
+              <div className="flex justify-center items-center">
+                <Number
+                  id="number"
+                  type="number"
+                  required
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.slice(0, 15))
+                  }
+                  value={parseInt(formData?.phone?.replace("+", ""))}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      phone: e.target.value,
+                    })
+                  }
+                  placeholder="Phone number"
+                />
+              </div>
+
               <Number
                 id="number"
                 type="text"
@@ -1095,22 +1194,67 @@ export function SignUp_ConnectionSystem({
                 }
                 placeholder="Full name"
               />
+              <div ref={calendarRef} className="mx-[40px] my-3">
+                {/* <Number
+                  className="mb-3"
+                  required
+                  type="text"
+                  name="dob"
+                  value={moment(formData.dob).format("DD.MM.YYYY")}
+                  placeholder="Date of birth (expample: 12.09.2023)"
+                  pattern="\d{2}\.\d{2}\.\d{4}"
+                  onClick={() => setShowCalendar(true)}
+                /> */}
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <Stack
+                    spacing={3}
+                    className="rounded-lg"
+                    style={{ background: "#F7F8FA", border: "0" }}
+                  >
+                    <DatePicker
+                      inputFormat="DD.MM.YYYY"
+                      sx={{
+                        border: 0,
 
-              <Number
-                className="mb-3"
-                required
-                type="text"
-                name="dob"
-                placeholder="Date of birth (expample: 12.09.2023)"
-                pattern="\d{2}\.\d{2}\.\d{4}"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    dob: String(e.target.value),
-                  })
-                }
-              />
-
+                        "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                          {
+                            border: "none",
+                          },
+                      }}
+                      value={formData.dob}
+                      className="datePicker  !h-[2.5rem]"
+                      InputAdornmentProps={{ style: { paddingBottom: 3 } }}
+                      InputProps={{
+                        disableUnderline: true,
+                      }}
+                      onChange={handleCalendarChange}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          error={false}
+                          variant="standard"
+                          value={moment(formData.dob).format("DD.MM.YYYY")}
+                          InputLabelProps={{ style: { color: "#fff" } }}
+                          inputProps={{
+                            disableUnderline: true,
+                          }}
+                          className="!px-2 !py-[0.65rem]"
+                          placeholder="Date of birth"
+                        />
+                      )}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+                {/* <Calendar
+                  locale="en-EN"
+                  closeCalendar={true}
+                  className={showCalendar ? "block w-[250px] h-[30%] !z-50  mx-5" : "!hidden"}
+                  onChange={handleCalendarChange}
+                /> */}
+              </div>
+              {dobError && (
+                <p className="mx-14 my-2 text-red-500 text-xs">{dobError}</p>
+              )}
               <div
                 style={{
                   width: "100%",

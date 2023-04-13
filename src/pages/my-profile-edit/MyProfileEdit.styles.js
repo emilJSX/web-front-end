@@ -11,7 +11,6 @@ export const ProfileEditing = styled.div`
     background: red;
   }
 
-
   .connect-sosial-netwok-title {
     width: 100%;
     font-family: "Steppe";
@@ -25,7 +24,7 @@ export const ProfileEditing = styled.div`
     align-items: center;
     margin-left: 50px !important;
     margin-bottom: 24px;
-    
+
     @media (max-width: 768px) {
       margin-left: 24px !important;
     }
@@ -271,7 +270,7 @@ export const ProfilePicture = styled.div`
 
 export const EditingInputs = styled.div`
   width: 100%;
-  padding-left: 40px;
+  padding-left: 48px;
 
   @media (max-width: 1200px) {
     display: flex;
@@ -423,7 +422,8 @@ export const MainInputs = styled.div`
       width: 550px;      
 
       @media (max-width: 645px) {
-         width: 90%;
+        justify-content:center;
+         width: 100%;
       }
    }
 
@@ -514,17 +514,15 @@ export const MainInputs = styled.div`
    }
 
    .countries-list{
-      height: 280px;
+      
       overflow-y: auto;
-      position: absolute;
-      margin-top: 50px;
+      // margin-top: 50px;
       width: 550px;
-      border: 1px solid black;
       border-radius: 8px;
       background: #F7F8FA;
-      width: 100%;
+      
       z-index: 10;
-      display: none;
+     
 
       .option{
          height: 40px;
@@ -649,8 +647,8 @@ export const MainInputs = styled.div`
       }
 
       .info_input-small{
-         padding-left: 30px;
-         margin-left: 16px;
+         padding-left: 20px;
+         margin-left: 10px;
          font-family: 'Steppe';
          font-style: normal;
          font-weight: 500;
@@ -663,7 +661,8 @@ export const MainInputs = styled.div`
          border: 0;    
 
          @media (max-width: 645px) {
-            width: 70%;
+          margin-left:3px;
+            width: 65%;
          }
 
       }
@@ -965,133 +964,128 @@ export const PictureUpload = styled.div`
 `;
 
 export const PictureUploadComponents = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: start;
+
+  @media (max-width: 645px) {
+    align-items: center;
+    margin: 0 24px;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 0;
+    align-items: center;
+  }
+
+  @media (min-width: 1200px) {
+    padding-left: 50px;
+  }
+
+  .send-btn-passport {
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: 645px) {
+      justify-content: stretch;
+    }
+  }
+
+  .title {
+    height: 100px;
+    width: 550px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 160%;
+    font-feature-settings: "liga" off;
+    color: #110035;
+
+    @media (min-width: 645px) {
+      height: 120px;
       display: flex;
-      width: 100%;
-      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 645px) {
+      width: 90%;
+      height: auto;
+      text-align: left;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+  }
+
+  #photo-uploader {
+    display: none;
+  }
+
+  .upload-picture-treams {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    @media (max-width: 1200px) {
+      align-items: center;
+    }
+
+    @media (max-width: 645px) {
       align-items: start;
+    }
 
-      @media(max-width: 645px){
-        align-items: center;
-        margin: 0 24px;
-      }
-
-      @media(max-width: 1200px){
-         padding: 0;
-         align-items: center;
-      }
-
-      @media(min-width: 1200px){
-        padding-left: 50px;
-      }
-
-
-      .send-btn-passport {
-         display: flex;
-         justify-content: center;
-        
-          @media(max-width: 645px){
-            justify-content: stretch;
-          }
-      }
-
-
-    .title{
-      height: 100px;
-      width: 550px;
-      font-family: 'Inter';
+    ul {
+      font-family: "Inter";
       font-style: normal;
       font-weight: 400;
-      font-size: 16px;
-      line-height: 160%;
-      font-feature-settings: 'liga' off;
-      color: #110035;
-
-
-      @media(min-width: 645px){
-         height: 120px;
-         display: flex;
-         align-items: center;
-      }
-      
-      @media(max-width: 645px){
-         width: 90%;
-         height: auto;
-         text-align: left;
-        margin-bottom: 16px;
-        font-size: 14px;
-      }
-   }
-
-   #photo-uploader{
-      display: none;
-   }
-
-   .upload-picture-treams{
-      width: 100%;
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-
-      @media(max-width: 1200px){
-         align-items: center;
-      }
-
-      @media(max-width: 645px){
-         align-items: start;
-      }
-
-      ul{
-         font-family: 'Inter';
-         font-style: normal;
-         font-weight: 400;
-         font-size: 14px;
-         line-height: 160%;
-         font-feature-settings: 'liga' off;
-         color: #110035;
-         padding-left: 20px;
-
-         @media(max-width: 1200px){
-            padding-right: 100px;
-         }
-         
-
-         @media(max-width: 645px){
-            padding-right: 20px;
-            padding-left: 24px;
-         }
-      }
-
-     ul li{
-        //list-style: inside;
-        margin-top: 10px;
-
-        @media(max-width: 645px){
-         font-size: 14px; 
-        }
-     }
-   }
-
-   .save-to-verification{
-      margin-top: 40px;
-      width: 550px;
-      height: 56px;
-      background: #3800B0;
-      border-radius: 8px;
-      font-family: 'Steppe';
-      font-style: normal;
-      font-weight: 600;
       font-size: 14px;
-      line-height: 130%;
-      letter-spacing: 0.01em;
+      line-height: 160%;
       font-feature-settings: "liga" off;
-      color: #ffffff;
+      color: #110035;
+      padding-left: 20px;
+
+      @media (max-width: 1200px) {
+        padding-right: 100px;
+      }
 
       @media (max-width: 645px) {
-        width: 90%;
+        padding-right: 20px;
+        padding-left: 24px;
       }
     }
 
+    ul li {
+      //list-style: inside;
+      margin-top: 10px;
+
+      @media (max-width: 645px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .save-to-verification {
+    margin-top: 40px;
+    width: 550px;
+    height: 56px;
+    background: #3800b0;
+    border-radius: 8px;
+    font-family: "Steppe";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.01em;
+    font-feature-settings: "liga" off;
+    color: #ffffff;
+
+    @media (max-width: 645px) {
+      width: 90%;
+    }
+  }
 `;
 
 //     @media (min-width: 1200px) {
@@ -1161,7 +1155,7 @@ export const Password = styled.input`
     height: 56px;
     width: 90%;
     border-radius: 8px;
-    margin-left:26px
+    margin-left: 26px;
   }
   @media (max-width: 480px) {
     display: flex;
@@ -1169,7 +1163,7 @@ export const Password = styled.input`
     height: 56px;
     width: 90%;
     border-radius: 8px;
-    margin-left:20px
+    margin-left: 20px;
   }
 `;
 
@@ -1471,7 +1465,6 @@ export const PictureDropDown = styled.div`
 `;
 
 export const StatusPedding = styled.div`
-
   @media (max-width: 645px) {
     display: flex;
     flex-direction: column;

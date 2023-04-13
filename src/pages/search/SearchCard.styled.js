@@ -1,59 +1,54 @@
 import styled from "styled-components";
 
-export const GridBody= styled.div`
-
-  .griddiv{
+export const GridBody = styled.div`
+  .griddiv {
     width: 80%;
-    margin: 58px auto; 
+    margin: 58px auto;
   }
 
-  @media (min-width: 1200px) and ()
-  
-  .griddivwish{
+  @media (min-width: 1200px) and () .griddivwish {
     width: 80%;
     margin: 58px auto 0 auto;
-     
-    @media(max-width: 1605px){
+
+    @media (max-width: 1605px) {
       width: 85%;
     }
 
-    @media(max-width: 1500px){
+    @media (max-width: 1500px) {
       width: 88%;
     }
 
-    @media(max-width: 1300px){
+    @media (max-width: 1300px) {
       width: 90%;
     }
   }
-  .check{
-    float:right;
-    color: #1A76F2; 
-    font-size:17px;
-    margin:4px;
-}
-  @media (max-width: 420px){
-  
+  .check {
+    float: right;
+    color: #1a76f2;
+    font-size: 17px;
+    margin: 4px;
+  }
+  @media (max-width: 420px) {
     margin: 0;
 
-    
-    .griddiv{
+    .griddiv {
       width: 344px;
       margin: 35px auto;
     }
-    .gridcol{
-      margin:0;
+    .gridcol {
+      margin: 0;
       width: 164px;
       padding: 0;
     }
-    .check{
-      float:right;
-      color: #1A76F2; 
-      font-size:15px;
+    .check {
+      float: right;
+      color: #1a76f2;
+      font-size: 15px;
       margin: 0;
+    }
   }
-  }
-  `
-  export const Wrapper = styled.div`
+`;
+export const Wrapper = styled.div`
    background: #FFFFFF;
    border: 1px solid #EBE5F7;
    border-radius: 24px;
@@ -110,79 +105,91 @@ export const GridBody= styled.div`
 }
 
 
-`
+`;
 export const ImgWrapper = styled.img`
 height: 321px;
 width: 100%;
 object-fit: cover;
 border-radius: 24px;
 @media (max-width: 420px){
-  width:164px;
+  width:340px;
   height:164px;
+  object-fit:cover;
   border-radius: 16px;
-`
+`;
 export const ContentWrapper = styled.div`
-padding: 30px;
-@media (max-width: 420px){
-  width: 100%;
-  height:100%;
-  padding: 16px;
-}
-`
+  padding: 30px;
+  @media (max-width: 420px) {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+  }
+`;
 
 export const Titles = styled.h5`
-font-size: 20px;
-color: #110035;
-@media (max-width: 420px){
-   font-size: 14px;
-   width:132px;
-   margin: 16px auto 0 auto  
-}
-`
-export const UserWrapper = styled.div`
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin: 20px 0px 10px 0px;
-`
-export const UserAbout = styled.div``
-export const UserName = styled.h6`
-font-weight: 600;
-font-size: 14px;
-@media (max-width: 420px){
-  font-size: 12px;
-}
-`
-export const UserDesc = styled.p`
-color: #110035;
-font-weight: 400;
-font-size: 13px;
-opacity: 0.72;
-`
-export const UserPhoto = styled.img`
-border-radius: 24px;
-width: 40px;
-height: 40px;
-`
+  font-size: 20px;
+  color: #110035;
+  font-weight: 600;
 
-export const PriceWrapper = styled.div``
+  @media (max-width: 420px) {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+   
+  }
+`;
+export const UserWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0px 10px 0px;
+`;
+export const UserAbout = styled.div``;
+export const UserName = styled.h6`
+  font-weight: 600;
+  font-size: 14px;
+  @media (max-width: 420px) {
+    font-size: 12px;
+  }
+`;
+export const UserDesc = styled.p`
+  color: #110035;
+  font-weight: 400;
+  font-size: 13px;
+  opacity: 0.72;
+`;
+export const UserPhoto = styled.img`
+  border-radius: 24px;
+  width: 40px;
+  height: 40px;
+`;
+
+export const PriceWrapper = styled.div``;
 export const Prices = styled.div`
-display: flex;
-align-items: center;
-justify-content: space-between;
-color: #110035;
-opacity: 0.72;
-font-weight: 400;
-font-size: 13px;
-`
-export const LeftPrice = styled.p``
-export const RightPrice = styled.p``
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #110035;
+  opacity: 0.72;
+  font-weight: 400;
+  font-size: 13px;
+`;
+export const LeftPrice = styled.p``;
+export const RightPrice = styled.p``;
 
 export const ProgressWrapper = styled.div`
-margin: 16px 0px;
-`
-export const Loading = styled.p`
+  margin: 16px 0px;
+`;
+export const Loading = styled.button`
 display: block
+margin:10px auto;
+color: #3800B0;
+font-weight: 600;
+font-size: 18px;
+font-family: sans-serif;
+line-height: 130%;
+letter-spacing: 0.01em;
+
 @media (max-width: 420px){
   display: block;
   text-align: center;
@@ -195,4 +202,4 @@ display: block
   margin-bottom: 40px;
 
 }
-`
+`;

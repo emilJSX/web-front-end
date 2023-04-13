@@ -49,6 +49,12 @@ function Search() {
   const [getAllWishData, setAllWishData] = useState([]);
   const [getSearchValue, setSearchValue] = useState("");
   const [getInfinityScroll, setInfinityScroll] = useState(0);
+  const [infiniteScrollWish, setInfinityScrollWish] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
+  const [isLast, setIsLast] = useState(null);
+  const [isLastWish, setIsLastWish] = useState(null);
+  const [total, setTotal] = useState(null);
+  const [totalWish, setTotalWish] = useState(null);
   const [error, setError] = useState("");
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -61,6 +67,16 @@ function Search() {
 
   // END INFINITY SCROLL
 
+  const loadMore = (e) => {
+    e.preventDefault();
+    if (activeTab === 2) setActiveTab(2);
+    !isLast && setInfinityScroll(getInfinityScroll + 25);
+  };
+  const loadMoreWish = (e) => {
+    e.preventDefault();
+    if (activeTab === 1) setActiveTab(1);
+    !isLast && setInfinityScrollWish(infiniteScrollWish + 25);
+  };
   function getWishIdForResult(slug) {
     navigate("/wish/s" + slug, { state: slug });
   }
@@ -73,25 +89,28 @@ function Search() {
   useEffect(() => {
     setError("");
     setLoading(true);
+    setIsLast(null);
     myaxiosprivate
       .get("/api/v1/profiles/search", {
         params: {
-          skip: 0,
+          skip: getInfinityScroll,
           search: state.getSearchValue,
         },
       })
       .then((res) => {
+        setIsLast(res.data.data.last);
+        setTotal(res.data.data.total);
         const filteredData = res.data.data.results.filter(
           (item) => item.id !== state.myUserId
         );
-        setAllPeopleData(filteredData);
+        setAllPeopleData((last) => [...last, ...filteredData]);
         setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, [state.getSearchValue]);
+  }, [state.getSearchValuem, getInfinityScroll]);
 
   useEffect(() => {
     setError("");
@@ -99,11 +118,13 @@ function Search() {
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
-          skip: 0,
+          skip: infiniteScrollWish,
           search: state.getSearchValue,
         },
       })
       .then((res) => {
+        setIsLastWish(res.data.data.last);
+        setTotalWish(res.data.data.total);
         setAllWishData(res.data.data);
         setLoading(false);
       })
@@ -111,7 +132,7 @@ function Search() {
         setError(err.message);
         setLoading(false);
       });
-  }, [state.getSearchValue]);
+  }, [state.getSearchValue, infiniteScrollWish]);
 
   const getResultSearchingData = () => {
     setError("");
@@ -172,9 +193,12 @@ function Search() {
         defaultActiveKey="wish"
         id="uncontrolled-tab-example"
         className="mb-3 tabs-choose"
+        activeKey={activeTab}
+        onSelect={setActiveTab}
       >
         <Tab
-          eventKey="wish"
+          key={"wish"}
+          eventKey={1}
           className="tabone tabsfirst"
           title={
             <p>
@@ -267,11 +291,20 @@ function Search() {
                 // </Grid.Col>
               ))}
             </Grid>
-            {/* <Loading onClick={(p)=>getInfinityScrolling(p + 10)}>Loading</Loading> */}
+            <div className="flex justify-center my-5">
+              <Loading
+                onClick={loadMoreWish}
+                disabled={isLastWish}
+                className={isLastWish && "!hidden"}
+              >
+                Get More Wishes
+              </Loading>
+            </div>
           </GridBody>
         </Tab>
         <Tab
-          eventKey="profile"
+          key={"people"}
+          eventKey={2}
           title={
             <p>
               Profile
@@ -285,10 +318,10 @@ function Search() {
           className="tabtwo "
         >
           <GridBody>
-            <Grid className="griddiv">
+            <Grid className="w-[90%] flex justify-center items-center mx-auto">
               {getAllPeopleData?.map((index) => (
                 <Personal>
-                  {console.log(index)}
+                  {/* {console.log(index)} */}
                   <Photo
                     src={
                       index?.image
@@ -301,6 +334,7 @@ function Search() {
                     onClick={(e) => getUserSlugForProfile(e.currentTarget.id)}
                   >
                     {index?.name}
+                    {index?.verify && <HiBadgeCheck className="check" />}
                   </Name>
                   <Tag
                     id={index.username}
@@ -308,11 +342,18 @@ function Search() {
                   >
                     @{index?.username}
                   </Tag>
-                  {index?.verify && <HiBadgeCheck className="check" />}
                 </Personal>
               ))}
             </Grid>
-            {/* <Loading onClick={OnclickProfileInfinity}>Get More Users</Loading> */}
+            <div className="flex justify-center my-5">
+              <Loading
+                onClick={loadMore}
+                disabled={isLast}
+                className={isLast && "!hidden"}
+              >
+                Get More Users
+              </Loading>
+            </div>
           </GridBody>
         </Tab>
       </Tabs>

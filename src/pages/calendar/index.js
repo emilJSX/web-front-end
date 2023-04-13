@@ -176,11 +176,7 @@ function Calendar() {
     }
   };
   if (loading) {
-    return (
-      
-        <Loader />
-      
-    );
+    return <Loader />;
   }
   return (
     <Mainpage>
@@ -204,8 +200,9 @@ function Calendar() {
           </Toppage>
           <Big_calendar_bigdiv>
             <Calendar_first_empty>{}</Calendar_first_empty>
-            {getAllCalendar?.map((e) => (
+            {getAllCalendar?.map((e, i) => (
               <Calendar_item
+                key={i}
                 ref={e.current ? currentDayRef : null}
                 style={{ border: e.current == true ? "2px solid #3800B0" : "" }}
                 className="calendar_item"
@@ -213,8 +210,8 @@ function Calendar() {
                 <Calendar_item_item>
                   <p className="numberblack">{e?.month_day}</p>
                   <Calendar_item_into>
-                    {e?.wishes_list?.map((data) => (
-                      <Link to={`/profile/${data.user.username}`}>
+                    {e?.wishes_list?.map((data, index) => (
+                      <Link key={index} to={`/profile/${data.user.username}`}>
                         <Person_item_second>
                           <Photo_cycle
                             src={`${
@@ -311,52 +308,59 @@ function Calendar() {
           </MobileDateBlue>
           <BsChevronRight onClick={() => nextDay()} className="right" />
         </MobileDateDiv>
-        {!getCalendarthisday && <p>No such wish found in this date</p>}
-        {getCalendarthisday?.map((item) => (
-          <Accordion
-            expanded={expand}
-            style={{ background: "aliceblue", boxShadow: "none" }}
-          >
-            <>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                onClick={toggleAcordion}
-              >
-                <Typography>
-                  <Middle_page_top>
-                    <Middle_top_photo src={item?.user?.image} />
-                    <Middle_top_word>{item?.user?.full_name}</Middle_top_word>
-                    <BsCheckCircleFill className="check" />
-                  </Middle_page_top>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails style={{ background: "aliceblue" }}>
-                <Typography>
-                  <Birthday>{item.wish_list[0].occasion}</Birthday>
-                  <Card>
-                    <Card_photo
-                      src={`${process.env.REACT_APP_API_URL}${item.wish_list[0].image}`}
-                    />
-                    <Card_title>{item?.wish_list[0]?.title}</Card_title>
-                    <Loading_big>
-                      <Loading_blue></Loading_blue>
-                    </Loading_big>
-                    <Price_div>
-                      <p className="pleft">
-                        ${item.wish_list[0]?.donate?.received} raised
-                      </p>
-                      <p className="pright">
-                        ${item.wish_list[0]?.donate?.left} left
-                      </p>
-                    </Price_div>
-                  </Card>
-                </Typography>
-              </AccordionDetails>
-            </>
-          </Accordion>
-        ))}
+        {getCalendarthisday?.length > 0 ? (
+          getCalendarthisday?.map((item, index) => (
+            <Accordion
+              key={index}
+              expanded={expand}
+              style={{ background: "aliceblue", boxShadow: "none" }}
+            >
+              <>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  onClick={toggleAcordion}
+                >
+                  <Typography>
+                    <Middle_page_top>
+                      <Middle_top_photo src={item?.user?.image} />
+                      <Middle_top_word>{item?.user?.full_name}</Middle_top_word>
+                      <BsCheckCircleFill className="check" />
+                    </Middle_page_top>
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ background: "aliceblue" }}>
+                  <Typography>
+                    <Birthday>{item?.wish_list[0]?.occasion}</Birthday>
+                    <Card>
+                      <Card_photo
+                        src={`${process.env.REACT_APP_API_URL}${item?.wish_list[0]?.image}`}
+                      />
+
+                      <Card_title>{item?.wish_list[0]?.title}</Card_title>
+                      <Loading_big>
+                        <Loading_blue></Loading_blue>
+                      </Loading_big>
+                      <Price_div>
+                        <p className="pleft">
+                          ${item?.wish_list[0]?.donate?.received} raised
+                        </p>
+                        <p className="pright">
+                          ${item?.wish_list[0]?.donate?.left} left
+                        </p>
+                      </Price_div>
+                    </Card>
+                  </Typography>
+                </AccordionDetails>
+              </>
+            </Accordion>
+          ))
+        ) : (
+          <p className="inline-block pb-3 mx-[3.6rem] w-full">
+            No such wish found in this date
+          </p>
+        )}
         {/* ))} */}
       </MobileCalendar>
 

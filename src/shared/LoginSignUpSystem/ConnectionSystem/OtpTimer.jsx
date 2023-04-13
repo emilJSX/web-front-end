@@ -44,7 +44,17 @@ const OtpTimer = ({ passRecover, initialStatus }) => {
 
   return (
     <div>
-      <Send onClick={handleStart}> Send Again</Send>
+      <Send
+        onClick={handleStart}
+        disabled={status === STATUS.STARTED}
+        className={
+          status === STATUS.STARTED &&
+          "!text-gray-300 !border-gray-300 !cursor-not-allowed"
+        }
+      >
+        {" "}
+        Send Again
+      </Send>
       <Seconds>
         {twoDigits(Math.floor(secondsRemaining / 60))}:
         {twoDigits(secondsRemaining % 60)}

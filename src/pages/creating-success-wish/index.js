@@ -62,7 +62,7 @@ const Created_Success_Wish = () => {
       setLoading(true);
       setError("")
       await myaxiosprivate
-        .get("https://api.wishx.me/api/v1/wish/show", {
+        .get("api/v1/wish/show", {
           params: { wish_id: state },
         })
         .then((GetUserWish) => {
