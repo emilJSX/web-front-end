@@ -17,7 +17,7 @@ import {
 import { useDrawer } from "../../../hooks/useDrawer";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { useAuthSelector } from "../../../store/slices/authSlice";
-export const AsideComponent = ({user}) => {
+export const AsideComponent = ({ user }) => {
   const isAuth = useSelector(useAuthSelector);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
@@ -39,7 +39,7 @@ export const AsideComponent = ({user}) => {
         setError(err.message);
       });
   }
-
+  let myUserId = user && user.user_id;
   return (
     <CustomAside hidden={!toggle}>
       {isAuth ? (
@@ -55,23 +55,29 @@ export const AsideComponent = ({user}) => {
                     : `${user?.info.avatar}`
                 }
               />
-              <a href="/my-profile">
+              <Link href="/my-profile">
                 <li className="login-aside-element">
-                  {!user?.info.full_name 
+                  {!user?.info.full_name
                     ? "does not exist"
                     : user?.info.full_name}
                 </li>
-              </a>
-              <a className="login-aside-element" href="/my-profile">
+              </Link>
+              <Link className="login-aside-element" href="/my-profile">
                 <li>My wishes</li>
-              </a>
-              <a className="login-aside-element" href="/profile-edit">
+              </Link>
+              <Link className="login-aside-element" href="/profile-edit">
                 <li>Edit personal info</li>
-              </a>
-              <a className="login-aside-element" href="/settings">
+              </Link>
+              <Link className="login-aside-element" href="/settings">
                 <li>Settings</li>
-              </a>
+              </Link>
               <hr className="hr-aside" />
+              <li
+                className="login-aside-element cursor-pointer"
+                onClick={() => navigate("/search", { state: { myUserId } })}
+              >
+                Search
+              </li>
               {asideLinkLogined.map((e, i) => (
                 <li key={i}>
                   <Link to={e.href} className="aside-link-element">

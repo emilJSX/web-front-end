@@ -22,10 +22,10 @@ export const asideLinks = [
 ]
 
 export const asideLinkLogined = [
-    {
-        name: 'Search',
-        href: '/search',
-    },
+    // {
+    //     name: 'Search',
+    //     href: '/search',
+    // },
     {
         name: 'All wishes',
         href: '/wish-list',
