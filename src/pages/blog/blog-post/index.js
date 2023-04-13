@@ -73,11 +73,7 @@ const BlogPost = () => {
   const truncate = (input) =>
     input?.length > 300 ? `${input.substring(0, 100)}...` : input;
   if (loading) {
-    return (
-     
-        <Loader />
-      
-    );
+    return <Loader />;
   }
   return (
     <>
@@ -116,7 +112,8 @@ const BlogPost = () => {
         </ColaImg>
         <div className="mt-5">
           <p className="first-txt">{blogPost?.partials[0]?.content}</p>
-        </div>
+        </div>{" "}
+        {/*
         <h1 className="custom-txt">{blogPost?.partials[0]?.title}</h1>
         <p className="second-txt">{blogPost?.partials[0]?.content}</p>
         <ColaImg className="first-image-container">
@@ -127,7 +124,7 @@ const BlogPost = () => {
               src={`${process.env.REACT_APP_API_URL}${blogPost?.partials[0]?.image}`}
             />
           )}
-        </ColaImg>
+        </ColaImg> */}
         {/* <p className="second-txt">
           <p className="first-txt">
             {blogPost?.partials[0]?.content
