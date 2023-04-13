@@ -1,6 +1,8 @@
 import React from "react";
 import { GoPrimitiveDot } from "react-icons/go";
-function Notification({ show, notifications }) {
+import ClickAwayListener from "@mui/base/ClickAwayListener";
+
+function Notification({ show, notifications, innerRef }) {
   // let notifications = [
   //   {
   //     id: 1,
@@ -19,6 +21,7 @@ function Notification({ show, notifications }) {
   // ];
   return (
     <div
+      ref={innerRef}
       className={
         show
           ? "block z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[46%] xl:left-[40%] mt-[21px]  bg-white  rounded-lg  w-full  md:h-fit md:w-[320px]"

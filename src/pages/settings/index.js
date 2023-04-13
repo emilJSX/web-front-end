@@ -71,7 +71,7 @@ const SettingsPage = () => {
         rightSectionWidth={40}
         className="selection"
       />
-      <NativeSelect
+      {/* <NativeSelect
         pt={20}
         style={{ fontFamily: "Steppe" }}
         label="Timezone"
@@ -90,7 +90,7 @@ const SettingsPage = () => {
         className="selection"
         rightSection={<IconChevronDown size={14} />}
         rightSectionWidth={40}
-      />
+      /> */}
 
       <div style={{ width: "100%" }} className="pt-4">
         <Button

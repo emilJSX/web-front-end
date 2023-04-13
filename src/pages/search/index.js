@@ -59,7 +59,6 @@ function Search() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  console.log(activeTab);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

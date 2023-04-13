@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Container, Input, Image, Progress} from "@mantine/core";
+import { Grid, Container, Input, Image, Progress } from "@mantine/core";
 import {
   BlogCard,
   BlogMainSection,
@@ -41,6 +41,8 @@ const WishList = () => {
   const [getCategoryId, setCategoryId] = useState(null);
 
   const navigate = useNavigate();
+  const [infiniteScrollWish, setInfinityScrollWish] = useState(0);
+  const [isLastWish, setIsLastWish] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -52,43 +54,67 @@ const WishList = () => {
   const [categories, setCategories] = useState();
 
   const buttonTitles = [{ id: 0, title: "All" }];
+  const loadMoreWish = (e) => {
+    e.preventDefault();
+    if (activeTab === 1) setActiveTab(1);
+    !isLast && setInfinityScrollWish(infiniteScrollWish + 25);
+  };
+  useEffect(() => {
+    setError("");
+    setLoading(true);
+    myaxiosprivate
+      .get("/api/v1/wish/list?skip=0", {
+        params: {
+          skip: infiniteScrollWish,
+        },
+      })
+      .then(({ data }) => {
+        setAllWishData(data.data.results);
+        setIsLastWish(data.data.last);
+        setTotalWish(data.data.total);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [infiniteScrollWish]);
+  // const [sentryRef] = useInfiniteScroll({
+  //   loading: loading,
+  //   hasNextPage: hasNextPage,
+  //   disabled: getSearchValue || !!error,
+  //   onLoadMore: () => {
+  //     setLoading(true);
 
-  const [sentryRef] = useInfiniteScroll({
-    loading: loading,
-    hasNextPage: hasNextPage,
-    disabled: !!error,
-    onLoadMore: () => {
-      setLoading(true);
+  //     let _skip = isFirstLoad ? 0 : skip + 10;
+  //     setSkip(_skip);
+  //     setIsFirstLoad(false);
+  //     hasNextPage &&
+  //       myaxiosprivate
+  //         .get(`/api/v1/wish/list`, {
+  //           params: {
+  //             skip: _skip,
+  //             ...(getSearchValue && { search: getSearchValue }),
+  //             ...(getCategoryId && { category_id: +getCategoryId }),
+  //           },
+  //         })
+  //         .then((res) => {
+  //           setHasNextPage(!res.data.data.last);
 
-      let _skip = isFirstLoad ? 0 : skip + 10;
-      setSkip(_skip);
-      setIsFirstLoad(false);
-
-      myaxiosprivate
-        .get(`/api/v1/wish/list`, {
-          params: {
-            skip: _skip,
-            ...(getSearchValue && { search: getSearchValue }),
-            ...(getCategoryId && { category_id: +getCategoryId }),
-          },
-        })
-        .then((res) => {
-          setHasNextPage(!res.data.data.last);
-
-          setAllWishData((prev = []) => [
-            ...prev,
-            ...(res.data.data.results || []),
-          ]);
-        })
-        .catch((error) => {
-          setError(error.response);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    },
-    rootMargin: "0px 0px 400px 0px",
-  });
+  //           setAllWishData((prev = []) => [
+  //             ...prev,
+  //             ...(res.data.data.results || []),
+  //           ]);
+  //         })
+  //         .catch((error) => {
+  //           setError(error.response);
+  //         })
+  //         .finally(() => {
+  //           setLoading(false);
+  //         });
+  //   },
+  //   rootMargin: "0px 0px 400px 0px",
+  // });
 
   // useEffect(() => {
   //   myaxios.get('/api/v1/wish/categories/get', {
@@ -110,7 +136,8 @@ const WishList = () => {
     }
   }
 
-  const GetResultWishesList = () => {
+  const GetResultWishesList = (e) => {
+    e.preventDefault();
     setLoading(true);
     setError("");
     myaxiosprivate
@@ -123,11 +150,15 @@ const WishList = () => {
       })
       .then(({ data }) => {
         setAllWishData(data.data.results);
+        setSearchValue("");
         setSkip(0);
-        setIsFirstLoad(false);
+        // setIsFirstLoad(false);
         setHasNextPage(data.data.last);
       })
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      })
       .finally(() => {
         setLoading(false);
       });
@@ -252,6 +283,7 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
+          {console.log(getAllWishData)}
           {getAllWishData?.length === 0 && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col key={getWishList.id} xs={12} sm={6} md={3} lg={3}>
@@ -340,12 +372,15 @@ const WishList = () => {
               </Wrapper>
             </Grid.Col>
           ))}
-          {loading ||
-            (hasNextPage && (
-              <div ref={sentryRef}>
-                <Loading />
-              </div>
-            ))}
+          <div className="flex justify-center my-5">
+            <Loading
+              onClick={loadMoreWish}
+              disabled={isLastWish}
+              className={isLastWish && "!hidden"}
+            >
+              Get More Wishes
+            </Loading>
+          </div>
         </Grid>
       </BlogCard>
       {/* <Loading>

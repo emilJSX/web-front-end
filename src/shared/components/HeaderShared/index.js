@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "../../ui/Button";
 // import { ReactComponent as BinIcon } from '../../../style/icons/binIcon.svg'
 import {
@@ -17,7 +17,7 @@ import { Box, Burger, Loader, MediaQuery } from "@mantine/core";
 import { DotsToggle } from "../../ui/dots-toggle-menu";
 import { ReactComponent as StarsIcon } from "../../../style/icons/small-stars.svg";
 import { ReactComponent as GridIcon } from "../../../style/icons/grid-icon.svg";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MyProfile from "../../../pages/my-profile";
 import { FiChevronDown } from "react-icons/fi";
 import { IoCalendarOutline, IoNotificationsOutline } from "react-icons/io5";
@@ -35,7 +35,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { myaxiosprivate, updateToken } from "../../../api/myaxios";
 import Notification from "../NotificationMenu/Notification";
 import { echo } from "../../../helpers/notif";
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 export const HeaderShared = ({ user, error }) => {
+  let { pathname } = useLocation();
+
   const [notifShow, setNotifShow] = useState(false);
   const [showes, setShowes] = useState(false);
   const [show, setShow] = useState(false);
@@ -45,10 +48,42 @@ export const HeaderShared = ({ user, error }) => {
   const isAuth = useSelector(useAuthSelector);
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
-  const toggleOptions = () => {
+  const notRef = useRef(null);
+  const settingRef = useRef(null);
+  const toggleOptions = (e) => {
+    e.preventDefault();
     setOpenedMenu(!getOpenedMenu);
     notifShow && setNotifShow(false);
   };
+
+  // useEffect(() => {
+  //   const closeOpenMenus = (e) => {
+  //     e.stopPropagation();
+  //     if (
+  //       getOpenedMenu &&
+  //       settingRef.current &&
+  //       !settingRef.current.contains(e.target)
+  //     ) {
+  //       setOpenedMenu(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", closeOpenMenus);
+  //   return () => {
+  //     document.removeEventListener("mousedown", closeOpenMenus);
+  //   };
+  // }, [getOpenedMenu, settingRef]);
+  useEffect(() => {
+    const closeNotif = (e) => {
+      if (notRef.current && notifShow && !notRef.current.contains(e.target)) {
+        setNotifShow(false);
+      }
+    };
+    document.addEventListener("mousedown", closeNotif);
+
+    return () => {
+      document.removeEventListener("mousedown", closeNotif);
+    };
+  }, [notifShow]);
 
   function GetWishNameForCreation() {
     if (isAuth) {
@@ -131,12 +166,19 @@ export const HeaderShared = ({ user, error }) => {
                   color: "#3800B0",
                   float: "left",
                 }}
-                onClick={() => {
-                  setNotifShow(!notifShow), setOpenedMenu(false);
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNotifShow(!notifShow);
                 }}
               />
             </CardIcon>
-            <Notification show={notifShow} notifications={notifications} />
+            <Notification
+              innerRef={notRef}
+              show={notifShow}
+              notifications={notifications}
+            />
+
             {user.wishes?.active?.length === 0 && (
               <CreateWishBtn>
                 <Link to="/creating-wish">Create a wish</Link>
@@ -185,33 +227,50 @@ export const HeaderShared = ({ user, error }) => {
                 {user?.info.wishes_count} wishes •{" "}
                 {user?.balance ? "$" + user.balance : "$0"}
               </ProfilWish>
-              <div
-                className={
-                  !getOpenedMenu
-                    ? "hidden dropdown-menu-logined"
-                    : "block dropdown-menu-logined z-10"
-                }
-                // style={{ display: !getOpenedMenu ? "none" : "block" }}
-              >
-                <div className="body-menu-logined">
-                  <ul>
-                    <Link
-                      to="/profile-edit"
-                      onClick={() => setOpenedMenu(false)}
-                    >
-                      <li className="edit-personal-info-btn">
-                        Edit personal info
-                      </li>
-                    </Link>
-                    <Link to="/settings" onClick={() => setOpenedMenu(false)}>
-                      <li className="settings-btn">Settings</li>
-                    </Link>
-                    <Link onClick={handleLogout}>
-                      <li className="settings-btn">Sign out</li>
-                    </Link>
-                  </ul>
-                </div>
-              </div>
+
+              {getOpenedMenu && (
+                <ClickAwayListener onClickAway={() => setOpenedMenu(false)}>
+                  <div className="dropdown-menu-logined z-10">
+                    <div className="body-menu-logined" ref={settingRef}>
+                      <ul>
+                        <Link
+                          to="/profile-edit"
+                          onClick={() => setOpenedMenu(false)}
+                        >
+                          <li
+                            className={
+                              pathname === "/profile-edit"
+                                ? " !bg-[#22006A] px-1 rounded-md !text-white edit-personal-info-btn"
+                                : "edit-personal-info-btn hover:shadow-lg  hover:!bg-[#2D008D] hover:!text-white hover:rounded-md"
+                            }
+                          >
+                            Edit personal info
+                          </li>
+                        </Link>
+                        <Link
+                          to="/settings"
+                          onClick={() => setOpenedMenu(false)}
+                        >
+                          <li
+                            className={
+                              pathname === "/settings"
+                                ? "!bg-[#22006A] px-2 rounded-md !text-white settings-btn"
+                                : "settings-btn hover:shadow-[#22006A3D]  hover:shadow-lg hover:!bg-[#2D008D] hover:!text-white hover:rounded-md"
+                            }
+                          >
+                            Settings
+                          </li>
+                        </Link>
+                        <Link onClick={handleLogout}>
+                          <li className="settings-btn hover:px-2  hover:shadow-lg hover:!bg-[#2D008D] hover:!text-white hover:rounded-md">
+                            Sign out
+                          </li>
+                        </Link>
+                      </ul>
+                    </div>
+                  </div>
+                </ClickAwayListener>
+              )}
             </Card>
           </div>
         </>

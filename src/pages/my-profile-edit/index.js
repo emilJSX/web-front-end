@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MultiSelect } from "@mantine/core";
 import Loader from "../../shared/ui/Loader";
 
@@ -67,6 +67,7 @@ import { useNavigate } from "react-router-dom";
 import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
 import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
 import { BiX } from "react-icons/bi";
+import { Autocomplete, TextField } from "@mui/material";
 
 // const SetProfileEditButtonsEvent = () => {
 //   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -259,22 +260,25 @@ function MyVerticallyCenteredModal(props) {
     return <div className="flex justify-center items-center h-96">{error}</div>;
   }
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Delete your account
-        </Modal.Title>
-        <Button1 onClick={props.onHide}>
-          <BiX style={{ fontSize: "20px" }} />
-        </Button1>
-      </Modal.Header>
-      <Modal.Body>
-        {/* <h1 className="enter-password-title">
+    <>
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        backdrop={show ? false : true}
+        className={show && "!hidden"}
+      >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Delete your account
+          </Modal.Title>
+          <Button1 onClick={props.onHide}>
+            <BiX style={{ fontSize: "20px" }} />
+          </Button1>
+        </Modal.Header>
+        <Modal.Body>
+          {/* <h1 className="enter-password-title">
           Enter password to allow deletion
         </h1>
         <Password
@@ -284,41 +288,41 @@ function MyVerticallyCenteredModal(props) {
           type={password ? "password" : "text"}
           onChange={(e) => setPassword(e.target.value)}
         /> */}
-        <div className="delete-causes-items-container">
-          <p>Reason for deleting the account (optional)</p>
-          <FormControl>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="reason"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            >
-              {reasons?.map((item) => (
-                <FormControlLabel
-                  key={item.id}
-                  value={item.id}
-                  control={<Radio />}
-                  label={item.name}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <div className="reson-text-input flex flex-col">
-          <input
-            type="text"
-            className="info_input mt-2"
-            placeholder="Describe your reason"
-            disabled={reason !== "Other"}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={showOtpModal}>Delete account</Button>
-      </Modal.Footer>
-
+          <div className="delete-causes-items-container">
+            <p>Reason for deleting the account (optional)</p>
+            <FormControl>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                name="reason"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              >
+                {reasons?.map((item) => (
+                  <FormControlLabel
+                    key={item.id}
+                    value={item.id}
+                    control={<Radio />}
+                    label={item.name}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className="reson-text-input flex flex-col">
+            <input
+              type="text"
+              className="info_input mt-2"
+              placeholder="Describe your reason"
+              disabled={reason !== "Other"}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={showOtpModal}>Delete account</Button>
+        </Modal.Footer>
+      </Modal>
       {show && (
         <OtpModal
           handleRegister={handleDelete}
@@ -326,7 +330,7 @@ function MyVerticallyCenteredModal(props) {
           show={setShow}
         />
       )}
-    </Modal>
+    </>
   );
 }
 
@@ -549,7 +553,11 @@ const ProfileEdit = () => {
       await myaxiosprivate
         .get("/api/v1/settings/countries/get")
         .then((res) => {
-          setAllCountries(res.data.data);
+          setAllCountries(
+            res.data.data.map(({ id, name }) => {
+              return { name: name, id: id };
+            })
+          );
         })
         .catch((err) => {
           setError(err.message);
@@ -586,7 +594,7 @@ const ProfileEdit = () => {
         typeof userInfo?.about === "string" ? userInfo.about : ""
       );
     }
-  }, []);
+  }, [userInfo]);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -640,6 +648,7 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
+    const selectedCountry = allCountries.find((item) => item.name === country);
     const formData = new FormData();
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -652,10 +661,7 @@ const ProfileEdit = () => {
     );
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append(
-      "country",
-      userInfo.country?.id || userInfo.country || country.id
-    );
+    formData.append("country", selectedCountry.id);
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
@@ -727,7 +733,18 @@ const ProfileEdit = () => {
   // ============================================================================================================================
   // ======================================================= GET COUNTRIES ============================================
   // var getCountryList = [];
-
+  const calendarRef = useRef(null);
+  useEffect(() => {
+    const closeCalendar = (e) => {
+      if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+        setShowCalendar(false);
+      }
+    };
+    document.addEventListener("mousedown", closeCalendar);
+    return () => {
+      document.removeEventListener("mousedown", closeCalendar);
+    };
+  }, [showCalendar]);
   const breadCrumb = [
     {
       title: "Main",
@@ -830,7 +847,7 @@ const ProfileEdit = () => {
                         defaultValue={userInfo.full_name}
                         // onChange={handleChangeUserInfo}
                         placeholder="Full name"
-                        className="editing-inputs"
+                        className="editing-inputs !rounded-none md:!w-[550px]"
                         {...register("full_name", {
                           required: "Full name is required",
                           min: 8,
@@ -866,35 +883,71 @@ const ProfileEdit = () => {
                   </GenderButtons>
                   <MainInputs>
                     <div className="seclect-container">
-                      <div
+                      {/* <div
                         className="country-selection"
-                        onClick={() => {
-                          if (isOpened == false) {
-                            document
-                              .querySelector(".countries-list")
-                              .setAttribute("style", "display: block");
-                            SetOpenOrClose(true);
-                          } else {
-                            document
-                              .querySelector(".countries-list")
-                              .setAttribute("style", "display: none");
-                            SetOpenOrClose(false);
-                          }
-                        }}
-                      >
-                        {errors.country && (
-                          <p className="mx-10 mb-1 text-red-500 text-xs">
-                            {errors.country.message}
-                          </p>
-                        )}
-                        <h5 className="country-name">
+                        // onClick={() => {
+                        //   if (isOpened == false) {
+                        //     document
+                        //       .querySelector(".countries-list")
+                        //       .setAttribute("style", "display: block");
+                        //     SetOpenOrClose(true);
+                        //   } else {
+                        //     document
+                        //       .querySelector(".countries-list")
+                        //       .setAttribute("style", "display: none");
+                        //     SetOpenOrClose(false);
+                        //   }
+                        // }}
+                      > */}
+                      {errors.country && (
+                        <p className="mx-10 mb-1 text-red-500 text-xs">
+                          {errors.country.message}
+                        </p>
+                      )}
+                      {/* <h5 className="country-name">
                           {userInfo.country.name
                             ? userInfo.country.name
                             : countryFinder()}
-                        </h5>
-                        <FontAwesomeIcon icon={faChevronDown} />
-                      </div>
-                      <ul className="countries-list">
+                        </h5> */}
+                      {/* <FontAwesomeIcon icon={faChevronDown} /> */}
+                      {/* </div> */}
+                      <Autocomplete
+                        isOptionEqualToValue={(option, value) =>
+                          option.name === value
+                        }
+                        defaultValue={
+                          userInfo?.country?.name
+                            ? userInfo.country.name
+                            : countryFinder()
+                        }
+                        className="!block countries-list !rounded-none !border-0 hover:!border-0 focus:!border-0"
+                        options={allCountries}
+                        onInputChange={(e, value) =>
+                          setUserInfo({
+                            ...userInfo,
+                            country: value,
+                          })
+                        }
+                        sx={{
+                          // border: "1px solid blue",
+
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              border: "none",
+                            },
+                        }}
+                        getOptionLabel={(option) => {
+                          return option.name ? option.name : option;
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            className="!border-0"
+                            placeholder="Select country"
+                          />
+                        )}
+                      />
+                      {/* <ul className="countries-list">
                         {allCountries.map((country) => (
                           <li
                             key={country.id}
@@ -911,7 +964,7 @@ const ProfileEdit = () => {
                             {country.name}
                           </li>
                         ))}
-                      </ul>
+                      </ul> */}
                     </div>
                     {errors.email && (
                       <p className="mx-10 mt-2 text-red-500 text-xs">
@@ -934,35 +987,42 @@ const ProfileEdit = () => {
                     </div>
                     <div className="email-container">
                       <input
-                        type="tel"
+                        type="number"
+                        minLength={7}
+                        maxLength={14}
                         // onChange={handleChangeUserInfo}
                         // value={getUserInfoProfile.number}
                         defaultValue={userInfo.number}
                         name="number"
                         className="info-input-email"
                         placeholder="Phone Number"
-                        {...register("number")}
+                        {...register("number", {
+                          minLength: 7,
+                          maxLength: 14,
+                        })}
                       />
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
-                    <input
-                      type="text"
-                      value={moment(userInfo.dob).format("DD.MM.YYYY")}
-                      readOnly
-                      className="info_input"
-                      placeholder="Date of birth"
-                      onFocus={() => setShowCalendar(true)}
-                    />
-                    <Calendar
-                      defaultValue={userInfo.dob}
-                      locale="en-EN"
-                      closeCalendar={true}
-                      next2Label={false}
-                      prev2Label={false}
-                      onChange={handleCalendarChange}
-                      value={dateValue}
-                      className={showCalendar ? "" : "hide"}
-                    />
+                    <div ref={calendarRef} className="max-w-[550px] w-[90%] md:w-[550px]">
+                      <input
+                        type="text"
+                        value={moment(userInfo.dob).format("DD.MM.YYYY")}
+                        readOnly
+                        className="info_input !w-full"
+                        placeholder="Date of birth"
+                        onFocus={() => setShowCalendar(true)}
+                      />
+                      <Calendar
+                        defaultValue={userInfo.dob}
+                        locale="en-EN"
+                        closeCalendar={true}
+                        next2Label={false}
+                        prev2Label={false}
+                        onChange={handleCalendarChange}
+                        value={dateValue}
+                        className={showCalendar ? "" : "hide"}
+                      />
+                    </div>
                     {errors.slug && (
                       <p className="mx-14 mt-2 text-red-500 text-xs">
                         {errors.slug.message}

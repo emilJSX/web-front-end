@@ -197,22 +197,28 @@ const MyProfile = () => {
   const [coverError, setCoverError] = useState("");
   const handleCoverChange = async (e) => {
     const file = e.target.files[0];
-    setCoverImg(file);
-    const formData = new FormData();
-    formData.append("file", file && file);
 
-    file &&
-      (await myaxiosprivate
-        .post("/api/v1/profiles/cover-image/update", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((res) => {
-          setTimeout(() => {
-            setUploadMessage("File is uploading...");
-            location.reload();
-          }, 150);
-        })
-        .catch((err) => setCoverError(err.message))); //set error
+    if (!/^image\//.test(file.type)) {
+      alert(`File ${file.name} is not an image.`);
+      return false;
+    } else {
+      setCoverImg(file);
+      const formData = new FormData();
+      formData.append("file", file && file);
+
+      file &&
+        (await myaxiosprivate
+          .post("/api/v1/profiles/cover-image/update", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((res) => {
+            setTimeout(() => {
+              setUploadMessage("File is uploading...");
+              location.reload();
+            }, 150);
+          })
+          .catch((err) => setCoverError(err.message))); //set error
+    }
   };
   if (loading) {
     return <Loader />;
@@ -224,6 +230,7 @@ const MyProfile = () => {
           <FotoSection fluid className="relative mt-3 sm:mt-5">
             <input
               type="file"
+              accept="image/*"
               ref={fileInputRef}
               onChange={handleCoverChange}
               className="file-uploader"
@@ -236,8 +243,8 @@ const MyProfile = () => {
               Change cover photo
             </button>
             {uploadMessage ? (
-              <div className="flex justify-center items-center h-[300px]">
-                <Loader size="sm" className="mr-2" />
+              <div className="h-[300px]">
+                <Loader size="md" />
                 {uploadMessage}
               </div>
             ) : (
@@ -298,7 +305,7 @@ const MyProfile = () => {
                 />
                 <Namesurname>
                   {userProfile?.info?.full_name}
-                  {userProfile.verify && <HiBadgeCheck className="bluechek" />}
+                  {userProfile?.verify && <HiBadgeCheck className="bluechek" />}
                 </Namesurname>
                 <TagName> @{userProfile?.info?.slug}</TagName>
                 <Text>
@@ -496,9 +503,11 @@ const MyProfile = () => {
                         <CardLonger>
                           <NotWishes>You don’t have any wishes</NotWishes>
                           <Buttons>
-                            <a href="/creating-wish">
-                              <Buttonleft>Create a wish</Buttonleft>
-                            </a>
+                            <Buttonleft
+                              onClick={() => navigate("/creating-wish")}
+                            >
+                              Create a wish
+                            </Buttonleft>
                             <Buttonright onClick={getWishesListRoute}>
                               Explore wishes
                             </Buttonright>
@@ -616,12 +625,16 @@ const MyProfile = () => {
                       <CardLonger>
                         <NotWishes>You don’t have any wishes</NotWishes>
                         <Buttons>
-                          <Buttonleft>Create a wish</Buttonleft>
+                          <Buttonleft
+                            onClick={() => navigate("/creating-wish")}
+                          >
+                            Create a wish
+                          </Buttonleft>
                           <Buttonright onClick={getWishesListRoute}>
                             Explore wishes
                           </Buttonright>
                         </Buttons>
-                        <Glasses src={file1} />
+                        {/* <Glasses src={file1} /> */}
                       </CardLonger>
                       {/* <Division>
                                                     <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>

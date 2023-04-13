@@ -112,8 +112,9 @@ width: 100%;
 object-fit: cover;
 border-radius: 24px;
 @media (max-width: 420px){
-  width:164px;
+  width:340px;
   height:164px;
+  object-fit:cover;
   border-radius: 16px;
 `;
 export const ContentWrapper = styled.div`
@@ -128,10 +129,13 @@ export const ContentWrapper = styled.div`
 export const Titles = styled.h5`
   font-size: 20px;
   color: #110035;
+  font-weight: 600;
+
   @media (max-width: 420px) {
-    font-size: 14px;
-    width: 132px;
-    margin: 16px auto 0 auto;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+   
   }
 `;
 export const UserWrapper = styled.div`

@@ -31,11 +31,11 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
 const Created_Wish = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment());
   const [isVisibleSetter, setVisibleSetter] = useState(false);
   const [selectedCash, setSelectedCash] = useState("USD", 0);
   const [isVisible, setVisible] = useState("none");
-  const [getInterest, setGetInterest] = useState([])
+  const [getInterest, setGetInterest] = useState([]);
 
   // ================================ Configuration Form Errors ================================
 
@@ -67,12 +67,11 @@ const Created_Wish = () => {
     setTitleWish(wishCreationTitleHome?.state);
   }, []);
 
-  useEffect(()=> {
-    myaxios.get('/api/v1/blog/categories/get')
-    .then((res)=> {
-      setGetInterest(res.data.data)
-    })
-  }, [])
+  useEffect(() => {
+    myaxios.get("/api/v1/blog/categories/get").then((res) => {
+      setGetInterest(res.data.data);
+    });
+  }, []);
 
   const wishCreationTitleHome = useLocation();
 
@@ -377,11 +376,31 @@ const Created_Wish = () => {
                         style={{ background: "#F7F8FA", border: "0" }}
                       >
                         <DesktopDatePicker
-                          label="Date of Birth"
+                          sx={{
+                            border: 0,
+                            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                              {
+                                border: "none",
+                              },
+                          }}
+                          className="!px-2"
+                          InputProps={{
+                            disableunderline: "true",
+                          }}
+                          InputAdornmentProps={{ style: { paddingBottom: 2 } }}
                           inputFormat="DD.MM.YYYY"
-                          value={date}
                           onChange={handleChange}
-                          renderInput={(params) => <TextField {...params} />}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="standard"
+                              value={moment(date).format("DD.MM.YYYY")}
+                              inputProps={{
+                                disableunderline: "true",
+                              }}
+                              placeholder="Date of birth"
+                            />
+                          )}
                         />
                       </Stack>
                     </LocalizationProvider>
