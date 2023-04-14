@@ -76,7 +76,9 @@ const MainBlog = () => {
       state: { GetUserSearch, GetUserCategoryId },
     });
   };
-
+  const handleKeyDown = (e) => {
+    e.keyCode === 13 && GetUserValueForApi();
+  };
   let setLoadingBlog = [];
   getResultApiSearch?.map((AllBlog) =>
     AllBlog.partials.map((e) => setLoadingBlog.push(e))
@@ -179,6 +181,7 @@ const MainBlog = () => {
             <input
               type="search"
               onChange={(e) => setUserSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="inp-sect"
               placeholder="Search by all blog articles"
               style={{

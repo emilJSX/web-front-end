@@ -11,8 +11,6 @@ import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa";
 import Brochure from "../../style/icons/img.svg";
 import BrochureMobile from "../../assets/svg/brochure-mobile.png";
 import Gallery from "../../assets/svg/gallery.svg";
-import { toast, ToastContainer } from "react-toastify";
-
 import {
   Container,
   Hedaer,
@@ -30,6 +28,8 @@ import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
+import { enqueueSnackbar } from "notistack";
+
 const Created_Wish = () => {
   const [date, setDate] = useState(moment());
   const [isVisibleSetter, setVisibleSetter] = useState(false);
@@ -166,13 +166,9 @@ const Created_Wish = () => {
         .then(({ data }) => {
           let getResultWishId = data?.data?.id;
           if (data.success == false) {
-            toast.info(data.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
+            enqueueSnackbar(data.message);
           } else {
-            toast.success(data.message, {
-              position: toast.POSITION.TOP_RIGHT,
-            });
+            enqueueSnackbar(data.message);
             setTimeout(() => {
               navigate("/creating-wish-success", { state: getResultWishId });
             }, 3000);
@@ -230,7 +226,6 @@ const Created_Wish = () => {
 
   return (
     <MainContainer>
-      <ToastContainer />
       <Container>
         <div className="container-insider">
           <Hedaer>
