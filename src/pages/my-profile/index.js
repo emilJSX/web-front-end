@@ -41,7 +41,6 @@ import {
   ShowBirtdayInWish,
 } from "./MyProfile.style";
 import Loader from "../../shared/ui/Loader";
-
 import estetika from "../../style/icons/estetika.png";
 import tomcruse from "../../style/icons/tomcruse.png";
 import { Tab, Tabs, TabPanel } from "react-tabs";

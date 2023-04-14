@@ -30,28 +30,25 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import CustomBreadcrumb from "../../../shared/components/breadcrumb";
 import React from "react";
 import { myaxios } from "../../../api/myaxios";
-import SearchIcon from '../../../style/icons/search-icon.svg'
+import { ReactComponent as SearchIcon } from "../../../style/icons/search-icon.svg";
 
 const BlogSearchResult = () => {
   // Get result search and category in Main Blog for use result blog
   const { state } = useLocation();
   const [show404, setShow404] = useState(false);
-  const [getResultBlog, setResultBlog] = useState();
-  const [GetUserSearch, setUserSearch] = useState();
+  const [getResultBlog, setResultBlog] = useState([]);
+  const [getUserSearch, setUserSearch] = useState("");
 
   var getResultBlogSearch = [];
 
-  getResultBlog?.map((res_blog) =>
-    res_blog.partials.map((AllResBlog) => getResultBlogSearch.push(AllResBlog))
-  );
-
-  const getBlogSearch = () => {
-    myaxios
+  const getBlogSearch = async () => {
+    console.log(getUserSearch);
+    await myaxios
       .get("/api/v1/blog/articles/get", {
         params: {
           skip: 0,
           category_id: state.GetUserCategoryId,
-          search: GetUserSearch,
+          search: getUserSearch,
         },
       })
       .then((data) => {
@@ -63,7 +60,9 @@ const BlogSearchResult = () => {
         }
       });
   };
-
+  const handleKeyDown = (e) => {
+    e.keyCode === 13 && getBlogSearch();
+  };
   useEffect(() => {
     myaxios
       .get("/api/v1/blog/articles/get", {
@@ -73,8 +72,9 @@ const BlogSearchResult = () => {
           search: state.GetUserSearch,
         },
       })
-      .then((data) => {
-        let getData = data.data.data.list;
+      .then(({ data }) => {
+        console.log(data);
+        let getData = data.data.list;
         setResultBlog(getData);
 
         if (getData == null) {
@@ -111,36 +111,74 @@ const BlogSearchResult = () => {
 
         <Grid>
           <Grid.Col span={12}>
-          <CustomInput className='inp-sect' onChange={(e)=>setUserSearch(e.target.value)} placeholder={state.GetUserSearch} />
-                        <img src={SearchIcon} onClick={getBlogSearch} style={{ transform: 'translate(-50px, 0px)', float: "right",
-                        marginTop: "-40px", fontSize: "20px", cursor: "pointer" }} />
-                    </Grid.Col>
-                </Grid>
-                <div style={{ display: show404 ? "none" : 'block' }}>
+            <div
+              className="input-section"
+              style={{
+                height: "50px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                width: "100%",
+              }}
+            >
+              <input
+                type="search !w-full"
+                onChange={(e) => setUserSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="inp-sect"
+                placeholder="Search by wishes"
+                style={{
+                  height: "100%",
+                  borderRadius: "8px",
+                  background: "#F7F8FA",
+                  paddingLeft: "20px",
+                  width: "100%",
+                }}
+              />
+              <SearchIcon
+                onClick={getBlogSearch}
+                style={{
+                  transform: "translate(-50px, 0px)",
+                  cursor: "pointer",
+                }}
+              />
+            </div>
+          </Grid.Col>
+        </Grid>
+        <div style={{ display: show404 ? "none" : "block" }}>
           <BlogCard fluid>
             <Grid>
-              {getResultBlogSearch.map((res_blog) => (
+              {getResultBlog?.map((res_blog) => (
                 <Grid.Col xs={12} sm={6} md={4} lg={4}>
                   <Card sx={{ maxWidth: 600 }} style={{ boxShadow: "none" }}>
                     <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        image={`${process.env.REACT_APP_API_URL}${res_blog?.image}`}
-                        height="230px"
-                        style={{ borderRadius: "20px" }}
-                      />
+                      <Link to={`/blog-post/${res_blog?.slug}`}>
+                        <CardMedia
+                          component="img"
+                          image={`${process.env.REACT_APP_API_URL}${res_blog?.thumb}`}
+                          height="230px"
+                          style={{ borderRadius: "20px" }}
+                        />
+                      </Link>
                       <CardContent style={{ padding: "0", paddingTop: "20px" }}>
                         <Typography gutterBottom variant="h5" component="div">
                           <p className="date-category">date - category</p>
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          <h1 className="title-card">{res_blog?.title}</h1>
-                          <p className="text-card">{res_blog?.content}</p>
-                        </Typography>
+                        <Link to={`/blog-post/${res_blog?.slug}`}>
+                          <Typography variant="body2" color="text.secondary">
+                            <h1 className="title-card">{res_blog?.title}</h1>
+                            <p className="text-card">{res_blog?.content}</p>
+                          </Typography>
+                        </Link>
                       </CardContent>
                     </CardActionArea>
+                    {console.log(res_blog)}
                     <CardActions className="p-0">
-                      <Link to="/blog-post" className="read-article">
+                      <Link
+                        to={`/blog-post/${res_blog?.slug}`}
+                        className="read-article"
+                      >
                         Read article
                       </Link>
                     </CardActions>

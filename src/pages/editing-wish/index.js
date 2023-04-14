@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  MultiSelect } from "@mantine/core";
+import { MultiSelect } from "@mantine/core";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,7 +15,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { ToastContainer, toast } from "react-toastify";
 import { MainContainer, Container, Hedaer, Section } from "./Main.Styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -24,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Loader from "../../shared/ui/Loader";
+import { enqueueSnackbar } from "notistack";
 
 const Editing_Wish = () => {
   const { state } = useLocation();
@@ -214,23 +214,14 @@ const Editing_Wish = () => {
       .post("/api/v1/wish/update", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
-      .then((res) => {
-        //successfull message
-        toast.success("Successfully updated ", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+      .then(({ data }) => {
+        enqueueSnackbar(data.message);
       })
-      .catch((err) =>
-        toast.error("Please check your details", {
-          position: toast.POSITION.TOP_RIGHT,
-        })
-      );
+      .catch((err) => enqueueSnackbar(err.message));
   };
 
   if (loading) {
-    return (
-        <Loader/>
-    );
+    return <Loader />;
   }
 
   return (
@@ -413,7 +404,6 @@ const Editing_Wish = () => {
             Save changes
           </Button>
         </div>
-        <ToastContainer />
       </Container>
 
       <MyVerticallyCenteredModal

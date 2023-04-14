@@ -172,7 +172,9 @@ function Search() {
         setError(err.message);
       });
   };
-
+  const handleKeyDown = (e) => {
+    e.keyCode === 13 && getResultSearchingData();
+  };
   if (loading) {
     return <Loader />;
   }
@@ -185,6 +187,7 @@ function Search() {
           onChange={(e) => setSearchValue(e.target.value)}
           type="text"
           placeholder="Bruno"
+          onKeyDown={handleKeyDown}
         />
         <SearchIcon onClick={getResultSearchingData} className="lupa" />
         <HiOutlineFilter className="filter" />

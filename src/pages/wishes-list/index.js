@@ -136,8 +136,7 @@ const WishList = () => {
     }
   }
 
-  const GetResultWishesList = (e) => {
-    e.preventDefault();
+  const getResultWishesList = () => {
     setLoading(true);
     setError("");
     myaxiosprivate
@@ -174,6 +173,9 @@ const WishList = () => {
   }, []);
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
+  };
+  const handleKeyDown = (e) => {
+    e.keyCode === 13 && getResultWishesList();
   };
   if (loading) {
     return <Loader />;
@@ -266,6 +268,7 @@ const WishList = () => {
           <input
             type="search"
             onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="inp-sect"
             placeholder="Search by wishes"
             style={{
@@ -275,7 +278,7 @@ const WishList = () => {
             }}
           />
           <SearchIcon
-            onClick={GetResultWishesList}
+            onClick={getResultWishesList}
             style={{ transform: "translate(-50px, 0px)", cursor: "pointer" }}
           />
         </div>
@@ -284,7 +287,7 @@ const WishList = () => {
       <BlogCard fluid>
         <Grid>
           {console.log(getAllWishData)}
-          {getAllWishData?.length === 0 && <p>No such wish found</p>}
+          {!getAllWishData && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col key={getWishList.id} xs={12} sm={6} md={3} lg={3}>
               <Wrapper

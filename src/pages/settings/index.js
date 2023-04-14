@@ -7,7 +7,8 @@ import { Button } from "@mantine/core";
 import { useEffect } from "react";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
-import { toast, ToastContainer } from "react-toastify";
+import { enqueueSnackbar } from "notistack";
+
 const SettingsPage = () => {
   const [locale, setLocale] = useState("en");
 
@@ -31,10 +32,10 @@ const SettingsPage = () => {
   const handleSave = async () => {
     await myaxiosprivate
       .get(`/api/v1/settings/locale/set?locale=${locale}`)
-      .then((res) => {
-        toast.success(res.data.message);
+      .then(({ data }) => {
+        enqueueSnackbar(data.message);
       })
-      .catch((err) => toast.warning(err.message));
+      .catch((err) => enqueueSnackbar(err.message));
   };
   return (
     <SettingSection style={{ maxWidth: "500px" }}>
@@ -108,7 +109,6 @@ const SettingsPage = () => {
           Save
         </Button>
       </div>
-      <ToastContainer />
     </SettingSection>
   );
 };

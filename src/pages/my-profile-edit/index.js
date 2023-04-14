@@ -32,8 +32,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Profile_Picture from "../../assets/images/c041f60c443c14f5849fe6d2a106a7ff.png";
 import Cry_Smyle from "../../style/icons/cry_smyle.jpg";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import imageCompression from "browser-image-compression";
 import {
   ProfileEditing,
@@ -68,6 +67,7 @@ import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
 import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
 import { BiX } from "react-icons/bi";
 import { Autocomplete, TextField } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 
 // const SetProfileEditButtonsEvent = () => {
 //   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -474,15 +474,11 @@ const ProfileEdit = () => {
         telegram: SocialInputs.telegram,
         whatsapp: SocialInputs.whatsapp,
       })
-      .then((res) => {
-        toast.success("Successfully added social networks ", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+      .then(({ data }) => {
+        enqueueSnackbar(data.message);
       })
-      .catch(() => {
-        toast.error("Please check your details", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+      .catch((err) => {
+        enqueueSnackbar(err.message);
       });
   };
   // =============================================================================================================================
@@ -669,12 +665,13 @@ const ProfileEdit = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        toast.success("Successfully updated");
+      .then(({ data }) => {
+        enqueueSnackbar(data.message);
+
         location.reload();
       })
       .catch((err) => {
-        toast.error(err.message);
+        enqueueSnackbar(err.message);
       });
   };
 
@@ -692,16 +689,12 @@ const ProfileEdit = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
-          toast.success("Successfully send passport", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+        .then(({ data }) => {
+          enqueueSnackbar(data.message);
           location.reload();
         });
-    } catch (error) {
-      toast.error("Please check your details", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+    } catch (err) {
+      enqueueSnackbar(err.message);
     }
   };
   const [show, setShow] = useState(false);
@@ -1003,7 +996,10 @@ const ProfileEdit = () => {
                       />
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
-                    <div ref={calendarRef} className="max-w-[550px] w-[90%] md:w-[550px]">
+                    <div
+                      ref={calendarRef}
+                      className="max-w-[550px] w-[90%] md:w-[550px]"
+                    >
                       <input
                         type="text"
                         value={moment(userInfo.dob).format("DD.MM.YYYY")}
@@ -1105,7 +1101,6 @@ const ProfileEdit = () => {
                       >
                         Delete account
                       </button>
-                      <ToastContainer />
                     </div>
                   </MainInputs>
                 </form>
@@ -1281,7 +1276,6 @@ const ProfileEdit = () => {
               <PictureUpload></PictureUpload>
             </TabPanel>
             <TabPanel value="sociallink">
-              <ToastContainer />
               <SosialMediaSelection>
                 <div className="sosial-media">
                   <FaFacebook className="facebook"></FaFacebook>

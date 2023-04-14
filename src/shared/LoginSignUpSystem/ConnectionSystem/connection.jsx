@@ -46,7 +46,8 @@ import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaApple, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { enqueueSnackbar } from "notistack";
+
 import { useForm } from "react-hook-form";
 import { Number, Options, Selects } from "../Information/Information.Styled";
 import { useRef } from "react";
@@ -123,7 +124,7 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
           setShowes(false);
           dispatch(setUserToken(token));
           navigate("/my-profile");
-          window.location.reload();
+          location.reload();
         })
         .catch((err) => {
           setError(err.message);
@@ -866,7 +867,6 @@ export function SignUp_ConnectionSystem({
           <OpacityBlog></OpacityBlog>
 
           <Container style={{ zIndex: "10", overflow: "hidden" }}>
-            <ToastContainer />
             <Button1
               onClick={() => {
                 localStorage.removeItem("token");

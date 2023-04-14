@@ -10,17 +10,20 @@ export const SearchInput = ({ iconHave = true, size = "xl", myUserId }) => {
   function getSearchResultPage() {
     navigate("/search", { state: { getSearchValue, myUserId } });
   }
+  const handleKeyDown = (e) => {
+    e.keyCode === 13 && getSearchResultPage();
+  };
 
   return (
     <CustomSearchBar
       type="search"
-      rightSection={
-        iconHave && <SearchIcon onClick={getSearchResultPage} /> 
-      }
+      rightSection={iconHave && <SearchIcon onClick={getSearchResultPage} />}
+      autoFocus
       rightSectionWidth={55}
       size={size}
       placeholder="Search"
       onChange={(e) => setSearchValue(e.target.value)}
+      onKeyDown={handleKeyDown}
     />
   );
 };
