@@ -21,12 +21,8 @@ function Notification({ show, notifications, innerRef }) {
   // ];
   return (
     <div
-      ref={innerRef}
-      className={
-        show
-          ? "block z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[46%] xl:left-[40%] mt-[21px]  bg-white  rounded-lg  w-full  md:h-fit md:w-[320px]"
-          : "hidden"
-      }
+      // ref={innerRef}
+      className="block z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[42%] xl:left-[45%] mt-[21px]  bg-white  rounded-lg  w-full  md:h-fit md:w-[320px]"
     >
       <p className="pt-2 px-2 font-bold text-sm md:text-[14px] tracking-[0.03em]">
         Notifications

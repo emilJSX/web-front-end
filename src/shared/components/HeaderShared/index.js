@@ -11,20 +11,17 @@ import {
   ProfilWish,
 } from "./Header.Styled";
 import { ReactComponent as WishLogo } from "../../../style/icons/wish-x-logo-1.svg";
-import { allwish, headerLists } from "../../../utils/dummy-data/header-list";
+import { ReactComponent as MessageIcon } from "../../../style/icons/button-icons/message.svg";
+import { ReactComponent as NotificationIcon } from "../../../style/icons/button-icons/notification.svg";
+import { ReactComponent as CalendarIcon } from "../../../style/icons/button-icons/calendar.svg";
 import { SearchInput } from "../search-bar";
 import { Box, Burger, Loader, MediaQuery } from "@mantine/core";
 import { DotsToggle } from "../../ui/dots-toggle-menu";
 import { ReactComponent as StarsIcon } from "../../../style/icons/small-stars.svg";
 import { ReactComponent as GridIcon } from "../../../style/icons/grid-icon.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import MyProfile from "../../../pages/my-profile";
 import { FiChevronDown } from "react-icons/fi";
-import { IoCalendarOutline, IoNotificationsOutline } from "react-icons/io5";
-import { AiOutlineMessage } from "react-icons/ai";
 import { useEffect } from "react";
-import axios from "axios";
-import Autholog from "../../../shared/LogIn-SingUp/Autholog";
 import { ButtonDefault } from "../../../pages/home/Home.Styled";
 import {
   Login_ConnectionSystem,
@@ -36,6 +33,8 @@ import { myaxiosprivate, updateToken } from "../../../api/myaxios";
 import Notification from "../NotificationMenu/Notification";
 import { echo } from "../../../helpers/notif";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import { enqueueSnackbar } from "notistack";
+
 export const HeaderShared = ({ user, error }) => {
   let { pathname } = useLocation();
 
@@ -123,7 +122,7 @@ export const HeaderShared = ({ user, error }) => {
           <WishLogo />
         </Link>
         <SearchInput iconHave={true} size="xl" myUserId={user?.user_id} />
-        <ul className="pt-2">
+        <ul className="pt-2 !pl-0">
           <li className="all-wishes-btn">
             <Link to="/wish-list">All Wishes</Link>
           </li>
@@ -147,43 +146,45 @@ export const HeaderShared = ({ user, error }) => {
       {user ? (
         <>
           <div className="container-mobile-menu">
-            <CardIcon>
+            <CardIcon className="flex">
               <Link to="/calendar">
-                <IoCalendarOutline
-                  style={{
-                    fontSize: "21px",
-                    margin: "13px 36px 0 0",
-                    color: "#3800B0",
-                    float: "left",
-                  }}
-                />
+                <CalendarIcon className="mt-[13px] mr-[24px]" />
               </Link>
-              {/* <a href=''><AiOutlineMessage style={{fontSize:"21px", margin:"13px 36px 0 0", color:"#3800B0", float:"left"}}/></a> */}
-              <IoNotificationsOutline
-                style={{
-                  fontSize: "21px",
-                  margin: "13px 36px 0 0",
-                  color: "#3800B0",
-                  float: "left",
-                }}
-                className="cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setNotifShow(!notifShow);
-                }}
+              <MessageIcon
+                className="cursor-pointer mt-[13px] mr-[24px]"
+                onClick={() =>
+                  enqueueSnackbar(
+                    "This feature currently not available... Come back soon."
+                  )
+                }
+              />
+              <NotificationIcon
+                className="cursor-pointer  mt-[13px] mr-[24px]"
+                onClick={() => setNotifShow(!notifShow)}
               />
             </CardIcon>
-            <Notification
-              innerRef={notRef}
-              show={notifShow}
-              notifications={notifications}
-            />
 
-            {user.wishes?.active?.length === 0 && (
-              <CreateWishBtn>
-                <Link to="/creating-wish">Create a wish</Link>
-              </CreateWishBtn>
+            {notifShow && (
+              <ClickAwayListener onClickAway={() => setNotifShow(false)}>
+                <div>
+                  <Notification
+                    // innerRef={notRef}
+                    // show={notifShow}
+                    notifications={notifications}
+                  />
+                </div>
+              </ClickAwayListener>
             )}
+
+            <CreateWishBtn
+              onClick={() => {
+                user.wishes?.active?.length === 0
+                  ? navigate("/creating-wish")
+                  : enqueueSnackbar("You already have a wish");
+              }}
+            >
+              Create a wish
+            </CreateWishBtn>
 
             <Card>
               <Link to="/my-profile">
@@ -232,7 +233,7 @@ export const HeaderShared = ({ user, error }) => {
                 <ClickAwayListener onClickAway={() => setOpenedMenu(false)}>
                   <div className="dropdown-menu-logined z-10">
                     <div className="body-menu-logined" ref={settingRef}>
-                      <ul>
+                      <ul className="!pl-0">
                         <Link
                           to="/profile-edit"
                           onClick={() => setOpenedMenu(false)}

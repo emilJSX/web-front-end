@@ -43,7 +43,7 @@ import {
 import Loader from "../../shared/ui/Loader";
 import estetika from "../../style/icons/estetika.png";
 import tomcruse from "../../style/icons/tomcruse.png";
-import { Tab, Tabs, TabPanel } from "react-tabs";
+import { Tab, Tabs, TabPanel, TabList } from "react-tabs";
 import { Carddata } from "./CardData";
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa";
@@ -185,8 +185,8 @@ const MyProfile = () => {
     navigate("/contacts-profile");
   }
 
-  function getWishIdForResultPage(id) {
-    navigate("/my-wish", { state: { id } });
+  function getWishIdForResultPage(slug) {
+    navigate("/my-wish", { state: { slug } });
   }
   const fileInputRef = useRef();
   const handleInputOpen = () => {
@@ -280,7 +280,7 @@ const MyProfile = () => {
                 <DisplayTopImgCard className="mt-16">
                   <Image
                     radius="100px"
-                    style={{ border: "3px solid white !important;" }}
+                    style={{ border: "3px solid white !important" }}
                     id="tomcrusemobile"
                     className="tomcrusemobile"
                     height={85}
@@ -397,6 +397,7 @@ const MyProfile = () => {
                 <div className="btn-section">
                   {tabs_storage.map((tab) => (
                     <Tab
+                      key={tab.id}
                       value={tab.value}
                       id={tab.id}
                       className={tab.className}
@@ -430,13 +431,13 @@ const MyProfile = () => {
                   {!loading ? (
                     userProfile?.wishes?.active.length !== 0 ? (
                       userProfile?.wishes?.active?.map((userDataWish) => (
-                        <CardLong>
+                        <CardLong key={userDataWish.id}>
                           <div className="cont-text">
                             <div className="image-container">
                               <Imagess
                                 id={userDataWish.id}
-                                onClick={(e) =>
-                                  getWishIdForResultPage(e.target.id)
+                                onClick={() =>
+                                  getWishIdForResultPage(userDataWish.slug)
                                 }
                                 src={`https://api.wishx.me/${userDataWish.image}`}
                               />
@@ -445,7 +446,7 @@ const MyProfile = () => {
                               <Title
                                 id={userDataWish.id}
                                 onClick={(e) =>
-                                  getWishIdForResultPage(e.target.id)
+                                  getWishIdForResultPage(userDataWish.slug)
                                 }
                               >
                                 {userDataWish.title}
@@ -555,7 +556,7 @@ const MyProfile = () => {
                 {!loading ? (
                   userProfile?.wishes?.complete.length !== 0 ? (
                     userProfile?.wishes?.complete?.map((userDataWish) => (
-                      <CardLong>
+                      <CardLong key={userDataWish.id}>
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess

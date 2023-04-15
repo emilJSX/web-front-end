@@ -198,6 +198,9 @@ const Editing_Wish = () => {
     title,
     interests,
   }) => {
+    console.log(interests);
+    const uniqueArr = [...new Set(interests)];
+    console.log(uniqueArr);
     const formData = new FormData();
     formData.append("wish_id", initialValues?.id);
     formData.append("file", selectedImg ? selectedImg : initialValues.image);
@@ -208,7 +211,7 @@ const Editing_Wish = () => {
     formData.append("access", access);
     formData.append("price", price);
     formData.append("title", title);
-    formData.append("categories", interests);
+    formData.append("categories", uniqueArr);
 
     await myaxiosprivate
       .post("/api/v1/wish/update", formData, {
@@ -229,7 +232,7 @@ const Editing_Wish = () => {
       <Container>
         <div className="container-insider">
           <Hedaer>
-            <p className="path-title">
+            <div className="path-title">
               <CustomBreadcrumb
                 links={[
                   {
@@ -241,7 +244,7 @@ const Editing_Wish = () => {
                   },
                 ]}
               />
-            </p>
+            </div>
             <h1 className="edit-wish-title">Edit the wish</h1>
           </Hedaer>
           <Section>
@@ -267,7 +270,7 @@ const Editing_Wish = () => {
                 <div className="cash-set-container-insider">
                   <div className="cash-quantity-container">
                     <input
-                      type="text"
+                      type="number"
                       name="price"
                       defaultValue={initialValues.price}
                       placeholder="Enter Quantity"
@@ -327,7 +330,9 @@ const Editing_Wish = () => {
                       <MultiSelect
                         className="multiselect-interest"
                         data={data}
+                        defaultValue={[...new Set(interestId)]}
                         placeholder="Category"
+                        maxSelectedValues={data.length}
                         {...field}
                       />
                     )}

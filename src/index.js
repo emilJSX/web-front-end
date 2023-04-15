@@ -22,6 +22,7 @@ root.render(
         maxSnack={3}
         Components={{ default: StyledMaterialDesignContent }}
         autoHideDuration={2000}
+      
       >
         <App />
       </SnackbarProvider>
