@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import '../style/steppe-font/Web-PS/Steppe.css'
+import { createGlobalStyle } from "styled-components";
+import "../style/steppe-font/Web-PS/Steppe.css";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -9,7 +9,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'Steppe' !important;  
     }
-
+    ul {
+        padding-left:0!important;
+    }
     li{
         list-style-type: none;
     }

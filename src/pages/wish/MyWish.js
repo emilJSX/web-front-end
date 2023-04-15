@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { BsFillHandThumbsUpFill, BsHandThumbsUp, BsThreeDots, } from "react-icons/bs";
+import {
+  BsFillHandThumbsUpFill,
+  BsHandThumbsUp,
+  BsThreeDots,
+} from "react-icons/bs";
 import DonutIcon from "../../assets/svg/donut.svg";
 import SweetIcon from "../../assets/svg/sweet.svg";
 import BurgerIcon from "../../assets/svg/burger.svg";
 import FlowersIcon from "../../assets/svg/flowers.svg";
 import CoffeeIcon from "../../assets/svg/coffee.svg";
 import { HiOutlineFilter } from "react-icons/hi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
 import { Menu } from "@mantine/core";
@@ -41,13 +45,13 @@ export const giftAmounts = [
 ];
 
 const MyWish = () => {
+  const navigate = useNavigate();
   const [wisherVisibility, setWisherVisibility] = useState("public");
   const [congratsVisibility, setCongratsVisibility] = useState("public");
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [getCategoryId, setCategoryId] = useState(null);
-  // const { slug } = useParams();
-  const slug = "wx11"
+  const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const { state } = useLocation();
@@ -59,12 +63,14 @@ const MyWish = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     myaxios
+
       .get("/api/v1/wish/slug/", {
         params: {
-          slug: state ? state : slug,
+          slug: state ? state.slug : slug,
         },
       })
       .then((res) => {
+        console.log(res);
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
@@ -96,9 +102,13 @@ const MyWish = () => {
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4 relative">
-              <img className="rounded-[24px]" src={UserGetCreationImgWish} alt=""/>
+              <img
+                className="rounded-[24px]"
+                src={UserGetCreationImgWish}
+                alt=""
+              />
             </div>
-            <Share page="wish" slug={state ? state : slug}/>
+            <Share page="wish" slug={state ? state.slug : slug} />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
@@ -136,20 +146,31 @@ const MyWish = () => {
                       }}
                       control={
                         <button className="flex items-center text-white">
-                          <BsThreeDots/>
+                          <BsThreeDots />
                         </button>
                       }
                     >
                       <Menu.Item>
                         <button className="flex items-center text-[#3800B0]">
-                          <FaPen className="text-sm !text-[#3800B0]"/>
-                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Edit</span>
+                          <FaPen className="text-sm !text-[#3800B0]" />
+                          <span
+                            className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]"
+                            onClick={() =>
+                              navigate("/wish-edit", {
+                                state: GetUserWishDataResult.id,
+                              })
+                            }
+                          >
+                            Edit
+                          </span>
                         </button>
                       </Menu.Item>
                       <Menu.Item>
                         <button className="flex items-center text-[#3800B0]">
-                          <RiDeleteBin6Line className="text-sm !text-[#3800B0]"/>
-                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Delete</span>
+                          <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
+                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                            Delete
+                          </span>
                         </button>
                       </Menu.Item>
                     </Menu>
@@ -192,22 +213,36 @@ const MyWish = () => {
               <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
                 <div className="flex md:justify-start justify-between flex-wrap">
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
-                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">256</p>
-                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Views</p>
+                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
+                      256
+                    </p>
+                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
+                      Views
+                    </p>
                   </div>
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
-                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">8</p>
-                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Gifts</p>
+                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
+                      8
+                    </p>
+                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
+                      Gifts
+                    </p>
                   </div>
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
-                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">$12</p>
-                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Avg gift
-                      amount</p>
+                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
+                      $12
+                    </p>
+                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
+                      Avg gift amount
+                    </p>
                   </div>
                   <div className="">
-                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">3 days</p>
-                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">To funding
-                      ending</p>
+                    <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
+                      3 days
+                    </p>
+                    <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
+                      To funding ending
+                    </p>
                   </div>
                 </div>
                 {/*<div className="flex items-center justify-between mb-3">*/}
@@ -285,7 +320,7 @@ const MyWish = () => {
                   </span>
                 </div>
                 <button className="mr-2 text-[#3800B0] text-lg">
-                  <HiOutlineFilter/>
+                  <HiOutlineFilter />
                 </button>
               </div>
               <div className="rounded-[24px] p-6 bg-white my-2">
@@ -308,7 +343,7 @@ const MyWish = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -321,7 +356,7 @@ const MyWish = () => {
                       257
                     </span>
                     {/*<BsHandThumbsUp />*/}
-                    <BsFillHandThumbsUpFill/>
+                    <BsFillHandThumbsUpFill />
                   </button>
                 </div>
                 <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] p-3 flex justify-between">
@@ -360,7 +395,7 @@ const MyWish = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -372,7 +407,7 @@ const MyWish = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp/>
+                    <BsHandThumbsUp />
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>
@@ -397,7 +432,7 @@ const MyWish = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -421,7 +456,7 @@ const MyWish = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp/>
+                    <BsHandThumbsUp />
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>

@@ -216,9 +216,11 @@ function Search() {
         >
           <GridBody>
             <Grid className="griddiv">
+              {getAllWishData?.total === 0 && <p>No such wish found</p>}
               {getAllWishData?.results?.map((getWishData) => (
                 // <Grid.Col className="gridcol" xs={6} md={3} lg={3}>
                 <Wrapper
+                  key={getWishData.id}
                   className="cart-item"
                   onMouseOver={(e) => {
                     e.currentTarget.setAttribute(
@@ -312,7 +314,12 @@ function Search() {
             <p>
               Profile
               <span
-                style={{ marginLeft: "8px", color: "#160046", opacity: "0.56" }}
+                style={{
+                  marginLeft: "8px",
+                  color: "#160046",
+                  opacity: "0.56",
+                  paddingTop: "5px",
+                }}
               >
                 {getAllPeopleData.length}
               </span>
@@ -321,10 +328,14 @@ function Search() {
           className="tabtwo "
         >
           <GridBody>
+            {getAllPeopleData?.length === 0 && (
+              <p className="mt-[35px] mx-[20px] md:mt-[58px] md:mx-[80px]">
+                No such user found
+              </p>
+            )}
             <Grid className="w-[90%] flex justify-center items-center mx-auto">
               {getAllPeopleData?.map((index) => (
-                <Personal>
-                  {/* {console.log(index)} */}
+                <Personal key={index.id}>
                   <Photo
                     src={
                       index?.image

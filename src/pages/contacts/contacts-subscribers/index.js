@@ -137,157 +137,158 @@ const ContactsPage = () => {
     }
   };
 
-  useEffect(() => {}, [isFollowersData]);
-
-  useEffect(() => {});
-
   return (
-    <ContactsMainContainer>
-      {/*<ContactsNavigator> Main {">"} Profile {'>'} Contacts </ContactsNavigator>*/}
-      <CustomBreadcrumb
-        margins="mt-10 mb-0"
-        links={[
-          {
-            title: "Main",
-            to: "/",
-          },
-          {
-            title: "Profile",
-            to: "/my-profile",
-          },
-          {
-            title: "Contacts",
-          },
-        ]}
-      />
-      <ContactsTxt>Contacts</ContactsTxt>
-      <Tabs defaultValue="followers">
-        <TabTopContainer>
-          <div className="insider">
-            <Tab value="followers">
-              <button className="editing-buttons">
-                Followers{" "}
-                <span
-                  style={{
-                    color: "gray",
-                    fontFamily: "sans-serif",
-                    marginLeft: "8px",
-                  }}
-                >
-                  {" "}
-                </span>
-              </button>
-            </Tab>
-            <Tab value="following">
-              <button className="editing-buttons">
-                Following{" "}
-                <span
-                  style={{
-                    color: "gray",
-                    fontFamily: "sans-serif",
-                    marginLeft: "8px",
-                  }}
-                >
-                  {" "}
-                </span>
-              </button>
-            </Tab>
-            <Tab value="find-friends">
-              <button className="editing-buttons">Find friends</button>
-            </Tab>
-          </div>
-        </TabTopContainer>
-
-        <TabPanel value="followers">
-          {error && <p className="mx-14 mt-2 text-red-500 text-xs">{error}</p>}
-          {!wait ? (
-            !isFollowersData ? (
-              <DontHaveDataSection>
-                <DontHaveDataText>
-                  You haven't subscribed to anyone yet
-                </DontHaveDataText>
-                <ButtonSection>
-                  <ButtonFind>Find friends</ButtonFind>
-                </ButtonSection>
-                <GlasesImg src={file1} />
-              </DontHaveDataSection>
-            ) : (
-              isFollowersData?.map((data) => (
-                <UserContentDiv key={data?.id}>
-                  <UserImage
-                    src={`${
-                      data?.image
-                        ? data?.image
-                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                    }`}
-                  />
-                  <Link to={`/profile/${data?.name}`}>
-                    <UserUsername>{data?.full_name}</UserUsername>
-                  </Link>
-                  {data.verify && <BsCheckCircleFill className="check" />}
-                  <Subscribebtn
-                    className="cursor-pointer"
-                    id={data.id}
-                    onClick={() => handleClick(data)}
+    <>
+      <ContactsMainContainer>
+        {/*<ContactsNavigator> Main {">"} Profile {'>'} Contacts </ContactsNavigator>*/}
+        <CustomBreadcrumb
+          margins="mt-10 mb-0"
+          links={[
+            {
+              title: "Main",
+              to: "/",
+            },
+            {
+              title: "Profile",
+              to: "/my-profile",
+            },
+            {
+              title: "Contacts",
+            },
+          ]}
+        />
+        <ContactsTxt>Contacts</ContactsTxt>
+        <Tabs defaultValue="followers">
+          <TabTopContainer>
+            <div className="insider">
+              <Tab value="followers">
+                <button className="editing-buttons">
+                  Followers{" "}
+                  <span
+                    style={{
+                      color: "gray",
+                      fontFamily: "sans-serif",
+                      marginLeft: "8px",
+                    }}
                   >
-                    {isFollowing[data.id] ? "Unsubscribe" : "Subscribe"}
-                  </Subscribebtn>
-                  {/* <Unsubscribe onClick={(e) => fetchDataUnsubscribe(e.target.id)} id={data.id}>Unsubscribe</Unsubscribe> */}
-                </UserContentDiv>
-              ))
-            )
-          ) : (
-            <Loader size="xl" style={{ margin: "0 265 100px" }} />
-          )}
-        </TabPanel>
-        <TabPanel value="following">
-          {errorFollowing && (
-            <p className="mx-14 mt-2 text-red-500 text-xs">{errorFollowing}</p>
-          )}
-
-          {!waitFollows ? (
-            !isFollowsData ? (
-              <DontHaveDataSection>
-                <DontHaveDataText>
-                  You haven't subscribed to anyone yet
-                </DontHaveDataText>
-                <ButtonSection>
-                  <ButtonFind>Find friends</ButtonFind>
-                </ButtonSection>
-                <GlasesImg src={file1} />
-              </DontHaveDataSection>
-            ) : (
-              isFollowsData?.map((dataFollows) => (
-                <UserContentDiv key={dataFollows?.id}>
-                  <UserImage
-                    src={`${
-                      dataFollows.image
-                        ? dataFollows.image
-                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                    }`}
-                  />
-                  <Link to={`/profile/${dataFollows?.name}`}>
-                    <UserUsername>{dataFollows.full_name}</UserUsername>
-                  </Link>
-                  {dataFollows.verify && (
-                    <BsCheckCircleFill className="check" />
-                  )}
-                  <Unsubscribe
-                    className="cursor-pointer"
-                    onClick={() => unfollowUser(dataFollows)}
-                    id={dataFollows.id}
+                    {" "}
+                  </span>
+                </button>
+              </Tab>
+              <Tab value="following">
+                <button className="editing-buttons">
+                  Following{" "}
+                  <span
+                    style={{
+                      color: "gray",
+                      fontFamily: "sans-serif",
+                      marginLeft: "8px",
+                    }}
                   >
-                    Unsubscribe
-                  </Unsubscribe>
-                </UserContentDiv>
-              ))
-            )
-          ) : (
-            <Loader size="xl" style={{ margin: "0 265 100px" }} />
-          )}
-        </TabPanel>
+                    {" "}
+                  </span>
+                </button>
+              </Tab>
+              <Tab value="find-friends">
+                <button className="editing-buttons">Find friends</button>
+              </Tab>
+            </div>
+          </TabTopContainer>
 
-        {/* <TabPanel value="find-friends">
+          <TabPanel value="followers">
+            {error && (
+              <p className="mx-14 mt-2 text-red-500 text-xs">{error}</p>
+            )}
+            {!wait ? (
+              !isFollowersData ? (
+                <DontHaveDataSection>
+                  <DontHaveDataText>
+                    You haven't subscribed to anyone yet
+                  </DontHaveDataText>
+                  <ButtonSection>
+                    <ButtonFind>Find friends</ButtonFind>
+                  </ButtonSection>
+                  <GlasesImg src={file1} />
+                </DontHaveDataSection>
+              ) : (
+                isFollowersData?.map((data) => (
+                  <UserContentDiv key={data?.id}>
+                    <UserImage
+                      src={`${
+                        data?.image
+                          ? data?.image
+                          : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                      }`}
+                    />
+                    <Link to={`/profile/${data?.name}`}>
+                      <UserUsername>{data?.full_name}</UserUsername>
+                    </Link>
+                    {data.verify && <BsCheckCircleFill className="check" />}
+                    <Subscribebtn
+                      className="cursor-pointer"
+                      id={data.id}
+                      onClick={() => handleClick(data)}
+                    >
+                      {isFollowing[data.id] ? "Unsubscribe" : "Subscribe"}
+                    </Subscribebtn>
+                    {/* <Unsubscribe onClick={(e) => fetchDataUnsubscribe(e.target.id)} id={data.id}>Unsubscribe</Unsubscribe> */}
+                  </UserContentDiv>
+                ))
+              )
+            ) : (
+              <Loader size="xl" style={{ margin: "0 265 100px" }} />
+            )}
+          </TabPanel>
+          <TabPanel value="following">
+            {errorFollowing && (
+              <p className="mx-14 mt-2 text-red-500 text-xs">
+                {errorFollowing}
+              </p>
+            )}
+
+            {!waitFollows ? (
+              !isFollowsData ? (
+                <DontHaveDataSection>
+                  <DontHaveDataText>
+                    You haven't subscribed to anyone yet
+                  </DontHaveDataText>
+                  <ButtonSection>
+                    <ButtonFind>Find friends</ButtonFind>
+                  </ButtonSection>
+                  <GlasesImg src={file1} />
+                </DontHaveDataSection>
+              ) : (
+                isFollowsData?.map((dataFollows) => (
+                  <UserContentDiv key={dataFollows?.id}>
+                    <UserImage
+                      src={`${
+                        dataFollows.image
+                          ? dataFollows.image
+                          : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                      }`}
+                    />
+                    <Link to={`/profile/${dataFollows?.name}`}>
+                      <UserUsername>{dataFollows.full_name}</UserUsername>
+                    </Link>
+                    {dataFollows.verify && (
+                      <BsCheckCircleFill className="check" />
+                    )}
+                    <Unsubscribe
+                      className="cursor-pointer"
+                      onClick={() => unfollowUser(dataFollows)}
+                      id={dataFollows.id}
+                    >
+                      Unsubscribe
+                    </Unsubscribe>
+                  </UserContentDiv>
+                ))
+              )
+            ) : (
+              <Loader size="xl" style={{ margin: "0 265 100px" }} />
+            )}
+          </TabPanel>
+
+          {/* <TabPanel value="find-friends">
                     <FacebookTxt>Facebook friends</FacebookTxt>
                     {!this.state.isVisible &&
                         <button className='facebook-button' onClick={this.onToggle}>
@@ -352,8 +353,10 @@ const ContactsPage = () => {
 
                         
                 </TabPanel> */}
-      </Tabs>
-    </ContactsMainContainer>
+        </Tabs>
+      </ContactsMainContainer>
+      <div className="!mb-[18rem]" />
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { lazy } from "react";
+const MyWish = lazy(() => import("./pages/wish/MyWish"));
 
 const MyProfile = lazy(() => import("./pages/my-profile"));
 const SettingsPage = lazy(() => import("./pages/settings"));
@@ -51,7 +52,7 @@ export const routes = [
   },
   {
     path: "/my-wish",
-    element: Wish_pages_three,
+    element: MyWish,
   },
   {
     path: "/profile-edit",

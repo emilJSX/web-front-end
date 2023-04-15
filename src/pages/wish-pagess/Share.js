@@ -11,12 +11,16 @@ import { BsFacebook, BsTwitter, BsWhatsapp } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
 import { RiLinksFill } from "react-icons/ri";
+import { enqueueSnackbar } from "notistack";
+
 function Share({ slug, page }) {
   const [error, setError] = useState("");
   async function handleCopyLink(link) {
     try {
       await navigator.clipboard.writeText(link);
+      enqueueSnackbar("Link copied");
     } catch (err) {
+      enqueueSnackbar(err.message);
       setError(err.message);
     }
   }

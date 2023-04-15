@@ -118,7 +118,7 @@ const WishList = () => {
 
   // useEffect(() => {
   //   myaxios.get('/api/v1/wish/categories/get', {
-  //   }).then((res)=> {
+  //   }).then((res)=> {  
   //     setCategoryWish(res.data.data)
   //   }).catch((err) => {
   //     console.log(err)
@@ -286,7 +286,6 @@ const WishList = () => {
 
       <BlogCard fluid>
         <Grid>
-          {console.log(getAllWishData)}
           {!getAllWishData && <p>No such wish found</p>}
           {getAllWishData?.map((getWishList) => (
             <Grid.Col key={getWishList.id} xs={12} sm={6} md={3} lg={3}>

@@ -913,7 +913,7 @@ const ProfileEdit = () => {
                             ? userInfo.country.name
                             : countryFinder()
                         }
-                        className="!block countries-list !rounded-none !border-0 hover:!border-0 focus:!border-0"
+                        className="!block !z-0 countries-list !rounded-none !border-0 hover:!border-0 focus:!border-0"
                         options={allCountries}
                         onInputChange={(e, value) =>
                           setUserInfo({

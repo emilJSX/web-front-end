@@ -10,7 +10,6 @@ export const BlogMainSection = styled(Container)`
     padding-right: 16px;
   }
 
-
   .instruction h2 {
     font-size: 50px;
     font-weight: 600;
@@ -34,11 +33,11 @@ export const BlogMainSection = styled(Container)`
 
   .Mui-selected {
     border-radius: 5px;
-    background-color: #3800B0 !important;
+    background-color: #3800b0 !important;
     color: white;
     font-weight: bold;
   }
-`
+`;
 
 export const ButtonSection = styled(Grid)`
   padding-top: 30px;
@@ -61,7 +60,7 @@ export const ButtonSection = styled(Grid)`
       width: 100%;
     }
     @media (max-width: 590px) {
-      width: 145%;
+      width: 100%;
       overflow: scroll;
     }
 
@@ -98,7 +97,6 @@ export const ButtonSection = styled(Grid)`
         height: 56px;
       }
     }
-
   }
 
   .search-filter {
@@ -114,7 +112,6 @@ export const ButtonSection = styled(Grid)`
   .btn-section {
     //width: 100%;
     overflow: hidden;
-    
 
     @media (min-width: 1000px) {
       //width: 574px;
@@ -123,7 +120,6 @@ export const ButtonSection = styled(Grid)`
       position: relative;
       //left: 28px;
     }
-
 
     @media (max-width: 1000px) {
       width: 100%;
@@ -140,21 +136,21 @@ export const ButtonSection = styled(Grid)`
       display: flex;
       border: 2px solid rgb(229 228 228);
       border-radius: 13px;
-      
+
       @media (max-width: 1000px) {
         width: 100%;
       }
 
       @media (max-width: 590px) {
-        width: 138%;
+        width: 100%;
         overflow: scroll;
       }
     }
   }
 
   .all-btn {
-    border: 2px solid #3800B0;
-    color: #3800B0;
+    border: 2px solid #3800b0;
+    color: #3800b0;
     height: 50px;
     border-radius: 10px;
     background: rgb(222 229 255);
@@ -200,8 +196,6 @@ export const ButtonSection = styled(Grid)`
     @media (max-width: 1000px) {
       min-width: 70px;
     }
-
-
   }
 
   .input-section {
@@ -209,7 +203,7 @@ export const ButtonSection = styled(Grid)`
       float: right;
       margin-right: -390px;
       margin-top: -40px;
-      color: #3800B0;
+      color: #3800b0;
       font-size: 25px;
     }
 
@@ -222,15 +216,13 @@ export const ButtonSection = styled(Grid)`
 
     @media screen and (min-width: ${({ theme }) => theme.breakPoints.temp}) {
       width: 50%;
-
-
     }
 
     @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {
       .search-icon {
         float: right;
         margin-right: 72px;
-        color: #3800B0;
+        color: #3800b0;
         margin-top: -31px;
         font-size: 25px;
       }
@@ -247,8 +239,6 @@ export const ButtonSection = styled(Grid)`
       width: 100%;
       margin-top: 20px;
     }
-
-
   }
 
   .inp-sect {
@@ -264,12 +254,11 @@ export const ButtonSection = styled(Grid)`
       margin-left: 0px;
       width: 70%;
       padding: 0px;
-
     }
 
     .search-icon {
       float: right;
-      color: #3800B0;
+      color: #3800b0;
       font-size: 30px;
       margin-left: 370px;
       margin-top: 10px;
@@ -282,14 +271,12 @@ export const ButtonSection = styled(Grid)`
       margin-top: 10px;
     }
   }
-
-`
+`;
 
 export const CardTopSection = styled(Container)`
-  background: #0B0023;
+  background: #0b0023;
   border-radius: 20px;
   padding: 0px !important;
-
 
   .read-section h2 {
     font-size: 45px;
@@ -299,7 +286,7 @@ export const CardTopSection = styled(Container)`
 
   .txt {
     font-size: 16px;
-    color: #EBE5F7;
+    color: #ebe5f7;
     padding-top: 10px;
   }
 
@@ -320,7 +307,7 @@ export const CardTopSection = styled(Container)`
     padding-top: 20px;
     padding-left: 30px;
   }
-`
+`;
 
 export const BlogCard = styled(Container)`
   padding: 0px;
@@ -335,7 +322,7 @@ export const BlogCard = styled(Container)`
   }
 
   .title-card {
-    color: #0B0023;
+    color: #0b0023;
     font-weight: 500;
     font-size: 30px;
   }
@@ -347,14 +334,14 @@ export const BlogCard = styled(Container)`
   }
 
   .read-article {
-    color: #3800B0 !important;
+    color: #3800b0 !important;
     font-size: 14px;
     padding: 0;
     margin: 0;
     text-decoration: none;
     font-weight: 600;
   }
-`
+`;
 
 export const PaginationSection = styled(Container)`
   display: flex;
@@ -366,13 +353,13 @@ export const PaginationSection = styled(Container)`
     padding-left: 0px;
     padding-right: 0px;
   }
-`
+`;
 
 export const Loading = styled.h4`
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  color: #3800B0;
+  color: #3800b0;
   padding-top: 50px;
   padding-bottom: 100px;
-`
+`;
