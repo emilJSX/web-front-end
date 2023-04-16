@@ -87,6 +87,7 @@ import {
   Login_ConnectionSystem,
   SignUp_ConnectionSystem,
 } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
+import { HiBadgeCheck } from "react-icons/hi";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
@@ -272,10 +273,11 @@ const OtherUserProfile = () => {
                   {UserInfoProfile?.info?.full_name != null
                     ? UserInfoProfile?.info?.full_name
                     : "FullName does not exist"}
+                  {UserInfoProfile?.info.verify && (
+                    <HiBadgeCheck className="bluechek ml-2" />
+                  )}
                 </Namesurname>
-                {UserInfoProfile?.verify && (
-                  <HiBadgeCheck className="bluechek" />
-                )}
+
                 {/* <HiBadgeCheck className='bluechek' /> */}
                 <TagName>@ {UserInfoProfile?.info?.slug}</TagName>
                 {/* <Text>Spec, Child, Chaos and Shadow</Text> */}
@@ -449,7 +451,7 @@ const OtherUserProfile = () => {
                               onClick={(e) =>
                                 getWishIdForResultPage(e.target.id)
                               }
-                              src={`https://api.wishx.me/${userDataWish.image}`}
+                              src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
                             ></ImgWrapper>
                             <ContentWrapper>
                               <Title
@@ -556,11 +558,22 @@ const OtherUserProfile = () => {
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess
-                              src={`https://api.wishx.me/${userDataWish.image}`}
+                              onClick={() =>
+                                navigate("/other-user-wish-complete", {
+                                  state: userDataWish.slug,
+                                })
+                              }
+                              src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
                             />
                           </div>
                           <div className="content-title">
-                            <Title>
+                            <Title
+                              onClick={() =>
+                                navigate("/other-user-wish-complete", {
+                                  state: userDataWish.slug,
+                                })
+                              }
+                            >
                               <p className="second-card-title">
                                 {userDataWish.title}
                               </p>

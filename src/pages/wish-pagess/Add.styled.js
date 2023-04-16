@@ -162,7 +162,7 @@ export const Blue_right_div = styled.div`
     height-line: 140%;
     font-size: 14px;
     margin-top: 12px;
-    width: 70%;
+    width: 100%;
     font-family: 'Steppe';
     font-style: normal;
     font-weight: 600;
