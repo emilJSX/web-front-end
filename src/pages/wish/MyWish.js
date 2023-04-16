@@ -66,7 +66,7 @@ const MyWish = () => {
 
       .get("/api/v1/wish/slug/", {
         params: {
-          slug: state ? state.slug : slug,
+          slug: state ? state : slug,
         },
       })
       .then((res) => {
@@ -108,7 +108,7 @@ const MyWish = () => {
                 alt=""
               />
             </div>
-            <Share page="wish" slug={state ? state.slug : slug} />
+            <Share page="wish" slug={state ? state : slug} />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>

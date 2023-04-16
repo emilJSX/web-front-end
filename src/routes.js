@@ -7,7 +7,9 @@ const ContactsPage = lazy(() =>
   import("./pages/contacts/contacts-subscribers")
 );
 const ProfileEdit = lazy(() => import("./pages/my-profile-edit"));
-const Wish_pages_four = lazy(() => import("./pages/wish-pagess/indexfour"));
+// const Wish_pages_four = lazy(() => import("./pages/wish-pagess/indexfour"));
+const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
+
 const Created_Success_Wish = lazy(() =>
   import("./pages/creating-success-wish")
 );
@@ -48,7 +50,7 @@ export const routes = [
   },
   {
     path: "/my-wish-complete",
-    element: Wish_pages_four,
+    element: MyWishCompleted,
   },
   {
     path: "/my-wish",

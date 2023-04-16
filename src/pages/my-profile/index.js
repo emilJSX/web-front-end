@@ -186,7 +186,7 @@ const MyProfile = () => {
   }
 
   function getWishIdForResultPage(slug) {
-    navigate("/my-wish", { state: { slug } });
+    navigate("/my-wish", { state: slug });
   }
   const fileInputRef = useRef();
   const handleInputOpen = () => {
@@ -560,18 +560,20 @@ const MyProfile = () => {
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess
-                              id={userDataWish.id}
-                              onClick={(e) =>
-                                getWishIdForResultPage(e.target.id)
+                              onClick={() =>
+                                navigate("/my-wish-complete", {
+                                  state: userDataWish.slug,
+                                })
                               }
                               src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
                             />
                           </div>
                           <div className="content-title">
                             <Title
-                              id={userDataWish.id}
-                              onClick={(e) =>
-                                getWishIdForResultPage(e.target.id)
+                              onClick={() =>
+                                navigate("/my-wish-complete", {
+                                  state: userDataWish.slug,
+                                })
                               }
                             >
                               <p className="second-card-title">

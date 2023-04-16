@@ -62,13 +62,13 @@ export const AsideComponent = ({ user }) => {
                     : user?.info.full_name}
                 </li>
               </Link>
-              <Link className="login-aside-element" href="/my-profile">
+              <Link className="login-aside-element" to="/my-profile">
                 <li>My wishes</li>
               </Link>
-              <Link className="login-aside-element" href="/profile-edit">
+              <Link className="login-aside-element" to="/profile-edit">
                 <li>Edit personal info</li>
               </Link>
-              <Link className="login-aside-element" href="/settings">
+              <Link className="login-aside-element" to="/settings">
                 <li>Settings</li>
               </Link>
               <hr className="hr-aside" />

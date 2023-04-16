@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { BsFillHandThumbsUpFill, BsHandThumbsUp, BsThreeDots, } from "react-icons/bs";
+import {
+  BsFillHandThumbsUpFill,
+  BsHandThumbsUp,
+  BsThreeDots,
+} from "react-icons/bs";
 import DonutIcon from "../../assets/svg/donut.svg";
 import SweetIcon from "../../assets/svg/sweet.svg";
 import BurgerIcon from "../../assets/svg/burger.svg";
@@ -50,8 +54,7 @@ const MyWishCompleted = () => {
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [getCategoryId, setCategoryId] = useState(null);
-  // const { slug } = useParams();
-  const slug = "wx11"
+  const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const { state } = useLocation();
@@ -69,6 +72,7 @@ const MyWishCompleted = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
@@ -96,15 +100,23 @@ const MyWishCompleted = () => {
 
   return (
     <div className="pt-10 bg-[#EBE5F7]">
-      <Confetti/>
+      <Confetti />
       <div className="container">
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
             <div className="rounded-[24px] mb-4 relative">
-              <img className="rounded-[24px]" src={UserGetCreationImgWish} alt=""/>
-              <img className="absolute top-[2px] right-[2px]" src={StampIcon} alt=""/>
+              <img
+                className="rounded-[24px]"
+                src={UserGetCreationImgWish}
+                alt=""
+              />
+              <img
+                className="absolute top-[2px] right-[2px]"
+                src={StampIcon}
+                alt=""
+              />
             </div>
-            <Share page="wish" slug={state ? state : slug}/>
+            <Share page="wish" slug={state ? state : slug} />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
@@ -142,20 +154,24 @@ const MyWishCompleted = () => {
                       }}
                       control={
                         <button className="flex items-center text-white">
-                          <BsThreeDots/>
+                          <BsThreeDots />
                         </button>
                       }
                     >
                       <Menu.Item>
                         <button className="flex items-center text-[#3800B0]">
-                          <FaPen className="text-sm !text-[#3800B0]"/>
-                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Edit</span>
+                          <FaPen className="text-sm !text-[#3800B0]" />
+                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                            Edit
+                          </span>
                         </button>
                       </Menu.Item>
                       <Menu.Item>
                         <button className="flex items-center text-[#3800B0]">
-                          <RiDeleteBin6Line className="text-sm !text-[#3800B0]"/>
-                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">Delete</span>
+                          <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
+                          <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                            Delete
+                          </span>
                         </button>
                       </Menu.Item>
                     </Menu>
@@ -172,54 +188,64 @@ const MyWishCompleted = () => {
               <div className="rounded-[20px] bg-[#3800B0] p-6 lg:p-12 flex justify-between">
                 <div>
                   <div className="flex items-center mb-4">
-                    <p className="text-[#00FF9E] leading-[1.4] font-semibold mr-2">$2 542 total raised</p>
-                    <p className="text-sm leading-[1.4] font-semibold text-white">120%</p>
+                    <p className="text-[#00FF9E] leading-[1.4] font-semibold mr-2">
+                      $2 542 total raised
+                    </p>
+                    <p className="text-sm leading-[1.4] font-semibold text-white">
+                      120%
+                    </p>
                   </div>
-                  <p className="text-sm leading-[1.4] font-semibold text-white">Bradley Cooper reached his goal
-                    ($10,000) and now he can get the gift he dreamed of.</p>
+                  <p className="text-sm leading-[1.4] font-semibold text-white">
+                    Bradley Cooper reached his goal ($10,000) and now he can get
+                    the gift he dreamed of.
+                  </p>
                 </div>
-                <img className="ml-[24px] md:ml-12" src={WishConfetti} alt=""/>
+                <img className="ml-[24px] md:ml-12" src={WishConfetti} alt="" />
               </div>
               <div className="rounded-[20px] bg-[#fff] mt-1 p-6 lg:p-12">
                 <div className="flex md:flex-row flex-col">
-                  <img className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
-                       src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                       alt=""/>
-                  <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">Thank your friends and show the
-                    report</p>
+                  <img
+                    className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
+                    src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                    alt=""
+                  />
+                  <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">
+                    Thank your friends and show the report
+                  </p>
                 </div>
                 <div className="mt-12 flex justify-between flex-wrap">
-                  <div
-                    className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
+                  <div className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
                     <div className="flex items-center">
-                      <IoImageOutline className="text-[#3800B0] mr-2"/>
-                      <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">Attach a photo</p>
+                      <IoImageOutline className="text-[#3800B0] mr-2" />
+                      <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
+                        Attach a photo
+                      </p>
                     </div>
                     <div className="ml-3 flex items-center">
                       <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
                         <img
                           className="w-full h-full rounded-[4px]"
                           src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                          alt=""/>
-                        <button
-                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
-                          <RiDeleteBin6Line className="text-[#3800B0] text-sm"/>
+                          alt=""
+                        />
+                        <button className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
+                          <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
                         </button>
                       </div>
                       <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
                         <img
                           className="w-full h-full rounded-[4px]"
                           src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                          alt=""/>
-                        <button
-                          className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
-                          <RiDeleteBin6Line className="text-[#3800B0] text-sm"/>
+                          alt=""
+                        />
+                        <button className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
+                          <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
                         </button>
                       </div>
                     </div>
                   </div>
-                  <button
-                    className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]">Send
+                  <button className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]">
+                    Send
                   </button>
                 </div>
               </div>
@@ -345,7 +371,7 @@ const MyWishCompleted = () => {
                   </span>
                 </div>
                 <button className="mr-2 text-[#3800B0] text-lg">
-                  <HiOutlineFilter/>
+                  <HiOutlineFilter />
                 </button>
               </div>
               <div className="rounded-[24px] p-6 bg-white my-2">
@@ -368,7 +394,7 @@ const MyWishCompleted = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -381,7 +407,7 @@ const MyWishCompleted = () => {
                       257
                     </span>
                     {/*<BsHandThumbsUp />*/}
-                    <BsFillHandThumbsUpFill/>
+                    <BsFillHandThumbsUpFill />
                   </button>
                 </div>
                 <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] p-3 flex justify-between">
@@ -420,7 +446,7 @@ const MyWishCompleted = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -432,7 +458,7 @@ const MyWishCompleted = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp/>
+                    <BsHandThumbsUp />
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>
@@ -457,7 +483,7 @@ const MyWishCompleted = () => {
                       2 min go
                     </p>
                     <button className="text-[#2D008D] text-md">
-                      <BsThreeDots/>
+                      <BsThreeDots />
                     </button>
                   </div>
                 </div>
@@ -481,7 +507,7 @@ const MyWishCompleted = () => {
                     <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
                       257
                     </span>
-                    <BsHandThumbsUp/>
+                    <BsHandThumbsUp />
                     {/*<BsFillHandThumbsUpFill />*/}
                   </button>
                 </div>
