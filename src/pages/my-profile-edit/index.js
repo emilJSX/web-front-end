@@ -590,7 +590,7 @@ const ProfileEdit = () => {
         typeof userInfo?.about === "string" ? userInfo.about : ""
       );
     }
-  }, [userInfo]);
+  }, []);
   const handleCalendarChange = (e) => {
     setDateValue(new Date(e));
     setShowCalendar(!showCalendar);
@@ -644,7 +644,15 @@ const ProfileEdit = () => {
           : userInfo.interests
       ),
     ];
-    const selectedCountry = allCountries.find((item) => item.name === country);
+    const selectedCountry = allCountries.find(
+      (item) => item.name === (country ? country : userInfo.country)
+    );
+    console.log(
+      selectedCountry,
+      country,
+      userInfo.country.id,
+      userInfo.country
+    );
     const formData = new FormData();
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -657,7 +665,7 @@ const ProfileEdit = () => {
     );
     formData.append("interests", uniqueArr.length ? uniqueArr : " ");
     formData.append("file", file);
-    formData.append("country", selectedCountry.id);
+    formData.append("country", selectedCountry?.id);
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
     await myaxiosprivate
       .post("/api/v1/profiles/update", formData, {
@@ -666,9 +674,9 @@ const ProfileEdit = () => {
         },
       })
       .then(({ data }) => {
-        enqueueSnackbar(data.message);
-
-        location.reload();
+        enqueueSnackbar(
+          data.message !== "" ? data.message : "Update is successfull"
+        );
       })
       .catch((err) => {
         enqueueSnackbar(err.message);
@@ -1073,7 +1081,6 @@ const ProfileEdit = () => {
                         defaultValue={userInfo.about}
                         // onChange={handleChangeUserInfo}
                         {...register("about", {
-                          required: "About is required",
                           minLength: {
                             value: 10,
                             message:
