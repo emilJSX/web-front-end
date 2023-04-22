@@ -999,6 +999,7 @@ export function SignUp_ConnectionSystem({
                       display: "flex",
                       justifyContent: "center",
                     }}
+                    className="relative"
                   >
                     <Password
                       placeholder="Password"
@@ -1012,15 +1013,19 @@ export function SignUp_ConnectionSystem({
                       })}
                       type={password ? "password" : "text"}
                       style={{ width: "400px" }}
+                      className="!pr-1"
+                    />
+                    <AiOutlineEye
+                      className={
+                        password
+                          ? "eye_button text-black absolute cursor-pointer hover:text-gray-300"
+                          : "eye_button absolute cursor-pointer hover:text-black"
+                      }
+                      onClick={() => {
+                        setPassword(!password);
+                      }}
                     />
                   </div>
-                  <AiOutlineEye
-                    className="eye_button"
-                    onClick={() => {
-                      setPassword(!password);
-                    }}
-                    style={{ float: "right" }}
-                  />
                   {errors.password && (
                     <p className="mx-14 my-2 text-red-500 text-xs">
                       {errors.password.message}
@@ -1042,7 +1047,9 @@ export function SignUp_ConnectionSystem({
                       {...register("terms")}
                     />
                     <Link target="_blank" to="/privacy">
-                      <ParagraphChek style={{ marginLeft: "10px" }}>
+                      <ParagraphChek
+                        style={{ marginLeft: "10px", paddingTop: "3px" }}
+                      >
                         Terms of use
                       </ParagraphChek>
                     </Link>

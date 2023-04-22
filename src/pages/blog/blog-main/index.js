@@ -41,7 +41,8 @@ const MainBlog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState();
-
+  const [showMore, setShowMore] = useState(0);
+  const [isLast, setIsLast] = useState(false);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -58,18 +59,20 @@ const MainBlog = () => {
     myaxios
       .get("/api/v1/blog/articles/get", {
         params: {
-          skip: 0,
+          skip: showMore,
         },
       })
-      .then((res) => {
-        setResultApiSearch(res.data.data.list);
+      .then(({ data }) => {
+        setResultApiSearch(data.data.list);
+        setIsLast(data.data.last);
         setLoading(false);
+        window.scrollTo(0, 0);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [showMore]);
 
   const GetUserValueForApi = (e) => {
     navigate("/blog-search-result", {
@@ -90,6 +93,8 @@ const MainBlog = () => {
     setUserCategoryId(event.currentTarget.id);
   };
 
+  const truncate = (input) =>
+    input?.length > 300 ? `${input.substring(0, 100)}...` : input;
   if (loading) {
     return <Loader />;
   }
@@ -199,10 +204,16 @@ const MainBlog = () => {
         <CardTopSection fluid>
           <Grid className="grid-root">
             <Grid.Col className="col-root-img" p={0} md={6}>
-              <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+              <Link
+                to={`/blog-post/${
+                  getResultApiSearch && getResultApiSearch[0]?.slug
+                }`}
+              >
                 <Image
                   className="img-section"
-                  src={`${process.env.REACT_APP_API_URL}${getResultApiSearch[0]?.thumb}`}
+                  src={`${process.env.REACT_APP_API_URL}${
+                    getResultApiSearch && getResultApiSearch[0]?.thumb
+                  }`}
                 />
               </Link>
             </Grid.Col>
@@ -210,17 +221,26 @@ const MainBlog = () => {
               <div className="read-section">
                 <p className="top-txt"></p>
                 <Link
-                  to={`/blog-post/${getResultApiSearch[0]?.slug}`}
+                  to={`/blog-post/${
+                    getResultApiSearch && getResultApiSearch[0]?.slug
+                  }`}
                   className="break-all"
                 >
                   <p className="top-title md:pr-4">
-                    {getResultApiSearch[0]?.title}
+                    {getResultApiSearch && getResultApiSearch[0]?.title}
                   </p>
                 </Link>
                 <p className="txt">
-                  {getResultApiSearch[0]?.partials[0]?.content}
+                  {truncate(
+                    getResultApiSearch &&
+                      getResultApiSearch[0]?.partials[0]?.content
+                  )}
                 </p>
-                <Link to={`/blog-post/${getResultApiSearch[0]?.slug}`}>
+                <Link
+                  to={`/blog-post/${
+                    getResultApiSearch && getResultApiSearch[0]?.slug
+                  }`}
+                >
                   Read article
                 </Link>
               </div>
@@ -228,7 +248,7 @@ const MainBlog = () => {
           </Grid>
         </CardTopSection>
 
-        <BlogCard fluid>
+        <BlogCard fluid className="my-4">
           <TabPanel>
             <Grid className="grid-card-root">
               {getResultApiSearch?.map((AllBlog) => (
@@ -278,7 +298,7 @@ const MainBlog = () => {
                             </h1>
                           </Link>
                           <p className="text-card">
-                            {AllBlog?.partials[0]?.content}
+                            {truncate(AllBlog?.partials[0]?.content)}
                           </p>
                         </Typography>
                       </CardContent>
@@ -295,9 +315,14 @@ const MainBlog = () => {
           </TabPanel>
         </BlogCard>
       </Tabs>
-      <PaginationSection>
-        <h1 style={{ color: "#3800B0", fontWeight: "bold" }}>Show More</h1>
-      </PaginationSection>
+      {!isLast && (
+        <PaginationSection
+          onClick={() => setShowMore(showMore + 1)}
+          className="cursor-pointer"
+        >
+          <p style={{ color: "#3800B0", fontWeight: "bold" }}>Show More</p>
+        </PaginationSection>
+      )}
     </BlogMainSection>
   );
 };

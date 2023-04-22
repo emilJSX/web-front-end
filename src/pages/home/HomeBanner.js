@@ -38,8 +38,8 @@ import { ReactComponent as GridIcon } from "../../assets/svg/grid-white.svg";
 const HomeBanner = ({ showLoginModal, showSignUpModal, createWish }) => {
   const navigate = useNavigate();
 
-  const scrollToNextSection = () => {
-    const nextSection = document.getElementById("slideShowContainer");
+  const scrollToNextSection = (sectionName) => {
+    const nextSection = document.getElementById(sectionName);
 
     nextSection.scrollIntoView({
       behavior: "smooth",
@@ -153,20 +153,32 @@ const HomeBanner = ({ showLoginModal, showSignUpModal, createWish }) => {
           <div className="mt-[120px] hidden md:flex items-center gap-2">
             <button
               className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-2.5 py-3 rounded-[8px] border border-solid"
-              onClick={scrollToNextSection}
+              onClick={() => scrollToNextSection("1")}
             >
               <ArrowDownIcon width={20} height={20} />
             </button>
-            <button className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid">
+            <button
+              onClick={() => scrollToNextSection("1")}
+              className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid"
+            >
               Recent
             </button>
-            <button className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid">
+            <button
+              onClick={() => scrollToNextSection("2")}
+              className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid"
+            >
               Popular
             </button>
-            <button className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid">
+            <button
+              onClick={() => scrollToNextSection("3")}
+              className="h-[40px]tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid"
+            >
               Info
             </button>
-            <button className="tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid">
+            <button
+              onClick={() => scrollToNextSection("4")}
+              className="tracking-[0.01em] text-[13px] leading-[1.3] font-semibold text-white bg-transparent px-4 py-3 rounded-[8px] border border-solid"
+            >
               FAQ
             </button>
           </div>
