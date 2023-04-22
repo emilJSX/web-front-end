@@ -125,7 +125,7 @@ const FaqSection = () => {
   }
 
   return (
-    <FaqContainer p={0} fluid>
+    <FaqContainer p={0} fluid id="4">
       <h1 className="faq-txt">FAQ</h1>
       <Tabs defaultValue="return-refunds">
         <Grid className="main-container">

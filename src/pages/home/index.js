@@ -224,13 +224,14 @@ const Home = () => {
         />
         <HomeCenter
           className="slide-show-container"
-          id="slideShowContainer"
+          id="1"
           style={{ zIndex: "0", overflow: "hidden" }}
         >
           <div className="promo-view-container">
             <div className="background">
               <p className="title">Recent wishes come true</p>
             </div>
+
             <div className="wish__slider__wrapper">
               <Swiper
                 breakpoints={{
@@ -337,6 +338,7 @@ const Home = () => {
       <Container
         size="xl"
         style={{ overflow: "hidden" }}
+        id="2"
         className="products-container mb-[50px] md:mb-[150px]"
       >
         <WishesText>
@@ -435,7 +437,7 @@ const Home = () => {
         <Link to="/wish-list">
           <SeeAllWish className="see-all-btn">See all wishes</SeeAllWish>
         </Link>
-        <GridCutoms justify="center">
+        <GridCutoms justify="center" >
           <Grid.Col>
             <GifHeader>We help desires come true</GifHeader>
           </Grid.Col>
@@ -494,7 +496,7 @@ const Home = () => {
                 </p>
               </div>
             </div>
-            <div className="content">
+            <div className="content" >
               <div className="box">
                 <div className="left">
                   <div className="top">

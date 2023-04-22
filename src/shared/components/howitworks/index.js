@@ -39,7 +39,7 @@ const HowItWorks = ({ isHome = false }) => {
     return <Loader />;
   }
   return (
-    <HIWContainer fluid>
+    <HIWContainer fluid id="3">
       {!isHome ? (
         <>
           <NavigationTop>
