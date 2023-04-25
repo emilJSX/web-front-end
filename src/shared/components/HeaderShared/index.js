@@ -166,7 +166,7 @@ export const HeaderShared = ({ user, error }) => {
 
             {notifShow && (
               <ClickAwayListener onClickAway={() => setNotifShow(false)}>
-                <div>
+                <div className="shadow-2xl">
                   <Notification
                     // innerRef={notRef}
                     // show={notifShow}
@@ -231,7 +231,7 @@ export const HeaderShared = ({ user, error }) => {
 
               {getOpenedMenu && (
                 <ClickAwayListener onClickAway={() => setOpenedMenu(false)}>
-                  <div className="dropdown-menu-logined z-10">
+                  <div className="dropdown-menu-logined z-10 shadow-2xl">
                     <div className="body-menu-logined" ref={settingRef}>
                       <ul className="!pl-0">
                         <Link

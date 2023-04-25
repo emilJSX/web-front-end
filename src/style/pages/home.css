@@ -38,7 +38,7 @@
 }
 
 .banner__right__content--top {
-  @apply hidden md:flex absolute -top-[24px] right-0 w-[42%] h-[50%] z-[1] min-w-[320px];
+  @apply hidden md:flex absolute -top-[-66px] right-[-45px] w-[42%] h-[50%] z-[1] min-w-[320px];
 
   background-image: url("../../assets/svg/guitar.webp");
   background-repeat: no-repeat;
@@ -55,7 +55,7 @@
 }
 
 .banner__right__content--bottom {
-  @apply hidden md:flex absolute bottom-[48px] right-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
+  @apply hidden md:flex absolute bottom-[-50px] right-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
 
   background-image: url("../../assets/svg/banner-boy.webp");
   background-repeat: no-repeat;
@@ -64,7 +64,7 @@
 }
 
 .banner__left__content--top {
-  @apply absolute -top-[32px] left-20 w-[42%] h-[50%] z-[1] min-w-[320px];
+  @apply absolute -top-[-42px] left-[32px] w-[42%] h-[50%] z-[1] min-w-[320px];
 
   background-image: url("../../assets/svg/headphone.webp");
   background-repeat: no-repeat;
@@ -80,11 +80,12 @@
     left: calc(50% - 80px);
     min-width: auto;
     transform: translateY(-40px);
+    top:-24px;
   }
 }
 
 .banner__left__content--shape {
-  @apply absolute -top-[12px] left-[100px] w-[42%] h-[50%] min-w-[200px];
+  @apply absolute -top-[-32px] left-[50px] w-[42%] h-[50%] min-w-[200px];
 
   background-image: url("../../assets/svg/message-shape.svg");
   background-repeat: no-repeat;
@@ -100,11 +101,12 @@
     left: calc(50% - 70px);
     min-width: auto;
     transform: translate(10px, 0px);
+    top:-31px;
   }
 }
 
 .banner__left__content--bottom {
-  @apply absolute bottom-[42px] left-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
+  @apply absolute bottom-[-33px] left-0 w-[calc(50%-300px)] h-[50%] min-w-[380px];
 
   background-image: url("../../assets/svg/banner-girl.webp");
   background-repeat: no-repeat;

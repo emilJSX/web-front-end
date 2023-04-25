@@ -263,12 +263,12 @@ const MyProfile = () => {
 
         <Grid className="main-grid">
           <Grid.Col className="col-one" xl={3} lg={3} md={3} sm={12} xs={12}>
-            <div className="leftsection-style">
+            <div className="leftsection-style ">
               <MobileTopCoverImageSection>
                 <img
                   id="rainbow"
                   radius="lg"
-                  className="rainbow md:w-full w-[96.8%] h-[300px] bg-center bg-cover"
+                  className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] bg-center bg-cover"
                   src={
                     userProfile?.info?.background_image
                       ? userProfile?.info?.background_image
@@ -276,8 +276,8 @@ const MyProfile = () => {
                   }
                 />
               </MobileTopCoverImageSection>
-              <LeftSection>
-                <DisplayTopImgCard className="mt-16">
+              <LeftSection className="shadow-md">
+                <DisplayTopImgCard >
                   <Image
                     radius="100px"
                     style={{ border: "3px solid white !important" }}
