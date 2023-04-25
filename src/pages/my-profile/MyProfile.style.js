@@ -8,7 +8,8 @@ justify-content: center;
 padding-bottom: 50px;
 
 .leftsection-style {
-    width: auto;
+    width:100%;
+    margin-top:50px;
 }
 
 
@@ -23,9 +24,17 @@ padding-bottom: 50px;
 
 .rainbow {
     @media (max-width: 420px) {
-        height: 113px !important;
-        margin-left: 6px;
+        height: 150px !important;
+        margin-left:4px;
         margin-top: 13px;
+        width:98.2%;
+        border-radius:16px 16px 0 0;
+    }
+    @media(max-width:375px) {
+      width:98.0%;
+    }
+    @media(max-width:280px) {
+      width:97.4%;
     }
 }
 
@@ -1240,8 +1249,8 @@ export const MobileTopCoverImageSection = styled.div`
 
   @media (max-width: 992px) {
     display: block;
-    width: 98.8%;
-    margin-left: 7px;
+    width: 100%;
+    margin-left: 3px;
   }
 `;
 
