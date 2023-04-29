@@ -275,7 +275,7 @@ export const CardLonger = styled.div`
         width: 247px;
         height: 150px;
         border-radius: 16px;
-        margin: 16px 48px 0 98px;
+        margin: 16px 48px 0 24px;
         padding-bottom: 370px;
         padding-top: 63px;
     }
@@ -331,12 +331,12 @@ export const Buttonleft = styled.button`
     text-align: center;
     color: white;
     font-size: 14px;
-    margin-top: 35px;
+   
     margin-left: 34px;
 
     @media (max-width: 992px) {
-        margin-top: 60px;
-        margin-left: 33px;
+       margin-top:35px;
+        margin-left: 40px;
     }
 `;
 export const Buttonright = styled.button`
@@ -354,7 +354,7 @@ export const Glasses = styled.img`
     width: 262px;
     height: 240px;
     margin-left: 85px;
-    margin-top: 125px;
+ 
 
 
     @media (max-width: 992px){ 

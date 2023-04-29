@@ -55,7 +55,7 @@ const MyWish = () => {
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const { state } = useLocation();
-
+  const [error, setError] = useState("");
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
@@ -69,12 +69,11 @@ const MyWish = () => {
           slug: state ? state : slug,
         },
       })
-      .then((res) => {
-        console.log(res);
-        setGetUserData(res?.data?.data);
+      .then(({ data }) => {
+        setGetUserData(data?.data);
       })
       .catch((err) => {
-        console.log("");
+        setError(err.message);
       });
 
     myaxiosprivate
@@ -93,7 +92,7 @@ const MyWish = () => {
 
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
   //   END
 
   return (

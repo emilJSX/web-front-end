@@ -102,6 +102,7 @@ import { DateTime } from "luxon";
 import { myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
 import Share from "../wish-pagess/Share";
+import ErrorPage from "../404";
 
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -222,6 +223,9 @@ const MyProfile = () => {
   if (loading) {
     return <Loader />;
   }
+  if (error) {
+    return <ErrorPage />;
+  }
   return (
     <Body>
       <div className="main-container">
@@ -262,7 +266,14 @@ const MyProfile = () => {
         </div>
 
         <Grid className="main-grid">
-          <Grid.Col className="col-one" xl={3} lg={3} md={3} sm={12} xs={12}>
+          <Grid.Col
+            className="col-one mr-[7px] md:mr-0"
+            xl={3}
+            lg={3}
+            md={3}
+            sm={12}
+            xs={12}
+          >
             <div className="leftsection-style ">
               <MobileTopCoverImageSection>
                 <img
@@ -277,7 +288,7 @@ const MyProfile = () => {
                 />
               </MobileTopCoverImageSection>
               <LeftSection className="shadow-md">
-                <DisplayTopImgCard >
+                <DisplayTopImgCard>
                   <Image
                     radius="100px"
                     style={{ border: "3px solid white !important" }}

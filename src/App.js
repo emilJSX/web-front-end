@@ -32,7 +32,7 @@ const WishDesign = lazy(() => import("./pages/wish/WishDesign"));
 const Finally = lazy(() => import("./pages/set-new-password"));
 const MyWish = lazy(() => import("./pages/wish/MyWish"));
 const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
-import NewCalendar from "./pages/new-calendar/index.js";
+const NewCalendar = lazy(() => import("./pages/new-calendar/index"));
 import Loader from "./shared/ui/Loader";
 const App = () => {
   return (
@@ -80,7 +80,6 @@ const App = () => {
             <Route path="/partners-coupon" element={<PartnersPage />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="/new-calendar" element={<NewCalendar />} />
           </Routes>
         </Suspense>
       </AppProvider>

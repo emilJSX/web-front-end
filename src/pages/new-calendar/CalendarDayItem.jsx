@@ -11,19 +11,18 @@ import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
-const calculateProgress = (target, received) =>
+export const calculateProgress = (target, received) =>
   ((received / target) * 100).toFixed(2);
 
 function CalendarDayItem(props) {
   const [progress, setProgress] = useState();
-  console.log(props);
   useEffect(() => {
     const newProgress = calculateProgress(
       +props.wish_list[0].donate?.target,
       +props.wish_list[0].donate?.received
     );
     setProgress(newProgress);
-  }, []);
+  }, [progress]);
   return (
     <Box>
       <Accordion className="!bg-[#ECEEF7] !rounded-lg my-2">

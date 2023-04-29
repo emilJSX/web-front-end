@@ -24,7 +24,7 @@ padding-bottom: 50px;
 .rainbow {
     @media (max-width: 420px) {
         height: 113px !important;
-        margin-left: 6px;
+        margin-left: 0px;
         margin-top: 13px;
     }
 }
