@@ -22,7 +22,9 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { useLocation, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
-
+import { calculateProgress } from "../new-calendar/CalendarDayItem";
+import { LinearProgress } from "@mui/material";
+import moment from "moment";
 export const giftAmounts = [
   {
     icon: SweetIcon,
@@ -60,6 +62,18 @@ const WishDesign = () => {
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const [error, setError] = useState("");
+  const [progress, setProgress] = useState();
+
+  useEffect(() => {
+    const newProgress = calculateProgress(
+      +GetUserWishDataResult?.donate?.target,
+      +GetUserWishDataResult?.donate?.received
+    );
+    setProgress(newProgress);
+  }, [
+    GetUserWishDataResult?.donate?.target,
+    GetUserWishDataResult?.donate?.received,
+  ]);
 
   const { state } = useLocation();
 
@@ -138,7 +152,10 @@ const WishDesign = () => {
                         {GetUserWishDataResult?.user?.name}
                       </span>
                       <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">
-                        for birthday on {GetUserWishDataResult?.date}
+                        for birthday on{" "}
+                        {moment(GetUserWishDataResult?.date).format(
+                          "DD MMMM YYYY"
+                        )}
                       </span>
                     </div>
                   </div>
@@ -159,23 +176,28 @@ const WishDesign = () => {
                     Target: ${GetUserWishDataResult?.donate?.target}
                   </p>
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    Final: 08.03.2023
+                    Final:{" "}
+                    {moment(GetUserWishDataResult?.date).format("DD.MM.YYYY")}
                   </p>
                 </div>
                 <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">
-                  <div className="bg-[#3800B0] rounded-[48px] w-1/3 h-full"></div>
+                  <LinearProgress
+                    variant="determinate"
+                    className="my-4"
+                    value={+progress}
+                  />
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
                     <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">
-                      ${GetUserWishDataResult?.date} raised
+                      ${GetUserWishDataResult?.donate?.received} raised
                     </span>
                     <span className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">
-                      25%{" "}
+                      {progress}%{" "}
                     </span>
                   </p>
                   <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
-                    $375 left
+                    ${GetUserWishDataResult?.donate?.left} left
                   </p>
                 </div>
               </div>
@@ -188,7 +210,7 @@ const WishDesign = () => {
                     <VisibilityMenu
                       menuId="gift-amount"
                       controlLabel={giftAmountVisibility}
-                      setWisherVisibility={setGiftAmountVisibility}
+                      setVisibility={setGiftAmountVisibility}
                     />
                   </div>
                 </div>
@@ -222,21 +244,26 @@ const WishDesign = () => {
                     <VisibilityMenu
                       menuId="wisher"
                       controlLabel={wisherVisibility}
-                      setWisherVisibility={setWisherVisibility}
+                      setVisibility={setWisherVisibility}
                     />
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="leading-[1.2] font-semibold text-[#8E93AF]">
+                  {/* <p className="leading-[1.2] font-semibold text-[#8E93AF]">
                     Your congratulations
-                  </p>
-                  <button>
+                  </p> */}
+                  <input
+                    type="text"
+                    placeholder="Your congratulations"
+                    className="leading-[1.2] w-full  font-semibold  md:h-[100px] text-[#8e93af] px-2"
+                  />
+                  {/* <button>
                     <VisibilityMenu
                       menuId="congrats"
                       controlLabel={congratsVisibility}
                       setVisibility={setCongratsVisibility}
                     />
-                  </button>
+                  </button> */}
                 </div>
                 <button className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">
                   Сongratulate

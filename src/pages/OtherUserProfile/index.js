@@ -88,6 +88,8 @@ import {
   SignUp_ConnectionSystem,
 } from "../../shared/LoginSignUpSystem/ConnectionSystem/connection";
 import { HiBadgeCheck } from "react-icons/hi";
+import moment from "moment";
+import ErrorPage from "../404";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
@@ -216,6 +218,10 @@ const OtherUserProfile = () => {
   if (loading) {
     return <Loader />;
   }
+
+  if (error) {
+    return <ErrorPage />
+  }
   return (
     <Body>
       {showes && (
@@ -246,7 +252,7 @@ const OtherUserProfile = () => {
                 <img
                   id="rainbow"
                   radius="lg"
-                  className="rainbow"
+                  className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] bg-center bg-cover"
                   src={estetika}
                   height={300}
                 />
@@ -376,9 +382,7 @@ const OtherUserProfile = () => {
                                         <Image src={instagram} className='insta-icon' style={{ color: "#2D008D", fontSize: "23px" }} />
                                         <BsTelegram className='insta-icon' style={{ color: "#2D008D" }} />
                                     </MobileBtnSection> */}
-                <Joined>
-                  Joined {DateTime.fromISO(getJoined).toFormat("MMMM yyyy")}
-                </Joined>
+                <Joined>Joined {moment(getJoined).format("MMMM yyyy")}</Joined>
               </LeftSection>
             </div>
           </Grid.Col>
@@ -436,13 +440,13 @@ const OtherUserProfile = () => {
                             onMouseOver={(e) => {
                               e.currentTarget.setAttribute(
                                 "style",
-                                "border: 1px solid #3800B0;"
+                                "border: 1px solid #3800B0"
                               );
                             }}
                             onMouseOut={(e) => {
                               e.currentTarget.setAttribute(
                                 "style",
-                                "border: 1px solid #EBE5F7;"
+                                "border: 1px solid #EBE5F7"
                               );
                             }}
                           >
@@ -505,10 +509,12 @@ const OtherUserProfile = () => {
                         <CardLonger>
                           <NotWishes>User doesn’t have any wishes</NotWishes>
                           <Buttons>
-                            <Buttonleft>Message user</Buttonleft>
-                            <a href="/wish-list">
+                            <Buttonleft className="mt-5">
+                              Message user
+                            </Buttonleft>
+                            <Link to="/wish-list">
                               <Buttonright>Explore wishes</Buttonright>
-                            </a>
+                            </Link>
                           </Buttons>
                           <Glasses src={file1} />
                         </CardLonger>
@@ -623,11 +629,16 @@ const OtherUserProfile = () => {
                   ) : (
                     <div>
                       <CardLonger>
-                        <NotWishes>Yo don’t have any wishes</NotWishes>
-                        <Buttons>
+                        <NotWishes>You don’t have any wishes</NotWishes>
+                        <div className="mb-2">
                           <Buttonleft>Create a wish</Buttonleft>
-                          <Buttonright>Explore wishes</Buttonright>
-                        </Buttons>
+                          <Buttonleft
+                            className="!bg-transparent !text-[#3800B0]
+    !border-[#3800B0] border-[1px]"
+                          >
+                            Explore wishes
+                          </Buttonleft>
+                        </div>
                         <Glasses src={file1} />
                       </CardLonger>
                       {/* <Division>

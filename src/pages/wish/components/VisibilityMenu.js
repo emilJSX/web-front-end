@@ -81,6 +81,7 @@ const VisibilityMenu = ({ controlLabel, setVisibility, menuId }) => {
 
   const handleFormChange = (e) => {
     const id = e.target.id;
+    console.log(id)
     const selectedOption = options.find((option) => option.id === id)
     if (selectedOption) {
       setVisibility(selectedOption.title)
