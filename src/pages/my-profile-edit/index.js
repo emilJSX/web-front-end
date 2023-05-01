@@ -256,9 +256,9 @@ function MyVerticallyCenteredModal(props) {
       });
   };
 
-  if (error) {
-    return <div className="flex justify-center items-center h-96">{error}</div>;
-  }
+  // if (error) {
+  //   return <div className="flex justify-center items-center h-96">{error}</div>;
+  // }
   return (
     <>
       <Modal
@@ -989,8 +989,6 @@ const ProfileEdit = () => {
                     <div className="email-container">
                       <input
                         type="number"
-                        minLength={7}
-                        maxLength={14}
                         // onChange={handleChangeUserInfo}
                         // value={getUserInfoProfile.number}
                         defaultValue={userInfo.number}
@@ -999,7 +997,7 @@ const ProfileEdit = () => {
                         placeholder="Phone Number"
                         {...register("number", {
                           minLength: 7,
-                          maxLength: 14,
+                          maxLength: 15,
                         })}
                       />
                       {/* <a href='#' className='change-button'>Change</a> */}
