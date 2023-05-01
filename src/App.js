@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import AppProvider from "./provider/AppProvider";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./style/theme";
 import { Rating } from "@mui/material";
@@ -34,6 +34,7 @@ const MyWish = lazy(() => import("./pages/wish/MyWish"));
 const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
 const NewCalendar = lazy(() => import("./pages/new-calendar/index"));
 import Loader from "./shared/ui/Loader";
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>

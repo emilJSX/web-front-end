@@ -619,7 +619,7 @@ export function SignUp_ConnectionSystem({
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
-    dob: moment(),
+    dob: null,
     country: "",
     interests: [],
     file: null,
@@ -643,7 +643,7 @@ export function SignUp_ConnectionSystem({
   const handleCalendarChange = (e) => {
     setFormData({
       ...formData,
-      dob: e,
+      dob: moment(e),
     }),
       setShowCalendar(false);
   };
@@ -791,8 +791,18 @@ export function SignUp_ConnectionSystem({
   // ======================== END INTERESTS CONFIG =============================
 
   // ============================ PASPORT CONFIG ===============================
-  const [selectPassport, setselectPassport] = useState();
+  const [selectPassport, setselectPassport] = useState(null);
   const [passportErr, setPassportErr] = useState(null);
+  const [previewImageUrl, setPreviewImageURL] = useState(null);
+  useEffect(() => {
+    if (selectPassport) {
+      const url = URL.createObjectURL(selectPassport);
+      setPreviewImageURL(url);
+    } else {
+      setPreviewImageURL(null);
+    }
+  }, [selectPassport]);
+
   const handleVerifyPassport = async (e) => {
     const formData = new FormData();
 
@@ -941,6 +951,7 @@ export function SignUp_ConnectionSystem({
                     }}
                   >
                     <Email
+                      autoComplete="off"
                       placeholder="Email"
                       style={{ width: "400px" }}
                       {...register("email", {
@@ -965,6 +976,7 @@ export function SignUp_ConnectionSystem({
                   )}
 
                   <Username
+                    autoComplete="off"
                     placeholder="Username"
                     required
                     onChange={debounce((e) => {
@@ -1002,6 +1014,7 @@ export function SignUp_ConnectionSystem({
                     className="relative"
                   >
                     <Password
+                      autoComplete="off"
                       placeholder="Password"
                       {...register("password", {
                         required: "Password is required",
@@ -1240,7 +1253,11 @@ export function SignUp_ConnectionSystem({
                           {...params}
                           error={false}
                           variant="standard"
-                          value={moment(formData.dob).format("DD.MM.YYYY")}
+                          value={
+                            formData.dob !== null
+                              ? moment(formData.dob).format("DD.MM.YYYY")
+                              : null
+                          }
                           InputLabelProps={{ style: { color: "#fff" } }}
                           inputProps={{
                             disableUnderline: true,
@@ -1381,10 +1398,19 @@ export function SignUp_ConnectionSystem({
                   style={{ display: "none" }}
                 />
               </MainDiv>
-              {/* <DivImg>
-                                <CgTrash className="trash" />
-                                <Image src={TestImage} />
-                            </DivImg> */}
+              {console.log(previewImageUrl, selectPassport)}
+              {previewImageUrl && (
+                <DivImg>
+                  <CgTrash
+                    className="trash"
+                    onClick={() => {
+                      setselectPassport(null), setPreviewImageURL(null);
+                    }}
+                  />
+                  <Image src={previewImageUrl} />
+                </DivImg>
+              )}
+
               <List>
                 The photo must be:
                 <ul>

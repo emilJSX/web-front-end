@@ -19,51 +19,95 @@ import BurgerIcon from "../../assets/svg/burger.svg";
 import FlowersIcon from "../../assets/svg/flowers.svg";
 import CoffeeIcon from "../../assets/svg/coffee.svg";
 import { HiOutlineFilter } from "react-icons/hi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
 import { calculateProgress } from "../new-calendar/CalendarDayItem";
 import { LinearProgress } from "@mui/material";
 import moment from "moment";
-export const giftAmounts = [
-  {
-    icon: SweetIcon,
-    value: "$1",
-  },
-  {
-    icon: DonutIcon,
-    value: "$2",
-  },
-  {
-    icon: BurgerIcon,
-    value: "$5",
-  },
-  {
-    icon: CoffeeIcon,
-    value: "$10",
-  },
-  {
-    icon: FlowersIcon,
-    value: "$20",
-  },
-  {
-    icon: null,
-    value: "Other",
-  },
-];
+// export const giftAmounts = [
+//   {
+//     icon: SweetIcon,
+//     value: "$1",
+//   },
+//   {
+//     icon: DonutIcon,
+//     value: "$2",
+//   },
+//   {
+//     icon: BurgerIcon,
+//     value: "$5",
+//   },
+//   {
+//     icon: CoffeeIcon,
+//     value: "$10",
+//   },
+//   {
+//     icon: FlowersIcon,
+//     value: "$20",
+//   },
+//   {
+//     icon: null,
+//     value: "Other",
+//   },
+// ];
 
 const WishDesign = () => {
-  const [wisherVisibility, setWisherVisibility] = useState("public");
+  const navigate = useNavigate();
+  const [wisherVisibility, setWisherVisibility] = useState("Public");
   const [congratsVisibility, setCongratsVisibility] = useState("public");
-  const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
+  const [giftAmountVisibility, setGiftAmountVisibility] = useState("Public");
   const [selectedAmount, setSelectedAmount] = useState(null);
+  const [paymentType, setPaymentType] = useState(null);
+  const [userData, setUserData] = useState({
+    name: "",
+    comment: "",
+  });
   const [getCategoryId, setCategoryId] = useState(null);
   const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState();
+  const [giftAmounts, setGiftAmounts] = useState([]);
+  const [paymentData, setPaymentData] = useState({});
+  useEffect(() => {
+    setPaymentData({
+      name: userData.name,
+      message: userData.comment,
+      wisherVisibility:
+        wisherVisibility === "Public"
+          ? 1
+          : wisherVisibility === "Only you and wisher"
+          ? 2
+          : wisherVisibility === "Anonymously"
+          ? 3
+          : " ",
 
+      amount: selectedAmount,
+      amountVisibilty:
+        giftAmountVisibility === "Public"
+          ? 1
+          : giftAmountVisibility === "Only you and wisher"
+          ? 2
+          : giftAmountVisibility === "Anonymously"
+          ? 3
+          : " ",
+      paymentType: paymentType,
+      wishData: GetUserWishDataResult,
+    });
+  }, [
+    wisherVisibility,
+    giftAmountVisibility,
+    userData,
+    paymentType,
+    GetUserWishDataResult,
+  ]);
+  const handleCongratulate = () => {
+    console.log(paymentData);
+
+    navigate("/payment", { state: paymentData });
+  };
   useEffect(() => {
     const newProgress = calculateProgress(
       +GetUserWishDataResult?.donate?.target,
@@ -80,6 +124,12 @@ const WishDesign = () => {
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
+
+  useEffect(() => {
+    myaxios.get("/api/v1/settings/payment_types/get").then(({ data }) => {
+      console.log(data), setGiftAmounts(data.data);
+    });
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -110,6 +160,7 @@ const WishDesign = () => {
   }, []);
   const [modalShow, setModalShow] = useState(false);
 
+  useEffect(() => {}, []);
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
@@ -218,28 +269,47 @@ const WishDesign = () => {
                   {giftAmounts.map((amount, index) => (
                     <button
                       key={index}
-                      onClick={() => setSelectedAmount(amount.value)}
+                      onClick={() => {
+                        setSelectedAmount(amount.number),
+                          setPaymentType(amount.id);
+                      }}
                       className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] 
                       !border-[2px] border-solid transition-all duration-300 ease-in-out
                       rounded-md ${
-                        selectedAmount === amount.value
+                        selectedAmount === amount.number
                           ? "bg-[#EBE5F7] border-[#3800B0]"
                           : "border-transparent"
                       }`}
                     >
                       {amount.icon ? (
-                        <img className="mb-1" src={amount.icon} alt="" />
+                        <img
+                          className="mb-1"
+                          src={`${process.env.REACT_APP_API_URL}/${amount.icon}`}
+                          alt=""
+                        />
                       ) : null}
                       <span className="text-[13px] leading-[1.3] font-semibold text-[#160046]">
-                        {amount.value}
+                        ${amount.number}
                       </span>
                     </button>
                   ))}
                 </div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="leading-[1.2] font-semibold text-[#0C0E19]">
+                  <input
+                    type="text"
+                    value={userData.name}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        name: e.target.value,
+                      })
+                    }
+                    className="leading-[1.2] w-full  font-semibold  md:h-[60px] text-[#8e93af] px-2"
+                    placeholder="Your Name.."
+                  />
+                  {/* <p className="leading-[1.2] font-semibold text-[#0C0E19]">
                     Ilya Davidov
-                  </p>
+                  </p> */}
                   <div>
                     <VisibilityMenu
                       menuId="wisher"
@@ -255,6 +325,13 @@ const WishDesign = () => {
                   <input
                     type="text"
                     placeholder="Your congratulations"
+                    value={userData.comment}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        comment: e.target.value,
+                      })
+                    }
                     className="leading-[1.2] w-full  font-semibold  md:h-[100px] text-[#8e93af] px-2"
                   />
                   {/* <button>
@@ -265,7 +342,10 @@ const WishDesign = () => {
                     />
                   </button> */}
                 </div>
-                <button className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">
+                <button
+                  onClick={handleCongratulate}
+                  className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold"
+                >
                   Сongratulate
                 </button>
               </div>
