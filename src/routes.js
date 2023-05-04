@@ -16,7 +16,6 @@ const Created_Success_Wish = lazy(() =>
 const Created_Wish = lazy(() => import("./pages/creating-wish"));
 const Editing_Wish = lazy(() => import("./pages/editing-wish"));
 const Calendar = lazy(() => import("./pages/calendar"));
-const Payment = lazy(() => import("./pages/payment"));
 const Wish_pages_three = lazy(() => import("./pages/wish-pagess/indexthree"));
 const NewCalendar = lazy(() => import("./pages/new-calendar/index"));
 
@@ -25,10 +24,7 @@ export const routes = [
     path: "/my-profile",
     element: MyProfile,
   },
-  {
-    path: "/payment",
-    element: Payment,
-  },
+
   {
     path: "/calendar",
     element: NewCalendar,

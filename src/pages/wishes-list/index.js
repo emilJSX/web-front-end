@@ -29,7 +29,7 @@ import {
 import { useEffect } from "react";
 import { useState } from "react";
 import { Tab } from "react-tabs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
@@ -118,15 +118,21 @@ const WishList = () => {
 
   // useEffect(() => {
   //   myaxios.get('/api/v1/wish/categories/get', {
-  //   }).then((res)=> {  
+  //   }).then((res)=> {
   //     setCategoryWish(res.data.data)
   //   }).catch((err) => {
   //     console.log(err)
   //   })
   // },[])
-
+  const { state } = useLocation();
+  console.log(state);
   function getWishIdForResult(slug) {
-    navigate("/wish/" + slug, { state: slug });
+    navigate("/wish/" + slug, {
+      state: {
+        slug: slug,
+        name: state,
+      },
+    });
   }
 
   function getUserSlugForProfile(id) {
