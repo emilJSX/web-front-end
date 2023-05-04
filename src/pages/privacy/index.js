@@ -23,16 +23,14 @@ const Privacy = () => {
   }, []);
 
   useEffect(() => {
-    myaxios
-      .get("/api/v1/static_pages/terms/get")
-      .then((res) => {
-        setTerms({
-          firstTitle: res.data?.data[0].title,
-          secondTitle: res.data?.data[1].title,
-          firstContent: res.data?.data[0].content,
-          secondContent: res.data.data[1].content,
-        });
+    myaxios.get("/api/v1/static_pages/terms/get").then((res) => {
+      setTerms({
+        firstTitle: res.data?.data[0].title,
+        secondTitle: res.data?.data[1].title,
+        firstContent: res.data?.data[0].content,
+        secondContent: res.data.data[1].content,
       });
+    });
   }, []);
   return (
     <PrivacyTopContainer>
@@ -46,13 +44,13 @@ const Privacy = () => {
               to: "/",
             },
             {
-              title: "Privacy Policy",
+              title: "Terms of Service",
             },
           ]}
         />
       </div>
       <Privacy_policy_text>
-        <p>Privacy Policy</p>
+        <p>Terms of Service</p>
       </Privacy_policy_text>
       <Terms_text>
         <p>{terms.firstTitle}</p>

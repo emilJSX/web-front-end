@@ -34,6 +34,7 @@ const MyWish = lazy(() => import("./pages/wish/MyWish"));
 const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
 const NewCalendar = lazy(() => import("./pages/new-calendar/index"));
 import Loader from "./shared/ui/Loader";
+const Payment = lazy(() => import("./pages/payment"));
 
 const App = () => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
                 }
               />
             ))}
+            <Route path="/payment" element={<Payment />} />
             <Route
               path="/other-user-wish-complete"
               element={<Wish_pages_second />}

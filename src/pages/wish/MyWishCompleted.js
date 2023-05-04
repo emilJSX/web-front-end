@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BsFillHandThumbsUpFill,
   BsHandThumbsUp,
@@ -10,7 +10,7 @@ import BurgerIcon from "../../assets/svg/burger.svg";
 import FlowersIcon from "../../assets/svg/flowers.svg";
 import CoffeeIcon from "../../assets/svg/coffee.svg";
 import { HiOutlineFilter } from "react-icons/hi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
 import { Menu } from "@mantine/core";
@@ -20,33 +20,8 @@ import { IoImageOutline } from "react-icons/io5";
 import StampIcon from "../../assets/svg/stamp.svg";
 import WishConfetti from "../../assets/svg/wish-confetti.svg";
 import Confetti from "react-confetti";
-
-export const giftAmounts = [
-  {
-    icon: SweetIcon,
-    value: "$1",
-  },
-  {
-    icon: DonutIcon,
-    value: "$2",
-  },
-  {
-    icon: BurgerIcon,
-    value: "$5",
-  },
-  {
-    icon: CoffeeIcon,
-    value: "$10",
-  },
-  {
-    icon: FlowersIcon,
-    value: "$20",
-  },
-  {
-    icon: null,
-    value: "Other",
-  },
-];
+import moment from "moment";
+import Comment from "./components/Comment";
 
 const MyWishCompleted = () => {
   const [wisherVisibility, setWisherVisibility] = useState("public");
@@ -54,11 +29,37 @@ const MyWishCompleted = () => {
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [getCategoryId, setCategoryId] = useState(null);
+  const [comments, setComments] = useState([]);
   const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
   const { state } = useLocation();
+  const [error, setError] = useState("");
+  const inputRef = useRef(null);
+  const [selectFiles, setSelectFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [giftAmounts, setGiftAmounts] = useState([]);
+  console.log(GetUserWishDataResult);
+  const handleFileSelect = (e) => {
+    let images = [];
 
+    for (let i = 0; i < e.target.files.length; i++) {
+      images.push(URL.createObjectURL(e.target.files[i]));
+    }
+
+    setSelectFiles(e.target.files);
+    setImagePreviews(images);
+  };
+
+  const handleDeleteFile = (index) => {
+    const updatedFiles = [...selectFiles];
+    updatedFiles.splice(index, 1);
+    setSelectFiles(updatedFiles);
+
+    const updatedPreviews = [...imagePreviews];
+    updatedPreviews.splice(index, 1);
+    setImagePreviews(updatedPreviews);
+  };
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
@@ -71,12 +72,11 @@ const MyWishCompleted = () => {
           slug: state ? state : slug,
         },
       })
-      .then((res) => {
-        console.log(res);
-        setGetUserData(res?.data?.data);
+      .then(({ data }) => {
+        setGetUserData(data?.data);
       })
       .catch((err) => {
-        console.log("");
+        setError(err.message);
       });
 
     myaxiosprivate
@@ -91,8 +91,29 @@ const MyWishCompleted = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
-  const [modalShow, setModalShow] = useState(false);
 
+  useEffect(() => {
+    setError("");
+    GetUserWishDataResult.id &&
+      myaxios
+        .get("/api/v1/wish/comments/get", {
+          params: {
+            skip: null,
+            wish_id: GetUserWishDataResult.id,
+            sort_type: "abc",
+          },
+        })
+        .then(({ data }) => setComments(data.data))
+        .catch((err) => setError(err.message));
+  }, [GetUserWishDataResult.id]);
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/settings/payment_types/get")
+      .then(({ data }) => {
+        setGiftAmounts(data.data);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
@@ -128,7 +149,7 @@ const MyWishCompleted = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center mr-3">
                     <img
-                      className="rounded-full w-6 h-6 mr-3"
+                      className="rounded-full w-[32px] h-[32px] mr-3"
                       src={
                         GetUserWishDataResult?.user?.image
                           ? GetUserWishDataResult?.user?.image
@@ -141,11 +162,14 @@ const MyWishCompleted = () => {
                         {GetUserWishDataResult?.user?.name}
                       </span>
                       <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">
-                        for birthday on {GetUserWishDataResult?.date}
+                        for birthday on{" "}
+                        {moment(GetUserWishDataResult?.user?.dob).format(
+                          "DD MMMM YYYY"
+                        )}
                       </span>
                     </div>
                   </div>
-                  <button className="text-white text-xl">
+                  <div className="text-white text-xl">
                     <Menu
                       size={"sm"}
                       position="right"
@@ -176,7 +200,7 @@ const MyWishCompleted = () => {
                       </Menu.Item>
                     </Menu>
                     {/*<IoNotificationsOutline/>*/}
-                  </button>
+                  </div>
                 </div>
                 <h2 className="text-[28px] lg:text-[40px] leading-[1.2] font-semibold text-white mr-3 mb-4">
                   {GetUserWishDataResult?.title}
@@ -196,7 +220,8 @@ const MyWishCompleted = () => {
                     </p>
                   </div>
                   <p className="text-sm leading-[1.4] font-semibold text-white">
-                    Bradley Cooper reached his goal ($10,000) and now he can get
+                    {GetUserWishDataResult?.user?.name} reached his goal ($
+                    {GetUserWishDataResult?.donate?.target}) and now he can get
                     the gift he dreamed of.
                   </p>
                 </div>
@@ -206,42 +231,57 @@ const MyWishCompleted = () => {
                 <div className="flex md:flex-row flex-col">
                   <img
                     className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
-                    src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                    src={GetUserWishDataResult?.user?.image}
                     alt=""
                   />
-                  <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">
+                  {/* <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">
                     Thank your friends and show the report
-                  </p>
+                  </p> */}
+                  <input
+                    className="p-1 text-start w-full h-[35px] leading-[28px] font-semibold text-[#8e93af]"
+                    placeholder="Thank your friends and show the report"
+                  />
                 </div>
                 <div className="mt-12 flex justify-between flex-wrap">
                   <div className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
                     <div className="flex items-center">
                       <IoImageOutline className="text-[#3800B0] mr-2" />
-                      <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
+                      <p
+                        className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] cursor-pointer"
+                        onClick={() => inputRef.current.click()}
+                      >
                         Attach a photo
                       </p>
+                      <input
+                        type="file"
+                        disabled={imagePreviews.length > 3}
+                        onChange={handleFileSelect}
+                        className="hidden"
+                        ref={inputRef}
+                        multiple
+                        accept="image/*"
+                      />
                     </div>
                     <div className="ml-3 flex items-center">
-                      <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
-                        <img
-                          className="w-full h-full rounded-[4px]"
-                          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                          alt=""
-                        />
-                        <button className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
-                          <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
-                        </button>
-                      </div>
-                      <div className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2">
-                        <img
-                          className="w-full h-full rounded-[4px]"
-                          src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                          alt=""
-                        />
-                        <button className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center">
-                          <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
-                        </button>
-                      </div>
+                      {imagePreviews.length > 0 &&
+                        imagePreviews.map((image, i) => (
+                          <div
+                            key={i}
+                            className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2"
+                          >
+                            <img
+                              className="w-full h-full rounded-[4px]"
+                              src={image}
+                              alt=""
+                            />
+                            <button
+                              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center"
+                              onClick={() => handleDeleteFile(i)}
+                            >
+                              <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
+                            </button>
+                          </div>
+                        ))}
                     </div>
                   </div>
                   <button className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]">
@@ -249,116 +289,6 @@ const MyWishCompleted = () => {
                   </button>
                 </div>
               </div>
-              {/*<div className="rounded-[24px] bg-[#EBE5F7] py-[20px] md:py-10 px-[20px] md:px-6 lg:px-12 mb-1">*/}
-              {/*  <div className="flex items-center justify-between">*/}
-              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
-              {/*      Target: ${GetUserWishDataResult?.donate?.target}*/}
-              {/*    </p>*/}
-              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
-              {/*      Final: 08.03.2023*/}
-              {/*    </p>*/}
-              {/*  </div>*/}
-              {/*  <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">*/}
-              {/*    <div className="bg-[#3800B0] rounded-[48px] w-1/3 h-full"></div>*/}
-              {/*  </div>*/}
-              {/*  <div className="flex items-center justify-between">*/}
-              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
-              {/*      <span className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] mr-4">*/}
-              {/*        ${GetUserWishDataResult?.date} raised*/}
-              {/*      </span>*/}
-              {/*      <span className="text-[14px] leading-[1.4] font-semibold text-[#8866D0]">*/}
-              {/*        25%{" "}*/}
-              {/*      </span>*/}
-              {/*    </p>*/}
-              {/*    <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">*/}
-              {/*      $375 left*/}
-              {/*    </p>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
-              {/*<div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">*/}
-              {/*  <div className="flex md:justify-start justify-between flex-wrap">*/}
-              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
-              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">256</p>*/}
-              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Views</p>*/}
-              {/*    </div>*/}
-              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
-              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">8</p>*/}
-              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Gifts</p>*/}
-              {/*    </div>*/}
-              {/*    <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">*/}
-              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">$12</p>*/}
-              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">Avg gift*/}
-              {/*        amount</p>*/}
-              {/*    </div>*/}
-              {/*    <div className="">*/}
-              {/*      <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">3 days</p>*/}
-              {/*      <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">To funding*/}
-              {/*        ending</p>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
-              {/*  /!*  <p className="text-[13px] leading-[1.4] font-medium text-[#110035]">*!/*/}
-              {/*  /!*    Your gift amount*!/*/}
-              {/*  /!*  </p>*!/*/}
-              {/*  /!*  <div>*!/*/}
-              {/*  /!*    <VisibilityMenu*!/*/}
-              {/*  /!*      menuId="gift-amount"*!/*/}
-              {/*  /!*      controlLabel={giftAmountVisibility}*!/*/}
-              {/*  /!*      setWisherVisibility={setGiftAmountVisibility}*!/*/}
-              {/*  /!*    />*!/*/}
-              {/*  /!*  </div>*!/*/}
-              {/*  /!*</div>*!/*/}
-              {/*  /!*<div className="flex  !border-[2px] border-solid border-[#EBE5F7] rounded-[8px] h-16 lg:h-20 mb-6">*!/*/}
-              {/*  /!*  {giftAmounts.map((amount, index) => (*!/*/}
-              {/*  /!*    <button*!/*/}
-              {/*  /!*      key={index}*!/*/}
-              {/*  /!*      onClick={() => setSelectedAmount(amount.value)}*!/*/}
-              {/*  /!*      className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] *!/*/}
-              {/*  /!*      !border-[2px] border-solid transition-all duration-300 ease-in-out*!/*/}
-              {/*  /!*      rounded-md ${*!/*/}
-              {/*  /!*        selectedAmount === amount.value*!/*/}
-              {/*  /!*          ? "bg-[#EBE5F7] border-[#3800B0]"*!/*/}
-              {/*  /!*          : "border-transparent"*!/*/}
-              {/*  /!*      }`}*!/*/}
-              {/*  /!*    >*!/*/}
-              {/*  /!*      {amount.icon ? (*!/*/}
-              {/*  /!*        <img className="mb-1" src={amount.icon} alt=""/>*!/*/}
-              {/*  /!*      ) : null}*!/*/}
-              {/*  /!*      <span className="text-[13px] leading-[1.3] font-semibold text-[#160046]">*!/*/}
-              {/*  /!*        {amount.value}*!/*/}
-              {/*  /!*      </span>*!/*/}
-              {/*  /!*    </button>*!/*/}
-              {/*  /!*  ))}*!/*/}
-              {/*  /!*</div>*!/*/}
-              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
-              {/*  /!*  <p className="leading-[1.2] font-semibold text-[#0C0E19]">*!/*/}
-              {/*  /!*    Ilya Davidov*!/*/}
-              {/*  /!*  </p>*!/*/}
-              {/*  /!*  <div>*!/*/}
-              {/*  /!*    <VisibilityMenu*!/*/}
-              {/*  /!*      menuId="wisher"*!/*/}
-              {/*  /!*      controlLabel={wisherVisibility}*!/*/}
-              {/*  /!*      setWisherVisibility={setWisherVisibility}*!/*/}
-              {/*  /!*    />*!/*/}
-              {/*  /!*  </div>*!/*/}
-              {/*  /!*</div>*!/*/}
-              {/*  /!*<div className="flex items-center justify-between mb-3">*!/*/}
-              {/*  /!*  <p className="leading-[1.2] font-semibold text-[#8E93AF]">*!/*/}
-              {/*  /!*    Your congratulations*!/*/}
-              {/*  /!*  </p>*!/*/}
-              {/*  /!*  <button>*!/*/}
-              {/*  /!*    <VisibilityMenu*!/*/}
-              {/*  /!*      menuId="congrats"*!/*/}
-              {/*  /!*      controlLabel={congratsVisibility}*!/*/}
-              {/*  /!*      setVisibility={setCongratsVisibility}*!/*/}
-              {/*  /!*    />*!/*/}
-              {/*  /!*  </button>*!/*/}
-              {/*  /!*</div>*!/*/}
-              {/*  /!*<button*!/*/}
-              {/*  /!*  className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold">*!/*/}
-              {/*  /!*  Сongratulate*!/*/}
-              {/*  /!*</button>*!/*/}
-              {/*</div>*/}
             </div>
             <div className="mt-7">
               <div className="flex items-center justify-between mb-2">
@@ -367,151 +297,28 @@ const MyWishCompleted = () => {
                     All congratulations
                   </p>
                   <span className="leading-[1.4] font-semibold text-[#8E93AF]">
-                    8
+                    {comments.length}
                   </span>
                 </div>
                 <button className="mr-2 text-[#3800B0] text-lg">
                   <HiOutlineFilter />
                 </button>
               </div>
-              <div className="rounded-[24px] p-6 bg-white my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img
-                      className="mr-3 w-6 h-6 rounded-full"
-                      src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <p className="text-sm leading-[1.4] font-semibold text-[#0C0E19] mr-[6px]">
-                      Eleanor Pena
-                    </p>
-                    <span className="font-medium leading-[1.4] text-sm text-[#5D627D]">
-                      gave a gift
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] mr-3">
-                      2 min go
-                    </p>
-                    <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between my-6">
-                  <p className="text-[20px] leading-[1.4] font-semibold text-[#1A1C29] mr-3">
-                    Happy birthday bro!
-                  </p>
-                  <button className="flex items-center text-[#2D008D]">
-                    <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
-                      257
-                    </span>
-                    {/*<BsHandThumbsUp />*/}
-                    <BsFillHandThumbsUpFill />
-                  </button>
-                </div>
-                <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] p-3 flex justify-between">
-                  <div className="flex">
-                    <img
-                      className="w-6 shrink-0 h-6 rounded-full mr-3"
-                      src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjR8fGZhY2UlMjBtb2RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"
-                      alt=""
-                    />
-                    <p className="text-sm mt-1 leading-[1.4] font-medium text-[#0C0E19] mr-[6px]">
-                      Thank you, brother from another mother
-                    </p>
-                  </div>
-                  <p className="text-[13px] shrink-0 leading-[1.4] mt-1 font-medium text-[#8E93AF]">
-                    2 min ago
-                  </p>
-                </div>
-              </div>
-              <div className="rounded-[24px] p-6 bg-white my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img
-                      className="mr-3 w-6 h-6 rounded-full"
-                      src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <p className="text-sm leading-[1.4] font-semibold text-[#0C0E19] mr-[6px]">
-                      Eleanor Pena
-                    </p>
-                    <span className="font-medium leading-[1.4] text-sm text-[#5D627D]">
-                      gave a gift
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] mr-3">
-                      2 min go
-                    </p>
-                    <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between my-6">
-                  <p className="text-[20px] leading-[1.4] font-semibold text-[#1A1C29] mr-3">
-                    Happy birthday bro!
-                  </p>
-                  <button className="flex items-center text-[#2D008D]">
-                    <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
-                      257
-                    </span>
-                    <BsHandThumbsUp />
-                    {/*<BsFillHandThumbsUpFill />*/}
-                  </button>
-                </div>
-              </div>
-              <div className="rounded-[24px] p-6 bg-white my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img
-                      className="mr-3 w-6 h-6 rounded-full"
-                      src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-                      alt=""
-                    />
-                    <p className="text-sm leading-[1.4] font-semibold text-[#0C0E19] mr-[6px]">
-                      Eleanor Pena
-                    </p>
-                    <span className="font-medium leading-[1.4] text-sm text-[#5D627D]">
-                      gave a gift
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] mr-3">
-                      2 min go
-                    </p>
-                    <button className="text-[#2D008D] text-md">
-                      <BsThreeDots />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between my-6">
-                  <div className="relative">
-                    <p className="text-[20px] leading-[1.4] blur-sm font-semibold text-[#1A1C29] mr-3">
-                      Happy birthday bro!Happy birthday bro!
-                    </p>
-                    <div
-                      className="bg-[#0C0E19] px-4 py-3 text-[13px] text-[#ECEEF7] leading-[1.3] tracking-[0.01em] font-semibold
-                        absolute left-1/2 top-1/2 -rotate-2
-                      "
-                      style={{
-                        transform: "translate(-50%,-50%) rotate(-2deg)",
-                      }}
-                    >
-                      Private congratulation
-                    </div>
-                  </div>
-                  <button className="flex items-center text-[#2D008D]">
-                    <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
-                      257
-                    </span>
-                    <BsHandThumbsUp />
-                    {/*<BsFillHandThumbsUpFill />*/}
-                  </button>
-                </div>
-              </div>
+              {comments.length > 0 ? (
+                comments.map((comment) => (
+                  <Comment
+                    key={comment.id}
+                    props={comment}
+                    giftTypes={giftAmounts.map(({ id, icon }) => ({
+                      id,
+                      icon,
+                    }))}
+                    myWish={GetUserWishDataResult?.user?.image}
+                  />
+                ))
+              ) : (
+                <p>There is no comment to your wish </p>
+              )}
             </div>
           </div>
         </div>

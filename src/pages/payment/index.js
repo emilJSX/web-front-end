@@ -48,13 +48,23 @@ import { Elements } from "@stripe/react-stripe-js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import { myaxiosprivate } from "../../api/myaxios";
-//
+import { enqueueSnackbar } from "notistack";
+//pk_live_51MywAZJ80moMWLAnX2nHWHjrTVVwV6Ov3FHhltCLOyyd9nQjE5s7SzhxqPz3HzBsWIhWvgwbZpbIuKyBLNsQLOb100c2wldnxR
 // pk_test_51MywAZJ80moMWLAnfFoFR1hT0Fy5ly3Gnvcy9T4k7N2a2PJ0xpVXbWErZKVFWkbbaDbwTK8iVczOU2YNmRsBZv1M005qj14IiH
 const stripePromise = loadStripe(
-  "pk_live_51MywAZJ80moMWLAnX2nHWHjrTVVwV6Ov3FHhltCLOyyd9nQjE5s7SzhxqPz3HzBsWIhWvgwbZpbIuKyBLNsQLOb100c2wldnxR"
+  "pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD"
 );
 const Payment = () => {
+  const navigate = useNavigate();
+
   const { state } = useLocation();
+  console.log(state);
+  useEffect(() => {
+    if (!state) {
+      navigate("/wish-list");
+      enqueueSnackbar("You need to choose wish to go to Payments page");
+    }
+  }, []);
   const [clientSecret, setClientSecret] = useState(null);
   useEffect(() => {
     myaxiosprivate
@@ -63,7 +73,7 @@ const Payment = () => {
         type: state && state.paymentType,
         wish_id: state && state.wishData.id,
         currency: "usd",
-        stripe: `pk_live_51MywAZJ80moMWLAnX2nHWHjrTVVwV6Ov3FHhltCLOyyd9nQjE5s7SzhxqPz3HzBsWIhWvgwbZpbIuKyBLNsQLOb100c2wldnxR`,
+        stripe: `pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD`,
       })
       .then(({ data }) => {
         setClientSecret(data.client_secret);
@@ -99,10 +109,10 @@ const Payment = () => {
                 className="rounded-md"
               />
               <PayWishMobile>Pay WishX</PayWishMobile>
-              <PayWishCostMobile>${state.amount}</PayWishCostMobile>
+              <PayWishCostMobile>${state?.amount}</PayWishCostMobile>
 
               <PayWishTxt>Pay WishX</PayWishTxt>
-              <Cost>${state.amount}</Cost>
+              <Cost>${state?.amount}</Cost>
 
               <WatchTxtCost>
                 <WatchImage
@@ -151,7 +161,7 @@ const Payment = () => {
           <Grid.Col md={6}>
             {stripePromise && clientSecret && (
               <Elements stripe={stripePromise} options={{ clientSecret }}>
-                <CheckoutForm slug={state?.wishData?.slug} />
+                <CheckoutForm state={state} clientSecret={clientSecret} />
               </Elements>
             )}
           </Grid.Col>

@@ -62,7 +62,7 @@ import { myaxios, myaxiosprivate, updateToken } from "../../api/myaxios";
 import { useForm } from "react-hook-form";
 import { logout, useAuthSelector } from "../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OtpModal from "../../shared/LoginSignUpSystem/ConnectionSystem/OtpModal";
 import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
 import { BiX } from "react-icons/bi";
@@ -521,6 +521,13 @@ const ProfileEdit = () => {
       whatsapp,
     });
   }, [getSocialLinksUser]);
+  const handleStripeConnect = async () => {
+    // await myaxiosprivate
+    //   .post("/api/v1/profiles/stripe_connect", {
+    //     stripe_id:1
+    //   })
+    //   .then(({ data }) => console.log(data));
+  };
 
   // ============================================================================================================================
 
@@ -1168,6 +1175,19 @@ const ProfileEdit = () => {
                     <h1 className="apple-title" style={{ margin: "0" }}>
                       Connect Apple
                     </h1>
+                  </button>
+                  <button
+                    className="apple-button"
+                    onClick={handleStripeConnect}
+                  >
+                    {/* <FaApple className="apple-icon" /> */}
+                    <Link
+                      to={`https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_STRIPE_CLIENT_ID}&scope=read_write`}
+                    >
+                      <h1 className="apple-title" style={{ margin: "0" }}>
+                        Connect to stripe
+                      </h1>
+                    </Link>
                   </button>
                 </SosialMediaButtons>
               </PasswordSettings>

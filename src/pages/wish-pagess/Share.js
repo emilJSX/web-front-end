@@ -26,7 +26,7 @@ function Share({ slug, page }) {
   }
 
   return (
-    <SosialN className="bg-white rounded-[24px] p-4 md:p-8 flex items-center justify-between mb-4">
+    <SosialN className="bg-white rounded-[24px] p-4 md:p-8 flex items-center justify-between mb-4 shadow-md">
       <div
         className="font-dynamic font-dynamic--sm text-xl text-[#3800B0]"
         style={{ "--fw": 600 }}

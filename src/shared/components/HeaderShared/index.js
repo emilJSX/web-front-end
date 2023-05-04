@@ -123,8 +123,13 @@ export const HeaderShared = ({ user, error }) => {
         </Link>
         <SearchInput iconHave={true} size="xl" myUserId={user?.user_id} />
         <ul className="pt-2 !pl-0">
-          <li className="all-wishes-btn">
-            <Link to="/wish-list">All Wishes</Link>
+          <li
+            className="all-wishes-btn cursor-pointer"
+            onClick={() =>
+              navigate("/wish-list", { state: user?.info?.full_name })
+            }
+          >
+            All Wishes
           </li>
           {!user && (
             <div className="menu">
