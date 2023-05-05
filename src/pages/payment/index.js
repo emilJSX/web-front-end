@@ -49,8 +49,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import { myaxiosprivate } from "../../api/myaxios";
 import { enqueueSnackbar } from "notistack";
-//pk_live_51MywAZJ80moMWLAnX2nHWHjrTVVwV6Ov3FHhltCLOyyd9nQjE5s7SzhxqPz3HzBsWIhWvgwbZpbIuKyBLNsQLOb100c2wldnxR
-// pk_test_51MywAZJ80moMWLAnfFoFR1hT0Fy5ly3Gnvcy9T4k7N2a2PJ0xpVXbWErZKVFWkbbaDbwTK8iVczOU2YNmRsBZv1M005qj14IiH
+
 const stripePromise = loadStripe(
   "pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD"
 );
@@ -58,7 +57,6 @@ const Payment = () => {
   const navigate = useNavigate();
 
   const { state } = useLocation();
-  console.log(state);
   useEffect(() => {
     if (!state) {
       navigate("/wish-list");

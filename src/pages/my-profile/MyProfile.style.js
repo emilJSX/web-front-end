@@ -839,7 +839,7 @@ export const LeftSection = styled(Container)`
   z-index: 10;
   border-radius: 20px;
   width: 75%;
-  margin-top: -360px;
+  margin-top: -330px;
   position: sticky;
   margin-left: 92px;
   top: 0;
@@ -853,11 +853,11 @@ export const LeftSection = styled(Container)`
   }
 
   @media (min-width: 1200px) and (max-width: 1300px) {
-    margin-top: -310px;
+    margin-top: -310px!important;
   }
 
   @media (min-width: 1300px) and (max-width: 1400px) {
-    margin-top: -325px;
+    margin-top: -325px!important;
   }
 
   @media (max-width: 992px) and (min-width: 420px) {

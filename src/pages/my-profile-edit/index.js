@@ -550,6 +550,7 @@ const ProfileEdit = () => {
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo?.gender?.id);
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchCountryAndUserData = async () => {
       setLoading(true);
       setError("");
@@ -634,7 +635,7 @@ const ProfileEdit = () => {
   // ============================================================================================================================
 
   // ===================================================UPDATE PROFILE INFORMATION===============================================
-
+  const [interestErr, setInterestErr] = useState("");
   const handleUpdateInfoProfile = async ({
     full_name,
     country,
@@ -654,12 +655,11 @@ const ProfileEdit = () => {
     const selectedCountry = allCountries.find(
       (item) => item.name === (country ? country : userInfo.country)
     );
-    console.log(
-      selectedCountry,
-      country,
-      userInfo.country.id,
-      userInfo.country
-    );
+    if (uniqueArr.length <= 0) {
+      setInterestErr("You must choose at least one interest");
+    } else {
+      setInterestErr("");
+    }
     const formData = new FormData();
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -674,20 +674,22 @@ const ProfileEdit = () => {
     formData.append("file", file);
     formData.append("country", selectedCountry?.id);
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
-    await myaxiosprivate
-      .post("/api/v1/profiles/update", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(({ data }) => {
-        enqueueSnackbar(
-          data.message !== "" ? data.message : "Update is successfull"
-        );
-      })
-      .catch((err) => {
-        enqueueSnackbar(err.message);
-      });
+
+    !(uniqueArr.length <= 0) &&
+      (await myaxiosprivate
+        .post("/api/v1/profiles/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(({ data }) => {
+          enqueueSnackbar(
+            data.message !== "" ? data.message : "Update is successfull"
+          );
+        })
+        .catch((err) => {
+          enqueueSnackbar(err.message);
+        }));
   };
 
   // ============================================================================================================================
@@ -713,20 +715,25 @@ const ProfileEdit = () => {
     }
   };
   const [show, setShow] = useState(false);
+  const [passwordError, setNewPasswordError] = useState("");
   const showOtpModal = async () => {
-    await myaxiosprivate
-      .get("api/v1/profiles/change/get-code", {
-        params: {
-          email: userInfo.email,
-        },
-      })
-      .then(({ data }) => {
-        setStatus(true);
-        setShow(true);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    if (new_password.length < 5) {
+      setNewPasswordError("password must be at least 5 symbols");
+    } else {
+      await myaxiosprivate
+        .get("api/v1/profiles/change/get-code", {
+          params: {
+            email: userInfo.email,
+          },
+        })
+        .then(({ data }) => {
+          setStatus(true);
+          setShow(true);
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
+    }
   };
   const [oldPassword, setOldPass] = useState();
   const [new_password, setNewPassword] = useState();
@@ -993,18 +1000,33 @@ const ProfileEdit = () => {
 
                       {/* <a href='#' className='change-button'>Change</a> */}
                     </div>
-                    <div className="email-container">
+                    <div className="email-container !block !bg-transparent">
+                      {errors.number && (
+                        <p className="text-red-500 text-xs">
+                          {errors.number.message}
+                        </p>
+                      )}
                       <input
+                        onInput={(e) => {
+                          if (e.target.value.length > e.target.maxLength) {
+                            e.target.value = e.target.value.slice(
+                              0,
+                              e.target.maxLength
+                            );
+                          }
+                        }}
                         type="number"
-                        // onChange={handleChangeUserInfo}
-                        // value={getUserInfoProfile.number}
                         defaultValue={userInfo.number}
                         name="number"
+                        maxLength={15}
                         className="info-input-email"
                         placeholder="Phone Number"
                         {...register("number", {
                           minLength: 7,
-                          maxLength: 15,
+                          maxLength: {
+                            value: 15,
+                            message: "Number can be max 15 symbols",
+                          },
                         })}
                       />
                       {/* <a href='#' className='change-button'>Change</a> */}
@@ -1059,7 +1081,10 @@ const ProfileEdit = () => {
                       </p>
                     </div>
                     <div className="interests-input-container">
-                      <div className="multi-select">
+                      <div className="multi-select !block">
+                        {interestErr && (
+                          <p className=" text-red-500 text-xs">{interestErr}</p>
+                        )}
                         <MultiSelect
                           className="info_input-multi"
                           data={data}
@@ -1121,7 +1146,11 @@ const ProfileEdit = () => {
             <TabPanel className="md:ml-10" value="passwordlogin">
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
+                {passwordError && (
+                  <p className="mt-2 text-red-500 text-xs">{passwordError}</p>
+                )}
                 {/* <PasswordSettingsInputs> */}
+
                 <Password
                   className="info_input"
                   value={oldPassword}

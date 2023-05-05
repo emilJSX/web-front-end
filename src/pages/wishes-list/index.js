@@ -125,7 +125,6 @@ const WishList = () => {
   //   })
   // },[])
   const { state } = useLocation();
-  console.log(state);
   function getWishIdForResult(slug) {
     navigate("/wish/" + slug, {
       state: {

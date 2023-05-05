@@ -11,7 +11,7 @@ import { drawerControll } from "../../../store/slices/counterSlice";
 import { useAuthSelector } from "../../../store/slices/authSlice";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { echo } from "../../../helpers/notif";
-
+import { setUserInfoData } from "../../../store/slices/userSlice";
 export const Layout = ({ children }) => {
   // const [toggleOpen, setToggleOpen] = useState(false)
   const { toggle } = useSelector((state) => state.counter);
@@ -20,12 +20,15 @@ export const Layout = ({ children }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const isAuth = useSelector(useAuthSelector);
+  const dispatch = useDispatch();
+
   //flase -> active
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const { data } = await myaxiosprivate.get("/api/v1/user");
         setUserData(data.data);
+        dispatch(setUserInfoData(data.data));
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -35,7 +38,6 @@ export const Layout = ({ children }) => {
     isAuth && fetchUser();
   }, []);
 
-  
   return (
     <AppShell
       padding="0"
@@ -46,11 +48,7 @@ export const Layout = ({ children }) => {
       header={
         pathname !== "/" &&
         pathname !== "/home" && (
-          <HeaderShared
-            user={userData}
-            loading={loading}
-            error={error}
-          />
+          <HeaderShared user={userData} loading={loading} error={error} />
         )
       }
       footer={<Footer />}
