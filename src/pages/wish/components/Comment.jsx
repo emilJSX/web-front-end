@@ -10,7 +10,6 @@ import { myaxiosprivate } from "../../../api/myaxios";
 import { ReactComponent as SendIcon } from "./send.svg";
 
 function Comment({ props, giftTypes, myWish }) {
-  console.log(props);
   const [like, setLike] = useState(props.likes.userLiked);
   let [likeCount, setLikeCount] = useState(props.likes.count);
   const [answer, setAnswer] = useState("");
@@ -19,7 +18,6 @@ function Comment({ props, giftTypes, myWish }) {
   const [diff, setDiff] = useState(
     moment.duration(currentDateRef.current.diff(dateObjRef.current))
   );
-  console.log(props.likes.userLiked);
   useEffect(() => {
     const interval = setInterval(() => {
       const newDate = moment();
@@ -60,7 +58,6 @@ function Comment({ props, giftTypes, myWish }) {
         comment_id: props.id,
       })
       .then(({ data }) => {
-        console.log(data);
         setLike(!like);
         data.message === "system.comment.unliked"
           ? setLikeCount((likeCount -= 1))

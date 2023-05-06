@@ -103,7 +103,9 @@ import { myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
 import Share from "../wish-pagess/Share";
 import ErrorPage from "../404";
-
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../store/slices/userSlice";
+import CongratComments from "./CongratComments";
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -111,6 +113,7 @@ const MyProfile = () => {
   const [joinDate, setJoinDate] = useState();
   const [wishes, setWishes] = useState();
   const [coverImg, setCoverImg] = useState();
+  const [congrats, setCongrats] = useState([]);
 
   var tabs_storage = [
     {
@@ -132,7 +135,7 @@ const MyProfile = () => {
       id: "3",
       className: "tabname tabButton",
       title: "Congratulations",
-      spanTitle: "0",
+      spanTitle: congrats?.length,
     },
   ];
 
@@ -220,6 +223,13 @@ const MyProfile = () => {
           .catch((err) => setCoverError(err.message))); //set error
     }
   };
+  useEffect(() => {
+    setError("");
+    myaxiosprivate
+      .get("/api/v1/wish/comments/my-congratulations/?skip=0")
+      .then(({ data }) => setCongrats(data.data))
+      .catch((err) => setError(err.message));
+  }, []);
   if (loading) {
     return <Loader />;
   }
@@ -464,10 +474,18 @@ const MyProfile = () => {
                               </Title>
                               <TargetFinal>
                                 <Target>Target: ${userDataWish.price}</Target>
-                                <Final>Final: {userDataWish.date}</Final>
+                                <Final>
+                                  Final:{" "}
+                                  {moment(userProfile?.info?.dob).format(
+                                    "DD.MM.YYYY"
+                                  )}
+                                </Final>
                               </TargetFinal>
                               <ShowBirtdayInWish>
-                                for birthday on {userProfile?.info?.dob}
+                                for birthday on{" "}
+                                {moment(userProfile?.info?.dob).format(
+                                  "DD MMMM YYYY"
+                                )}
                               </ShowBirtdayInWish>
                               <UserDesc></UserDesc>
                               <Slider
@@ -679,65 +697,71 @@ const MyProfile = () => {
                 )}
               </TabPanel>
               <TabPanel value="con" className="tab-panel-2">
-                {/* {
-                                        (Carddata.data) ? (Carddata.data.map((index) => (
-
-                                            <CardSecond>
-                                                <Hood>
-                                                    <span className='coffee-icon'>☕</span>
-                                                    <Parag>$10 to</Parag>
-                                                    <Photo src='https://m.media-amazon.com/images/W/WEBP_402378-T2/images/I/31jPSK41kEL.jpg' />
-                                                    <Person>{index.person}Some Name Some Surname</Person>
-                                                    <Parag1>Birthday {index.date}</Parag1>
-                                                    <Parags>{index.time} min ago</Parags>
-                                                    <DisplayTopText><span style={{ color: 'grey' }}>$10 to </span> Andrew Retriver’s</DisplayTopText>
-                                                    <DisplayBirthdaytext>Birthday on 25 Dec 2022</DisplayBirthdaytext>
-                                                    <DisplayTime>2 min ago</DisplayTime>
-                                                </Hood>
-                                                <Titles>{index.title}</Titles>
-                                                <Third>
-                                                    <Paragraf>22 people like this congratulation</Paragraf>
-                                                    <Paragrap>22 like</Paragrap>
-                                                    <Pass href='#'><HiArrowNarrowRight style={{ float: "left", margin: "2px 5px" }} /> To the wish</Pass>
-                                                </Third>
-                                            </CardSecond>
-                                        ))) :
-                                            (<div>
-                                                <CardLonger>
-                                                    <NotWishes>Yo don’t have any wishes</NotWishes>
-                                                    <Buttons>
-                                                        <Buttonleft>Create a wish</Buttonleft>
-                                                        <Buttonright onClick={getWishesListRoute}>Explore wishes</Buttonright>
-                                                    </Buttons>
-                                                    <Glasses src={file1} />
-                                                </CardLonger>
-                                                <Division>
-                                                    <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>
-                                                    <Swiper
-                                                        slidesPerView={4.5}
-                                                        spaceBetween={16}
-                                                        slidesPerGroup={5}
-                                                        loop={true}
-                                                        loopFillGroupWithBlank={true}
-                                                        modules={[Pagination, Navigation]}
-                                                        className="mySwiper"
-                                                    >
-                                                        {
-                                                            Carddata.popular.map((index) => (
-                                                                <SwiperSlide>
-                                                                    <Picture src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5ODc1NTM4NjMyOTc2Mzcz/gettyimages-693134468.jpg" />
-                                                                    <Name>{index.title}<HiBadgeCheck style={{ color: "blue", margin: "2px 0 0 5px", float: "right" }} /></Name>
-                                                                    <Tag>{index.time}</Tag>
-                                                                </SwiperSlide>
-                                                            ))
-                                                        }
-
-                                                    </Swiper>
-                                                </Division>
-                                            </div>
-                                            )
-
-                                    } */}
+                <div className="w-full flex flex-col justify-center">
+                  {congrats ? (
+                    congrats.map((congrat) => (
+                      <CongratComments congrat={congrat} user={userProfile} />
+                    ))
+                  ) : (
+                    <div>
+                      <CardLonger>
+                        <NotWishes>You don’t have any wishes</NotWishes>
+                        <Buttons>
+                          <Buttonleft>Create a wish</Buttonleft>
+                          <Buttonright onClick={getWishesListRoute}>
+                            Explore wishes
+                          </Buttonright>
+                        </Buttons>
+                        <Glasses src={file1} />
+                      </CardLonger>
+                      <Division>
+                        <Maybe>
+                          Maybe you know{" "}
+                          <HiArrowNarrowRight
+                            style={{
+                              float: "right",
+                              fontSize: "20px",
+                              color: "#3800B0",
+                            }}
+                          />
+                          <HiArrowNarrowLeft
+                            style={{
+                              float: "right",
+                              fontSize: "20px",
+                              color: "#3800B0",
+                            }}
+                          />
+                        </Maybe>
+                        <Swiper
+                          slidesPerView={4.5}
+                          spaceBetween={16}
+                          slidesPerGroup={5}
+                          loop={true}
+                          loopFillGroupWithBlank={true}
+                          modules={[Pagination, Navigation]}
+                          className="mySwiper"
+                        >
+                          {Carddata.popular.map((index) => (
+                            <SwiperSlide>
+                              <Picture src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5ODc1NTM4NjMyOTc2Mzcz/gettyimages-693134468.jpg" />
+                              <Name>
+                                {index.title}
+                                <HiBadgeCheck
+                                  style={{
+                                    color: "blue",
+                                    margin: "2px 0 0 5px",
+                                    float: "right",
+                                  }}
+                                />
+                              </Name>
+                              <Tag>{index.time}</Tag>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </Division>
+                    </div>
+                  )}
+                </div>
               </TabPanel>
             </Tabs>
           </Grid.Col>

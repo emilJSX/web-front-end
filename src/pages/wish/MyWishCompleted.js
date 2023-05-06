@@ -39,7 +39,6 @@ const MyWishCompleted = () => {
   const [selectFiles, setSelectFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [giftAmounts, setGiftAmounts] = useState([]);
-  console.log(GetUserWishDataResult);
   const handleFileSelect = (e) => {
     let images = [];
 

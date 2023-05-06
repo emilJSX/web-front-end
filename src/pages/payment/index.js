@@ -49,16 +49,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import { myaxiosprivate } from "../../api/myaxios";
 import { enqueueSnackbar } from "notistack";
-//pk_live_51MywAZJ80moMWLAnX2nHWHjrTVVwV6Ov3FHhltCLOyyd9nQjE5s7SzhxqPz3HzBsWIhWvgwbZpbIuKyBLNsQLOb100c2wldnxR
-// pk_test_51MywAZJ80moMWLAnfFoFR1hT0Fy5ly3Gnvcy9T4k7N2a2PJ0xpVXbWErZKVFWkbbaDbwTK8iVczOU2YNmRsBZv1M005qj14IiH
+// pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv
 const stripePromise = loadStripe(
-  "pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD"
+  "pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv"
 );
 const Payment = () => {
   const navigate = useNavigate();
 
   const { state } = useLocation();
-  console.log(state);
   useEffect(() => {
     if (!state) {
       navigate("/wish-list");
@@ -73,7 +71,7 @@ const Payment = () => {
         type: state && state.paymentType,
         wish_id: state && state.wishData.id,
         currency: "usd",
-        stripe: `pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD`,
+        stripe: `pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv`,
       })
       .then(({ data }) => {
         setClientSecret(data.client_secret);

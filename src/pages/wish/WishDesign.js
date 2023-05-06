@@ -43,6 +43,7 @@ const WishDesign = () => {
   const [giftAmountVisibility, setGiftAmountVisibility] = useState("Public");
   const [selectedAmount, setSelectedAmount] = useState(null);
   const [paymentType, setPaymentType] = useState(null);
+  const [userName, setUserName] = useState("");
   const [userData, setUserData] = useState({
     name: "",
     comment: "",
@@ -55,9 +56,15 @@ const WishDesign = () => {
   const [progress, setProgress] = useState();
   const [giftAmounts, setGiftAmounts] = useState([]);
   const [paymentData, setPaymentData] = useState({});
+  const userInfo = useSelector((state) => state.user.userData);
+
   useEffect(() => {
     setPaymentData({
-      name: state?.name ? state.name : userData.name,
+      name: userInfo?.info?.full_name
+        ? userInfo.info.full_name
+        : state?.name
+        ? state.name
+        : userData.name,
       message: userData.comment,
       wisherVisibility:
         wisherVisibility === "Public"
@@ -88,8 +95,6 @@ const WishDesign = () => {
     GetUserWishDataResult,
   ]);
   const handleCongratulate = () => {
-    console.log(paymentData);
-
     navigate("/payment", { state: paymentData });
   };
   useEffect(() => {
@@ -103,12 +108,13 @@ const WishDesign = () => {
     GetUserWishDataResult?.donate?.received,
   ]);
   const { state } = useLocation();
-  console.log(state);
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
 
   useEffect(() => {
+    setError("");
+
     myaxios
       .get("/api/v1/settings/payment_types/get")
       .then(({ data }) => {
@@ -116,10 +122,9 @@ const WishDesign = () => {
       })
       .catch((err) => setError(err.message));
   }, []);
-  console.log();
   useEffect(() => {
     setError("");
-    GetUserWishDataResult &&
+    GetUserWishDataResult.id &&
       myaxios
         .get("/api/v1/wish/comments/get", {
           params: {
@@ -130,34 +135,36 @@ const WishDesign = () => {
         })
         .then(({ data }) => setComments(data.data))
         .catch((err) => setError(err.message));
-  }, [GetUserWishDataResult]);
+  }, [GetUserWishDataResult.id]);
 
   useEffect(() => {
+    setError("");
     window.scrollTo(0, 0);
     myaxios
       .get("/api/v1/wish/slug/", {
         params: {
-          slug: state ? state : slug,
+          slug: state ? state.slug : slug,
         },
       })
       .then((res) => {
         setGetUserData(res?.data?.data);
       })
       .catch((err) => {
-        setError(err.messaage);
+        setError(err.message);
+        navigate("/404", { state: err.message });
       });
 
-    myaxiosprivate
-      .get("/api/v1/wish/list", {
-        params: {
-          skip: 0,
-          ...(getCategoryId && { category_id: +getCategoryId }),
-        },
-      })
-      .then(({ data }) => {
-        setAllWishData(data.data.results);
-      })
-      .catch((err) => setError(err.message));
+    // myaxiosprivate
+    //   .get("/api/v1/wish/list", {
+    //     params: {
+    //       skip: 0,
+    //       ...(getCategoryId && { category_id: +getCategoryId }),
+    //     },
+    //   })
+    //   .then(({ data }) => {
+    //     setAllWishData(data.data.results);
+    //   })
+    //   .catch((err) => setError(err.message));
   }, []);
   const [modalShow, setModalShow] = useState(false);
   const [modalReg, setModalReg] = useState(false);
@@ -166,7 +173,25 @@ const WishDesign = () => {
   const WishCreationImage = GetUserWishDataResult.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
   //   END
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const { data } = await myaxiosprivate.get("/api/v1/user/");
+  //       setUserName(data.data.info.full_name);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     }
+  //   };
+  //   state?.name === undefined && fetchUserData();
+  // }, []);
 
+  if (error) {
+    return (
+      <div className="flex w-full h-full justify-center items-center">
+        {error}
+      </div>
+    );
+  }
   return (
     <>
       {modalShow && (
@@ -181,7 +206,7 @@ const WishDesign = () => {
           setShowes={setModalShow}
         />
       )}
-      <div className="pt-10 bg-[#EBE5F7]">
+      <div className="pt-10 bg-[#EBE5F7] h-full">
         <div className="container">
           <div className="md:flex mb-[72px] relative">
             <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
@@ -311,9 +336,9 @@ const WishDesign = () => {
                     ))}
                   </div>
                   <div className="flex items-center justify-between mb-3">
-                    {isAuth && state?.name ? (
+                    {userInfo?.info?.full_name || state?.name ? (
                       <p className="leading-[1.2] font-semibold text-[#0C0E19]">
-                        {state?.name}
+                        {userInfo?.info?.full_name || state?.name}
                       </p>
                     ) : (
                       <>

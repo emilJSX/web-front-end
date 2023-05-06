@@ -1,41 +1,49 @@
 import React from "react";
 import { ReactComponent as ErrorFoto } from "../../style/icons/404.svg";
 import { Buttons, ErrorImage, ErrorSection } from "./404.Styled";
-import { Button } from '@mantine/core';
+import { Button } from "@mantine/core";
 import FaqSection from "../../shared/components/faq";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
-    var navigate = useNavigate()
+  let navigate = useNavigate();
 
-    function HomePageURL() {
-        navigate("/")
-    }
+  const { state } = useLocation();
 
-    function WishesPageURL() {
-        navigate("/wish-list")
-    }
+  function HomePageURL() {
+    navigate("/");
+  }
 
-    return (
-        <ErrorSection fluid>
-            <ErrorImage>
-                <ErrorFoto />
-            </ErrorImage>
-            <div className="text">
-                <h2>Page not found</h2>
-            </div>
+  function WishesPageURL() {
+    navigate("/wish-list");
+  }
 
-            <Buttons>
-                <Button onClick={WishesPageURL} style={{ background: "#3800B0" }}>Go to wishes list page</Button>
-                <div style={{ width: 162 }}>
-                    <Button onClick={HomePageURL}  className="btn" fullWidth variant="outline">
-                        Go to main page
-                    </Button>
-                </div>
-            </Buttons>
+  return (
+    <ErrorSection fluid>
+      <ErrorImage>
+        <ErrorFoto />
+      </ErrorImage>
+      <div className="text">
+        <h2>{state ? state : "Page not found"}</h2>
+      </div>
 
-        </ErrorSection>
-    )
-}
+      <Buttons>
+        <Button onClick={WishesPageURL} style={{ background: "#3800B0" }}>
+          Go to wishes list page
+        </Button>
+        <div style={{ width: 162 }}>
+          <Button
+            onClick={HomePageURL}
+            className="btn"
+            fullWidth
+            variant="outline"
+          >
+            Go to main page
+          </Button>
+        </div>
+      </Buttons>
+    </ErrorSection>
+  );
+};
 
 export default ErrorPage;
