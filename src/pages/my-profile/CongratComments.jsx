@@ -26,7 +26,7 @@ import {
 } from "./MyprofilSecond.style";
 
 function CongratComments({ congrat, user }) {
-  console.log(congrat);
+//   console.log(congrat);
   //   console.log(user);
   const currentDateRef = useRef(moment());
   const dateObjRef = useRef(moment(congrat.date));
