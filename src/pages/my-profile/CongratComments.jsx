@@ -6,6 +6,7 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import {
   CardSecond,
   DisplayBirthdaytext,
@@ -25,8 +26,8 @@ import {
 } from "./MyprofilSecond.style";
 
 function CongratComments({ congrat, user }) {
-//   console.log(congrat);
-//   console.log(user);
+  console.log(congrat);
+  //   console.log(user);
   const currentDateRef = useRef(moment());
   const dateObjRef = useRef(moment(congrat.date));
   const [diff, setDiff] = useState(
@@ -67,50 +68,58 @@ function CongratComments({ congrat, user }) {
   }
   return (
     <div className="rounded-[24px] md:h-fit md:px-6 px-3 py-2 w-full md:w-11/12 bg-white my-2 z-50 mb-2 shadow-md">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <span className="flex font-medium  md:leading-[1.4] text-sm text-[#5D627D]">
-            <>
-              {/* <img
+      <div className="flex justify-between">
+        <div className="flex items-center ">
+          {/* <img
               className="w-[16px] h-[17px] mx-1"
               src={`${process.env.REACT_APP_API_URL}/${getSelectedIcon(
                 congrat.donate.type
               )}`}
               alt=""
             /> */}
-              <span className="mx-2">${congrat.donate.amount} to</span>
-            </>
-          </span>
-          <div className="flex mt-3 mx-1 md:mt-0">
-            <p className="text-sm  md:leading-[1.4] font-bold text-[#0C0E19] md:mr-[6px]">
-              {user.info.full_name && user.info.full_name}{" "}
-              <span className="text-sm font-normal text-[#5D627D]">
-                `s birthday on {moment(user.info.dob).format("DD.MM.YYYY")}
+          <div className="md:flex md:justify-between mt-3  md:mt-0">
+            <p className="flex flex-wrap text-sm  font-bold text-[#0C0E19] md:mr-[6px]">
+              <span className="flex font-medium text-sm text-[#5D627D] mr-1 ">
+                ${congrat.donate.amount} to
               </span>
-              <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] md:mr-3  md:mt-1">
-                {timeDiff} <span>ago</span>
-              </p>
+              <span>
+                {congrat.wisher.user_name
+                  ? congrat.wisher.user_name
+                  : "Someone"}
+                `s
+              </span>
+              <span className="md:ml-1 text-sm font-normal text-[#5D627D]">
+                birthday on {moment(congrat.date).format("DD.MM.YYYY")}
+              </span>
+            </p>
+            <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] md:mr-3 mt-0.5">
+              {timeDiff} <span>ago</span>
             </p>
           </div>
+          <img
+            className="md:mr-3 w-[32px] h-[32px] rounded-full"
+            src={
+              congrat.wisher.avatar
+                ? congrat.wisher.avatar
+                : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+            }
+            alt={congrat.wisher.user_name ? "guest" : congrat.wisher.user_name}
+          />{" "}
         </div>
-        <img
-          className="md:mr-3  w-[32px] h-[32px] rounded-full"
-          src={
-            user.info.avatar
-              ? user.info.avatar
-              : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-          }
-          alt={user ? "guest" : user.name}
-        />{" "}
       </div>
-      <div className="flex justify-between my-6">
-        <p className="text-[18px] leading-[1.4] font-semibold text-[#1A1C29] mr-3">
-          {congrat.comment.comment}
-        </p>
-        <div className="flex items-center text-[#2D008D]">
+      <div className="flex justify-between my-3">
+        <div>
+          <p className="text-[18px] leading-[1.4] font-semibold text-[#1A1C29] mr-3">
+            {congrat.comment.comment}
+          </p>
           <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
             {congrat.likes.count} likes
           </span>
+        </div>
+        <div className=" text-[#2D008D]">
+          <Link to={`/wish/${congrat.wish_slug}`}>
+            <p>➔ to wish</p>
+          </Link>
         </div>
       </div>
     </div>

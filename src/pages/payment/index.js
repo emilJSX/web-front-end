@@ -49,9 +49,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import { myaxiosprivate } from "../../api/myaxios";
 import { enqueueSnackbar } from "notistack";
-
+// pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv
 const stripePromise = loadStripe(
-  "pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD"
+  "pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv"
 );
 const Payment = () => {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const Payment = () => {
         type: state && state.paymentType,
         wish_id: state && state.wishData.id,
         currency: "usd",
-        stripe: `pk_test_51N320vD1OUZNSjtVIxY2gDFG7nDv9CmhjaddMZaTzOHOvlRBlPpuDcnLx8ESZA05anqwZvxosJaZaGqHTupL7DjM00XFXOKgwD`,
+        stripe: `pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv`,
       })
       .then(({ data }) => {
         setClientSecret(data.client_secret);

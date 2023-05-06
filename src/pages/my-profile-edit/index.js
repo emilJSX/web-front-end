@@ -521,17 +521,7 @@ const ProfileEdit = () => {
       whatsapp,
     });
   }, [getSocialLinksUser]);
-  const handleStripeConnect = async () => {
-    // await myaxiosprivate
-    //   .post("/api/v1/profiles/stripe_connect", {
-    //     stripe_id:1
-    //   })
-    //   .then(({ data }) => console.log(data));
-  };
 
-  // ============================================================================================================================
-
-  // ===================================================GET USER UPDATE INFO=====================================================
   const {
     register,
     formState: { errors },
@@ -549,6 +539,8 @@ const ProfileEdit = () => {
   const [error, setError] = useState(""); //error use in ui
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo?.gender?.id);
+  const [stripeStatus, setStripeStatus] = useState();
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCountryAndUserData = async () => {
@@ -571,6 +563,7 @@ const ProfileEdit = () => {
         .get("/api/v1/profiles/edit")
         .then(({ data }) => {
           setUserInfo(data.data);
+          setStripeStatus(data.data.stripe_connect);
           data.data.interests?.forEach((item) =>
             setInterestId((prevInterestId) => [...prevInterestId, item.id])
           );
@@ -583,6 +576,28 @@ const ProfileEdit = () => {
     fetchCountryAndUserData();
   }, []);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    code &&
+      myaxiosprivate
+        .post("/api/v1/profiles/stripe_connect", {
+          stripe_id: code,
+        })
+        .then(
+          ({ data }) => enqueueSnackbar(data.message),
+          setStripeStatus(true),
+         history.replaceState(null, '', window.location.pathname)
+        );
+  }, []);
+
+  const handleStripeConnect = () => {
+    let clientId = process.env.REACT_APP_STRIPE_CLIENT_TEST_ID;
+    let scope = "read_write";
+    const authorizeUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${clientId}&scope=${scope}`;
+
+    window.location.href = authorizeUrl;
+  };
   useEffect(() => {
     if (userInfo) {
       setValue("full_name", userInfo.full_name);
@@ -1209,14 +1224,11 @@ const ProfileEdit = () => {
                     className="apple-button"
                     onClick={handleStripeConnect}
                   >
-                    {/* <FaApple className="apple-icon" /> */}
-                    <Link
-                      to={`https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_STRIPE_CLIENT_ID}&scope=read_write`}
-                    >
-                      <h1 className="apple-title" style={{ margin: "0" }}>
-                        Connect to stripe
-                      </h1>
-                    </Link>
+                    <h1 className="apple-title" style={{ margin: "0" }}>
+                      {stripeStatus
+                        ? "Connect another stripe account"
+                        : "Connect to stripe account"}
+                    </h1>
                   </button>
                 </SosialMediaButtons>
               </PasswordSettings>
