@@ -82,7 +82,6 @@ function Comment({ props, giftTypes, myWish }) {
       })
       .then(({ data }) => enqueueSnackbar(data.message));
   };
-  console.log(edit);
 
   const handleDeleteComment = async (id) => {
     await myaxiosprivate

@@ -113,7 +113,6 @@ const WishDesign = () => {
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
-  console.log(giftAmounts);
   useEffect(() => {
     setError("");
 

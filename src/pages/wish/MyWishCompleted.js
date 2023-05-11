@@ -114,11 +114,9 @@ const MyWishCompleted = () => {
   const WishCreationImage = GetUserWishDataResult.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
   //   END
-  console.log(GetUserWishDataResult);
 
   const handleSendAnswer = async () => {
     const formData = new FormData();
-    console.log(selectFiles);
     formData.append("wish_id", GetUserWishDataResult.id);
     formData.append("text", answer);
     // selectFiles?.forEach((image) => {

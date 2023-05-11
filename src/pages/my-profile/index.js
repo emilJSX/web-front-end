@@ -612,7 +612,6 @@ const MyProfile = () => {
                               <p className="second-card-title">
                                 {userDataWish.title}
                               </p>
-                              {console.log(userDataWish)}
                             </Title>
                             <Seconddiv>
                               <Views>

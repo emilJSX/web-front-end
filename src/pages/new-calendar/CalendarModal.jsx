@@ -16,7 +16,6 @@ import { ReactComponent as VerifyIcon } from "./verify.svg";
 function CalendarModal({ data, date, close, show }) {
   const theme = useMantineTheme();
   const [progress, setProgress] = useState();
-  console.log(data);
   useEffect(() => {
     const newProgress = calculateProgress(
       +data[0].wish_list[0].donate?.target,
