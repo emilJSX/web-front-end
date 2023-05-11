@@ -18,7 +18,6 @@ export const SearchInput = ({ iconHave = true, size = "xl", myUserId }) => {
     <CustomSearchBar
       type="search"
       rightSection={iconHave && <SearchIcon onClick={getSearchResultPage} />}
-      autoFocus
       rightSectionWidth={55}
       size={size}
       placeholder="Search"

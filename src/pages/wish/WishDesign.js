@@ -57,7 +57,7 @@ const WishDesign = () => {
   const [giftAmounts, setGiftAmounts] = useState([]);
   const [paymentData, setPaymentData] = useState({});
   const userInfo = useSelector((state) => state.user.userData);
-
+  const [actualAmount, setActualAmount] = useState();
   useEffect(() => {
     setPaymentData({
       name: userInfo?.info?.full_name
@@ -76,6 +76,7 @@ const WishDesign = () => {
           : " ",
 
       amount: selectedAmount,
+      actualAmount: actualAmount,
       amountVisibilty:
         giftAmountVisibility === "Public"
           ? 1
@@ -93,6 +94,7 @@ const WishDesign = () => {
     userData,
     paymentType,
     GetUserWishDataResult,
+    actualAmount,
   ]);
   const handleCongratulate = () => {
     navigate("/payment", { state: paymentData });
@@ -111,7 +113,7 @@ const WishDesign = () => {
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
-
+  console.log(giftAmounts);
   useEffect(() => {
     setError("");
 
@@ -311,13 +313,14 @@ const WishDesign = () => {
                       <button
                         key={index}
                         onClick={() => {
-                          setSelectedAmount(amount.number),
-                            setPaymentType(amount.id);
+                          setSelectedAmount(amount.total),
+                            setActualAmount(amount.number);
+                          setPaymentType(amount.id);
                         }}
                         className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] 
                       !border-[2px] border-solid transition-all duration-300 ease-in-out
                       rounded-md ${
-                        selectedAmount === amount.number
+                        selectedAmount === amount.total
                           ? "bg-[#EBE5F7] border-[#3800B0]"
                           : "border-transparent"
                       }`}
@@ -412,7 +415,7 @@ const WishDesign = () => {
               </div>
               <div className="mt-7">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center mr-2">
+                  <div className="flex  mr-2">
                     <p className="leading-[1.4] font-semibold text-[#1A1C29] mr-2">
                       All congratulations
                     </p>

@@ -29,6 +29,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import moment from "moment";
 import { enqueueSnackbar } from "notistack";
+import { useSelector } from "react-redux";
 
 const Created_Wish = () => {
   const [date, setDate] = useState(moment());
@@ -60,8 +61,11 @@ const Created_Wish = () => {
   const [CreationCategoriesWish, setCategoriesWish] = useState(1);
   const [CreationDateWish, setDateWish] = useState("11.20.22");
   const [error, setError] = useState("");
-
+  const userInfo = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
+  if (userInfo?.wishes.active.length > 0) {
+    navigate("/my-profile"), enqueueSnackbar("You already have a wish");
+  }
 
   useEffect(() => {
     setTitleWish(wishCreationTitleHome?.state);

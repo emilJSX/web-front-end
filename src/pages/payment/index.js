@@ -125,22 +125,22 @@ const Payment = () => {
               </WatchTxtCost>
               <SubTotalContainer>
                 <SubtotalSection>
-                  <SubtotalTxt>Subtotal</SubtotalTxt>
-                  <SubtotalCost>${state?.amount}</SubtotalCost>
+                  <SubtotalTxt>Gift Price</SubtotalTxt>
+                  <SubtotalCost>${state?.actualAmount}</SubtotalCost>
                 </SubtotalSection>
                 <hr className="line" />
 
                 <SubtotalSection>
-                  <SalestaxTxt>Service fee {"(5%)"}</SalestaxTxt>
-                  <SalesTxtCost>${(state?.amount * 5) / 100}</SalesTxtCost>
+                  <SalestaxTxt>Processing fee</SalestaxTxt>
+                  <SalesTxtCost>
+                    ${(+state?.amount - state?.actualAmount).toFixed(2)}
+                  </SalesTxtCost>
                 </SubtotalSection>
                 <hr className="line" />
 
                 <SubtotalSection>
                   <SubtotalTxt>Total due</SubtotalTxt>
-                  <SubtotalCost>
-                    ${(state?.amount * 5) / 100 + state?.amount}
-                  </SubtotalCost>
+                  <SubtotalCost>${state?.amount}</SubtotalCost>
                 </SubtotalSection>
                 <hr className="line" />
               </SubTotalContainer>

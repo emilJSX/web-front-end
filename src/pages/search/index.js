@@ -38,7 +38,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
-
+import { enqueueSnackbar } from "notistack";
 function Search() {
   const [search, setSearch] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
@@ -137,6 +137,7 @@ function Search() {
   const getResultSearchingData = () => {
     setError("");
     setLoading(true);
+
     myaxiosprivate
       .get("/api/v1/wish/list?skip=0", {
         params: {
@@ -152,7 +153,6 @@ function Search() {
         setLoading(false);
         setError(err.message);
       });
-
     myaxiosprivate
       .get("/api/v1/profiles/search", {
         params: {
@@ -189,7 +189,14 @@ function Search() {
           placeholder="Bruno"
           onKeyDown={handleKeyDown}
         />
-        <SearchIcon onClick={getResultSearchingData} className="lupa" />
+        <SearchIcon
+          onClick={() =>
+            getSearchValue
+              ? getResultSearchingData()
+              : enqueueSnackbar("Type something in search bar")
+          }
+          className="lupa"
+        />
         <HiOutlineFilter className="filter" />
       </Searchdiv>
       <Tabs
