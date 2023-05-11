@@ -5,7 +5,7 @@ import { Button } from "@mantine/core";
 import FaqSection from "../../shared/components/faq";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const ErrorPage = () => {
+const ErrorPage = ({message}) => {
   let navigate = useNavigate();
 
   const { state } = useLocation();
@@ -24,7 +24,7 @@ const ErrorPage = () => {
         <ErrorFoto />
       </ErrorImage>
       <div className="text">
-        <h2>{state ? state : "Page not found"}</h2>
+        <h2>{state ? state : message ? message : "Page not found"}</h2>
       </div>
 
       <Buttons>

@@ -68,6 +68,7 @@ import { Button1 } from "../../shared/LogIn-SingUp/Autho.style";
 import { BiX } from "react-icons/bi";
 import { Autocomplete, TextField } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
+import { AiOutlineEye } from "react-icons/ai";
 
 // const SetProfileEditButtonsEvent = () => {
 //   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -540,7 +541,12 @@ const ProfileEdit = () => {
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo?.gender?.id);
   const [stripeStatus, setStripeStatus] = useState();
-
+  const [minDate, setMinDate] = useState(() => {
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 18);
+    return minDate;
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCountryAndUserData = async () => {
@@ -587,7 +593,7 @@ const ProfileEdit = () => {
         .then(
           ({ data }) => enqueueSnackbar(data.message),
           setStripeStatus(true),
-         history.replaceState(null, '', window.location.pathname)
+          history.replaceState(null, "", window.location.pathname)
         );
   }, []);
 
@@ -753,12 +759,19 @@ const ProfileEdit = () => {
   const [oldPassword, setOldPass] = useState();
   const [new_password, setNewPassword] = useState();
   const [status, setStatus] = useState(false);
+  const [showOldPass, setShowOld] = useState();
   const handleNewPassword = async (otp) => {
-    await myaxiosprivate.post("/api/v1/profiles/store/password", {
-      code: Number(otp),
-      password: oldPassword,
-      new_password,
-    });
+    await myaxiosprivate
+      .post("/api/v1/profiles/store/password", {
+        code: Number(otp),
+        password: oldPassword,
+        new_password,
+      })
+      .then(
+        ({ data }) => enqueueSnackbar("Password succesfully changed."),
+        location.reload()
+      )
+      .catch((err) => enqueueSnackbar(err.message));
   };
   // ============================================================================================================================
   // ======================================================= GET COUNTRIES ============================================
@@ -788,7 +801,7 @@ const ProfileEdit = () => {
       title: "Edit Profile Information",
     },
   ];
-
+  const [checked, setChecked] = useState("personalInfo");
   if (loading) {
     return <Loader />;
   }
@@ -804,21 +817,40 @@ const ProfileEdit = () => {
             <CustomBreadcrumb links={breadCrumb} />
           </p>
           <h1 className="main-page-title">Edit Information</h1>
-          <Tabs defaultValue="personalinfo">
+          <Tabs defaultValue="personalinfo" defaultIndex={0} defaultFocus={0}>
             <EditingButtons>
               <div className="insider">
                 <Tab value="personalinfo">
-                  <button className="editing-buttons" id="editing-buttons1">
+                  <button
+                    className={`editing-buttons outline-none focus:outline-none ${
+                      checked === "personalInfo" && "border border-[#3800B0]"
+                    }`}
+                    id="editing-buttons1"
+                    onClick={() => setChecked("personalInfo")}
+                  >
                     Personal info
                   </button>
                 </Tab>
                 <Tab value="passwordlogin">
-                  <button className="editing-buttons" id="editing-buttons2">
+                  <button
+                    className={`editing-buttons outline-none focus:outline-none ${
+                      checked === "passwordlogin" &&
+                      "border border-[#3800B0]"
+                    }`}
+                    id="editing-buttons2"
+                    onClick={() => setChecked("passwordlogin")}
+                  >
                     Password and Log In
                   </button>
                 </Tab>
                 <Tab value="verification">
-                  <button className="editing-buttons" id="editing-buttons3">
+                  <button
+                    className={`editing-buttons outline-none focus:outline-none ${
+                      checked === "verification" && "border border-[#3800B0]"
+                    }`}
+                    id="editing-buttons3"
+                    onClick={() => setChecked("verification")}
+                  >
                     Verification
                   </button>
                 </Tab>
@@ -829,7 +861,7 @@ const ProfileEdit = () => {
                 </Tab> */}
               </div>
             </EditingButtons>
-            <TabPanel className="md:ml-10" value="personalinfo">
+            <TabPanel className="md:ml-10 " value="personalinfo">
               <Section>
                 <form onSubmit={handleSubmit(handleUpdateInfoProfile)}>
                   <EditingItem>
@@ -1064,9 +1096,10 @@ const ProfileEdit = () => {
                         closeCalendar={true}
                         next2Label={false}
                         prev2Label={false}
+                        maxDate={minDate}
                         onChange={handleCalendarChange}
-                        value={dateValue}
-                        className={showCalendar ? "" : "hide"}
+                        value={new Date(userInfo.dob)}
+                        className={showCalendar ? "!w-full" : "hide"}
                       />
                     </div>
                     {errors.slug && (
@@ -1165,23 +1198,48 @@ const ProfileEdit = () => {
                   <p className="mt-2 text-red-500 text-xs">{passwordError}</p>
                 )}
                 {/* <PasswordSettingsInputs> */}
+                <div className="!relative  max-md:w-full">
+                  <Password
+                    className=""
+                    value={oldPassword}
+                    onChange={(e) => setOldPass(e.target.value)}
+                    placeholder="Old Password"
+                    type={showOldPass ? "password" : "text"}
+                  />
+                  <AiOutlineEye
+                    className={
+                      password
+                        ? "eye_button top-[50px] right-8 text-black absolute cursor-pointer hover:text-gray-300"
+                        : "eye_button top-[50px] right-8 absolute cursor-pointer hover:text-black"
+                    }
+                    onClick={() => {
+                      setShowOld(!showOldPass);
+                    }}
+                  />
+                </div>
 
-                <Password
-                  className="info_input"
-                  value={oldPassword}
-                  onChange={(e) => setOldPass(e.target.value)}
-                  placeholder="Old Password"
-                  type={password ? "password" : "text"}
-                />
                 {/* </PasswordSettingsInputs> */}
                 {/* <PasswordSettingsInputs> */}
-                <Password
-                  className="info_input"
-                  value={new_password}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="New Password"
-                  type={password ? "password" : "text"}
-                />
+                <div className="!relative  max-md:w-full">
+                  <Password
+                    className=""
+                    value={new_password}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="New Password"
+                    type={password ? "password" : "text"}
+                  />
+                  <AiOutlineEye
+                    className={
+                      password
+                        ? "eye_button top-[50px] right-8 text-black absolute cursor-pointer hover:text-gray-300"
+                        : "eye_button top-[50px] right-8 absolute cursor-pointer hover:text-black"
+                    }
+                    onClick={() => {
+                      setPassword(!password);
+                    }}
+                  />
+                </div>
+
                 {/* </PasswordSettingsInputs> */}
                 <div className="confirm-button">
                   <button

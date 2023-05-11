@@ -927,9 +927,9 @@ export const PasswordSettings = styled.div`
       }
 
 
-      @media(max-width: 645px){
-         width: 90%;
-      }
+      // @media(max-width: 645px){
+      //    width: 90%;
+      // }
    }
 
     .connect-sosial-netwok-title {

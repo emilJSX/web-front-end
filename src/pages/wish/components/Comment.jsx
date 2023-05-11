@@ -1,3 +1,4 @@
+import { Menu } from "@mantine/core";
 import moment from "moment";
 import { enqueueSnackbar } from "notistack";
 import React, { useEffect, useRef, useState } from "react";
@@ -6,12 +7,16 @@ import {
   BsHandThumbsUp,
   BsThreeDots,
 } from "react-icons/bs";
+import { FaPen } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { ReactComponent as SendIcon } from "./send.svg";
 
 function Comment({ props, giftTypes, myWish }) {
   const [like, setLike] = useState(props.likes.userLiked);
   let [likeCount, setLikeCount] = useState(props.likes.count);
+  const [commentValue, setCommentValue] = useState(props.comment.comment);
+  const [edit, setEdit] = useState(false);
   const [answer, setAnswer] = useState("");
   const currentDateRef = useRef(moment());
   const dateObjRef = useRef(moment(props.date));
@@ -66,12 +71,24 @@ function Comment({ props, giftTypes, myWish }) {
       .catch((err) => enqueueSnackbar(err.message));
   };
   const handleSendAnswer = async (id) => {
-    const formData = new FormData();
-
-    formData.append("comment_id", Number(id));
-    formData.append("answer", answer);
+    setEdit(false);
+    // const formData = new FormData();
+    // formData.append("comment_id", Number(id));
+    // formData.append("answer", commentValue);
     await myaxiosprivate
-      .post("/api/v1/wish/comments/answer", { comment_id: id, answer: answer })
+      .post("/api/v1/wish/comments/update", {
+        comment_id: id,
+        message: commentValue,
+      })
+      .then(({ data }) => enqueueSnackbar(data.message));
+  };
+  console.log(edit);
+
+  const handleDeleteComment = async (id) => {
+    await myaxiosprivate
+      .post("/api/v1/wish/comments/delete", {
+        comment_id: id,
+      })
       .then(({ data }) => enqueueSnackbar(data.message));
   };
   return (
@@ -122,15 +139,57 @@ function Comment({ props, giftTypes, myWish }) {
         </div>
 
         <div className="flex items-center">
-          <button className="text-[#2D008D] text-md">
-            <BsThreeDots />
-          </button>
+          <Menu
+            size={"sm"}
+            position="right"
+            classNames={{
+              body: "rounded-[16px]",
+            }}
+            control={
+              <button className="flex items-center text-[#3800B0]">
+                <BsThreeDots />
+              </button>
+            }
+          >
+            <Menu.Item>
+              <button
+                className="flex items-center text-[#3800B0]"
+                onClick={() => setEdit(true)}
+              >
+                <FaPen className="text-sm !text-[#3800B0]" />
+                <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                  Edit
+                </span>
+              </button>
+            </Menu.Item>
+            <Menu.Item>
+              <button
+                className="flex items-center text-[#3800B0]"
+                onClick={() => handleDeleteComment(props.id)}
+              >
+                <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
+                <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                  Delete
+                </span>
+              </button>
+            </Menu.Item>
+          </Menu>
         </div>
       </div>
       <div className="flex justify-between my-6">
-        <p className="text-[20px] leading-[1.4] font-semibold text-[#1A1C29] mr-3">
-          {props.comment.comment}
-        </p>
+        <input
+          type="text"
+          disabled={!edit}
+          className="text-[20px] leading-[1.4] font-semibold text-[#1A1C29] mr-3"
+          value={commentValue}
+          onChange={(e) => setCommentValue(e.target.value)}
+        />
+        {edit && (
+          <SendIcon
+            className="mt-[10px] mr-2 cursor-pointer"
+            onClick={() => handleSendAnswer(props.id)}
+          />
+        )}
         <button className="flex items-center text-[#2D008D]">
           <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
             {likeCount}

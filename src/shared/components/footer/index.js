@@ -42,7 +42,7 @@ export const Footer = () => {
         </div>
         <div className="bottom-connector"></div>
         <div>
-          <Link to="/privacy">Terms of Service</Link>
+          <Link to="/terms">Terms of Service</Link>
           <Link to="/">Made with love</Link>
         </div>
       </section>
@@ -53,7 +53,7 @@ export const Footer = () => {
             Privacy Policy
           </Link>
           <div className="bottom-connector"></div>
-          <Link to="/privacy" className="treams-of-service">
+          <Link to="/terms" className="treams-of-service">
             Terms of Service
           </Link>
         </div>

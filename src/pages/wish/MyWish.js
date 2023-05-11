@@ -20,6 +20,7 @@ import moment from "moment";
 import Comment from "./components/Comment";
 import { LinearProgress } from "@mui/material";
 import { calculateProgress } from "../new-calendar/CalendarDayItem";
+import { enqueueSnackbar } from "notistack";
 const MyWish = () => {
   const navigate = useNavigate();
   const [wisherVisibility, setWisherVisibility] = useState("public");
@@ -106,7 +107,7 @@ const MyWish = () => {
   //   END
 
   return (
-    <div className="py-10 md:pt-10 md:py-0   bg-[#EBE5F7]">
+    <div className="py-10 md:pt-10 md:py-0 h-full  bg-[#EBE5F7]">
       <div className="container">
         <div className="md:flex mb-[72px] relative">
           <div className="flex-[1.2] md:mr-6 mb-6 md:sticky md:top-4 md:z-[1] md:sticky-top h-max">
@@ -178,7 +179,14 @@ const MyWish = () => {
                         </button>
                       </Menu.Item>
                       <Menu.Item>
-                        <button className="flex items-center text-[#3800B0]">
+                        <button
+                          className="flex items-center text-[#3800B0]"
+                          onClick={() =>
+                            enqueueSnackbar(
+                              "You can not delete your wish at this time."
+                            )
+                          }
+                        >
                           <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
                           <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
                             Delete
@@ -229,11 +237,12 @@ const MyWish = () => {
                   </p>
                 </div>
               </div>
+              {console.log(GetUserWishDataResult)}
               <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
                 <div className="flex md:justify-start justify-between flex-wrap">
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
                     <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
-                      256
+                      {GetUserWishDataResult.views}
                     </p>
                     <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
                       Views
@@ -241,7 +250,7 @@ const MyWish = () => {
                   </div>
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
                     <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
-                      8
+                      {GetUserWishDataResult.gifts_count}
                     </p>
                     <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
                       Gifts
@@ -249,7 +258,7 @@ const MyWish = () => {
                   </div>
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">
                     <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
-                      $12
+                      ${GetUserWishDataResult.donate_avg}
                     </p>
                     <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
                       Avg gift amount
@@ -257,7 +266,7 @@ const MyWish = () => {
                   </div>
                   <div className="">
                     <p className="text-[24px] leading-[1.2] font-semibold text-[#0C0E19]">
-                      3 days
+                      {GetUserWishDataResult.countdown} days
                     </p>
                     <p className="text-[12px] leading-[1.3] font-semibold text-[#0C0E19] tracking-[0.01em]">
                       To funding ending

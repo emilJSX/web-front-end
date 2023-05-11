@@ -106,6 +106,8 @@ import ErrorPage from "../404";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../store/slices/userSlice";
 import CongratComments from "./CongratComments";
+import { enqueueSnackbar } from "notistack";
+import Withdraw from "../../shared/ui/Withdraw";
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -160,17 +162,17 @@ const MyProfile = () => {
     };
     fetchUserData();
   }, []);
-  useEffect(() => {
-    const fetchUserWishes = async () => {
-      try {
-        const { data } = await myaxiosprivate.get("/api/v1/wish/get");
-        setWishes(data.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchUserWishes();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUserWishes = async () => {
+  //     try {
+  //       const { data } = await myaxiosprivate.get("/api/v1/wish/get");
+  //       setWishes(data.data);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     }
+  //   };
+  //   fetchUserWishes();
+  // }, []);
   const navigate = useNavigate();
   function getWishesListRoute() {
     navigate("/wish-list");
@@ -230,11 +232,12 @@ const MyProfile = () => {
       .then(({ data }) => setCongrats(data.data))
       .catch((err) => setError(err.message));
   }, []);
+
   if (loading) {
     return <Loader />;
   }
   if (error) {
-    return <ErrorPage />;
+    return <ErrorPage message={error}/>;
   }
   return (
     <Body>
@@ -460,7 +463,7 @@ const MyProfile = () => {
                                 onClick={() =>
                                   getWishIdForResultPage(userDataWish.slug)
                                 }
-                                src={`https://api.wishx.me/${userDataWish.image}`}
+                                src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
                               />
                             </div>
                             <div className="other-container">
@@ -504,7 +507,7 @@ const MyProfile = () => {
                               <LastDiv>
                                 <Share slug={userDataWish.slug} page={"wish"} />
                                 <div
-                                  className="edit-details-btn"
+                                  className="edit-details-btn my-2"
                                   style={{ display: "flex" }}
                                 >
                                   <Edit
@@ -592,6 +595,7 @@ const MyProfile = () => {
                               onClick={() =>
                                 navigate("/my-wish-complete", {
                                   state: userDataWish.slug,
+                                  payoutRequest: userDataWish?.payoutRequest,
                                 })
                               }
                               src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
@@ -608,23 +612,28 @@ const MyProfile = () => {
                               <p className="second-card-title">
                                 {userDataWish.title}
                               </p>
+                              {console.log(userDataWish)}
                             </Title>
                             <Seconddiv>
                               <Views>
-                                256 <br />
+                                {userDataWish.views} <br />
                                 <p className="title">Views</p>
                               </Views>
                               <Views>
-                                8<br />
+                                {userDataWish.gifts_count}
+                                <br />
                                 <p className="title">Gifts</p>
                               </Views>
                               <Views>
-                                $12 <br />
+                                $ {userDataWish.donate_avg} <br />
                                 <p className="title">Avg gift amount</p>
                               </Views>
                             </Seconddiv>
                             <DisplayOnButtonText>
-                              for birthday on 25 Nov 2022
+                              for birthday on{" "}
+                              {moment(userProfile.info.dob).format(
+                                "DD MMMM YYYY"
+                              )}
                             </DisplayOnButtonText>
                             <div className="main-button">
                               <Lastdiv>
@@ -641,7 +650,18 @@ const MyProfile = () => {
                                 >
                                   ✨
                                 </span>
-                                <Raised>$2 542 raised</Raised>
+                                {userDataWish?.payoutRequest.withdrawn && (
+                                  <div className="w-[30%] h-[50px]">
+                                    <Withdraw
+                                      id={userDataWish?.id}
+                                      payoutRequest={
+                                        userDataWish?.payoutRequest
+                                      }
+                                      isMyProfile={true}
+                                    />
+                                  </div>
+                                )}
+
                                 <Targets>
                                   120% of ${userDataWish.price} target
                                 </Targets>

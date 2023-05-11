@@ -10,7 +10,7 @@ import { display } from "styled-system";
 import { useEffect } from "react";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxios } from "../../api/myaxios";
-const Privacy = () => {
+const Terms = () => {
   const [terms, setTerms] = useState([]);
 
   useEffect(() => {
@@ -18,15 +18,15 @@ const Privacy = () => {
   }, []);
 
   useEffect(() => {
-    myaxios.get("api/v1/static_pages/polices/get").then(({ data }) => {
+    myaxios.get("/api/v1/static_pages/terms/get").then(({ data }) => {
       setTerms(data.data);
     });
   }, []);
-  
+
   return (
     <PrivacyTopContainer>
       <div className="topsection">
-        {/*<p>Main {">"} Privacy Policy</p>*/}
+        <p>Main {">"} Terms of Service</p>
         <CustomBreadcrumb
           margins="my-0"
           links={[
@@ -35,14 +35,13 @@ const Privacy = () => {
               to: "/",
             },
             {
-              title: "Privacy Policy",
+              title: "Terms of Service",
             },
           ]}
         />
       </div>
       <Privacy_policy_text>
-        <p>Privacy Policy
-          </p>
+        <p>Terms of Service</p>
       </Privacy_policy_text>
       {terms.map((term) => (
         <>
@@ -65,4 +64,4 @@ const Privacy = () => {
   );
 };
 
-export default Privacy;
+export default Terms;

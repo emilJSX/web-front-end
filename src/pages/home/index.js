@@ -111,12 +111,13 @@ const Home = () => {
   // const [opened, setOpened] = useState(false);
   const [getWishName, setWishName] = useState("");
   const [getAllWishData, setAllWishData] = useState([]);
-
+  const [redirectPage,setRedirectPage] = useState("")
   function GetWishNameForCreation() {
     if (isAuth) {
       navigate("/creating-wish", { state: getWishName });
     } else {
       setShowes(true);
+      setRedirectPage("/creating-wish")
     }
   }
   const [error, setError] = useState("");
@@ -201,6 +202,7 @@ const Home = () => {
         <Login_ConnectionSystem
           setShowes={setShowes}
           showRegister={setregisterModal}
+          redirectPage={redirectPage}
         />
       )}
       {registerModal && (

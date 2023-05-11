@@ -535,7 +535,7 @@ export const SalesTxtCost = styled.p`
   font-weight: 400;
   font-size: 10px;
   margin: auto;
-  padding-right: 25px;
+  padding-right: 20px;
 `;
 
 export const BottomTextSection = styled.div`

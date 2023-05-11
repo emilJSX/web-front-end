@@ -35,6 +35,7 @@ const MyWishCompleted = lazy(() => import("./pages/wish/MyWishCompleted"));
 const NewCalendar = lazy(() => import("./pages/new-calendar/index"));
 import Loader from "./shared/ui/Loader";
 const Payment = lazy(() => import("./pages/payment"));
+const Terms = lazy(() => import("./pages/privacy/Terms"));
 
 const App = () => {
   return (
@@ -77,6 +78,7 @@ const App = () => {
             <Route path="/blog-search-result" element={<BlogSearchResult />} />
             <Route path="/blog-category" element={<BlogCategory />} /> {/* - */}
             <Route path="/main-blog" element={<MainBlog />} /> {/* + */}
+            <Route path="/terms" element={<Terms />} /> {/* + */}
             <Route path="/privacy" element={<Privacy />} /> {/* + */}
             <Route path="/faq" element={<FaqPage />} /> {/* + */}
             <Route path="/contact" element={<Contact />} /> {/* + */}

@@ -4,13 +4,9 @@ import {
   BsHandThumbsUp,
   BsThreeDots,
 } from "react-icons/bs";
-import DonutIcon from "../../assets/svg/donut.svg";
-import SweetIcon from "../../assets/svg/sweet.svg";
-import BurgerIcon from "../../assets/svg/burger.svg";
-import FlowersIcon from "../../assets/svg/flowers.svg";
-import CoffeeIcon from "../../assets/svg/coffee.svg";
+
 import { HiOutlineFilter } from "react-icons/hi";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
 import { Menu } from "@mantine/core";
@@ -22,23 +18,24 @@ import WishConfetti from "../../assets/svg/wish-confetti.svg";
 import Confetti from "react-confetti";
 import moment from "moment";
 import Comment from "./components/Comment";
+import { enqueueSnackbar } from "notistack";
+import Withdraw from "../../shared/ui/Withdraw";
+import ThanksComment from "./components/ThanksComment";
 
 const MyWishCompleted = () => {
-  const [wisherVisibility, setWisherVisibility] = useState("public");
-  const [congratsVisibility, setCongratsVisibility] = useState("public");
-  const [giftAmountVisibility, setGiftAmountVisibility] = useState("public");
-  const [selectedAmount, setSelectedAmount] = useState(null);
+  const navigate = useNavigate();
   const [getCategoryId, setCategoryId] = useState(null);
   const [comments, setComments] = useState([]);
   const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
-  const { state } = useLocation();
+  const { state, payoutRequest } = useLocation();
   const [error, setError] = useState("");
   const inputRef = useRef(null);
   const [selectFiles, setSelectFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [giftAmounts, setGiftAmounts] = useState([]);
+  const [answer, setAnswer] = useState("");
   const handleFileSelect = (e) => {
     let images = [];
 
@@ -46,7 +43,7 @@ const MyWishCompleted = () => {
       images.push(URL.createObjectURL(e.target.files[i]));
     }
 
-    setSelectFiles(e.target.files);
+    setSelectFiles(Array.from(e.target.files));
     setImagePreviews(images);
   };
 
@@ -117,9 +114,29 @@ const MyWishCompleted = () => {
   const WishCreationImage = GetUserWishDataResult.image;
   const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
   //   END
+  console.log(GetUserWishDataResult);
+
+  const handleSendAnswer = async () => {
+    const formData = new FormData();
+    console.log(selectFiles);
+    formData.append("wish_id", GetUserWishDataResult.id);
+    formData.append("text", answer);
+    // selectFiles?.forEach((image) => {
+    formData.append("files[]", selectFiles);
+    // });
+
+    await myaxiosprivate
+      .post("/api/v1/wish/comments/congratulations-response", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(({ data }) => enqueueSnackbar(data.message))
+      .catch((err) => enqueueSnackbar(err.message));
+  };
 
   return (
-    <div className="pt-10 bg-[#EBE5F7]">
+    <div className="pt-10 bg-[#EBE5F7] h-full">
       <Confetti />
       <div className="container">
         <div className="md:flex mb-[72px] relative">
@@ -137,6 +154,10 @@ const MyWishCompleted = () => {
               />
             </div>
             <Share page="wish" slug={state ? state : slug} />
+            <Withdraw
+              id={GetUserWishDataResult.id}
+              payoutRequest={payoutRequest}
+            />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>
@@ -182,7 +203,14 @@ const MyWishCompleted = () => {
                       }
                     >
                       <Menu.Item>
-                        <button className="flex items-center text-[#3800B0]">
+                        <button
+                          className="flex items-center text-[#3800B0]"
+                          onClick={() =>
+                            navigate("/wish-edit", {
+                              state: GetUserWishDataResult?.id,
+                            })
+                          }
+                        >
                           <FaPen className="text-sm !text-[#3800B0]" />
                           <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
                             Edit
@@ -190,7 +218,14 @@ const MyWishCompleted = () => {
                         </button>
                       </Menu.Item>
                       <Menu.Item>
-                        <button className="flex items-center text-[#3800B0]">
+                        <button
+                          className="flex items-center text-[#3800B0]"
+                          onClick={() =>
+                            enqueueSnackbar(
+                              "You can not delete your wish at this time."
+                            )
+                          }
+                        >
                           <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
                           <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
                             Delete
@@ -226,68 +261,78 @@ const MyWishCompleted = () => {
                 </div>
                 <img className="ml-[24px] md:ml-12" src={WishConfetti} alt="" />
               </div>
-              <div className="rounded-[20px] bg-[#fff] mt-1 p-6 lg:p-12">
-                <div className="flex md:flex-row flex-col">
-                  <img
-                    className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
-                    src={GetUserWishDataResult?.user?.image}
-                    alt=""
-                  />
-                  {/* <p className="text-[20px] leading-[28px] font-semibold text-[#8E93AF]">
-                    Thank your friends and show the report
-                  </p> */}
-                  <input
-                    className="p-1 text-start w-full h-[35px] leading-[28px] font-semibold text-[#8e93af]"
-                    placeholder="Thank your friends and show the report"
-                  />
-                </div>
-                <div className="mt-12 flex justify-between flex-wrap">
-                  <div className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
-                    <div className="flex items-center">
-                      <IoImageOutline className="text-[#3800B0] mr-2" />
-                      <p
-                        className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] cursor-pointer"
-                        onClick={() => inputRef.current.click()}
-                      >
-                        Attach a photo
-                      </p>
-                      <input
-                        type="file"
-                        disabled={imagePreviews.length > 3}
-                        onChange={handleFileSelect}
-                        className="hidden"
-                        ref={inputRef}
-                        multiple
-                        accept="image/*"
-                      />
-                    </div>
-                    <div className="ml-3 flex items-center">
-                      {imagePreviews.length > 0 &&
-                        imagePreviews.map((image, i) => (
-                          <div
-                            key={i}
-                            className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2"
-                          >
-                            <img
-                              className="w-full h-full rounded-[4px]"
-                              src={image}
-                              alt=""
-                            />
-                            <button
-                              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center"
-                              onClick={() => handleDeleteFile(i)}
-                            >
-                              <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
-                            </button>
-                          </div>
-                        ))}
-                    </div>
+              {GetUserWishDataResult?.congratulationsResponse?.response_id ? (
+                <ThanksComment
+                  user={GetUserWishDataResult?.user}
+                  congrats={GetUserWishDataResult?.congratulationsResponse}
+                  id={GetUserWishDataResult.id}
+                />
+              ) : (
+                <div className="rounded-[20px] bg-[#fff] mt-1 p-6 lg:p-12">
+                  <div className="flex md:flex-row flex-col">
+                    <img
+                      className="mr-2 object-fill rounded-full w-6 h-6 flex-shrink-0 md:mb-0 mb-[8px]"
+                      src={GetUserWishDataResult?.user?.image}
+                      alt=""
+                    />
+                    <input
+                      className="p-1 text-start w-full h-[35px] leading-[28px] font-semibold text-[#8e93af]"
+                      placeholder="Thank your friends and show the report"
+                      value={answer}
+                      onChange={(e) => setAnswer(e.target.value)}
+                    />
                   </div>
-                  <button className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]">
-                    Send
-                  </button>
+                  <div className="mt-12 flex justify-between flex-wrap">
+                    <div className="bg-[#F7F8FA] rounded-[8px] flex items-center justify-between py-[16px] px-[18px] h-max mb-2">
+                      <div className="flex items-center">
+                        <IoImageOutline className="text-[#3800B0] mr-2" />
+                        <p
+                          className="text-[14px] leading-[1.4] font-semibold text-[#3800B0] cursor-pointer"
+                          onClick={() => inputRef.current.click()}
+                        >
+                          Attach a photo
+                        </p>
+                        <input
+                          type="file"
+                          disabled={imagePreviews.length > 3}
+                          onChange={handleFileSelect}
+                          className="hidden"
+                          ref={inputRef}
+                          multiple
+                          accept="image/*"
+                        />
+                      </div>
+                      <div className="ml-3 flex items-center">
+                        {imagePreviews.length > 0 &&
+                          imagePreviews.map((image, i) => (
+                            <div
+                              key={i}
+                              className="relative w-10 h-10 rounded-[4px] flex-shrink-0 mr-2"
+                            >
+                              <img
+                                className="w-full h-full rounded-[4px]"
+                                src={image}
+                                alt=""
+                              />
+                              <button
+                                className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#ECEEF7] flex items-center justify-center"
+                                onClick={() => handleDeleteFile(i)}
+                              >
+                                <RiDeleteBin6Line className="text-[#3800B0] text-sm" />
+                              </button>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleSendAnswer}
+                      className="px-6 py-4 bg-[#3800B0] text-sm leading-[18px] font-semibold text-white rounded-[8px]"
+                    >
+                      Send
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="mt-7">
               <div className="flex items-center justify-between mb-2">

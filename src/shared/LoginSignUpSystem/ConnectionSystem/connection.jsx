@@ -45,7 +45,7 @@ import {
 import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaApple, FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 
 import { useForm } from "react-hook-form";
@@ -90,7 +90,11 @@ import {
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { TextField } from "@mui/material";
 import moment from "moment";
-export function Login_ConnectionSystem({ setShowes, showRegister }) {
+export function Login_ConnectionSystem({
+  setShowes,
+  showRegister,
+  redirectPage,
+}) {
   const navigate = useNavigate();
   const [changeLoginSystemTab, setLoginSystemTab] = useState(0);
 
@@ -110,7 +114,6 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
       password: "",
     },
   });
-
   const handleLoginWithEmail = ({ email, password }) => {
     setError("");
     myaxios.get("sanctum/csrf-cookie").then(() => {
@@ -123,7 +126,7 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
           updateToken(token);
           setShowes(false);
           dispatch(setUserToken(token));
-          navigate("/my-profile");
+          navigate(redirectPage ? redirectPage : "/my-profile");
           location.reload();
         })
         .catch((err) => {
@@ -179,6 +182,7 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
   };
 
   const handleSocialLogin = async (data) => {
+    console.log(data);
     setError("");
     const provider_id = process.env.REACT_APP_PROVIDER_ID;
 
@@ -190,14 +194,17 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
       formData.append("email", email);
       // formData.append("full_name", name);
       formData.append("name", name);
-      formData.append("avatar", picture.data.url);
+      formData.append(
+        "avatar",
+        data.provider === "google" ? picture : picture.data.url
+      );
       formData.append("provider", provider);
       formData.append("provider_id", provider_id);
 
       await myaxiosprivate
         .post("/api/v1/auth/social?", formData)
         .then((res) => {
-          const token = res?.data?.data?.token;
+          let token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);
           dispatch(setUserToken(token));
@@ -237,7 +244,11 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
               />
               <LoginSocialFacebook
                 appId={process.env.REACT_APP_FB_APP_ID}
-                redirect_uri={"https://localhost:3000/my-profile"}
+                redirect_uri={
+                  ("https://localhost:3000/my-profile",
+                  "https://wishx.me/my-profile",
+                  "https://dev.wishx.me/my-profile")
+                }
                 onResolve={handleSocialLogin}
                 onReject={(error) => {
                   setError(error.message);
@@ -250,7 +261,16 @@ export function Login_ConnectionSystem({ setShowes, showRegister }) {
               <LoginSocialGoogle
                 client_id={process.env.REACT_APP_GOOGLE_APP_ID}
                 onResolve={handleSocialLogin}
+                redirect_uri={
+                  ("https://localhost:3000/my-profile",
+                  "https://wishx.me/my-profile",
+                  "https://dev.wishx.me/my-profile")
+                }
                 onReject={(err) => setError(error.message)}
+                scope={
+                  ("https://www.googleapis.com/auth/userinfo.profile",
+                  "https://www.googleapis.com/auth/userinfo.email")
+                }
               >
                 <Google>
                   <FaGoogle
@@ -506,7 +526,12 @@ export function SignUp_ConnectionSystem({
   const [getEmail, setGetEmail] = useState("");
   const [getPassword, setGetPassword] = useState("");
   const [getUserNameValue, setUserNameValue] = useState();
-
+  const [minDate, setMinDate] = useState(() => {
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 18);
+    return minDate;
+  });
   // END Register API
   const [emailErrorMessage, setErrorMessage] = useState("");
   const [userNameErrorMessage, setUserNameErrorMessage] = useState("");
@@ -1059,7 +1084,7 @@ export function SignUp_ConnectionSystem({
                       name="terms"
                       {...register("terms")}
                     />
-                    <Link target="_blank" to="/privacy">
+                    <Link target="_blank" to="/terms">
                       <ParagraphChek
                         style={{ marginLeft: "10px", paddingTop: "3px" }}
                       >
@@ -1242,6 +1267,7 @@ export function SignUp_ConnectionSystem({
                           },
                       }}
                       value={formData.dob}
+                      maxDate={minDate}
                       className="datePicker  !h-[2.5rem]"
                       InputAdornmentProps={{ style: { paddingBottom: 3 } }}
                       InputProps={{

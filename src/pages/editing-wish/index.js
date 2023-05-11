@@ -272,7 +272,7 @@ const Editing_Wish = () => {
                     <input
                       type="number"
                       name="price"
-                      defaultValue={initialValues.price}
+                      defaultValue={initialValues?.price}
                       placeholder="Enter Quantity"
                       {...register("price", { required: "Price is required!" })}
                     />
@@ -369,7 +369,7 @@ const Editing_Wish = () => {
         <div className="container-insider-sm">
           <div className="content-container">
             <img
-              src={initialValues.image ? wishImg : selectedImg}
+              src={initialValues?.image ? wishImg : selectedImg}
               className="glasses-img"
             />
             <div className="change-photo-button-container">
