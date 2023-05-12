@@ -42,7 +42,6 @@ const BlogSearchResult = () => {
   var getResultBlogSearch = [];
 
   const getBlogSearch = async () => {
-    console.log(getUserSearch);
     await myaxios
       .get("/api/v1/blog/articles/get", {
         params: {
@@ -73,7 +72,6 @@ const BlogSearchResult = () => {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         let getData = data.data.list;
         setResultBlog(getData);
 
@@ -173,7 +171,6 @@ const BlogSearchResult = () => {
                         </Link>
                       </CardContent>
                     </CardActionArea>
-                    {console.log(res_blog)}
                     <CardActions className="p-0">
                       <Link
                         to={`/blog-post/${res_blog?.slug}`}

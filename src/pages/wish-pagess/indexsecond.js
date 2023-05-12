@@ -213,7 +213,6 @@ function Wish_pages() {
         },
       })
       .then(({ data }) => {
-        console.log(data);
         setUserWish(data?.data);
       })
       .catch((err) => {

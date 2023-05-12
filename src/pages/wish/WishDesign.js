@@ -113,7 +113,11 @@ const WishDesign = () => {
   const handleClickGetIDCategory = (event) => {
     setCategoryId(event.currentTarget.id);
   };
-  console.log(giftAmounts);
+
+  if (GetUserWishDataResult?.user?.isMe) {
+    navigate("/my-wish", { state: GetUserWishDataResult?.slug });
+  }
+
   useEffect(() => {
     setError("");
 

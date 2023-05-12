@@ -61,7 +61,6 @@ function ThanksComment({ user, congrats, id }) {
     setImagePreviews(updatedPreviews);
   };
   const handleSaveChanges = async () => {
-    console.log(images);
     const formData = new FormData();
     formData.append("wish_id", id);
     formData.append("text", inputValue);

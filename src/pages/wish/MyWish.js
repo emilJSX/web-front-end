@@ -237,7 +237,6 @@ const MyWish = () => {
                   </p>
                 </div>
               </div>
-              {console.log(GetUserWishDataResult)}
               <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
                 <div className="flex md:justify-start justify-between flex-wrap">
                   <div className="mr-[8px] md:mb-0 mb-[4px] md:mr-8">

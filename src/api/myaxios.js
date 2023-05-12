@@ -56,7 +56,7 @@ const addRequestInterceptor = (instance, token) => {
 };
 const userToken = JSON.parse(localStorage.getItem("token"));
 addRequestInterceptor(myaxiosprivate, userToken);
-addRequestInterceptor(myaxios);
+addRequestInterceptor(myaxios, userToken && userToken);
 
 myaxios.interceptors.response.use(
   (config) => {

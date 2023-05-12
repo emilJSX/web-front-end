@@ -40,7 +40,7 @@ import {
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaApple } from "react-icons/fa";
-import { ReactComponent as Wishlogo } from "../../style/icons/wish-x-white-logo.svg";
+import { ReactComponent as Wishlogo } from "../../style/icons/wishy.svg";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -67,7 +67,7 @@ const Payment = () => {
   useEffect(() => {
     myaxiosprivate
       .post("/api/v1/payments/stripe-intent", {
-        amount: state && ((state?.amount * 5) / 100 + state?.amount) * 100,
+        amount: state && +state.amount * 100,
         type: state && state.paymentType,
         wish_id: state && state.wishData.id,
         currency: "usd",
