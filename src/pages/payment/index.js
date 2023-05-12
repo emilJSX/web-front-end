@@ -130,14 +130,21 @@ const Payment = () => {
                 </SubtotalSection>
                 <hr className="line" />
 
+
                 <SubtotalSection>
                   <SalestaxTxt>Processing fee</SalestaxTxt>
                   <SalesTxtCost>
-                    ${(+state?.amount - state?.actualAmount).toFixed(2)}
+                    ${state?.processing_fee}
                   </SalesTxtCost>
                 </SubtotalSection>
                 <hr className="line" />
-
+                <SubtotalSection>
+                  <SalestaxTxt>Processing fee</SalestaxTxt>
+                  <SalesTxtCost>
+                    ${state?.service_fee}
+                  </SalesTxtCost>
+                </SubtotalSection>
+                <hr className="line" />
                 <SubtotalSection>
                   <SubtotalTxt>Total due</SubtotalTxt>
                   <SubtotalCost>${state?.amount}</SubtotalCost>
