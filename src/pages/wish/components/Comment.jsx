@@ -12,7 +12,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { ReactComponent as SendIcon } from "./send.svg";
 
-function Comment({ props, giftTypes, myWish }) {
+function Comment({ props, giftTypes, myWish, completeWish }) {
   const [like, setLike] = useState(props.likes.userLiked);
   let [likeCount, setLikeCount] = useState(props.likes.count);
   const [commentValue, setCommentValue] = useState(props.comment.comment);
@@ -90,6 +90,8 @@ function Comment({ props, giftTypes, myWish }) {
       })
       .then(({ data }) => enqueueSnackbar(data.message));
   };
+
+
   return (
     <div className="rounded-[24px] md:h-fit px-6 py-2 bg-white my-2 z-50 mb-2 shadow-md">
       <div className="flex items-center justify-between">
@@ -136,45 +138,47 @@ function Comment({ props, giftTypes, myWish }) {
             </span>
           </div>
         </div>
-
-        <div className="flex items-center">
-          <Menu
-            size={"sm"}
-            position="right"
-            classNames={{
-              body: "rounded-[16px]",
-            }}
-            control={
-              <button className="flex items-center text-[#3800B0]">
-                <BsThreeDots />
-              </button>
-            }
-          >
-            <Menu.Item>
-              <button
-                className="flex items-center text-[#3800B0]"
-                onClick={() => setEdit(true)}
-              >
-                <FaPen className="text-sm !text-[#3800B0]" />
-                <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
-                  Edit
-                </span>
-              </button>
-            </Menu.Item>
-            <Menu.Item>
-              <button
-                className="flex items-center text-[#3800B0]"
-                onClick={() => handleDeleteComment(props.id)}
-              >
-                <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
-                <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
-                  Delete
-                </span>
-              </button>
-            </Menu.Item>
-          </Menu>
-        </div>
+        {props.comment.access && (
+          <div className="flex items-center">
+            <Menu
+              size={"sm"}
+              position="right"
+              classNames={{
+                body: "rounded-[16px]",
+              }}
+              control={
+                <button className="flex items-center text-[#3800B0]">
+                  <BsThreeDots />
+                </button>
+              }
+            >
+              <Menu.Item>
+                <button
+                  className="flex items-center text-[#3800B0]"
+                  onClick={() => setEdit(true)}
+                >
+                  <FaPen className="text-sm !text-[#3800B0]" />
+                  <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                    Edit
+                  </span>
+                </button>
+              </Menu.Item>
+              <Menu.Item>
+                <button
+                  className="flex items-center text-[#3800B0]"
+                  onClick={() => handleDeleteComment(props.id)}
+                >
+                  <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
+                  <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                    Delete
+                  </span>
+                </button>
+              </Menu.Item>
+            </Menu>
+          </div>
+        )}
       </div>
+
       <div className="flex justify-between my-6">
         <input
           type="text"

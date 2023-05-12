@@ -356,6 +356,7 @@ const MyWishCompleted = () => {
                       icon,
                     }))}
                     myWish={GetUserWishDataResult?.user?.image}
+                    completWish={true}
                   />
                 ))
               ) : (

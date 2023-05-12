@@ -33,10 +33,10 @@ function CheckoutForm({ state, clientSecret }) {
         myaxios
           .post("/api/v1/wish/comments/store", {
             wish_id: state && state.wishData.id,
-            amount: state && state.amount,
+            amount: state && +state.actualAmount,
             amount_type: state && state.paymentType,
             message: state && state.message,
-            name: state && state.name,
+            user_name: state && state.name,
             payment_private_type: state && state.amountVisibilty,
             name_private_type: state && state.wisherVisibility,
             message_private_type: state && state.wisherVisibility,

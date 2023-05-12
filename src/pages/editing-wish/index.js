@@ -198,9 +198,7 @@ const Editing_Wish = () => {
     title,
     interests,
   }) => {
-    console.log(interests);
     const uniqueArr = [...new Set(interests)];
-    console.log(uniqueArr);
     const formData = new FormData();
     formData.append("wish_id", initialValues?.id);
     formData.append("file", selectedImg ? selectedImg : initialValues.image);

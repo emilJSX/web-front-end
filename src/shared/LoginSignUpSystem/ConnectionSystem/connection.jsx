@@ -182,7 +182,6 @@ export function Login_ConnectionSystem({
   };
 
   const handleSocialLogin = async (data) => {
-    console.log(data);
     setError("");
     const provider_id = process.env.REACT_APP_PROVIDER_ID;
 
@@ -1424,7 +1423,6 @@ export function SignUp_ConnectionSystem({
                   style={{ display: "none" }}
                 />
               </MainDiv>
-              {console.log(previewImageUrl, selectPassport)}
               {previewImageUrl && (
                 <DivImg>
                   <CgTrash
