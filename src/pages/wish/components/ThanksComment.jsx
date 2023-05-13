@@ -1,6 +1,7 @@
 import { Menu } from "@mantine/core";
 import { enqueueSnackbar } from "notistack";
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import {
   BsFillHandThumbsUpFill,
   BsHandThumbsUp,
@@ -19,7 +20,8 @@ function ThanksComment({ user, congrats, id }) {
   let [likeCount, setLikeCount] = useState(congrats.likes.count);
   const [like, setLike] = useState(congrats.likes.userLiked);
   const [inputDisabled, setInputDisabled] = useState(true);
-  const [images, setImages] = useState(congrats.files);
+  const [files, setFiles] = useState(congrats.files);
+  const [images, setImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const handleEdit = () => {
     setEdit(true);
@@ -61,6 +63,7 @@ function ThanksComment({ user, congrats, id }) {
     setImagePreviews(updatedPreviews);
   };
   const handleSaveChanges = async () => {
+    setEdit(false);
     const formData = new FormData();
     formData.append("wish_id", id);
     formData.append("text", inputValue);
@@ -78,21 +81,28 @@ function ThanksComment({ user, congrats, id }) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(({ data }) => enqueueSnackbar(data.message))
+      .then(({ data }) => {
+        enqueueSnackbar(data.message);
+        location.reload();
+      })
       .catch((err) => enqueueSnackbar(err.message));
   };
   const handleFileDelete = async (id) => {
-    const index = images.findIndex((img) => img.id === id);
+    const index = files.findIndex((img) => img.id === id);
+    let newFiles = [...files];
     if (index !== -1) {
-      images.splice(index, 1);
+      newFiles.splice(index, 1);
     }
     await myaxiosprivate
       .post("/api/v1/wish/comments/congratulations-response-file-delete", {
         response_id: congrats.response_id,
         file_id: id,
       })
-      .then(({ data }) => console.log(data))
-      .catch((err) => console.log(err.message));
+      .then(({ data }) => {
+        enqueueSnackbar(data);
+        setFiles(newFiles);
+      })
+      .catch((err) => enqueueSnackbar(err.message));
   };
 
   return (
@@ -158,7 +168,7 @@ function ThanksComment({ user, congrats, id }) {
         <div className="flex justify-between">
           <input
             disabled={inputDisabled}
-            className="p-1 text-start w-full h-[35px] leading-[28px] font-semibold text-[black]"
+            className="p-1 text-start bg-white w-full h-[35px] leading-[28px] font-semibold text-[black]"
             placeholder="Thank your friends and show the report"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -176,8 +186,8 @@ function ThanksComment({ user, congrats, id }) {
         </div>
         <div className="flex  items-center flex-wrap">
           {congrats.files.length > 0 &&
-            images.map((file, i) => (
-              <div className="relative" key={i}>
+            files?.map((file, i) => (
+              <div className="relative mt-2" key={i}>
                 {edit && (
                   <CgTrash
                     onClick={() => handleFileDelete(file.id)}
@@ -186,7 +196,7 @@ function ThanksComment({ user, congrats, id }) {
                 )}
                 <img
                   src={file.url}
-                  className="w-[100px] h-[80px] md:w-[200px] md:h-[160px] rounded-md m-1"
+                  className="w-[100px] h-[80px] md:w-[160px] md:h-[120px] rounded-md m-1"
                 />
               </div>
             ))}

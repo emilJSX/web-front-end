@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from "react";
-import WishImage from "../../assets/images/wish.png";
-import {
-  BsFacebook,
-  BsFillHandThumbsUpFill,
-  BsHandThumbsUp,
-  BsThreeDots,
-  BsTwitter,
-  BsWhatsapp,
-} from "react-icons/bs";
-import { FaTelegram } from "react-icons/fa";
+
 import { IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
-import { RiLinksFill } from "react-icons/ri";
-import { FiAlertTriangle, FiThumbsUp } from "react-icons/fi";
+
 import VisibilityMenu from "./components/VisibilityMenu";
-import DonutIcon from "../../assets/svg/donut.svg";
-import SweetIcon from "../../assets/svg/sweet.svg";
-import BurgerIcon from "../../assets/svg/burger.svg";
-import FlowersIcon from "../../assets/svg/flowers.svg";
-import CoffeeIcon from "../../assets/svg/coffee.svg";
-import { HiOutlineFilter } from "react-icons/hi";
+
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
@@ -58,6 +43,8 @@ const WishDesign = () => {
   const [paymentData, setPaymentData] = useState({});
   const userInfo = useSelector((state) => state.user.userData);
   const [actualAmount, setActualAmount] = useState();
+  const [processFee, setProcessFee] = useState(null);
+  const [serviceFee, setServiceFee] = useState(null);
   useEffect(() => {
     setPaymentData({
       name: userInfo?.info?.full_name
@@ -87,6 +74,8 @@ const WishDesign = () => {
           : " ",
       paymentType: paymentType,
       wishData: GetUserWishDataResult,
+      processing_fee: processFee,
+      service_fee: serviceFee,
     });
   }, [
     wisherVisibility,
@@ -114,9 +103,9 @@ const WishDesign = () => {
     setCategoryId(event.currentTarget.id);
   };
 
-  if (GetUserWishDataResult?.user?.isMe) {
-    navigate("/my-wish", { state: GetUserWishDataResult?.slug });
-  }
+  // if (GetUserWishDataResult?.user?.isMe) {
+  //   navigate("/my-wish", { state: GetUserWishDataResult?.slug });
+  // }
 
   useEffect(() => {
     setError("");
@@ -142,7 +131,7 @@ const WishDesign = () => {
         .then(({ data }) => setComments(data.data))
         .catch((err) => setError(err.message));
   }, [GetUserWishDataResult.id]);
-
+  console.log(state, slug);
   useEffect(() => {
     setError("");
     window.scrollTo(0, 0);
@@ -157,7 +146,7 @@ const WishDesign = () => {
       })
       .catch((err) => {
         setError(err.message);
-        navigate("/404", { state: err.message });
+        // navigate("/404", { state: err.message });
       });
 
     // myaxiosprivate
@@ -172,6 +161,12 @@ const WishDesign = () => {
     //   })
     //   .catch((err) => setError(err.message));
   }, []);
+  const handleGiftSelect = (amount) => {
+    setSelectedAmount(amount.total), setActualAmount(amount.number);
+    setPaymentType(amount.id);
+    setProcessFee(amount.processing_fee);
+    setServiceFee(amount.service_fee);
+  };
   const [modalShow, setModalShow] = useState(false);
   const [modalReg, setModalReg] = useState(false);
 
@@ -191,13 +186,13 @@ const WishDesign = () => {
   //   state?.name === undefined && fetchUserData();
   // }, []);
 
-  if (error) {
-    return (
-      <div className="flex w-full h-full justify-center items-center">
-        {error}
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="flex w-full h-full justify-center items-center">
+  //       {error}
+  //     </div>
+  //   );
+  // }
   return (
     <>
       {modalShow && (
@@ -299,7 +294,7 @@ const WishDesign = () => {
                     </p>
                   </div>
                 </div>
-                <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1">
+                <div className="rounded-[24px] bg-white p-[20px] md:py-10 md:px-6 lg:px-12 mb-1 ">
                   <div className="flex items-center justify-between mb-3">
                     <p className="text-[13px] leading-[1.4] font-medium text-[#110035]">
                       Your gift amount
@@ -316,11 +311,7 @@ const WishDesign = () => {
                     {giftAmounts.map((amount, index) => (
                       <button
                         key={index}
-                        onClick={() => {
-                          setSelectedAmount(amount.total),
-                            setActualAmount(amount.number);
-                          setPaymentType(amount.id);
-                        }}
+                        onClick={() => handleGiftSelect(amount)}
                         className={`flex-1 flex flex-col items-center justify-center hover:bg-[#EBE5F7] 
                       !border-[2px] border-solid transition-all duration-300 ease-in-out
                       rounded-md ${
@@ -358,11 +349,11 @@ const WishDesign = () => {
                               name: e.target.value,
                             })
                           }
-                          className="leading-[1.2] w-8/12 font-semibold  md:h-[60px] text-[#8e93af] px-2"
+                          className="leading-[1.2] w-8/12 md:mr-1 font-semibold  md:h-[60px] text-[#8e93af] px-2"
                           placeholder="Your Name.."
                         />
                         <p
-                          className="text-[#3800B0] font-semibold text-[14px] cursor-pointer hover:text-[#3800b077]"
+                          className="text-[#3800B0]   font-semibold text-[14px] cursor-pointer hover:text-[#3800b077]"
                           onClick={() => setModalShow(true)}
                         >
                           or Login
@@ -381,7 +372,7 @@ const WishDesign = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between ">
                     {/* <p className="leading-[1.2] font-semibold text-[#8E93AF]">
                     Your congratulations
                   </p> */}
@@ -411,7 +402,7 @@ const WishDesign = () => {
                         ? () => enqueueSnackbar("Please select gift amount")
                         : handleCongratulate
                     }
-                    className="mt-6 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold"
+                    className="mt-2 md:mt-12 w-full py-3 text-white bg-[#3800B0] rounded-[8px] text-sm leading-[1.3] font-semibold"
                   >
                     Сongratulate
                   </button>
@@ -427,9 +418,9 @@ const WishDesign = () => {
                       {comments?.length}
                     </span>
                   </div>
-                  <button className="mr-2 text-[#3800B0] text-lg">
+                  {/* <button className="mr-2 text-[#3800B0] text-lg">
                     <HiOutlineFilter />
-                  </button>
+                  </button> */}
                 </div>
                 {comments.map((comment) => (
                   <Comment

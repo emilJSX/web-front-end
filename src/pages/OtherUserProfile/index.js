@@ -170,8 +170,8 @@ const OtherUserProfile = () => {
     navigate("/profile-edit");
   };
 
-  function getWishIdForResultPage(id) {
-    navigate("/wish/" + id, { state: { id } });
+  function getWishIdForResultPage(slug) {
+    navigate("/wish/", { state: slug });
   }
   // Follow API
 
@@ -214,13 +214,15 @@ const OtherUserProfile = () => {
       followUser(id);
     }
   };
+
+  console.log(UserInfoProfile);
   // END FOLLOW API
   if (loading) {
     return <Loader />;
   }
 
   if (error) {
-    return <ErrorPage />
+    return <ErrorPage />;
   }
   return (
     <Body>
@@ -240,7 +242,11 @@ const OtherUserProfile = () => {
               id="rainbow"
               radius="lg"
               className="rainbow"
-              src={rainbow}
+              src={
+                UserInfoProfile?.info?.background_image
+                  ? UserInfoProfile.info.background_image
+                  : estetika
+              }
               height={300}
             />
           </FotoSection>
@@ -253,7 +259,11 @@ const OtherUserProfile = () => {
                   id="rainbow"
                   radius="lg"
                   className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] bg-center bg-cover"
-                  src={estetika}
+                  src={
+                    UserInfoProfile?.info?.background_image
+                      ? UserInfoProfile.info.background_image
+                      : estetika
+                  }
                   height={300}
                 />
               </MobileTopCoverImageSection>
@@ -265,7 +275,11 @@ const OtherUserProfile = () => {
                     id="tomcrusemobile"
                     className="tomcrusemobile"
                     height={85}
-                    src={`${UserInfoProfile?.info?.avatar}`}
+                    src={
+                      UserInfoProfile?.info?.avatar
+                        ? UserInfoProfile?.info?.avatar
+                        : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                    }
                   />
                 </DisplayTopImgCard>
 
@@ -273,7 +287,11 @@ const OtherUserProfile = () => {
                   radius="100px"
                   className="tomcruse"
                   height={80}
-                  src={`${UserInfoProfile?.info?.avatar}`}
+                  src={
+                    UserInfoProfile?.info?.avatar
+                      ? UserInfoProfile?.info?.avatar
+                      : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                  }
                 />
                 <Namesurname>
                   {UserInfoProfile?.info?.full_name != null
@@ -450,22 +468,17 @@ const OtherUserProfile = () => {
                               );
                             }}
                           >
-                            <ImgWrapper
-                              id={userDataWish.slug}
-                              onClick={(e) =>
-                                getWishIdForResultPage(e.target.id)
-                              }
-                              src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
-                            ></ImgWrapper>
+                            {console.log(userDataWish.slug)}
+
+                            <Link to={`/wish/${userDataWish.slug}`}>
+                              <ImgWrapper
+                                src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
+                              />
+                            </Link>
                             <ContentWrapper>
-                              <Title
-                                id={userDataWish.slug}
-                                onClick={(e) =>
-                                  getWishIdForResultPage(e.target.id)
-                                }
-                              >
-                                {userDataWish.title}
-                              </Title>
+                              <Link to={`/wish/${userDataWish.slug}`}>
+                                <Title>{userDataWish.title}</Title>
+                              </Link>
 
                               <UserWrapper>
                                 <UserAbout>

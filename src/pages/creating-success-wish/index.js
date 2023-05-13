@@ -13,7 +13,7 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from "react-icons/fa";
-import { Grid,Progress } from "@mantine/core";
+import { Grid, Progress } from "@mantine/core";
 import ponchik from "../../style/icons/poncik.png";
 import userphoto from "../../style/icons/userphoto.png";
 import navigationArrowIcon from "../../style/navigationIcons/arrow-right.png";
@@ -51,6 +51,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
+import Share from "../wish-pagess/Share";
 
 const Created_Success_Wish = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const Created_Success_Wish = () => {
   useEffect(() => {
     async function GetUserWishData() {
       setLoading(true);
-      setError("")
+      setError("");
       await myaxiosprivate
         .get("api/v1/wish/show", {
           params: { wish_id: state },
@@ -101,9 +102,7 @@ const Created_Success_Wish = () => {
   }, []);
 
   if (loading) {
-    return (
-        <Loader />
-    );
+    return <Loader />;
   }
 
   return (
@@ -132,8 +131,8 @@ const Created_Success_Wish = () => {
             <h1 className="edit-wish-title">Ready</h1>
           </Hedaer>
           <CartContainer>
-              <div className='cover'>
-              <Grid style={{display: 'flex', justifyContent: 'center'}}>
+            <div className="cover">
+              <Grid style={{ display: "flex", justifyContent: "center" }}>
                 <Wrapper>
                   <div className="image-container">
                     <button className="congralute-button">Congralute</button>
@@ -175,68 +174,77 @@ const Created_Success_Wish = () => {
             </div>
           </CartContainer>
           <Section>
-            <h5 className="description-title">
-              Share your wish to more people can see it
-            </h5>
-            <div className="wish-name">
-              <div className="icon-container">
-                <FaFacebook />
-              </div>
-              <div className="icon-container">
-                <FaInstagram />
-              </div>
-              <div className="icon-container">
-                <FaTwitter />
-              </div>
-              <div className="icon-container">
-                <FaWhatsapp />
-              </div>
-              <div className="icon-container">
-                <FaTelegram />
-              </div>
-            </div>
+            <Share slug={GetUserWishData.slug} page="wish" />
             <div className="lg:pr-[120px]">
-              <div className='cash-set-container'>
-                <div className='cash-set-container-insider'>
-                  <h5 className='link-label'>Copy link</h5>
-                  <div className='cash-quantity-container'>
-                    <img src={linkIcon} className='link-icon' />
-                    <input type='text' value={getCopyLinkValue} style={{ background: '#ECEEF7' }} />
-                    <button  className='copy-button'>Copy</button>
-                    <img src={copyIcon} className='copy-icon' />
+              <div className="cash-set-container">
+                <div className="cash-set-container-insider">
+                  <h5 className="link-label">Copy link</h5>
+                  <div className="cash-quantity-container">
+                    <img src={linkIcon} className="link-icon" />
+                    <input
+                      type="text"
+                      value={getCopyLinkValue}
+                      style={{ background: "#ECEEF7" }}
+                    />
+                    <button className="copy-button">Copy</button>
+                    <img src={copyIcon} className="copy-icon" />
                   </div>
                 </div>
               </div>
-              <div className='text-area'>
-                <div className='text-area-insider'>
-                  <h5 className='invite-label'>Invite</h5>
-                  <input type='text' style={{paddingTop: "5px" }} placeholder='Emails, comma separated' />
-                  <img src={smsIcon} className='envelope-icon' />
-                  <img src={sendIcon} className='telegram-icon' />
+              <div className="text-area">
+                <div className="text-area-insider">
+                  <h5 className="invite-label">Invite</h5>
+                  <input
+                    type="text"
+                    style={{ paddingTop: "5px" }}
+                    placeholder="Emails, comma separated"
+                  />
+                  <img src={smsIcon} className="envelope-icon" />
+                  <img src={sendIcon} className="telegram-icon" />
                 </div>
               </div>
-              <div className='multi-select'>
-                <div className='sended-peoples-email'>
-                  <h5 className='sent-invitations-title'>Sent invitations:</h5>
-                  <div className='email-inputs'>
-                    <div className='email-input-text-area'>mustang123@gmail.com</div>
-                    <FontAwesomeIcon icon={faRotateLeft} className='fa-rotate'/>
-                    <button className='resend-button'>Resend</button>
+              <div className="multi-select">
+                <div className="sended-peoples-email">
+                  <h5 className="sent-invitations-title">Sent invitations:</h5>
+                  <div className="email-inputs">
+                    <div className="email-input-text-area">
+                      mustang123@gmail.com
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faRotateLeft}
+                      className="fa-rotate"
+                    />
+                    <button className="resend-button">Resend</button>
                   </div>
-                  <div className='email-inputs'>
-                    <div className='email-input-text-area'>keshaf@gmail.com</div>
-                    <FontAwesomeIcon icon={faRotateLeft} className='fa-rotate'/>
-                    <button className='resend-button'>Resend</button>
+                  <div className="email-inputs">
+                    <div className="email-input-text-area">
+                      keshaf@gmail.com
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faRotateLeft}
+                      className="fa-rotate"
+                    />
+                    <button className="resend-button">Resend</button>
                   </div>
-                  <div className='email-inputs'>
-                    <div className='email-input-text-area'>fillshore@gmail.com</div>
-                    <FontAwesomeIcon icon={faRotateLeft} className='fa-rotate'/>
-                    <button className='resend-button'>Resend</button>
+                  <div className="email-inputs">
+                    <div className="email-input-text-area">
+                      fillshore@gmail.com
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faRotateLeft}
+                      className="fa-rotate"
+                    />
+                    <button className="resend-button">Resend</button>
                   </div>
-                  <div className='email-inputs'>
-                    <div className='email-input-text-area'>katamarn@hotmail.com</div>
-                    <FontAwesomeIcon icon={faRotateLeft} className='fa-rotate'/>
-                    <button className='resend-button'>Resend</button>
+                  <div className="email-inputs">
+                    <div className="email-input-text-area">
+                      katamarn@hotmail.com
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faRotateLeft}
+                      className="fa-rotate"
+                    />
+                    <button className="resend-button">Resend</button>
                   </div>
                 </div>
               </div>

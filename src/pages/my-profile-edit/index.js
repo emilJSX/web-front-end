@@ -69,6 +69,7 @@ import { BiX } from "react-icons/bi";
 import { Autocomplete, TextField } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { AiOutlineEye } from "react-icons/ai";
+import { CgTrash } from "react-icons/cg";
 
 // const SetProfileEditButtonsEvent = () => {
 //   const edit_buttons = document.querySelectorAll(".editing-buttons");
@@ -801,6 +802,8 @@ const ProfileEdit = () => {
       title: "Edit Profile Information",
     },
   ];
+
+  const [imagePreview, setImagePreview] = useState(null);
   const [checked, setChecked] = useState("personalInfo");
   if (loading) {
     return <Loader />;
@@ -834,8 +837,7 @@ const ProfileEdit = () => {
                 <Tab value="passwordlogin">
                   <button
                     className={`editing-buttons outline-none focus:outline-none ${
-                      checked === "passwordlogin" &&
-                      "border border-[#3800B0]"
+                      checked === "passwordlogin" && "border border-[#3800B0]"
                     }`}
                     id="editing-buttons2"
                     onClick={() => setChecked("passwordlogin")}
@@ -1330,6 +1332,21 @@ const ProfileEdit = () => {
                       name="photo-uploader"
                       id="photo-uploader"
                     />
+                    {selectPassport && (
+                      <div className="relative w-fit mt-2">
+                        <img
+                          src={
+                            selectPassport &&
+                            URL.createObjectURL(selectPassport)
+                          }
+                          className="w-[100px] h-[80px] md:w-[160px] md:h-[120px] rounded-md m-1"
+                        />
+                        <CgTrash
+                          onClick={() => setSelectPassport(null)}
+                          className="absolute text-[#2D008D] bg-slate-200 w-[24px] h-[24px] right-2 top-2 rounded-full"
+                        />
+                      </div>
+                    )}
                     <PictureDropDown>
                       <div
                         className="upload-icon-and-title"

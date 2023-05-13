@@ -235,7 +235,6 @@ export const Facebook = styled.div`
   width: 400px;
   height: 56px;
   border-radius: 8px;
-  margin: 19px auto 0 auto;
   background: #1a76f2;
   display: flex;
   align-items: center;
@@ -248,7 +247,7 @@ export const Facebook = styled.div`
 export const FacebookP = styled.p`
   font-family: sans-serif;
   color: white;
-  fontsize: 14px;
+  font-size: 14px;
   margin: 0;
   height: 100%;
   display: flex;
