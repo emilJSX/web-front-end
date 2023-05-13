@@ -76,11 +76,12 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
     // formData.append("comment_id", Number(id));
     // formData.append("answer", commentValue);
     await myaxiosprivate
-      .post("/api/v1/wish/comments/update", {
+      .post("/api/v1/wish/comments/answer", {
         comment_id: id,
-        message: commentValue,
+        answer: answer,
       })
-      .then(({ data }) => enqueueSnackbar(data.message));
+      .then(({ data }) => enqueueSnackbar(data.message), setAnswer(""))
+      .catch((err) => enqueueSnackbar(err.message));
   };
 
   const handleDeleteComment = async (id) => {
@@ -88,9 +89,9 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
       .post("/api/v1/wish/comments/delete", {
         comment_id: id,
       })
-      .then(({ data }) => enqueueSnackbar(data.message));
+      .then(({ data }) => enqueueSnackbar(data.message))
+      .catch((err) => enqueueSnackbar(err.message));
   };
-
 
   return (
     <div className="rounded-[24px] md:h-fit px-6 py-2 bg-white my-2 z-50 mb-2 shadow-md">
@@ -138,7 +139,7 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
             </span>
           </div>
         </div>
-        {props.comment.access && (
+        {/* {props.comment.access && (
           <div className="flex items-center">
             <Menu
               size={"sm"}
@@ -177,28 +178,28 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
             </Menu>
           </div>
         )}
+       */}
       </div>
-
       <div className="flex justify-between my-6">
         <input
           type="text"
           disabled={!edit}
-          className="text-[20px] leading-[1.4] font-semibold text-[#1A1C29] mr-3"
+          className="text-[20px] bg-white leading-[1.4] font-semibold text-[#1A1C29] mr-3"
           value={commentValue}
           onChange={(e) => setCommentValue(e.target.value)}
         />
-        {edit && (
+        {/* {edit && (
           <SendIcon
             className="mt-[10px] mr-2 cursor-pointer"
             onClick={() => handleSendAnswer(props.id)}
           />
-        )}
+        )} */}
         <button className="flex items-center text-[#2D008D]">
           <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
             {likeCount}
           </span>
           {like ? (
-            <BsFillHandThumbsUpFill onClick={handleLike} />
+            <BsFillHandThumbsUpFill className="mb-2" onClick={handleLike} />
           ) : (
             <BsHandThumbsUp className="mb-2" onClick={handleLike} />
           )}
@@ -228,7 +229,7 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
         </div>
       )}
       {props.answer && (
-        <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] mt-1 p-3 flex justify-between">
+        <div className="rounded-[48px] !border-[2px] border-solid border-[#EBE5F7] mt-1 p-2 w-full flex justify-between">
           <div className="flex">
             <img
               className="w-6 shrink-0 h-6 rounded-full mr-3"

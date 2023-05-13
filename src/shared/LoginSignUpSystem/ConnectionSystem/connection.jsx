@@ -1,40 +1,29 @@
 import { useEffect, useState } from "react";
-import LoginSystem from "../Login";
 import {
   Main,
   OpacityBlog,
   Container,
   Button1,
-  Emails,
   ForgotPassword,
 } from "../Login/Login.Styled";
-import EmailConfirm from "../PhoneNumber";
 import { Tabs, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { BiX } from "react-icons/bi";
 import {
-  Againsms,
-  Edit,
+
   Paragraph,
-  Second,
   Title,
 } from "../PhoneNumber/Phone.Styled";
 import OtpInput from "react-otp-input";
-
-import TestImage from "../../../assets/images/50a8343b26e4ea599ea4c76556db95d3.png";
 import "../../components/Calendar/calendar.css";
-
 import {
   ButtonSignUp,
   Button2,
   ParagraphChek,
   Facebook,
-  Goapp,
   Google,
-  Apple,
   FacebookP,
   GoogleP,
-  AppleP,
   ButtonOR,
   Dispno,
   Email,
@@ -44,8 +33,8 @@ import {
 } from "../Register/Register.Styled";
 import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
-import { FaApple, FaGoogle } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { Link,  useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 
 import { useForm } from "react-hook-form";
@@ -232,72 +221,52 @@ export function Login_ConnectionSystem({
             <Paragraph>
               Not a user?
               <Button2 onClick={showSignUp}>Sign up</Button2>
-            </Paragraph>
-            <Facebook className="cursor-pointer">
-              <BsFacebook
-                style={{
-                  fontSize: "22px",
-                  color: "white",
-                  marginRight: "10px",
-                }}
-              />
-              <LoginSocialFacebook
-                appId={process.env.REACT_APP_FB_APP_ID}
-                redirect_uri={
-                  ("https://localhost:3000/my-profile",
-                  "https://wishx.me/my-profile",
-                  "https://dev.wishx.me/my-profile")
-                }
-                onResolve={handleSocialLogin}
-                onReject={(error) => {
-                  setError(error.message);
-                }}
-              >
-                <FacebookP>Facebook</FacebookP>
-              </LoginSocialFacebook>
-            </Facebook>
-            <Goapp>
-              <LoginSocialGoogle
-                client_id={process.env.REACT_APP_GOOGLE_APP_ID}
-                onResolve={handleSocialLogin}
-                redirect_uri={
-                  ("https://localhost:3000/my-profile",
-                  "https://wishx.me/my-profile",
-                  "https://dev.wishx.me/my-profile")
-                }
-                onReject={(err) => setError(error.message)}
-                scope={
-                  ("https://www.googleapis.com/auth/userinfo.profile",
-                  "https://www.googleapis.com/auth/userinfo.email")
-                }
-              >
-                <Google>
-                  <FaGoogle
-                    style={{
-                      fontSize: "22px",
-                      marginRight: "10px",
-                      color: "#3800B0",
-                    }}
-                  />
-                  <GoogleP>Google</GoogleP>
-                </Google>
-              </LoginSocialGoogle>
-
-              <Apple>
-                <FaApple
-                  style={{
-                    color: "white",
-                    fontSize: "25px",
-                    marginRight: "10px",
+            </Paragraph>{" "}
+            <div className="flex mx-auto justify-center items-start">
+              <Facebook className="cursor-pointer !w-5/12 !mt-0 mx-1 hover:bg-[#1561c4] hover:shadow-lg">
+                <LoginSocialFacebook
+                  className="flex"
+                  appId={process.env.REACT_APP_FB_APP_ID}
+                  redirect_uri={
+                    ("https://localhost:3000/my-profile",
+                    "https://wishx.me/my-profile",
+                    "https://dev.wishx.me/my-profile")
+                  }
+                  onResolve={handleSocialLogin}
+                  onReject={(error) => {
+                    setError(error.message);
                   }}
-                />
-                <AppleP>Apple</AppleP>
-              </Apple>
-            </Goapp>
+                >
+                  <FacebookP className="mt-1 mr-2">Sign in with</FacebookP>
+                  <BsFacebook className="text-2xl  text-white " />
+                </LoginSocialFacebook>
+              </Facebook>
+              <Google className="!border-[#3800B0] cursor-pointer !w-5/12 hover:shadow-lg">
+                <LoginSocialGoogle
+                  className="flex"
+                  client_id={process.env.REACT_APP_GOOGLE_APP_ID}
+                  onResolve={handleSocialLogin}
+                  redirect_uri={
+                    ("https://localhost:3000/my-profile",
+                    "https://wishx.me/my-profile",
+                    "https://dev.wishx.me/my-profile")
+                  }
+                  onReject={(err) => setError(error.message)}
+                  scope={
+                    ("https://www.googleapis.com/auth/userinfo.profile",
+                    "https://www.googleapis.com/auth/userinfo.email")
+                  }
+                >
+                  <GoogleP className="mt-1 text-[#2764be] mr-2">
+                    Sign in with
+                  </GoogleP>
+                  <FcGoogle className="text-2xl" />
+                </LoginSocialGoogle>
+              </Google>
+            </div>
             <ButtonOR onClick={() => setShowViaEmail(!showViaEmail)}>
               Or via email
             </ButtonOR>
-
             {showViaEmail && (
               <Dispno>
                 <form onSubmit={handleSubmit(handleLoginWithEmail)}>
@@ -864,27 +833,25 @@ export function SignUp_ConnectionSystem({
 
       const formData = new FormData();
       formData.append("email", email);
+      // formData.append("full_name", name);
       formData.append("name", name);
-      formData.append("avatar", picture.data.url);
+      formData.append(
+        "avatar",
+        data.provider === "google" ? picture : picture.data.url
+      );
       formData.append("provider", provider);
       formData.append("provider_id", provider_id);
-
       await myaxiosprivate
         .post("/api/v1/auth/social?", formData)
         .then((res) => {
-          const token = res?.data?.data?.token;
+          let token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);
           dispatch(setUserToken(token));
           navigate("/my-profile");
-          window.location.reload();
+          location.reload();
         })
-        .catch((err) => {
-          setError(err.message);
-          setTimeout(() => {
-            setError(" ");
-          }, 3000);
-        });
+        .catch((err) => setError(err.message));
     }
   };
 
@@ -914,54 +881,48 @@ export function SignUp_ConnectionSystem({
               Already have account?
               <Button2 onClick={showLoginModal}> Log in</Button2>
             </Paragraph>
-            <Facebook className="cursor-pointer">
-              <BsFacebook
-                style={{
-                  fontSize: "22px",
-                  color: "white",
-                  marginRight: "10px",
-                }}
-              />
-              <LoginSocialFacebook
-                appId={process.env.REACT_APP_FB_APP_ID}
-                redirect_uri={"/my-profile"}
-                onResolve={handleSocialLogin}
-                onReject={(error) => {
-                  setError(error.message);
-                }}
-              >
-                <FacebookP>Facebook</FacebookP>
-              </LoginSocialFacebook>
-            </Facebook>
-            <Goapp>
-              <LoginSocialGoogle
-                client_id={process.env.REACT_APP_GOOGLE_APP_ID}
-                onResolve={handleSocialLogin}
-                onReject={(err) => setError(err.message)}
-                className="cursor-pointer"
-              >
-                <Google>
-                  <FaGoogle
-                    style={{
-                      fontSize: "22px",
-                      marginRight: "10px",
-                      color: "#3800B0",
-                    }}
-                  />
-                  <GoogleP>Google</GoogleP>
-                </Google>
-              </LoginSocialGoogle>
-              <Apple className="cursor-pointer">
-                <FaApple
-                  style={{
-                    color: "white",
-                    fontSize: "25px",
-                    marginRight: "10px",
+            <div className="flex mx-auto justify-center items-start">
+              <Facebook className="cursor-pointer !w-5/12 !mt-0 mx-1 hover:bg-[#1561c4] hover:shadow-lg">
+                <LoginSocialFacebook
+                  className="flex"
+                  appId={process.env.REACT_APP_FB_APP_ID}
+                  redirect_uri={
+                    ("https://localhost:3000/my-profile",
+                    "https://wishx.me/my-profile",
+                    "https://dev.wishx.me/my-profile")
+                  }
+                  onResolve={handleSocialLogin}
+                  onReject={(error) => {
+                    setError(error.message);
                   }}
-                />
-                <AppleP>Apple</AppleP>
-              </Apple>
-            </Goapp>
+                >
+                  <FacebookP className="mt-1 mr-2">Sign up with</FacebookP>
+                  <BsFacebook className="text-2xl  text-white " />
+                </LoginSocialFacebook>
+              </Facebook>
+              <Google className="!border-[#3800B0] cursor-pointer !w-5/12 hover:shadow-lg">
+                <LoginSocialGoogle
+                  className="flex"
+                  client_id={process.env.REACT_APP_GOOGLE_APP_ID}
+                  onResolve={handleSocialLogin}
+                  redirect_uri={
+                    ("https://localhost:3000/my-profile",
+                    "https://wishx.me/my-profile",
+                    "https://dev.wishx.me/my-profile")
+                  }
+                  onReject={(err) => setError(error.message)}
+                  scope={
+                    ("https://www.googleapis.com/auth/userinfo.profile",
+                    "https://www.googleapis.com/auth/userinfo.email")
+                  }
+                >
+                  <GoogleP className="mt-1 text-[#2764be] mr-2">
+                    Sign up with
+                  </GoogleP>
+                  <FcGoogle className="text-2xl" />
+                </LoginSocialGoogle>
+              </Google>
+            </div>
             <ButtonOR onClick={() => setShower(!shower)}>Or via email</ButtonOR>
 
             {shower && (

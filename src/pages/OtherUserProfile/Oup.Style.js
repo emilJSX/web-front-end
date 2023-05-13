@@ -1378,8 +1378,7 @@ export const FotoSection = styled(Container)`
         }
         border-radius: 15px ;
 
-  body {
-  }
+ 
 `;
 
 export const MobileTopCoverImageSection = styled.div`

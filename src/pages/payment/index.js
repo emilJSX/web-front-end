@@ -106,10 +106,10 @@ const Payment = () => {
                 src={`${process.env.REACT_APP_API_URL}/${state?.wishData?.image}`}
                 className="rounded-md"
               />
-              <PayWishMobile>Pay WishX</PayWishMobile>
+              <PayWishMobile>Pay WISHX</PayWishMobile>
               <PayWishCostMobile>${state?.amount}</PayWishCostMobile>
 
-              <PayWishTxt>Pay WishX</PayWishTxt>
+              <PayWishTxt>Pay WISHX</PayWishTxt>
               <Cost>${state?.amount}</Cost>
 
               <WatchTxtCost>
@@ -129,15 +129,17 @@ const Payment = () => {
                   <SubtotalCost>${state?.actualAmount}</SubtotalCost>
                 </SubtotalSection>
                 <hr className="line" />
-
+                  {console.log(state)}
                 <SubtotalSection>
                   <SalestaxTxt>Processing fee</SalestaxTxt>
-                  <SalesTxtCost>
-                    ${(+state?.amount - state?.actualAmount).toFixed(2)}
-                  </SalesTxtCost>
+                  <SalesTxtCost>${state?.processing_fee}</SalesTxtCost>
                 </SubtotalSection>
                 <hr className="line" />
-
+                <SubtotalSection>
+                  <SalestaxTxt>Service fee</SalestaxTxt>
+                  <SalesTxtCost>${state?.service_fee}</SalesTxtCost>
+                </SubtotalSection>
+                <hr className="line" />
                 <SubtotalSection>
                   <SubtotalTxt>Total due</SubtotalTxt>
                   <SubtotalCost>${state?.amount}</SubtotalCost>

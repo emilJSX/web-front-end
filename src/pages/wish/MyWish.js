@@ -346,9 +346,9 @@ const MyWish = () => {
                     {comments?.length}
                   </span>
                 </div>
-                <button className="mr-2 text-[#3800B0] text-lg">
+                {/* <button className="mr-2 text-[#3800B0] text-lg">
                   <HiOutlineFilter />
-                </button>
+                </button> */}
               </div>
               {comments.length > 0 ? (
                 comments.map((comment) => (
