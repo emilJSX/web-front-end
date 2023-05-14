@@ -1235,6 +1235,7 @@ export function SignUp_ConnectionSystem({
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          disabled
                           error={false}
                           variant="standard"
                           value={
@@ -1408,8 +1409,14 @@ export function SignUp_ConnectionSystem({
               </List>
               <ButtonCon
                 type="submit"
-                disabled={!selectPassport}
-                onClick={() => setTabIndex(5)}
+                onClick={
+                  !selectPassport
+                    ? () =>
+                        enqueueSnackbar(
+                          "You must choose a photo to continue or you can do it later."
+                        )
+                    : () => setTabIndex(5)
+                }
               >
                 Continue
               </ButtonCon>
@@ -1452,7 +1459,12 @@ export function SignUp_ConnectionSystem({
                 justifyContent: "center",
               }}
             >
-              <ButtonSignUp onClick={getProfileUrl}>Continue</ButtonSignUp>
+              <ButtonSignUp
+                className="cursor-pointer"
+                onClick={() => getProfileUrl()}
+              >
+                Continue
+              </ButtonSignUp>
             </div>
           </Container>
         </Main>

@@ -368,7 +368,7 @@ const Created_Wish = () => {
               ) : null}
               <div className="date-fo-birth-container">
                 <div className="date-fo-birth-container-insider">
-                  <div className="date">
+                  {/* <div className="date">
                     <LocalizationProvider dateAdapter={AdapterMoment}>
                       <Stack
                         spacing={3}
@@ -403,16 +403,16 @@ const Created_Wish = () => {
                         />
                       </Stack>
                     </LocalizationProvider>
-                  </div>
-                  <div className="date-of-birth">
+                  </div> */}
+                  
                     <input
+                      className="w-full bg-[#F7F8FA] h-[53px] p-2"
                       type="text"
                       name="occasion"
                       {...register("occasion")}
                       required={true}
                       placeholder="Occasion (ex: birthday)"
                     />
-                  </div>
                 </div>
               </div>
               <div className="aviable-group">
@@ -475,7 +475,7 @@ const Created_Wish = () => {
             </div>
           </div>
         </div>
-        <div className="if-not-singed-in">
+        {/* <div className="if-not-singed-in">
           <h1 className="sing-up-title">Sing Up</h1>
           <div className="aleready-have-account-block">
             <h5 className="aleready-have-account-title">
@@ -488,8 +488,8 @@ const Created_Wish = () => {
               <FaFacebook className="facebook-icon" />
               <h5 className="facebook-title">Facebook</h5>
             </button>
-          </div>
-          <div className="log-in-with-facebook-block">
+          </div> */}
+          {/* <div className="log-in-with-facebook-block">
             <button className="log-in-with-google-button">
               <FaGoogle className="google-icon" />
               <h5 className="google-title">Google</h5>
@@ -498,13 +498,13 @@ const Created_Wish = () => {
               <FaApple className="apple-icon" />
               <h5 className="apple-title">Apple</h5>
             </button>
-          </div>
+          </div> */}
           {/* <div className='or-via-email-block'>
                         <h5 className='or-via-email-title'>
                            Or via email
                         </h5>
                     </div> */}
-        </div>
+        {/* </div> */}
       </Container>
       <Container>
         <div className="save-changes-button-container">

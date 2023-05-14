@@ -267,9 +267,7 @@ const WishDesign = () => {
                     </p>
                     <p className="text-[14px] leading-[1.4] font-semibold text-[#3800B0]">
                       Final:{" "}
-                      {moment(GetUserWishDataResult?.user?.dob).format(
-                        "DD.MM.YYYY"
-                      )}
+                      {moment(GetUserWishDataResult?.date).format("DD.MM.YYYY")}
                     </p>
                   </div>
                   <div className="rounded-[48px] bg-[#BFACE9] h-1 my-[16px] md:my-6">

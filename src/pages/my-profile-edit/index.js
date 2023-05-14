@@ -599,7 +599,7 @@ const ProfileEdit = () => {
   }, []);
 
   const handleStripeConnect = () => {
-    let clientId = process.env.REACT_APP_STRIPE_CLIENT_ID;
+    let clientId = process.env.REACT_APP_STRIPE_CLIENT_TEST_ID;
     let scope = "read_write";
     const authorizeUrl = `https://connect.stripe.com/express/oauth/authorize?response_type=code&client_id=${clientId}&scope=${scope}`;
     window.location.href = authorizeUrl;
@@ -676,11 +676,7 @@ const ProfileEdit = () => {
     const selectedCountry = allCountries.find(
       (item) => item.name === (country ? country : userInfo.country)
     );
-    if (uniqueArr.length <= 0) {
-      setInterestErr("You must choose at least one interest");
-    } else {
-      setInterestErr("");
-    }
+
     const formData = new FormData();
     formData.append("full_name", full_name);
     formData.append("email", email);
@@ -696,21 +692,20 @@ const ProfileEdit = () => {
     formData.append("country", selectedCountry?.id);
     formData.append("gender", userInfo.gender?.id ?? userInfo.gender);
 
-    !(uniqueArr.length <= 0) &&
-      (await myaxiosprivate
-        .post("/api/v1/profiles/update", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(({ data }) => {
-          enqueueSnackbar(
-            data.message !== "" ? data.message : "Update is successfull"
-          );
-        })
-        .catch((err) => {
-          enqueueSnackbar(err.message);
-        }));
+    await myaxiosprivate
+      .post("/api/v1/profiles/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(({ data }) => {
+        enqueueSnackbar(
+          data.message !== "" ? data.message : "Update is successfull"
+        );
+      })
+      .catch((err) => {
+        enqueueSnackbar(err.message);
+      });
   };
 
   // ============================================================================================================================
