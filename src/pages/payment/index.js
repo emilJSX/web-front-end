@@ -137,6 +137,7 @@ const Payment = () => {
                 <SubtotalSection>
                   <SalestaxTxt>Service fee</SalestaxTxt>
                   <SalesTxtCost>${state?.service_fee}</SalesTxtCost>
+
                 </SubtotalSection>
                 <hr className="line" />
                 <SubtotalSection>
