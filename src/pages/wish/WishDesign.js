@@ -103,9 +103,9 @@ const WishDesign = () => {
     setCategoryId(event.currentTarget.id);
   };
 
-  // if (GetUserWishDataResult?.user?.isMe) {
-  //   navigate("/my-wish", { state: GetUserWishDataResult?.slug });
-  // }
+  if (GetUserWishDataResult?.user?.isMe) {
+    navigate("/my-wish", { state: GetUserWishDataResult?.slug });
+  }
 
   useEffect(() => {
     setError("");
@@ -131,7 +131,6 @@ const WishDesign = () => {
         .then(({ data }) => setComments(data.data))
         .catch((err) => setError(err.message));
   }, [GetUserWishDataResult.id]);
-  console.log(state, slug);
   useEffect(() => {
     setError("");
     window.scrollTo(0, 0);
@@ -146,7 +145,7 @@ const WishDesign = () => {
       })
       .catch((err) => {
         setError(err.message);
-        // navigate("/404", { state: err.message });
+        navigate("/404", { state: err.message });
       });
 
     // myaxiosprivate
@@ -172,7 +171,7 @@ const WishDesign = () => {
 
   //   Get WISH IMAGE API
   const WishCreationImage = GetUserWishDataResult.image;
-  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}${WishCreationImage}`;
+  const UserGetCreationImgWish = `${process.env.REACT_APP_API_URL}/${WishCreationImage}`;
   //   END
   // useEffect(() => {
   //   const fetchUserData = async () => {
@@ -218,7 +217,7 @@ const WishDesign = () => {
                   alt=""
                 />
               </div>
-              <Share page="wish" slug={state ? state : slug} />
+              <Share page="wish" slug={state ? state.slug : slug} />
               {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>
               <span className="ml-2 font-dynamic font-dynamic--sm text-[#8866D0]" style={{ "--fw": 600 }}>Report</span>

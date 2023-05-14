@@ -90,6 +90,7 @@ import {
 import { HiBadgeCheck } from "react-icons/hi";
 import moment from "moment";
 import ErrorPage from "../404";
+import { enqueueSnackbar } from "notistack";
 const OtherUserProfile = () => {
   const [wait, setWait] = useState(true);
   const [UserInfoProfile, setUserInfoProfile] = useState([]);
@@ -215,7 +216,6 @@ const OtherUserProfile = () => {
     }
   };
 
-  console.log(UserInfoProfile);
   // END FOLLOW API
   if (loading) {
     return <Loader />;
@@ -468,8 +468,6 @@ const OtherUserProfile = () => {
                               );
                             }}
                           >
-                            {console.log(userDataWish.slug)}
-
                             <Link to={`/wish/${userDataWish.slug}`}>
                               <ImgWrapper
                                 src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
@@ -518,18 +516,26 @@ const OtherUserProfile = () => {
                         </Grid.Col>
                       ))
                     ) : (
-                      <div>
-                        <CardLonger>
-                          <NotWishes>User doesn’t have any wishes</NotWishes>
+                      <div >
+                        <CardLonger className="mt-2">
+                          <NotWishes className="ml-2">
+                            User doesn’t have any wishes
+                          </NotWishes>
                           <Buttons>
-                            <Buttonleft className="mt-5">
-                              Message user
+                            <Buttonleft
+                              onClick={() =>
+                                enqueueSnackbar(
+                                  "This feauture is not available"
+                                )
+                              }
+                              className="mx-2"
+                            >
+                              Message
                             </Buttonleft>
-                            <Link to="/wish-list">
+                            <Link to="/wish-list" className="mx-2">
                               <Buttonright>Explore wishes</Buttonright>
                             </Link>
                           </Buttons>
-                          <Glasses src={file1} />
                         </CardLonger>
                         {/* <Division>
                                                         <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>
@@ -642,17 +648,22 @@ const OtherUserProfile = () => {
                   ) : (
                     <div>
                       <CardLonger>
-                        <NotWishes>You don’t have any wishes</NotWishes>
-                        <div className="mb-2">
-                          <Buttonleft>Create a wish</Buttonleft>
+                        <NotWishes >
+                          User doesn’t have any complete wishes
+                        </NotWishes>
+                        <Buttons className="ml-5 mt-3">
                           <Buttonleft
-                            className="!bg-transparent !text-[#3800B0]
-    !border-[#3800B0] border-[1px]"
+                            onClick={() =>
+                              enqueueSnackbar("This feauture is not available")
+                            }
+                            className="mx-2"
                           >
-                            Explore wishes
+                            Message
                           </Buttonleft>
-                        </div>
-                        <Glasses src={file1} />
+                          <Link to="/wish-list" className="mx-3">
+                            <Buttonright>Explore wishes</Buttonright>
+                          </Link>
+                        </Buttons>
                       </CardLonger>
                       {/* <Division>
                                                     <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>

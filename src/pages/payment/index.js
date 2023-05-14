@@ -129,7 +129,6 @@ const Payment = () => {
                   <SubtotalCost>${state?.actualAmount}</SubtotalCost>
                 </SubtotalSection>
                 <hr className="line" />
-                  {console.log(state)}
                 <SubtotalSection>
                   <SalestaxTxt>Processing fee</SalestaxTxt>
                   <SalesTxtCost>${state?.processing_fee}</SalesTxtCost>

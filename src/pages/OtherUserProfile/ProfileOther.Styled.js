@@ -286,7 +286,7 @@ export const NotWishes = styled.p`
 
     width: 510px;
     height: 48px;
-    float: right;
+
     font-weight: 600;
     font-family: revert;
     font-size: 33px;
@@ -326,7 +326,6 @@ export const Buttonleft = styled.button`
     width: 150px;
     background: #3800B0;
     height: 56px;
-    float: left;
     border-radius: 8px;
     text-align: center;
     color: white;
@@ -342,7 +341,6 @@ export const Buttonleft = styled.button`
 export const Buttonright = styled.button`
     width: 144px;
     height: 56px;
-    float: right;
     border-radius: 8px;
     text-align: center;
     color: #3800B0;

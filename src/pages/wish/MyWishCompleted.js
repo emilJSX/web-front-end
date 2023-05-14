@@ -29,7 +29,7 @@ const MyWishCompleted = () => {
   const { slug } = useParams();
   const [GetUserWishDataResult, setGetUserData] = useState([]);
   const [getAllWishData, setAllWishData] = useState([]);
-  const { state, payoutRequest } = useLocation();
+  const { state } = useLocation();
   const [error, setError] = useState("");
   const inputRef = useRef(null);
   const [selectFiles, setSelectFiles] = useState([]);
@@ -154,7 +154,7 @@ const MyWishCompleted = () => {
             <Share page="wish" slug={state ? state : slug} />
             <Withdraw
               id={GetUserWishDataResult.id}
-              payoutRequest={payoutRequest}
+              payoutRequest={JSON.parse(state.payoutRequest)}
             />
             {/* <button className="flex items-center text-[#8866D0]">
               <FiAlertTriangle/>

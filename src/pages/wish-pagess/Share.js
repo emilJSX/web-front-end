@@ -33,19 +33,19 @@ function Share({ slug, page }) {
       >
         Share
       </div>
-      <FacebookShareButton url={`${process.env.REACT_APP_DEV_URL}${page}/${slug}`}>
+      <FacebookShareButton url={`${process.env.REACT_APP_DEV_URL}/${page}/${slug}`}>
         <BsFacebook className="text-[#3800B0] text-xl md:text-2xl" />
       </FacebookShareButton>
-      <TwitterShareButton url={`${process.env.REACT_APP_DEV_URL}${page}/${slug}`}>
+      <TwitterShareButton url={`${process.env.REACT_APP_DEV_URL}/${page}/${slug}`}>
         <BsTwitter className="text-[#3800B0] text-xl md:text-2xl" />
       </TwitterShareButton>
-      <TelegramShareButton url={`${process.env.REACT_APP_DEV_URL}${page}/${slug}`}>
+      <TelegramShareButton url={`${process.env.REACT_APP_DEV_URL}/${page}/${slug}`}>
         <FaTelegram className="text-[#3800B0] text-xl md:text-2xl" />
       </TelegramShareButton>
-      <WhatsappShareButton url={`${process.env.REACT_APP_DEV_URL}${page}/${slug}`}>
+      <WhatsappShareButton url={`${process.env.REACT_APP_DEV_URL}/${page}/${slug}`}>
         <BsWhatsapp className="text-[#3800B0] text-xl md:text-2xl" />
       </WhatsappShareButton>
-      <EmailShareButton url={`${process.env.REACT_APP_DEV_URL}${page}/${slug}`}>
+      <EmailShareButton url={`${process.env.REACT_APP_DEV_URL}/${page}/${slug}`}>
         <IoMailOutline className="text-[#3800B0] text-xl md:text-2xl" />
       </EmailShareButton>
       <button

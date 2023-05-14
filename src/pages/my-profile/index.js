@@ -237,7 +237,7 @@ const MyProfile = () => {
     return <Loader />;
   }
   if (error) {
-    return <ErrorPage message={error}/>;
+    return <ErrorPage message={error} />;
   }
   return (
     <Body>
@@ -259,7 +259,7 @@ const MyProfile = () => {
               Change cover photo
             </button>
             {uploadMessage ? (
-              <div className="h-[300px]">
+              <div className="h-[400px]">
                 <Loader size="md" />
                 {uploadMessage}
               </div>
@@ -267,7 +267,7 @@ const MyProfile = () => {
               <img
                 id="rainbow"
                 radius="lg"
-                className="rainbow w-full h-[300px] bg-center bg-cover rounded-xl"
+                className="rainbow w-full h-[400px] bg-center bg-cover rounded-xl"
                 src={
                   userProfile?.info?.background_image
                     ? userProfile?.info?.background_image
@@ -517,7 +517,7 @@ const MyProfile = () => {
                                     Edit
                                   </Edit>
                                   <Details
-                                    id={userDataWish.id}
+                                    id={userDataWish.slug}
                                     onClick={(e) =>
                                       getWishIdForResultPage(e.target.id)
                                     }
@@ -594,8 +594,12 @@ const MyProfile = () => {
                             <Imagess
                               onClick={() =>
                                 navigate("/my-wish-complete", {
-                                  state: userDataWish.slug,
-                                  payoutRequest: userDataWish?.payoutRequest,
+                                  state: {
+                                    slug: userDataWish.slug,
+                                    payoutRequest: JSON.stringify(
+                                      userDataWish?.payoutRequest
+                                    ),
+                                  },
                                 })
                               }
                               src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
@@ -605,7 +609,12 @@ const MyProfile = () => {
                             <Title
                               onClick={() =>
                                 navigate("/my-wish-complete", {
-                                  state: userDataWish.slug,
+                                  state: {
+                                    slug: userDataWish.slug,
+                                    payoutRequest: JSON.stringify(
+                                      userDataWish?.payoutRequest
+                                    ),
+                                  },
                                 })
                               }
                             >
@@ -649,13 +658,17 @@ const MyProfile = () => {
                                 >
                                   ✨
                                 </span>
-                                {userDataWish?.payoutRequest.withdrawn && (
-                                  <div className="w-[30%] h-[50px]">
+                                {!userDataWish?.payoutRequest.withdrawn && (
+                                  <div
+                                    className="w-[30%] h-[50px]"
+                                    onClick={
+                                      !userProfile?.info?.stripe_connect &&
+                                      (() => navigate("/profile-edit"))
+                                    }
+                                  >
                                     <Withdraw
-                                      id={userDataWish?.id}
-                                      payoutRequest={
-                                        userDataWish?.payoutRequest
-                                      }
+                                      id={userDataWish.id}
+                                      payoutRequest={userDataWish.payoutRequest}
                                       isMyProfile={true}
                                     />
                                   </div>
