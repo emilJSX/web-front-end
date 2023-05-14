@@ -9,11 +9,7 @@ import {
 import { Tabs, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { BiX } from "react-icons/bi";
-import {
-
-  Paragraph,
-  Title,
-} from "../PhoneNumber/Phone.Styled";
+import { Paragraph, Title } from "../PhoneNumber/Phone.Styled";
 import OtpInput from "react-otp-input";
 import "../../components/Calendar/calendar.css";
 import {
@@ -34,7 +30,7 @@ import {
 import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 
 import { useForm } from "react-hook-form";
@@ -105,9 +101,10 @@ export function Login_ConnectionSystem({
   });
   const handleLoginWithEmail = ({ email, password }) => {
     setError("");
+    const lowerCaseEmail = email.toLowerCase();
     myaxios.get("sanctum/csrf-cookie").then(() => {
       myaxios
-        .post("api/v1/login", { email, password })
+        .post("api/v1/login", { email: lowerCaseEmail, password })
         .then((res) => {
           //set response in local storage
           const token = res?.data?.data?.token;
@@ -196,8 +193,9 @@ export function Login_ConnectionSystem({
           localStorage.setItem("token", JSON.stringify(token));
           setShowes(false);
           dispatch(setUserToken(token));
-          navigate("/my-profile");
-          window.location.reload();
+          navigate("/profile-edit");
+          enqueueSnackbar("Please complete all required information");
+          location.reload();
         })
         .catch((err) => setError(err.message));
     }

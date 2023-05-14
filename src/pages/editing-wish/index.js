@@ -216,7 +216,11 @@ const Editing_Wish = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then(({ data }) => {
-        enqueueSnackbar(data.message);
+        enqueueSnackbar(
+          data.message +
+            " and sended to moderation, you can view your changes after moderation"
+        );
+        navigate("/my-profile");
       })
       .catch((err) => enqueueSnackbar(err.message));
   };

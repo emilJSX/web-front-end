@@ -1,34 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoPrimitiveDot } from "react-icons/go";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import moment from "moment";
+import { ReactComponent as Wishlogo } from "../../../style/icons/wishy.svg";
+import { myaxiosprivate } from "../../../api/myaxios";
+import NotificationItem from "./NotificationItem";
+function Notification({ show, notifications, innerRef, setLoad, load }) {
 
-function Notification({ show, notifications, innerRef }) {
-  // let notifications = [
-  //   {
-  //     id: 1,
-  //     userPhoto:
-  //       "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/user-profile-icon.png",
-  //     title: "User 1 has followed you",
-  //     time: "9:00,Today",
-  //   },
-  //   {
-  //     id: 2,
-  //     userPhoto:
-  //       "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/user-profile-icon.png",
-  //     title: "User 2 has followed you",
-  //     time: "12:00,Yesterday",
-  //   },
-  // ];
+  const [read, setRead] = useState(false);
+  const handleRead = async (item) => {};
   return (
     <div
       // ref={innerRef}
-      className="block  z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[42%] xl:left-[45%] mt-[21px]  bg-white  rounded-lg  w-full  md:h-fit md:w-[320px]"
+      className="block w-fit  z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[42%] xl:left-[45%] mt-[21px]  bg-white  rounded-lg  md:min-w-[400px]  md:h-fit md:w-[320px]"
     >
       <p className="pt-2 px-2 font-bold text-sm md:text-[14px] tracking-[0.03em]">
         Notifications
       </p>
       <p className="md:hidden pt-2 px-2 font-bold text-sm">Today, 14 July</p>
-      <ul className="py-2 text-sm">
+      <ul className="py-2 text-sm ">
         {notifications.length === 0 ? (
           <li className="rounded-lg border border-[#3800B0] px-2 py-2 my-1 mx-2 min-h-[72px] flex  align-center">
             {" "}
@@ -38,30 +28,18 @@ function Notification({ show, notifications, innerRef }) {
           </li>
         ) : (
           notifications.map((item) => (
-            <li
-              key={item.id}
-              className="rounded-lg border border-[#3800B0] px-2 py-2 my-1 mx-2 min-h-[72px] flex  align-center"
-            >
-              <img
-                src={item.userPhoto}
-                alt=""
-                className="md:w-[48px] md:h-[48px] w-[36px] h-[36px] rounded-full mx-2"
-              />
-              <div className="font-medium flex ">
-                <div>
-                  <p className="block px-4  text-[#3800B0] text-[14px]">
-                    {item.title}
-                  </p>
-                  <p className="block px-4 pt-2 text-[#6033C0] text-[13px]">
-                    {item.time}
-                  </p>
-                </div>
-                <GoPrimitiveDot className="mt-3 text-[20px] text-[#3800B0]" />
-              </div>
-            </li>
+            <NotificationItem item={item} setShow={show} />
           ))
         )}
       </ul>
+      <div className="flex justify-center">
+        <p
+          className="text-[#3800B0] cursor-pointer font-semibold"
+          onClick={() => setLoad(load + 5)}
+        >
+          Load more
+        </p>
+      </div>
     </div>
   );
 }

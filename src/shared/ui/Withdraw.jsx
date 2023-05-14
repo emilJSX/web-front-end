@@ -3,7 +3,7 @@ import React from "react";
 import { myaxiosprivate } from "../../api/myaxios";
 
 function Withdraw({ payoutRequest, id, isMyProfile }) {
-  const handleWithdraw = async (id) => {
+  const handleWithdraw = async () => {
     await myaxiosprivate
       .post("/api/v1/wish/payout-request", {
         wish_id: id,
@@ -11,6 +11,7 @@ function Withdraw({ payoutRequest, id, isMyProfile }) {
       .then(({ data }) => enqueueSnackbar("Your request is sent to moderation"))
       .catch((err) => enqueueSnackbar(err.message));
   };
+
   return (
     <button
       onClick={() =>

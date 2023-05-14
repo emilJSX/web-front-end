@@ -47,6 +47,7 @@ export const HeaderShared = ({ user, error }) => {
   const isAuth = useSelector(useAuthSelector);
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
+  const [unreadNot, setUnreadNot] = useState();
   const notRef = useRef(null);
   const settingRef = useRef(null);
   const toggleOptions = (e) => {
@@ -106,15 +107,28 @@ export const HeaderShared = ({ user, error }) => {
         setErrors("Something went wrong...");
       });
   };
-
+  let [loadMore, setLoadMore] = useState(0);
+  const [lastPage, setLastPage] = useState(false);
   useEffect(() => {
     isAuth &&
+      user &&
       echo
         .private(`notifications.${user?.user_id}`)
         .listen("Notification", (e) => {
-          setNotifications(e);
+          // console.log(e);
+          // setNotifications(e);
         });
-  }, []);
+
+    !lastPage &&
+      myaxiosprivate
+        .get(`/api/v1/notifications/list?skip=${loadMore}`)
+        .then(({ data }) => {
+          setUnreadNot(data.data.unread);
+          setNotifications(data.data.notifications);
+          setLastPage(data.data.last_page);
+        })
+        .catch((err) => enqueueSnackbar(err.message));
+  }, [loadMore]);
   return (
     <HeaderContainer>
       <section className="logoSection">
@@ -163,10 +177,16 @@ export const HeaderShared = ({ user, error }) => {
                   )
                 }
               />
-              <NotificationIcon
-                className="cursor-pointer  mt-[13px] mr-[24px]"
-                onClick={() => setNotifShow(!notifShow)}
-              />
+              <label className="relative">
+                {unreadNot > 0 && (
+                  <span className="absolute w-[8px] h-[8px] top-4 right-7 text-white text-xs bg-[#3800B0]  rounded-full"></span>
+                )}
+
+                <NotificationIcon
+                  className="cursor-pointer  mt-[13px] mr-[24px]"
+                  onClick={() => setNotifShow(!notifShow)}
+                />
+              </label>
             </CardIcon>
 
             {notifShow && (
@@ -174,7 +194,9 @@ export const HeaderShared = ({ user, error }) => {
                 <div className="shadow-2xl">
                   <Notification
                     // innerRef={notRef}
-                    // show={notifShow}
+                    setLoad={setLoadMore}
+                    load={loadMore}
+                    show={setNotifShow}
                     notifications={notifications}
                   />
                 </div>

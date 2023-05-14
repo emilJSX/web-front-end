@@ -599,10 +599,9 @@ const ProfileEdit = () => {
   }, []);
 
   const handleStripeConnect = () => {
-    let clientId = process.env.REACT_APP_STRIPE_CLIENT_TEST_ID;
+    let clientId = process.env.REACT_APP_STRIPE_CLIENT_ID;
     let scope = "read_write";
-    const authorizeUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${clientId}&scope=${scope}`;
-
+    const authorizeUrl = `https://connect.stripe.com/express/oauth/authorize?response_type=code&client_id=${clientId}&scope=${scope}`;
     window.location.href = authorizeUrl;
   };
   useEffect(() => {

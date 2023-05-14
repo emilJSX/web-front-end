@@ -78,7 +78,11 @@ function Search() {
     !isLast && setInfinityScrollWish(infiniteScrollWish + 25);
   };
   function getWishIdForResult(slug) {
-    navigate("/wish/s" + slug, { state: slug });
+    navigate("/wish/" + slug, {
+      state: {
+        slug: slug,
+      },
+    });
   }
 
   function getUserSlugForProfile(slug) {
