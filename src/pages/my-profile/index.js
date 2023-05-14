@@ -479,7 +479,7 @@ const MyProfile = () => {
                                 <Target>Target: ${userDataWish.price}</Target>
                                 <Final>
                                   Final:{" "}
-                                  {moment(userProfile?.info?.dob).format(
+                                  {moment(userDataWish?.date).format(
                                     "DD.MM.YYYY"
                                   )}
                                 </Final>
