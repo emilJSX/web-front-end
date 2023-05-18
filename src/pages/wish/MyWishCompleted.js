@@ -120,16 +120,18 @@ const MyWishCompleted = () => {
     formData.append("wish_id", GetUserWishDataResult.id);
     formData.append("text", answer);
     // selectFiles?.forEach((image) => {
-    formData.append("files[]", selectFiles);
-    // });
 
+    // });
+    for (let i = 0; i < selectFiles.length; i++) {
+      formData.append(`files[]`, selectFiles[i]);
+    }
     await myaxiosprivate
       .post("/api/v1/wish/comments/congratulations-response", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(({ data }) => enqueueSnackbar(data.message))
+      .then(({ data }) => enqueueSnackbar(data.message), location.reload())
       .catch((err) => enqueueSnackbar(err.message));
   };
 
@@ -245,10 +247,15 @@ const MyWishCompleted = () => {
                 <div>
                   <div className="flex items-center mb-4">
                     <p className="text-[#00FF9E] leading-[1.4] font-semibold mr-2">
-                      $2 542 total raised
+                      ${GetUserWishDataResult?.donate?.received}$ total raised
                     </p>
                     <p className="text-sm leading-[1.4] font-semibold text-white">
-                      120%
+                      {(
+                        (GetUserWishDataResult?.donate?.received /
+                          GetUserWishDataResult?.donate?.target) *
+                        100
+                      ).toFixed(2)}
+                      %
                     </p>
                   </div>
                   <p className="text-sm leading-[1.4] font-semibold text-white">
@@ -357,6 +364,7 @@ const MyWishCompleted = () => {
                     }))}
                     myWish={GetUserWishDataResult?.user?.image}
                     completWish={true}
+                    isMe={GetUserWishDataResult?.user?.isMe}
                   />
                 ))
               ) : (

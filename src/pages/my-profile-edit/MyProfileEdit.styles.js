@@ -141,7 +141,7 @@ export const EditingButtons = styled.div`
   //height: 150px;
   width: 100%;
   display: flex;
-  align-items: center;
+  // align-items: center;
   justify-content: center;
   overflow-x: auto;
   z-index: 10;
@@ -152,14 +152,15 @@ export const EditingButtons = styled.div`
     //margin: 0;
   }
 
-  @media (min-width: 1200px) {
-    margin-left: 40px;
-  }
+  // @media (min-width: 1200px) {
+  //   margin-left: -15px;
+  // }
 
   @media (max-width: 645px) {
     padding: 0;
     justify-content: start;
-    margin-left: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
     margin-bottom: 24px;
   }
 
@@ -171,8 +172,9 @@ export const EditingButtons = styled.div`
   }
 
   .editing-buttons {
-    width: 200px;
-    min-wdith: 200px;
+    color: black;
+    width: 160px;
+    // min-wdith: 200px;
     height: 56px;
     font-family: "Steppe";
     font-style: normal;
@@ -185,8 +187,8 @@ export const EditingButtons = styled.div`
     border: 0;
 
     @media (max-width: 420px) {
-      width: 180px;
-      min-width: 180px;
+      width: 130px;
+      // min-width: 180px;
     }
   }
 
@@ -1168,12 +1170,13 @@ export const Password = styled.input`
 `;
 
 export const SosialMediaButtons = styled.div`
-  // padding-left: 40px;
+  padding-left: 50px;
   padding-bottom: 80px;
 
   @media (max-width: 645px) {
     width: 100%;
     padding-left: 0;
+    padding-right: 40px;
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;

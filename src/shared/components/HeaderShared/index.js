@@ -48,6 +48,7 @@ export const HeaderShared = ({ user, error }) => {
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);
   const [unreadNot, setUnreadNot] = useState();
+  const [event, setEvent] = useState(null);
   const notRef = useRef(null);
   const settingRef = useRef(null);
   const toggleOptions = (e) => {
@@ -109,26 +110,38 @@ export const HeaderShared = ({ user, error }) => {
   };
   let [loadMore, setLoadMore] = useState(0);
   const [lastPage, setLastPage] = useState(false);
-  useEffect(() => {
-    isAuth &&
-      user &&
-      echo
-        .private(`notifications.${user?.user_id}`)
-        .listen("Notification", (e) => {
-          // console.log(e);
-          // setNotifications(e);
-        });
-
-    !lastPage &&
-      myaxiosprivate
+  const fetchNotifications = async () => {
+      (await myaxiosprivate
         .get(`/api/v1/notifications/list?skip=${loadMore}`)
         .then(({ data }) => {
           setUnreadNot(data.data.unread);
           setNotifications(data.data.notifications);
           setLastPage(data.data.last_page);
+          data.data.unread > 0 &&
+            enqueueSnackbar("You have unreaded notifications");
         })
-        .catch((err) => enqueueSnackbar(err.message));
-  }, [loadMore]);
+        .catch((err) => enqueueSnackbar(err.message)));
+  };
+
+  useEffect(() => {
+    if (isAuth && user) {
+      echo
+        .private(`notifications.${user?.user_id}`)
+        .listen("Notification", function (e) {
+          e && setEvent(e);
+          fetchNotifications();
+        });
+    }
+
+    // return () => {
+    //   echo.leave(`notifications.${user?.user_id}`);
+    // };
+  }, [isAuth, user, echo]);
+
+  useEffect(() => {
+    console.log(event);
+    fetchNotifications();
+  }, [event]);
   return (
     <HeaderContainer>
       <section className="logoSection">
@@ -179,7 +192,7 @@ export const HeaderShared = ({ user, error }) => {
               />
               <label className="relative">
                 {unreadNot > 0 && (
-                  <span className="absolute w-[8px] h-[8px] top-4 right-7 text-white text-xs bg-[#3800B0]  rounded-full"></span>
+                  <span className="absolute w-[8px] h-[8px] top-4 right-7 text-white text-xs bg-red-500 rounded-full"></span>
                 )}
 
                 <NotificationIcon
@@ -198,12 +211,15 @@ export const HeaderShared = ({ user, error }) => {
                     load={loadMore}
                     show={setNotifShow}
                     notifications={notifications}
+                    unread={unreadNot}
+                    setUnread={setUnreadNot}
                   />
                 </div>
               </ClickAwayListener>
             )}
 
             <CreateWishBtn
+              className="hover:shadow-md hover:bg-[#2D008D] "
               onClick={() => {
                 user.wishes?.active?.length === 0
                   ? navigate("/creating-wish")

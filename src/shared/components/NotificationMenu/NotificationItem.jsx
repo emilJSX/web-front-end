@@ -5,8 +5,8 @@ import { GoPrimitiveDot } from "react-icons/go";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { ReactComponent as Wishlogo } from "../../../style/icons/wishy.svg";
-
-function NotificationItem({ item, setShow }) {
+import logo from "../../ui/avatarnotifications.png";
+function NotificationItem({ item, setShow, setUnread, unread }) {
   const [read, setRead] = useState(item.status);
   const navigate = useNavigate();
   const handleClick = async () => {
@@ -16,15 +16,13 @@ function NotificationItem({ item, setShow }) {
         .then(({ data }) => {
           enqueueSnackbar("Notification readed");
           setRead(true);
+          setUnread(!unread !== 0 && unread - 1);
         })
         .catch((err) => enqueueSnackbar(err.message)));
-    item.credentials.wish &&
-      navigate(`/wish/${item.credentials.wish.wish_slug}`);
-    setShow(false);
+    // item.credentials.wish &&
+    //   navigate(`/wish/${item.credentials.wish.wish_slug}`);
+    // setShow(false);
   };
-  const svgDataUrl = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
-    Wishlogo.toString()
-  )}`;
   return (
     <li
       onClick={() => {
@@ -36,14 +34,20 @@ function NotificationItem({ item, setShow }) {
       } cursor-pointer hover:!border-[2px] hover:!border-[#3800B0] rounded-lg mx-2 border border-[#3800B0] py-2 my-1 min-w-[368px] min-h-[72px] flex justify-between`}
     >
       <div className="flex mx-2 w-fit justify-around items-center">
-        <Link to={`/profile/${item?.credentials?.user?.user_slug}`}>
+        <Link
+          to={`/profile/${
+            item?.credentials?.user?.user_slug
+              ? item?.credentials?.user?.user_slug
+              : item?.credentials?.user?.slug
+          }`}
+        >
           <img
             src={
               item.credentials.user
                 ? item?.credentials?.user?.avatar
                   ? item?.credentials?.user?.avatar
                   : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                : svgDataUrl
+                : logo
             }
             alt=""
             className="md:w-[48px] md:h-[48px] w-[36px] h-[36px] rounded-full  mx-2"
@@ -51,12 +55,30 @@ function NotificationItem({ item, setShow }) {
         </Link>
         <div className="font-medium flex relative py-2 max-w-[260px]">
           <div>
-            <p className="text-[14px] !mb-0 text-[#3800B0]">
-              {item.credentials?.user?.full_name}
-            </p>
-            <p className=" text-[#3800B0] !mb-0 text-[14px]">
-              {item?.credentials?.text}
-            </p>
+            <Link
+              to={`/profile/${
+                item?.credentials?.user?.user_slug
+                  ? item?.credentials?.user?.user_slug
+                  : item?.credentials?.user?.slug
+              }`}
+            >
+              <p className="text-[14px] !mb-0 text-[#3800B0]">
+                {item.credentials?.user?.full_name
+                  ? item.credentials?.user?.full_name
+                  : item.credentials?.user?.name}
+              </p>
+            </Link>
+            <Link
+              to={item?.credentials?.wish && `/wish/${
+                item?.credentials?.wish?.wish_slug
+                  ? item?.credentials?.wish?.wish_slug
+                  : item?.credentials?.wish
+              }`}
+            >
+              <p className=" text-[#3800B0] !mb-0 text-[14px]">
+                {item?.credentials?.text}
+              </p>
+            </Link>
             <p className="!mb-0 text-[#6033C0] text-[13px]">
               {moment(item.date).format("DD.MM.YYYY")}
             </p>

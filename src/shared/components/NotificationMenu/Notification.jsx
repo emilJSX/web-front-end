@@ -5,7 +5,15 @@ import moment from "moment";
 import { ReactComponent as Wishlogo } from "../../../style/icons/wishy.svg";
 import { myaxiosprivate } from "../../../api/myaxios";
 import NotificationItem from "./NotificationItem";
-function Notification({ show, notifications, innerRef, setLoad, load }) {
+function Notification({
+  show,
+  notifications,
+  innerRef,
+  setLoad,
+  load,
+  unread,
+  setUnread,
+}) {
   return (
     <div
       // ref={innerRef}
@@ -14,7 +22,7 @@ function Notification({ show, notifications, innerRef, setLoad, load }) {
       <p className="pt-2 px-2 font-bold text-sm md:text-[14px] tracking-[0.03em]">
         Notifications
       </p>
-      <p className="md:hidden pt-2 px-2 font-bold text-sm">Today, 14 July</p>
+      {/* <p className="md:hidden pt-2 px-2 font-bold text-sm">Today, 14 July</p> */}
       <ul className="py-2 text-sm ">
         {!notifications ? (
           <li className="rounded-lg border border-[#3800B0] px-2 py-2 my-1 mx-2 min-h-[72px] flex  align-center">
@@ -25,7 +33,13 @@ function Notification({ show, notifications, innerRef, setLoad, load }) {
           </li>
         ) : (
           notifications?.map((item) => (
-            <NotificationItem item={item} setShow={show} />
+            <NotificationItem
+              key={item.id}
+              item={item}
+              setShow={show}
+              setUnread={setUnread}
+              unread={unread}
+            />
           ))
         )}
       </ul>

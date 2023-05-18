@@ -26,7 +26,7 @@ import {
 } from "./MyprofilSecond.style";
 
 function CongratComments({ congrat, user }) {
-//   console.log(congrat);
+  //   console.log(congrat);
   //   console.log(user);
   const currentDateRef = useRef(moment());
   const dateObjRef = useRef(moment(congrat.date));
@@ -66,8 +66,9 @@ function CongratComments({ congrat, user }) {
     const selectedObj = giftTypes.find((obj) => obj.id === id);
     return selectedObj ? selectedObj.icon : null;
   }
+  console.log(congrat);
   return (
-    <div className="rounded-[24px] md:h-fit md:px-6 px-3 py-2 w-full md:w-11/12 bg-white my-2 z-50 mb-2 shadow-md">
+    <div className="rounded-[24px] md:h-fit md:px-6 px-3 !py-2 w-full md:w-8/12 bg-white my-2 z-50 mb-2 shadow-md">
       <div className="flex justify-between">
         <div className="flex items-center ">
           {/* <img
@@ -82,12 +83,14 @@ function CongratComments({ congrat, user }) {
               <span className="flex font-medium text-sm text-[#5D627D] mr-1 ">
                 ${congrat.donate.amount} to
               </span>
-              <span>
-                {congrat.wisher.user_name
-                  ? congrat.wisher.user_name
-                  : "Someone"}
-                `s
-              </span>
+              <Link to={`/profile/${congrat.wisher.user_slug}`}>
+                <span>
+                  {congrat.wisher.user_name
+                    ? congrat.wisher.user_name
+                    : "Someone"}
+                  `s
+                </span>
+              </Link>
               <span className="md:ml-1 text-sm font-normal text-[#5D627D]">
                 birthday on {moment(congrat.date).format("DD.MM.YYYY")}
               </span>
@@ -96,15 +99,19 @@ function CongratComments({ congrat, user }) {
               {timeDiff} <span>ago</span>
             </p>
           </div>
-          <img
-            className="md:mr-3 w-[32px] h-[32px] rounded-full"
-            src={
-              congrat.wisher.avatar
-                ? congrat.wisher.avatar
-                : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-            }
-            alt={congrat.wisher.user_name ? "guest" : congrat.wisher.user_name}
-          />{" "}
+          <Link to={`/profile/${congrat.wisher.user_slug}`}>
+            <img
+              className="md:mr-3 w-[32px] h-[32px] rounded-full"
+              src={
+                congrat.wisher.avatar
+                  ? congrat.wisher.avatar
+                  : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+              }
+              alt={
+                congrat.wisher.user_name ? "guest" : congrat.wisher.user_name
+              }
+            />{" "}
+          </Link>
         </div>
       </div>
       <div className="flex justify-between my-3">

@@ -328,7 +328,7 @@ export function Login_ConnectionSystem({
                       {formState.errors.password.message}
                     </p>
                   )}
-                  <ForgotPassword onClick={() => setLoginSystemTab(1)}>
+                  <ForgotPassword type="button" onClick={() => setLoginSystemTab(1)}>
                     Forgot password
                   </ForgotPassword>
                   <div

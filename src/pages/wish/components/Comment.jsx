@@ -9,10 +9,11 @@ import {
 } from "react-icons/bs";
 import { FaPen } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import { myaxiosprivate } from "../../../api/myaxios";
 import { ReactComponent as SendIcon } from "./send.svg";
 
-function Comment({ props, giftTypes, myWish, completeWish }) {
+function Comment({ props, giftTypes, myWish, completeWish, isMe }) {
   const [like, setLike] = useState(props.likes.userLiked);
   let [likeCount, setLikeCount] = useState(props.likes.count);
   const [commentValue, setCommentValue] = useState(props.comment.comment);
@@ -72,54 +73,63 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
   };
   const handleSendAnswer = async (id) => {
     setEdit(false);
-    // const formData = new FormData();
-    // formData.append("comment_id", Number(id));
-    // formData.append("answer", commentValue);
     await myaxiosprivate
       .post("/api/v1/wish/comments/answer", {
         comment_id: id,
         answer: answer,
       })
-      .then(({ data }) => enqueueSnackbar(data.message), setAnswer(""))
+      .then(({ data }) => enqueueSnackbar(data.message), location.reload())
       .catch((err) => enqueueSnackbar(err.message));
   };
-
-  const handleDeleteComment = async (id) => {
-    await myaxiosprivate
-      .post("/api/v1/wish/comments/delete", {
-        comment_id: id,
-      })
-      .then(({ data }) => enqueueSnackbar(data.message))
-      .catch((err) => enqueueSnackbar(err.message));
-  };
+  console.log(props);
+  // const handleDeleteComment = async (id) => {
+  //   await myaxiosprivate
+  //     .post("/api/v1/wish/comments/delete", {
+  //       comment_id: id,
+  //     })
+  //     .then(({ data }) => enqueueSnackbar(data.message))
+  //     .catch((err) => enqueueSnackbar(err.message));
+  // };
 
   return (
     <div className="rounded-[24px] md:h-fit px-6 py-2 bg-white my-2 z-50 mb-2 shadow-md">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <img
-            className="md:mr-3  w-[32px] h-[32px] rounded-full"
-            src={
-              props.user.private_status
-                ? "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                : props.user.avatar
-                ? props.user.avatar
-                : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-            }
-            alt={props.user.private_status ? "guest" : props.user.name}
-          />
+          {!props.user.private_status ? (
+            <Link to={`/profile/${props.user.slug}`}>
+              <img
+                className="md:mr-3  w-[32px] h-[32px] rounded-full"
+                src={props.user.avatar}
+                alt={props.user.name}
+              />{" "}
+            </Link>
+          ) : (
+            <img
+              className="md:mr-3  w-[32px] h-[32px] rounded-full"
+              src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+              alt={"guest"}
+            />
+          )}
           <div className="flex mt-3 mx-1 md:mt-0">
-            <p className="text-sm  md:leading-[1.4] mx-1 font-semibold text-[#0C0E19] md:mr-[6px]">
-              {props.user.private_status
-                ? "Anonym"
-                : props.user.name
-                ? props.user.name
-                : "Guest"}
+            {!props.user.private_status ? (
+              <Link to={`/profile/${props.user.slug}`}>
+                <p className="text-sm  md:leading-[1.4] mx-1 font-semibold text-[#0C0E19] md:mr-[6px]">
+                  {props.user.name ? props.user.name : "Guest"}
 
-              <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] md:mr-3  md:mt-1">
-                {timeDiff} <span>ago</span>
+                  <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] md:mr-3  md:mt-1">
+                    {timeDiff} <span>ago</span>
+                  </p>
+                </p>
+              </Link>
+            ) : (
+              <p className="text-sm  md:leading-[1.4] mx-1 font-semibold text-[#0C0E19] md:mr-[6px]">
+                Anonym
+                <p className="text-[13px] leading-[1.4] font-medium text-[#8E93AF] md:mr-3  md:mt-1">
+                  {timeDiff} <span>ago</span>
+                </p>
               </p>
-            </p>
+            )}
+
             <span className="flex font-medium  md:leading-[1.4] text-sm text-[#5D627D]">
               gave{" "}
               {props.donate.private_status ? (
@@ -205,7 +215,7 @@ function Comment({ props, giftTypes, myWish, completeWish }) {
           )}
         </button>
       </div>
-      {myWish && !props.answer && (
+      {isMe && !props.answer && (
         <div className="flex w-full px-2 h-[48px]  rounded-[48px] !border-[2px] border-solid border-[#EBE5F7]  justify-between">
           <img
             className="w-6 shrink-0 mt-[10px] h-6 rounded-full mr-3"

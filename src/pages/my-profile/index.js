@@ -108,6 +108,10 @@ import { setUserData } from "../../store/slices/userSlice";
 import CongratComments from "./CongratComments";
 import { enqueueSnackbar } from "notistack";
 import Withdraw from "../../shared/ui/Withdraw";
+import { LinearProgress } from "@mui/material";
+import { calculateProgress } from "../new-calendar/CalendarDayItem";
+import coverPhoto from "../../shared/ui/coverphoto.png";
+
 const MyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -116,7 +120,8 @@ const MyProfile = () => {
   const [wishes, setWishes] = useState();
   const [coverImg, setCoverImg] = useState();
   const [congrats, setCongrats] = useState([]);
-
+  const [target, setTarget] = useState();
+  const [received, setReceived] = useState();
   var tabs_storage = [
     {
       value: "act",
@@ -152,6 +157,8 @@ const MyProfile = () => {
       setLoading(true);
       try {
         const { data } = await myaxiosprivate.get("/api/v1/user/");
+        setTarget(data.data.wishes.active[0]?.donate.target);
+        setReceived(data.data.wishes.active[0]?.donate.received);
         setUserProfile(data.data);
         setJoinDate(data.data.joined);
         setLoading(false);
@@ -232,7 +239,11 @@ const MyProfile = () => {
       .then(({ data }) => setCongrats(data.data))
       .catch((err) => setError(err.message));
   }, []);
-
+  const [progress, setProgress] = useState();
+  useEffect(() => {
+    const newProgress = calculateProgress(+target, +received);
+    setProgress(newProgress);
+  }, [target, received]);
   if (loading) {
     return <Loader />;
   }
@@ -254,24 +265,23 @@ const MyProfile = () => {
             />
             <button
               onClick={handleInputOpen}
-              className="change-photo-button absolute top-0 right-20 m-4 p-2 bg-white text-[#6033c0] text-sm font-semibold rounded"
+              className="change-photo-button absolute top-0 right-20 m-4 p-2 bg-[white] hover:bg-[#EBE5F7] hover:shadow-md text-[#6033c0] text-sm font-semibold rounded"
             >
               Change cover photo
             </button>
             {uploadMessage ? (
               <div className="h-[400px]">
                 <Loader size="md" />
-                {uploadMessage}
               </div>
             ) : (
               <img
                 id="rainbow"
                 radius="lg"
-                className="rainbow w-full h-[400px] bg-center bg-cover rounded-xl"
+                className="rainbow w-full h-[400px] object-cover object-center  rounded-xl"
                 src={
                   userProfile?.info?.background_image
                     ? userProfile?.info?.background_image
-                    : estetika
+                    : coverPhoto
                 }
               />
             )}
@@ -292,7 +302,7 @@ const MyProfile = () => {
                 <img
                   id="rainbow"
                   radius="lg"
-                  className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] bg-center bg-cover"
+                  className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] "
                   src={
                     userProfile?.info?.background_image
                       ? userProfile?.info?.background_image
@@ -398,7 +408,10 @@ const MyProfile = () => {
                   </a>
                 </SocialSection> */}
                 <ButtonSection>
-                  <Button className="second-btn" onClick={getWithProfileToEdit}>
+                  <Button
+                    className="second-btn hover:shadow-md hover:shadow-[#3800B052]"
+                    onClick={getWithProfileToEdit}
+                  >
                     Edit profile
                   </Button>
                 </ButtonSection>
@@ -455,7 +468,10 @@ const MyProfile = () => {
                   {!loading ? (
                     userProfile?.wishes?.active.length !== 0 ? (
                       userProfile?.wishes?.active?.map((userDataWish) => (
-                        <CardLong key={userDataWish.id}>
+                        <CardLong
+                          key={userDataWish.id}
+                          className=" shadow-md mb-2"
+                        >
                           <div className="cont-text">
                             <div className="image-container">
                               <Imagess
@@ -464,6 +480,7 @@ const MyProfile = () => {
                                   getWishIdForResultPage(userDataWish.slug)
                                 }
                                 src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
+                                className="object-cover bg-cover bg-center "
                               />
                             </div>
                             <div className="other-container">
@@ -491,10 +508,13 @@ const MyProfile = () => {
                                 )}
                               </ShowBirtdayInWish>
                               <UserDesc></UserDesc>
-                              <Slider
-                                className="loading"
-                                defaultValue={40}
-                                disabled
+                              <LinearProgress
+                                variant="determinate"
+                                sx={{
+                                  height: 10,
+                                  bgcolor: "#e5e5e5",
+                                }}
+                                value={+progress}
                               />
                               <LeftRightPriceDisplay>
                                 <LeftPrice>${userDataWish.price}</LeftPrice>
@@ -505,7 +525,11 @@ const MyProfile = () => {
                                 <Lastprice></Lastprice>
                               </Price>
                               <LastDiv>
-                                <Share slug={userDataWish.slug} page={"wish"} />
+                                <Share
+                                  slug={userDataWish.slug}
+                                  page={"wish"}
+                                  isMyProfile
+                                />
                                 <div
                                   className="edit-details-btn my-2"
                                   style={{ display: "flex" }}
@@ -513,6 +537,7 @@ const MyProfile = () => {
                                   <Edit
                                     onClick={(e) => getWishIdEdit(e.target.id)}
                                     id={userDataWish.id}
+                                    className="hover:shadow-md hover:shadow-[#3800B052]"
                                   >
                                     Edit
                                   </Edit>
@@ -521,6 +546,7 @@ const MyProfile = () => {
                                     onClick={(e) =>
                                       getWishIdForResultPage(e.target.id)
                                     }
+                                    className="hover:shadow-md hover:bg-[#2D008D] "
                                   >
                                     Details
                                   </Details>
@@ -633,7 +659,7 @@ const MyProfile = () => {
                                 <p className="title">Gifts</p>
                               </Views>
                               <Views>
-                                $ {userDataWish.donate_avg} <br />
+                                $ {userDataWish?.donate_avg} <br />
                                 <p className="title">Avg gift amount</p>
                               </Views>
                             </Seconddiv>
@@ -746,7 +772,7 @@ const MyProfile = () => {
                         </Buttons>
                         <Glasses src={file1} />
                       </CardLonger>
-                      <Division>
+                      {/* <Division>
                         <Maybe>
                           Maybe you know{" "}
                           <HiArrowNarrowRight
@@ -774,7 +800,7 @@ const MyProfile = () => {
                           className="mySwiper"
                         >
                           {Carddata.popular.map((index) => (
-                            <SwiperSlide>
+                            <SwiperSlide key={index}>
                               <Picture src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5ODc1NTM4NjMyOTc2Mzcz/gettyimages-693134468.jpg" />
                               <Name>
                                 {index.title}
@@ -790,7 +816,7 @@ const MyProfile = () => {
                             </SwiperSlide>
                           ))}
                         </Swiper>
-                      </Division>
+                      </Division> */}
                     </div>
                   )}
                 </div>

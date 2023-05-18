@@ -53,6 +53,7 @@ import {
 import Loader from "../../shared/ui/Loader";
 
 import estetika from "../../style/icons/estetika.png";
+import coverPhoto from '../../shared/ui/coverphoto.png'
 import { Tab, Tabs, TabPanel } from "react-tabs";
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from "react-icons/bs";
 import rainbow from "./../../style/icons/rainbowfoto.png";
@@ -184,6 +185,7 @@ const OtherUserProfile = () => {
         .get(`/api/v1/unfollow?user_id=${id}`)
         .then((res) => {
           res.status === 200 && setIsFollowing(false);
+          enqueueSnackbar(res.data.message);
         })
         .catch((err) => {
           setIsFollowing(true);
@@ -199,6 +201,7 @@ const OtherUserProfile = () => {
         .get(`/api/v1/follow?user_id=${id}`)
         .then((res) => {
           res.status === 200 && setIsFollowing(true);
+          enqueueSnackbar(res.data.message);
         })
         .catch((err) => {
           setIsFollowing(false);
@@ -241,13 +244,13 @@ const OtherUserProfile = () => {
             <img
               id="rainbow"
               radius="lg"
-              className="rainbow"
+              className="rainbow w-full h-[400px] object-cover object-center  rounded-xl"
               src={
                 UserInfoProfile?.info?.background_image
                   ? UserInfoProfile.info.background_image
-                  : estetika
+                  : coverPhoto
               }
-              height={300}
+              height={400}
             />
           </FotoSection>
         </div>
@@ -267,7 +270,7 @@ const OtherUserProfile = () => {
                   height={300}
                 />
               </MobileTopCoverImageSection>
-              <LeftSection>
+              <LeftSection className="shadow-md">
                 <DisplayTopImgCard>
                   <Image
                     radius="100px"
@@ -380,7 +383,9 @@ const OtherUserProfile = () => {
                     // style={{ display: displayFollow }}
                     onClick={(e) => handleClick(e.target.id)}
                     className={
-                      isFollowing ? "unfollow-btn block" : "follow-btn block"
+                      isFollowing
+                        ? "unfollow-btn block !outline-none hover:shadow-md hover:shadow-[#2D008D]"
+                        : "follow-btn block !outline-none !bg-[#3800B0]  hover:shadow-md hover:!bg-[#2D008D]"
                     }
                   >
                     {isFollowing ? "Unfollow" : "Follow"}
@@ -393,7 +398,14 @@ const OtherUserProfile = () => {
                   >
                     Unfollow
                   </button> */}
-                  <button className="message-btn">Message</button>
+                  <button
+                    onClick={() =>
+                      enqueueSnackbar("This feature currently not available")
+                    }
+                    className="message-btn  !outline-none hover:shadow-md hover:shadow-[#2D008D]"
+                  >
+                    Message
+                  </button>
                 </ButtonSection>
                 {/* <MobileBtnSection>
                                         <BsFacebook className='fb-icon' style={{ color: "#2D008D" }} />
@@ -453,21 +465,7 @@ const OtherUserProfile = () => {
                           sm={6}
                           xs={12}
                         >
-                          <Wrapper
-                            className="cart-item"
-                            onMouseOver={(e) => {
-                              e.currentTarget.setAttribute(
-                                "style",
-                                "border: 1px solid #3800B0"
-                              );
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.setAttribute(
-                                "style",
-                                "border: 1px solid #EBE5F7"
-                              );
-                            }}
-                          >
+                          <Wrapper className="cart-item hover:border-[#3800B0] shadow-md">
                             <Link to={`/wish/${userDataWish.slug}`}>
                               <ImgWrapper
                                 src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
@@ -516,7 +514,7 @@ const OtherUserProfile = () => {
                         </Grid.Col>
                       ))
                     ) : (
-                      <div >
+                      <div>
                         <CardLonger className="mt-2">
                           <NotWishes className="ml-2">
                             User doesn’t have any wishes
@@ -648,7 +646,7 @@ const OtherUserProfile = () => {
                   ) : (
                     <div>
                       <CardLonger>
-                        <NotWishes >
+                        <NotWishes>
                           User doesn’t have any complete wishes
                         </NotWishes>
                         <Buttons className="ml-5 mt-3">
