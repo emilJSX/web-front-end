@@ -443,16 +443,16 @@ const ProfileEdit = () => {
   //   // SetSaveAndCancelButtonsClick();
   // });
 
-  const data = [
-    {
-      label: "Travel",
-      value: 1,
-    },
-    {
-      label: "Bussiness",
-      value: 2,
-    },
-  ];
+  // const data = [
+  //   {
+  //     label: "Travel",
+  //     value: 1,
+  //   },
+  //   {
+  //     label: "Bussiness",
+  //     value: 2,
+  //   },
+  // ];
 
   // ==============================================UPDATE SOCIAL LINKS===============================================================
 
@@ -542,12 +542,21 @@ const ProfileEdit = () => {
   const [interestId, setInterestId] = useState([]);
   const [clicked, setClicked] = useState(userInfo?.gender?.id);
   const [stripeStatus, setStripeStatus] = useState();
+  const [data, setData] = useState([]);
   const [minDate, setMinDate] = useState(() => {
     const today = new Date();
     const minDate = new Date();
     minDate.setFullYear(today.getFullYear() - 18);
     return minDate;
   });
+  useEffect(() => {
+    myaxiosprivate("/api/v1/wish/categories/get")
+      .then(({ data }) =>
+        setData(data.data.map((obj) => ({ value: obj.id, label: obj.name })))
+      )
+      .catch((err) => setError(err.message));
+  }, []);
+  console.log(data);
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCountryAndUserData = async () => {
@@ -702,6 +711,7 @@ const ProfileEdit = () => {
         enqueueSnackbar(
           data.message !== "" ? data.message : "Update is successfull"
         );
+        location.reload();
       })
       .catch((err) => {
         enqueueSnackbar(err.message);
@@ -814,50 +824,81 @@ const ProfileEdit = () => {
             <CustomBreadcrumb links={breadCrumb} />
           </p>
           <h1 className="main-page-title">Edit Information</h1>
-          <Tabs defaultValue="personalinfo" defaultIndex={0} defaultFocus={0}>
+          <Tabs defaultValue="personalinfo" className="!w-full">
             <EditingButtons>
               <div className="insider">
-                <Tab value="personalinfo">
+                <Tab
+                  value="personalinfo"
+                  className={
+                    checked === "personalInfo" &&
+                    " border-[3px] border-[#3800B0]  rounded-[8px]"
+                  }
+                >
                   <button
-                    className={`editing-buttons outline-none focus:outline-none ${
-                      checked === "personalInfo" && "border border-[#3800B0]"
-                    }`}
-                    id="editing-buttons1"
+                    className={`editing-buttons ${
+                      checked === "personalInfo" &&
+                      "!bg-[#EBE5F7] rounded-[8px] !text-[#3800B0]"
+                    } outline-none focus:outline-none`}
                     onClick={() => setChecked("personalInfo")}
                   >
                     Personal info
                   </button>
                 </Tab>
-                <Tab value="passwordlogin">
+                <Tab
+                  value="passwordlogin"
+                  className={
+                    checked === "passwordlogin" &&
+                    " border-[3px] border-[#3800B0]  rounded-[8px]"
+                  }
+                >
                   <button
                     className={`editing-buttons outline-none focus:outline-none ${
-                      checked === "passwordlogin" && "border border-[#3800B0]"
+                      checked === "passwordlogin" &&
+                      "!bg-[#EBE5F7] rounded-[8px] !text-[#3800B0]"
                     }`}
-                    id="editing-buttons2"
                     onClick={() => setChecked("passwordlogin")}
                   >
-                    Password and Log In
+                    Password
                   </button>
                 </Tab>
-                <Tab value="verification">
+                <Tab
+                  value="verification"
+                  className={
+                    checked === "verification" &&
+                    " border-[3px] border-[#3800B0]  rounded-[8px]"
+                  }
+                >
                   <button
                     className={`editing-buttons outline-none focus:outline-none ${
-                      checked === "verification" && "border border-[#3800B0]"
+                      checked === "verification" &&
+                      "!bg-[#EBE5F7] rounded-[8px] !text-[#3800B0]"
                     }`}
-                    id="editing-buttons3"
                     onClick={() => setChecked("verification")}
                   >
                     Verification
                   </button>
                 </Tab>
-                {/* <Tab value="sociallink">
-                  <button className="editing-buttons" id="editing-buttons4">
-                    Social links
+                <Tab
+                  value="payment"
+                  className={
+                    checked === "payment" &&
+                    " border-[3px] border-[#3800B0]  rounded-[8px]"
+                  }
+                >
+                  <button
+                    className={`editing-buttons  outline-none focus:outline-none ${
+                      checked === "payment" &&
+                      "!bg-[#EBE5F7] rounded-[8px] !text-[#3800B0]"
+                    }`}
+                    e
+                    onClick={() => setChecked("payment")}
+                  >
+                    Payment
                   </button>
-                </Tab> */}
+                </Tab>
               </div>
             </EditingButtons>
-            <TabPanel className="md:ml-10 " value="personalinfo">
+            <TabPanel className="md:ml-5" value="personalinfo">
               <Section>
                 <form onSubmit={handleSubmit(handleUpdateInfoProfile)}>
                   <EditingItem>
@@ -918,18 +959,6 @@ const ProfileEdit = () => {
                       type="button"
                       onClick={(e) => handleGenderSelect(e.target.id)}
                       className={
-                        userInfo.gender.id === 2 || clicked === "female"
-                          ? "clicked gender_buttuns female-button"
-                          : "gender_buttuns female-button"
-                      }
-                      id="female"
-                    >
-                      Female
-                    </button>
-                    <button
-                      type="button"
-                      onClick={(e) => handleGenderSelect(e.target.id)}
-                      className={
                         userInfo.gender.id === 1 || clicked === "male"
                           ? "clicked gender_buttuns male-button"
                           : "gender_buttuns male-button"
@@ -937,6 +966,18 @@ const ProfileEdit = () => {
                       id="male"
                     >
                       Male
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => handleGenderSelect(e.target.id)}
+                      className={
+                        userInfo.gender.id === 2 || clicked === "female"
+                          ? "clicked gender_buttuns female-button"
+                          : "gender_buttuns female-button"
+                      }
+                      id="female"
+                    >
+                      Female
                     </button>
                   </GenderButtons>
                   <MainInputs>
@@ -1187,7 +1228,7 @@ const ProfileEdit = () => {
                 </form>
               </Section>
             </TabPanel>
-            <TabPanel className="md:ml-10" value="passwordlogin">
+            <TabPanel className="md:ml-10" value="password">
               <PasswordSettings>
                 <p className="password-change-title">Change password</p>
                 {passwordError && (
@@ -1252,11 +1293,11 @@ const ProfileEdit = () => {
                     status={status}
                   />
                 )}
-                <h1 className="connect-sosial-netwok-title ml-3 ">
+                {/* <h1 className="connect-sosial-netwok-title ml-3 ">
                   Connect social networks
-                </h1>
-                <SosialMediaButtons>
-                  <button className="facebook-button">
+                </h1> */}
+                {/* <SosialMediaButtons>
+                  {/* <button className="facebook-button">
                     <FaFacebook className="facebook-icon" />
                     <h1 className="facebook-title" style={{ margin: "0" }}>
                       Disconnect Facebook
@@ -1273,23 +1314,13 @@ const ProfileEdit = () => {
                     <h1 className="apple-title" style={{ margin: "0" }}>
                       Connect Apple
                     </h1>
-                  </button>
-                  <button
-                    className="apple-button"
-                    onClick={handleStripeConnect}
-                  >
-                    <h1 className="apple-title" style={{ margin: "0" }}>
-                      {stripeStatus
-                        ? "Connect another stripe account"
-                        : "Connect to stripe account"}
-                    </h1>
-                  </button>
-                </SosialMediaButtons>
+                </SosialMediaButtons> 
+                  </button> */}
               </PasswordSettings>
             </TabPanel>
             <TabPanel className="md:ml-10" value="verification">
               {userInfo.verify === null && (
-                <StatusPedding className="status-padding">
+                <StatusPedding className="status-padding pb-8">
                   <h1 className="status-pedding-title">Status pending</h1>
                   <p className="status-pedding-main-title">
                     Your documents have been sent for verification! Moderators
@@ -1410,8 +1441,28 @@ const ProfileEdit = () => {
               )}
               <PictureUpload></PictureUpload>
             </TabPanel>
-            <TabPanel value="sociallink">
-              <SosialMediaSelection>
+            <TabPanel value="payment">
+              <StatusPedding className="status-padding ">
+                <h1 className="status-pedding-title">Connect payment system</h1>
+                <p className="status-pedding-main-title">
+                  To start fundraising yourself you need to connect to your
+                  stripe account.
+                </p>
+
+                <SosialMediaButtons>
+                  <button
+                    className="bg-[#3800B0] md:w-[440px] h-[56px] text-white rounded-md my-2 hover:shadow-md hover:bg-[#2D008D]"
+                    onClick={handleStripeConnect}
+                  >
+                    <p className="apple-title" style={{ margin: "0" }}>
+                      {stripeStatus
+                        ? "Connect another stripe account"
+                        : "Connect to stripe account"}
+                    </p>
+                  </button>
+                </SosialMediaButtons>
+              </StatusPedding>
+              {/* <SosialMediaSelection>
                 <div className="sosial-media">
                   <FaFacebook className="facebook"></FaFacebook>
                   <input
@@ -1486,7 +1537,7 @@ const ProfileEdit = () => {
                     Save
                   </button>
                 </SaveButton>
-              </SosialMediaSelection>
+              </SosialMediaSelection> */}
             </TabPanel>
           </Tabs>
         </Header>

@@ -35,7 +35,7 @@ import Loader from "../../shared/ui/Loader";
 import { HiBadgeCheck, HiOutlineFilter } from "react-icons/hi";
 import { FiSearch } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ReactComponent as SearchIcon } from "../../style/icons/search-icon.svg";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import { enqueueSnackbar } from "notistack";
@@ -262,6 +262,7 @@ function Search() {
                     );
                   }}
                 >
+                  {console.log(getWishData)}
                   <div className="image-container">
                     <button
                       name={getWishData.slug}
@@ -271,6 +272,7 @@ function Search() {
                       Congralute
                     </button>
                     <div className="image-background"></div>
+
                     <ImgWrapper
                       src={`${process.env.REACT_APP_API_URL}${getWishData.image}`}
                     ></ImgWrapper>
@@ -280,12 +282,22 @@ function Search() {
 
                     <UserWrapper>
                       <UserAbout>
-                        <UserName>{getWishData.user.full_name}</UserName>
+                        <Link to={`/profile/${getWishData.user.username}`}>
+                          <UserName>{getWishData.user.full_name}</UserName>
+                        </Link>
                         <UserDesc>
                           for birthday on {getWishData.occasion}
                         </UserDesc>
                       </UserAbout>
-                      <UserPhoto src={getWishData.user.image}></UserPhoto>
+                      <Link to={`/profile/${getWishData.user.username}`}>
+                        <UserPhoto
+                          src={
+                            getWishData.user.image
+                              ? getWishData.user.image
+                              : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                          }
+                        ></UserPhoto>
+                      </Link>
                     </UserWrapper>
 
                     <PriceWrapper>

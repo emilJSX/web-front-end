@@ -247,7 +247,7 @@ function ThanksComment({ user, congrats, id }) {
             </div>
             <button
               onClick={handleSaveChanges}
-              className="bg-[#2D008D] text-white rounded-md p-3 shadow-md"
+              className="bg-[#2D008D] hover:shadow-md hover:shadow-[#3800B052] text-white rounded-md p-3"
             >
               Save changes
             </button>

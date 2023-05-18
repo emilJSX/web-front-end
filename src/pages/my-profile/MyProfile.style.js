@@ -812,7 +812,7 @@ export const SosialN = styled.div`
   }
 `;
 export const Edit = styled.div`
-  border: 1px solid #3800b0;
+  border: 1px solid #BFACE9;
   border-radius: 8px;
   padding: 16px 18px;
   font-size: 14px;
@@ -823,7 +823,7 @@ export const Edit = styled.div`
   margin-left: 10px;
 `;
 export const Details = styled.div`
-  background: #3800b0;
+  background: #3800B0;
   border-radius: 8px;
   cursor: pointer;
   padding: 16.5px 20px;
@@ -844,25 +844,25 @@ export const LeftSection = styled(Container)`
   margin-left: 92px;
   top: 0;
 
-  @media (min-width: 992px) and (max-width: 1100px) {
-    margin-top: -244px;
+  @media (min-width: 992px)  {
+    margin-top: -400px!important;
   }
 
-  @media (min-width: 1100px) and (max-width: 1200px) {
-    margin-top: -270px;
-  }
+  // @media (min-width: 1100px) and (max-width: 1200px) {
+  //   margin-top: -270px;
+  // }
 
-  @media (min-width: 1200px) and (max-width: 1300px) {
-    margin-top: -310px!important;
-  }
+  // @media (min-width: 1200px) and (max-width: 1300px) {
+  //   margin-top: -310px!important;
+  // }
 
-  @media (min-width: 1300px) and (max-width: 1400px) {
-    margin-top: -325px!important;
-  }
+  // @media (min-width: 1300px) and (max-width: 1400px) {
+  //   margin-top: -400px!important;
+  // }
 
-  @media (max-width: 992px) and (min-width: 420px) {
-    margin-top: -100px;
-  }
+  // @media (max-width: 992px) and (min-width: 420px) {
+  //   margin-top: -100px;
+  // }
 
   @media (max-width: 992px) {
     margin-top: -13px;

@@ -52,6 +52,7 @@ import { useEffect } from "react";
 import CustomBreadcrumb from "../../shared/components/breadcrumb";
 import { myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
+import { enqueueSnackbar } from "notistack";
 
 const Created_Success_Wish = () => {
   const navigate = useNavigate();
@@ -174,7 +175,7 @@ const Created_Success_Wish = () => {
             </div>
           </CartContainer>
           <Section>
-            <Share slug={GetUserWishData.slug} page="wish" />
+            <Share slug={GetUserWishData.slug} page="wish" isMyProfile/>
             <div className="lg:pr-[120px]">
               <div className="cash-set-container">
                 <div className="cash-set-container-insider">

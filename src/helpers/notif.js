@@ -2,7 +2,7 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 const token = JSON.parse(localStorage.getItem("token"));
-
+window.Pusher = Pusher;
 export const echo = new Echo({
   broadcaster: "pusher",
   key: process.env.REACT_APP_PUSHER_APP_KEY,
@@ -10,7 +10,7 @@ export const echo = new Echo({
   wsHost: process.env.REACT_APP_PUSHER_HOST,
   wsPort: process.env.REACT_APP_PUSHER_PORT ?? 80,
   wssPort: process.env.REACT_APP_PUSHER_PORT ?? 443,
-  forceTLS: "http",
+  forceTLS: true,
   authEndpoint: `${process.env.REACT_APP_API_URL}/broadcasting/auth`,
   auth: {
     headers: {

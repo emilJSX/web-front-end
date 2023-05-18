@@ -63,9 +63,9 @@ const Created_Wish = () => {
   const [error, setError] = useState("");
   const userInfo = useSelector((state) => state.user.userData);
   const navigate = useNavigate();
-  if (userInfo?.wishes.active.length > 0) {
-    navigate("/my-profile"), enqueueSnackbar("You already have a wish");
-  }
+  // if (userInfo?.wishes.active.length > 0) {
+  //   navigate("/my-profile"), enqueueSnackbar("You already have a wish");
+  // }
 
   useEffect(() => {
     setTitleWish(wishCreationTitleHome?.state);
@@ -157,9 +157,9 @@ const Created_Wish = () => {
     formData.append("description", description);
     formData.append("currency_id", CreationValuteWish);
     formData.append("categories", interests);
-    formData.append("date", moment(date).format("DD.MM.YYYY"));
+    // formData.append("date", moment(date).format("DD.MM.YYYY"));
     formData.append("access", access);
-    formData.append("occasion", occasion);
+    // formData.append("occasion", occasion);
     try {
       await myaxiosprivate
         .post("/api/v1/wish/store", formData, {
@@ -174,7 +174,8 @@ const Created_Wish = () => {
           } else {
             enqueueSnackbar(data.message);
             setTimeout(() => {
-              navigate("/creating-wish-success", { state: getResultWishId });
+              // navigate("/creating-wish-success", { state: getResultWishId });
+              navigate("/my-profile");
             }, 3000);
           }
         });
@@ -294,7 +295,7 @@ const Created_Wish = () => {
                 <div className="cash-set-container-insider">
                   <div className="cash-quantity-container">
                     <input
-                      type="text"
+                      type="number"
                       required
                       onChange={(e) => setPriceWish(e.target.value)}
                       placeholder="Price"
@@ -366,7 +367,7 @@ const Created_Wish = () => {
                   {errors.interests.message}
                 </p>
               ) : null}
-              <div className="date-fo-birth-container">
+              {/* <div className="date-fo-birth-container">
                 <div className="date-fo-birth-container-insider">
                   {/* <div className="date">
                     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -404,7 +405,7 @@ const Created_Wish = () => {
                       </Stack>
                     </LocalizationProvider>
                   </div> */}
-                  
+              {/*                   
                     <input
                       className="w-full bg-[#F7F8FA] h-[53px] p-2"
                       type="text"
@@ -413,8 +414,8 @@ const Created_Wish = () => {
                       required={true}
                       placeholder="Occasion (ex: birthday)"
                     />
-                </div>
-              </div>
+                </div> */}
+              {/* </div> */}
               <div className="aviable-group">
                 <FormControl>
                   <RadioGroup>
@@ -489,7 +490,7 @@ const Created_Wish = () => {
               <h5 className="facebook-title">Facebook</h5>
             </button>
           </div> */}
-          {/* <div className="log-in-with-facebook-block">
+        {/* <div className="log-in-with-facebook-block">
             <button className="log-in-with-google-button">
               <FaGoogle className="google-icon" />
               <h5 className="google-title">Google</h5>
@@ -499,7 +500,7 @@ const Created_Wish = () => {
               <h5 className="apple-title">Apple</h5>
             </button>
           </div> */}
-          {/* <div className='or-via-email-block'>
+        {/* <div className='or-via-email-block'>
                         <h5 className='or-via-email-title'>
                            Or via email
                         </h5>
@@ -512,7 +513,7 @@ const Created_Wish = () => {
             type="submit"
             onClick={handleSubmit(handleSubmitCreateWish)}
             variant="primary"
-            className="save-changes-button"
+            className="save-changes-button hover:!shadow-md hover:!bg-[#2D008D] "
             disabled={!isValid}
           >
             Create Wish

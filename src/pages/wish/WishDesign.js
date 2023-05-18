@@ -4,7 +4,7 @@ import { IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
 
 import VisibilityMenu from "./components/VisibilityMenu";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { myaxios, myaxiosprivate } from "../../api/myaxios";
 import Share from "../wish-pagess/Share";
 import { calculateProgress } from "../new-calendar/CalendarDayItem";
@@ -228,19 +228,28 @@ const WishDesign = () => {
                 <div className="my-6 md:my-10 px-6 lg:px-12">
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center mr-3">
-                      <img
-                        className="rounded-full w-[32px] h-[32px] mr-3"
-                        src={
-                          GetUserWishDataResult?.user?.image
-                            ? GetUserWishDataResult?.user?.image
-                            : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-                        }
-                        alt=""
-                      />
+                      <Link
+                        to={`/profile/${GetUserWishDataResult?.user?.username}`}
+                      >
+                        <img
+                          className="rounded-full w-[32px] h-[32px] mr-3"
+                          src={
+                            GetUserWishDataResult?.user?.image
+                              ? GetUserWishDataResult?.user?.image
+                              : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                          }
+                          alt=""
+                        />
+                        {console.log(GetUserWishDataResult)}
+                      </Link>
                       <div className="flex items-center flex-wrap">
-                        <span className="mr-[6px] text-sm text-white tracking-[0.01em] font-semibold leading-[1.3]">
-                          {GetUserWishDataResult?.user?.name}
-                        </span>
+                        <Link
+                          to={`/profile/${GetUserWishDataResult?.user?.username}`}
+                        >
+                          <span className="mr-[6px] text-sm text-white tracking-[0.01em] font-semibold leading-[1.3]">
+                            {GetUserWishDataResult?.user?.name}
+                          </span>
+                        </Link>
                         <span className="text-sm text-[#BFACE9] tracking-[0.01em] font-semibold leading-[1.3]">
                           for birthday on{" "}
                           {moment(GetUserWishDataResult?.user?.dob).format(
@@ -373,7 +382,7 @@ const WishDesign = () => {
                     {/* <p className="leading-[1.2] font-semibold text-[#8E93AF]">
                     Your congratulations
                   </p> */}
-                    <input
+                    <textarea
                       type="text"
                       placeholder="Your congratulations"
                       value={userData.comment}
@@ -383,7 +392,7 @@ const WishDesign = () => {
                           comment: e.target.value,
                         })
                       }
-                      className="leading-[1.2] w-full  font-semibold  md:h-[100px] text-[#8e93af] px-2"
+                      className="leading-[1.2] w-full text-start py-1 break-all  font-semibold  md:h-[80px] text-[#8e93af] px-2"
                     />
                     {/* <button>
                     <VisibilityMenu

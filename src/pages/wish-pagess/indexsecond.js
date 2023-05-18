@@ -98,6 +98,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { myaxios } from "../../api/myaxios";
 import Share from "./Share";
 import moment from "moment";
+import Comment from "../wish/components/Comment";
 
 function MyVerticallyCenteredModal(props) {
   return (
@@ -204,7 +205,16 @@ function Wish_pages() {
   const [error, setError] = useState();
   const { slug } = useParams();
   const { state } = useLocation();
-
+  const [comments, setComments] = useState([]);
+  const [giftAmounts, setGiftAmounts] = useState([]);
+  useEffect(() => {
+    myaxios
+      .get("/api/v1/settings/payment_types/get")
+      .then(({ data }) => {
+        setGiftAmounts(data.data);
+      })
+      .catch((err) => setError(err.message));
+  }, []);
   useEffect(() => {
     myaxios
       .get("/api/v1/wish/slug/", {
@@ -219,6 +229,20 @@ function Wish_pages() {
         setError(err.message);
       });
   }, []);
+  useEffect(() => {
+    setError("");
+    userWish?.id &&
+      myaxios
+        .get("/api/v1/wish/comments/get", {
+          params: {
+            skip: null,
+            wish_id: userWish?.id,
+            sort_type: "abc",
+          },
+        })
+        .then(({ data }) => setComments(data.data))
+        .catch((err) => setError(err.message));
+  }, [userWish?.id]);
   const [windowDimenion, detectHW] = useState({
     winWidth: window.innerWidth,
     winHeight: window.innerHeight,
@@ -271,10 +295,10 @@ function Wish_pages() {
             </Left_buttons> */}
             {/* <Button variant="primary" className='save-changes-button' onClick={() => setModalShow(true)}
                             style={{ border: '0', display: 'flex', justifyContent: 'center' }}> */}
-            <Left_report onClick={() => setModalShow(true)}>
+            {/* <Left_report onClick={() => setModalShow(true)}>
               <IoWarningOutline className="warning" />
               Report
-            </Left_report>
+            </Left_report> */}
             {/* </Button> */}
           </Left_div>
           <Right_div>
@@ -288,16 +312,26 @@ function Wish_pages() {
                   <span style={{ color: "#8E93AF" }}>on</span>{" "}
                   {moment(userWish?.user?.dob).format("DD.MM.YYYY")}
                 </Birthday>
-                <HiOutlineDotsCircleHorizontal className="dots-menu" />
-                <IoNotificationsOutline className="notification" />
+                {/* <HiOutlineDotsCircleHorizontal className="dots-menu" />
+                <IoNotificationsOutline className="notification" /> */}
               </Top_title>
               <Middle_title>{userWish?.title}</Middle_title>
               <Last_title>{userWish?.description}</Last_title>
               <Right_BlueDivSecon>
                 <Blue_div>
+                  {console.log(userWish)}
                   <Blue_right_div>
-                    <p className="praise">$2 542 total raised</p>
-                    <p className="hundred">120%</p>
+                    <p className="praise">
+                      {userWish?.donate?.received}$ total raised
+                    </p>
+                    <p className="hundred">
+                      {(
+                        (userWish?.donate?.received /
+                          userWish?.donate?.target) *
+                        100
+                      ).toFixed(2)}
+                      %
+                    </p>
                     <p className="bradley">
                       {userWish?.user?.name} reached his goal (
                       {userWish?.donate?.target}$) <br />
@@ -317,7 +351,6 @@ function Wish_pages() {
                   </p>
                   <p className="minago">2 min ago •••</p>
                 </Top_title>
-
                 <Right_blue_bottom>
                   <Paragraph>
                     Thank you all, friends! I was glad to receive so many
@@ -333,11 +366,34 @@ function Wish_pages() {
                 </Right_blue_bottom>
               </Right_BlueDivSecon>
             </Right_top_div>
-            <All_congrulation>
-              All congratulations <span className="eight">8</span>
-              <HiOutlineFilter className="filterclass" />
-            </All_congrulation>
-            <Hbd>
+            <div className="flex items-center mr-2 my-3">
+              <p className="leading-[1.4] font-semibold text-[#1A1C29] mr-2">
+                All congratulations
+              </p>
+              <span className="leading-[1.4] font-semibold text-[#8E93AF]">
+                {comments.length}
+              </span>
+            </div>
+            <div>
+              {comments.length > 0 ? (
+                comments.map((comment) => (
+                  <Comment
+                    key={comment.id}
+                    props={comment}
+                    giftTypes={giftAmounts.map(({ id, icon }) => ({
+                      id,
+                      icon,
+                    }))}
+                    myWish={userWish?.user?.image}
+                    completWish={true}
+                    isMe={userWish?.user?.isMe}
+                  />
+                ))
+              ) : (
+                <p>There is no comment to your wish </p>
+              )}
+            </div>
+            {/* <Hbd>
               <Hbd_title>
                 <Photo src="https://i2.wp.com/cigirbirlik.com/wp-content/uploads/2019/06/bank_respublika_logo_291018.jpg?resize=768%2C442&ssl=1" />
                 <p className="title">
@@ -504,10 +560,10 @@ function Wish_pages() {
                   257 <BiLike className="like" />
                 </span>
               </Hbd_name>
-            </Hbday>
+            </Hbday> */}
           </Right_div>
         </Main_page_top>
-        <Bottom_div>
+        {/* <Bottom_div>
           <Bottom_div_title>Breadley Cooper’s other wishes</Bottom_div_title>
           <GridBody>
             <Grid className="griddivwish flex-nowrap overflow-x-auto">
@@ -589,7 +645,7 @@ function Wish_pages() {
             </Grid>
           </GridBody>
           <Bottom_div_show>Show more wishes</Bottom_div_show>
-        </Bottom_div>
+        </Bottom_div> */}
       </div>
       <MyVerticallyCenteredModal
         show={modalShow}

@@ -57,6 +57,7 @@ const Payment = () => {
   const navigate = useNavigate();
 
   const { state } = useLocation();
+  console.log(state)
   useEffect(() => {
     if (!state) {
       navigate("/wish-list");
