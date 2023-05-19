@@ -81,7 +81,6 @@ function Comment({ props, giftTypes, myWish, completeWish, isMe }) {
       .then(({ data }) => enqueueSnackbar(data.message), location.reload())
       .catch((err) => enqueueSnackbar(err.message));
   };
-  console.log(props);
   // const handleDeleteComment = async (id) => {
   //   await myaxiosprivate
   //     .post("/api/v1/wish/comments/delete", {

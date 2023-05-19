@@ -1,33 +1,8 @@
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  BsFillHandThumbsUpFill,
-  BsHandThumbsUp,
-  BsThreeDots,
-} from "react-icons/bs";
-import { HiArrowNarrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import {
-  CardSecond,
-  DisplayBirthdaytext,
-  DisplayTime,
-  DisplayTopText,
-  Hood,
-  Parag,
-  Parag1,
-  Paragraf,
-  Paragrap,
-  Parags,
-  Pass,
-  Person,
-  Photo,
-  Third,
-  Titles,
-} from "./MyprofilSecond.style";
 
 function CongratComments({ congrat, user }) {
-  //   console.log(congrat);
-  //   console.log(user);
   const currentDateRef = useRef(moment());
   const dateObjRef = useRef(moment(congrat.date));
   const [diff, setDiff] = useState(
@@ -62,11 +37,7 @@ function CongratComments({ congrat, user }) {
     const minutes = Math.floor(diffMinutes);
     timeDiff = `${minutes} minute${minutes !== 1 ? "s" : ""}`;
   }
-  function getSelectedIcon(id) {
-    const selectedObj = giftTypes.find((obj) => obj.id === id);
-    return selectedObj ? selectedObj.icon : null;
-  }
-  console.log(congrat);
+
   return (
     <div className="rounded-[24px] md:h-fit md:px-6 px-3 !py-2 w-full md:w-8/12 bg-white my-2 z-50 mb-2 shadow-md">
       <div className="flex justify-between">

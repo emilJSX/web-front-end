@@ -139,7 +139,6 @@ export const HeaderShared = ({ user, error }) => {
   }, [isAuth, user, echo]);
 
   useEffect(() => {
-    console.log(event);
     fetchNotifications();
   }, [event]);
   return (

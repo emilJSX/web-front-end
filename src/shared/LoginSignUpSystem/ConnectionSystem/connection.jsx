@@ -1148,7 +1148,6 @@ export function SignUp_ConnectionSystem({
                 </Options>
                 {getCountryList.map((data) => (
                   <>
-                    {/* {console.log(data)} */}
                     <Options value={data.id}>{data.name}</Options>
                   </>
                 ))}
