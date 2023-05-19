@@ -320,7 +320,6 @@ function Wish_pages() {
               <Last_title>{userWish?.description}</Last_title>
               <Right_BlueDivSecon>
                 <Blue_div>
-                  {console.log(userWish)}
                   <Blue_right_div>
                     <p className="praise">
                       {userWish?.donate?.received}$ total raised
@@ -343,7 +342,6 @@ function Wish_pages() {
                     <img src={StarsIcon} alt="" />
                   </Blue_left_div>
                 </Blue_div>
-                {console.log(userWish)}
                 {userWish?.congratulationsResponse?.text && (
                   <ThanksComment
                     congrats={userWish?.congratulationsResponse}

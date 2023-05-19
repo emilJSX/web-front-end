@@ -240,7 +240,6 @@ const WishDesign = () => {
                           }
                           alt=""
                         />
-                        {console.log(GetUserWishDataResult)}
                       </Link>
                       <div className="flex items-center flex-wrap">
                         <Link

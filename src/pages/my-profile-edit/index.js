@@ -556,7 +556,6 @@ const ProfileEdit = () => {
       )
       .catch((err) => setError(err.message));
   }, []);
-  console.log(data);
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCountryAndUserData = async () => {

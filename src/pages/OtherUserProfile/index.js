@@ -502,7 +502,6 @@ const OtherUserProfile = () => {
                                 <LeftPrice>
                                   ${userDataWish.price} raised
                                 </LeftPrice>
-                                {console.log(userDataWish)}
                                 <RightPrice>
                                   ${userDataWish?.donate?.left}left
                                 </RightPrice>
@@ -575,7 +574,6 @@ const OtherUserProfile = () => {
                                 {userDataWish.title}
                               </p>
                             </Title>
-                            {console.log(userDataWish)}
                             <Seconddiv>
                               <Views>
                                 {userDataWish.views}
