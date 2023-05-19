@@ -99,6 +99,7 @@ import { myaxios } from "../../api/myaxios";
 import Share from "./Share";
 import moment from "moment";
 import Comment from "../wish/components/Comment";
+import ThanksComment from "../wish/components/ThanksComment";
 
 function MyVerticallyCenteredModal(props) {
   return (
@@ -342,8 +343,16 @@ function Wish_pages() {
                     <img src={StarsIcon} alt="" />
                   </Blue_left_div>
                 </Blue_div>
-
-                <Top_title>
+                {console.log(userWish)}
+                {userWish?.congratulationsResponse?.text && (
+                  <ThanksComment
+                    congrats={userWish?.congratulationsResponse}
+                    user={userWish?.user}
+                    id={userWish?.id}
+                    isOther
+                  />
+                )}
+                {/* <Top_title>
                   <Photo src={userWish?.user?.image} />
                   <p className="title">
                     {userWish?.user?.name}{" "}
@@ -363,7 +372,7 @@ function Wish_pages() {
                     <Photoone src="https://images.unsplash.com/photo-1677495577887-e3dc724ead78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80" />
                     <Phototwo src="https://images.unsplash.com/photo-1677495578193-d23e2056c246?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80" />
                   </div>
-                </Right_blue_bottom>
+                </Right_blue_bottom> */}
               </Right_BlueDivSecon>
             </Right_top_div>
             <div className="flex items-center mr-2 my-3">

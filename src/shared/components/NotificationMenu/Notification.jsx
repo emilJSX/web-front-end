@@ -17,7 +17,7 @@ function Notification({
   return (
     <div
       // ref={innerRef}
-      className="block w-full  z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[42%] xl:left-[45%] mt-[21px]  bg-white  rounded-lg  md:min-w-[400px]  md:h-fit md:w-[320px]"
+      className="block w-full  z-50 absolute top-[70px] md:top-[70px] right-0 left-0 md:left-[42%] xl:left-[45%] mt-[21px]  bg-white  rounded-lg  md:min-w-[400px] overflow-y-scroll md:!h-[32rem]  md:w-[320px]"
     >
       <p className="pt-2 px-2 font-bold text-sm md:text-[14px] tracking-[0.03em]">
         Notifications
