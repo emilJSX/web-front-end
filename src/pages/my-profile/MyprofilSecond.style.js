@@ -253,7 +253,7 @@ export const CardLonger = styled.div`
 `;
 export const NotWishes = styled.p`
   font-weight: 600;
-  font-size: 40px;
+  font-size: 30px;
   color: #6033c0;
   text-align: center;
   margin-bottom: 8px;

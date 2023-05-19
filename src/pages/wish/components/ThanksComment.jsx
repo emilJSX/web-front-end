@@ -13,7 +13,7 @@ import { IoImageOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { myaxiosprivate } from "../../../api/myaxios";
 
-function ThanksComment({ user, congrats, id }) {
+function ThanksComment({ user, congrats, id, isOther }) {
   const inputRef = useRef();
   const [inputValue, setInputValue] = useState(congrats.text);
   const [edit, setEdit] = useState(false);
@@ -106,7 +106,11 @@ function ThanksComment({ user, congrats, id }) {
   };
 
   return (
-    <div className="rounded-[20px] bg-[#fff] mt-1 p-6 lg:p-12">
+    <div
+      className={`rounded-[20px] bg-[#fff] ${
+        isOther ? "mt-0 p-3" : "mt-1  p-6"
+      }  lg:p-12`}
+    >
       <div className="flex md:flex-row flex-col">
         <div className="flex justify-between w-full">
           <div className="flex">
@@ -121,58 +125,69 @@ function ThanksComment({ user, congrats, id }) {
               congratulators
             </p>
           </div>
-          <div className="text-xl">
-            <Menu
-              size={"sm"}
-              position="right"
-              classNames={{
-                body: "rounded-[16px]",
-              }}
-              control={
-                <button className="flex items-center text-[#3800B0]">
-                  <BsThreeDots />
-                </button>
-              }
-            >
-              <Menu.Item>
-                <button
-                  className="flex items-center text-[#3800B0]"
-                  onClick={handleEdit}
-                >
-                  <FaPen className="text-sm !text-[#3800B0]" />
-                  <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
-                    Edit
-                  </span>
-                </button>
-              </Menu.Item>
-              <Menu.Item>
-                <button
-                  className="flex items-center text-[#3800B0]"
-                  onClick={() =>
-                    enqueueSnackbar("You can not delete response at this time.")
-                  }
-                >
-                  <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
-                  <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
-                    Delete
-                  </span>
-                </button>
-              </Menu.Item>
-            </Menu>
-            {/*<IoNotificationsOutline/>*/}
-          </div>
+          {!isOther && (
+            <div className="text-xl">
+              <Menu
+                size={"sm"}
+                position="right"
+                classNames={{
+                  body: "rounded-[16px]",
+                }}
+                control={
+                  <button className="flex items-center text-[#3800B0]">
+                    <BsThreeDots />
+                  </button>
+                }
+              >
+                <Menu.Item>
+                  <button
+                    className="flex items-center text-[#3800B0]"
+                    onClick={handleEdit}
+                  >
+                    <FaPen className="text-sm !text-[#3800B0]" />
+                    <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                      Edit
+                    </span>
+                  </button>
+                </Menu.Item>
+                <Menu.Item>
+                  <button
+                    className="flex items-center text-[#3800B0]"
+                    onClick={() =>
+                      enqueueSnackbar(
+                        "You can not delete response at this time."
+                      )
+                    }
+                  >
+                    <RiDeleteBin6Line className="text-sm !text-[#3800B0]" />
+                    <span className="ml-2 text-sm leading-[1.3] tracking-[0.01em] !text-[#3800B0]">
+                      Delete
+                    </span>
+                  </button>
+                </Menu.Item>
+              </Menu>
+              {/*<IoNotificationsOutline/>*/}
+            </div>
+          )}
         </div>
       </div>
 
       <div className="my-1">
         <div className="flex justify-between">
-          <input
-            disabled={inputDisabled}
-            className="p-1 text-start bg-white w-full h-[35px] leading-[28px] font-semibold text-[black]"
-            placeholder="Thank your friends and show the report"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
+          {!isOther ? (
+            <input
+              disabled={inputDisabled}
+              className="p-1 text-start bg-white w-full h-[35px] leading-[28px] font-semibold text-[black]"
+              placeholder="Thank your friends and show the report"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          ) : (
+            <p className="text-start text-black font-semibold leading-[28px] w-full h-[35px] p-1">
+              {inputValue} dasfasdklfja
+            </p>
+          )}
+
           <button className="flex items-center text-[#2D008D]">
             <span className="text-[13px] leading-[1.4] font-medium text-[#2D008D] mr-[6px]">
               {likeCount}

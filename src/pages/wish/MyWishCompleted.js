@@ -266,7 +266,7 @@ const MyWishCompleted = () => {
                 </div>
                 <img className="ml-[24px] md:ml-12" src={WishConfetti} alt="" />
               </div>
-              {GetUserWishDataResult?.congratulationsResponse?.response_id ? (
+              {GetUserWishDataResult?.congratulationsResponse?.text ? (
                 <ThanksComment
                   user={GetUserWishDataResult?.user}
                   congrats={GetUserWishDataResult?.congratulationsResponse}

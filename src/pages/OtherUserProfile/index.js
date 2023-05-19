@@ -53,7 +53,7 @@ import {
 import Loader from "../../shared/ui/Loader";
 
 import estetika from "../../style/icons/estetika.png";
-import coverPhoto from '../../shared/ui/coverphoto.png'
+import coverPhoto from "../../shared/ui/coverphoto.png";
 import { Tab, Tabs, TabPanel } from "react-tabs";
 import { BsFacebook, BsTwitter, BsWhatsapp, BsTelegram } from "react-icons/bs";
 import rainbow from "./../../style/icons/rainbowfoto.png";
@@ -265,7 +265,7 @@ const OtherUserProfile = () => {
                   src={
                     UserInfoProfile?.info?.background_image
                       ? UserInfoProfile.info.background_image
-                      : estetika
+                      : coverPhoto
                   }
                   height={300}
                 />
@@ -315,17 +315,13 @@ const OtherUserProfile = () => {
                 </Text>
                 <DateSection>
                   <Date>
-                    {DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat(
-                      "dd MMMM yyyy"
-                    )}
+                    {moment(UserInfoProfile?.info?.dob).format("DD MMMM YYYY")}
                   </Date>
                   <DateText>Birthdate</DateText>
                 </DateSection>
                 <DisplayDateBirthaySection>
                   <Date>
-                    {DateTime.fromSQL(UserInfoProfile?.info?.dob).toFormat(
-                      "dd MMMM yyyy"
-                    )}{" "}
+                    {moment(UserInfoProfile?.info?.dob).format("DD MMMM YYYY")}{" "}
                     <DateText>Birthdate</DateText>
                   </Date>
                   <Follower onClick={() => navigate("/contacts-profile")}>
@@ -452,116 +448,93 @@ const OtherUserProfile = () => {
               </MenuScrollCards>
 
               <TabPanel value="act" className="tab-panel">
-                <Grid className="grid-root-active-wishes">
-                  {wait ? (
-                    UserInfoProfile?.wishes?.active.length !== 0 ? (
-                      UserInfoProfile?.wishes?.active?.map((userDataWish) => (
-                        <Grid.Col
-                          style={{ marginTop: "10px" }}
-                          className="col-root-cards"
-                          xl={4}
-                          lg={4}
-                          md={4}
-                          sm={6}
-                          xs={12}
-                        >
-                          <Wrapper className="cart-item hover:border-[#3800B0] shadow-md">
+                <Grid className="cart-div !justify-start">
+                  {UserInfoProfile?.wishes?.active.length !== 0 ? (
+                    UserInfoProfile?.wishes?.active?.map((userDataWish) => (
+                      <Grid.Col
+                        style={{ marginTop: "10px" }}
+                        className="col-root-cards"
+                        xl={4}
+                        lg={4}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                      >
+                        <Wrapper className="cart-item hover:border-[#3800B0] shadow-md">
+                          <Link to={`/wish/${userDataWish.slug}`}>
+                            <ImgWrapper
+                              className="object-cover"
+                              src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
+                            />
+                          </Link>
+                          <ContentWrapper>
                             <Link to={`/wish/${userDataWish.slug}`}>
-                              <ImgWrapper
-                                src={`${process.env.REACT_APP_API_URL}/${userDataWish.image}`}
+                              <Title>{userDataWish.title}</Title>
+                            </Link>
+
+                            <UserWrapper>
+                              <UserAbout>
+                                <UserName>
+                                  {UserInfoProfile?.info?.full_name != null
+                                    ? UserInfoProfile?.info?.full_name
+                                    : "FullName does not exist"}
+                                </UserName>
+                                <UserDesc>
+                                  for birthday on{" "}
+                                  {DateTime.fromSQL(
+                                    UserInfoProfile?.info?.dob
+                                  ).toFormat("dd MMMM yyyy")}
+                                </UserDesc>
+                              </UserAbout>
+                              <UserPhoto
+                                src={`${UserInfoProfile?.info?.avatar}`}
                               />
-                            </Link>
-                            <ContentWrapper>
-                              <Link to={`/wish/${userDataWish.slug}`}>
-                                <Title>{userDataWish.title}</Title>
-                              </Link>
+                            </UserWrapper>
 
-                              <UserWrapper>
-                                <UserAbout>
-                                  <UserName>
-                                    {UserInfoProfile?.info?.full_name != null
-                                      ? UserInfoProfile?.info?.full_name
-                                      : "FullName does not exist"}
-                                  </UserName>
-                                  <UserDesc>
-                                    for birthday on{" "}
-                                    {DateTime.fromSQL(
-                                      UserInfoProfile?.info?.dob
-                                    ).toFormat("dd MMMM yyyy")}
-                                  </UserDesc>
-                                </UserAbout>
-                                <UserPhoto
-                                  src={`${UserInfoProfile?.info?.avatar}`}
+                            <PriceWrapper>
+                              <ProgressWrapper>
+                                <Progress
+                                  size="sm"
+                                  sections={[{ value: 50, color: "#3800B0" }]}
                                 />
-                              </UserWrapper>
-
-                              <PriceWrapper>
-                                <ProgressWrapper>
-                                  <Progress
-                                    size="sm"
-                                    sections={[{ value: 50, color: "#3800B0" }]}
-                                  />
-                                </ProgressWrapper>
-                                <Prices>
-                                  <LeftPrice>
-                                    ${userDataWish.price} raised
-                                  </LeftPrice>
-                                  <RightPrice>$32 left</RightPrice>
-                                </Prices>
-                              </PriceWrapper>
-                            </ContentWrapper>
-                          </Wrapper>
-                        </Grid.Col>
-                      ))
-                    ) : (
-                      <div>
-                        <CardLonger className="mt-2">
-                          <NotWishes className="ml-2">
-                            User doesn’t have any wishes
-                          </NotWishes>
-                          <Buttons>
-                            <Buttonleft
-                              onClick={() =>
-                                enqueueSnackbar(
-                                  "This feauture is not available"
-                                )
-                              }
-                              className="mx-2"
-                            >
-                              Message
-                            </Buttonleft>
-                            <Link to="/wish-list" className="mx-2">
-                              <Buttonright>Explore wishes</Buttonright>
-                            </Link>
-                          </Buttons>
-                        </CardLonger>
-                        {/* <Division>
-                                                        <Maybe>Maybe you know  <HiArrowNarrowRight style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /><HiArrowNarrowLeft style={{ float: "right", fontSize: "20px", color: "#3800B0" }} /></Maybe>
-                                                        <Swiper
-                                                            slidesPerView={4.5}
-                                                            spaceBetween={16}
-                                                            slidesPerGroup={5}
-                                                            loop={true}
-                                                            loopFillGroupWithBlank={true}
-                                                            modules={[Pagination, Navigation]}
-                                                            className="mySwiper"
-                                                        >
-                                                            {
-                                                                Carddata.popular.map((index) => (
-                                                                    <SwiperSlide>
-                                                                        <Picture src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5ODc1NTM4NjMyOTc2Mzcz/gettyimages-693134468.jpg" />
-                                                                        <Name>{index.title}<HiBadgeCheck style={{ color: "blue", margin: "2px 0 0 5px", float: "right" }} /></Name>
-                                                                        <Tag>{index.time}</Tag>
-                                                                    </SwiperSlide>
-                                                                ))
-                                                            }
-
-                                                        </Swiper>
-                                                    </Division> */}
-                      </div>
-                    )
+                              </ProgressWrapper>
+                              <Prices>
+                                <LeftPrice>
+                                  ${userDataWish.price} raised
+                                </LeftPrice>
+                                {console.log(userDataWish)}
+                                <RightPrice>
+                                  ${userDataWish?.donate?.left}left
+                                </RightPrice>
+                              </Prices>
+                            </PriceWrapper>
+                          </ContentWrapper>
+                        </Wrapper>
+                      </Grid.Col>
+                    ))
                   ) : (
-                    <Loader size="xl" />
+                    <Grid.Col className="">
+                      <CardLonger className="!mx-auto">
+                        <NotWishes className="">
+                          User doesn’t have any wishes
+                        </NotWishes>
+                        <Buttons>
+                          <Buttonleft
+                            onClick={() =>
+                              enqueueSnackbar("This feauture is not available")
+                            }
+                            className="outline-none !bg-[#3800B0]  hover:shadow-md hover:!bg-[#2D008D]"
+                          >
+                            Message
+                          </Buttonleft>
+                          <Link to="/wish-list" className="">
+                            <Buttonright className="!outline-none hover:shadow-md hover:shadow-[#2D008D]">
+                              Explore wishes
+                            </Buttonright>
+                          </Link>
+                        </Buttons>
+                      </CardLonger>
+                    </Grid.Col>
                   )}
                 </Grid>
               </TabPanel>
@@ -581,6 +554,7 @@ const OtherUserProfile = () => {
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess
+                              className="object-cover"
                               onClick={() =>
                                 navigate("/other-user-wish-complete", {
                                   state: userDataWish.slug,
@@ -601,22 +575,29 @@ const OtherUserProfile = () => {
                                 {userDataWish.title}
                               </p>
                             </Title>
+                            {console.log(userDataWish)}
                             <Seconddiv>
                               <Views>
-                                256 <br />
+                                {userDataWish.views}
+                                <br />
                                 <p className="title">Views</p>
                               </Views>
                               <Views>
-                                8<br />
+                                {userDataWish.gifts_count}
+                                <br />
                                 <p className="title">Gifts</p>
                               </Views>
                               <Views>
-                                $12 <br />
+                                ${userDataWish.donate_avg}
+                                <br />
                                 <p className="title">Avg gift amount</p>
                               </Views>
                             </Seconddiv>
                             <DisplayOnButtonText>
-                              for birthday on 25 Nov 2022
+                              for birthday on{" "}
+                              {moment(UserInfoProfile?.info?.dob).format(
+                                "DD MMMM YYYY"
+                              )}
                             </DisplayOnButtonText>
                             <div className="main-button">
                               <Lastdiv>
@@ -633,9 +614,16 @@ const OtherUserProfile = () => {
                                 >
                                   ✨
                                 </span>
-                                <Raised>$2 542 raised</Raised>
+                                <Raised>
+                                  ${userDataWish.donate.received} raised
+                                </Raised>
                                 <Targets>
-                                  120% of ${userDataWish.price} target
+                                  {(
+                                    (userDataWish.donate.received /
+                                      userDataWish.donate.target) *
+                                    100
+                                  ).toFixed(2)}
+                                  % of ${userDataWish.donate.target} target
                                 </Targets>
                               </Lastdiv>
                             </div>
@@ -649,17 +637,19 @@ const OtherUserProfile = () => {
                         <NotWishes>
                           User doesn’t have any complete wishes
                         </NotWishes>
-                        <Buttons className="ml-5 mt-3">
+                        <Buttons>
                           <Buttonleft
                             onClick={() =>
                               enqueueSnackbar("This feauture is not available")
                             }
-                            className="mx-2"
+                            className="outline-none !bg-[#3800B0]  hover:shadow-md hover:!bg-[#2D008D]"
                           >
                             Message
                           </Buttonleft>
-                          <Link to="/wish-list" className="mx-3">
-                            <Buttonright>Explore wishes</Buttonright>
+                          <Link to="/wish-list">
+                            <Buttonright className="!outline-none hover:shadow-md hover:shadow-[#2D008D]">
+                              Explore wishes
+                            </Buttonright>
                           </Link>
                         </Buttons>
                       </CardLonger>

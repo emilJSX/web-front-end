@@ -63,7 +63,7 @@ function Search() {
     window.scrollTo(0, 0);
   }, []);
   // INFINITY SCROLL
-  const { myUserId } = state;
+  const { myUserId, searchValue } = state;
 
   // END INFINITY SCROLL
 
@@ -98,7 +98,7 @@ function Search() {
       .get("/api/v1/profiles/search", {
         params: {
           skip: getInfinityScroll,
-          search: state.getSearchValue,
+          search: searchValue,
         },
       })
       .then((res) => {
@@ -114,7 +114,7 @@ function Search() {
         setError(err.message);
         setLoading(false);
       });
-  }, [state.getSearchValuem, getInfinityScroll]);
+  }, [searchValue, getInfinityScroll]);
 
   useEffect(() => {
     setError("");
@@ -123,7 +123,7 @@ function Search() {
       .get("/api/v1/wish/list?skip=0", {
         params: {
           skip: infiniteScrollWish,
-          search: state.getSearchValue,
+          search: searchValue,
         },
       })
       .then((res) => {
@@ -136,7 +136,7 @@ function Search() {
         setError(err.message);
         setLoading(false);
       });
-  }, [state.getSearchValue, infiniteScrollWish]);
+  }, [searchValue, infiniteScrollWish]);
 
   const getResultSearchingData = () => {
     setError("");
@@ -191,6 +191,7 @@ function Search() {
           onChange={(e) => setSearchValue(e.target.value)}
           type="text"
           placeholder="Bruno"
+          value={searchValue ? searchValue : ""}
           onKeyDown={handleKeyDown}
         />
         <SearchIcon
@@ -262,7 +263,6 @@ function Search() {
                     );
                   }}
                 >
-                  {console.log(getWishData)}
                   <div className="image-container">
                     <button
                       name={getWishData.slug}

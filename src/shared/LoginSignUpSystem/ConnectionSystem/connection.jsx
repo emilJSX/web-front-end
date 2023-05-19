@@ -328,7 +328,10 @@ export function Login_ConnectionSystem({
                       {formState.errors.password.message}
                     </p>
                   )}
-                  <ForgotPassword type="button" onClick={() => setLoginSystemTab(1)}>
+                  <ForgotPassword
+                    type="button"
+                    onClick={() => setLoginSystemTab(1)}
+                  >
                     Forgot password
                   </ForgotPassword>
                   <div
@@ -767,18 +770,14 @@ export function SignUp_ConnectionSystem({
         }, 2000);
       });
   };
-
-  const data = [
-    {
-      label: "Travel",
-      value: "1",
-    },
-    {
-      label: "Bussiness",
-      value: "2",
-    },
-  ];
-
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    myaxiosprivate("/api/v1/users/categories/get")
+      .then(({ data }) =>
+        setData(data.data.map((obj) => ({ value: obj.id, label: obj.name })))
+      )
+      .catch((err) => setError(err.message));
+  }, []);
   // ======================== END INTERESTS CONFIG =============================
 
   // ============================ PASPORT CONFIG ===============================
@@ -1225,6 +1224,7 @@ export function SignUp_ConnectionSystem({
                           },
                       }}
                       value={formData.dob}
+                      minDate={new Date(1921, 0, 1)}
                       maxDate={minDate}
                       className="datePicker  !h-[2.5rem]"
                       InputAdornmentProps={{ style: { paddingBottom: 3 } }}

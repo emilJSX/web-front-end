@@ -302,11 +302,11 @@ const MyProfile = () => {
                 <img
                   id="rainbow"
                   radius="lg"
-                  className="rainbow w-[99.1%] rounded-[16px] ml-[4px] h-[300px] "
+                  className="rainbow w-[99.1%] object-cover rounded-[16px] ml-[4px] h-[400px] "
                   src={
                     userProfile?.info?.background_image
                       ? userProfile?.info?.background_image
-                      : estetika
+                      : coverPhoto
                   }
                 />
               </MobileTopCoverImageSection>
@@ -563,10 +563,14 @@ const MyProfile = () => {
                           <Buttons>
                             <Buttonleft
                               onClick={() => navigate("/creating-wish")}
+                              className="!outline-none !bg-[#3800B0]  hover:shadow-md hover:!bg-[#2D008D]"
                             >
                               Create a wish
                             </Buttonleft>
-                            <Buttonright onClick={getWishesListRoute}>
+                            <Buttonright
+                              onClick={getWishesListRoute}
+                              className="!outline-none hover:shadow-md hover:shadow-[#2D008D]"
+                            >
                               Explore wishes
                             </Buttonright>
                           </Buttons>
@@ -618,6 +622,7 @@ const MyProfile = () => {
                         <div className="com-cont">
                           <div className="image-container-1">
                             <Imagess
+                              className="object-cover"
                               onClick={() =>
                                 navigate("/my-wish-complete", {
                                   state: {
@@ -716,10 +721,14 @@ const MyProfile = () => {
                         <Buttons>
                           <Buttonleft
                             onClick={() => navigate("/creating-wish")}
+                            className="!outline-none !bg-[#3800B0]  hover:shadow-md hover:!bg-[#2D008D]"
                           >
                             Create a wish
                           </Buttonleft>
-                          <Buttonright onClick={getWishesListRoute}>
+                          <Buttonright
+                            onClick={getWishesListRoute}
+                            className="!outline-none hover:shadow-md hover:shadow-[#2D008D]"
+                          >
                             Explore wishes
                           </Buttonright>
                         </Buttons>

@@ -5,10 +5,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const SearchInput = ({ iconHave = true, size = "xl", myUserId }) => {
-  const [getSearchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState();
   const navigate = useNavigate();
   function getSearchResultPage() {
-    navigate("/search", { state: { getSearchValue, myUserId } });
+    navigate("/search", { state: { searchValue, myUserId } });
   }
   const handleKeyDown = (e) => {
     e.keyCode === 13 && getSearchResultPage();

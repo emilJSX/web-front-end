@@ -550,7 +550,7 @@ const ProfileEdit = () => {
     return minDate;
   });
   useEffect(() => {
-    myaxiosprivate("/api/v1/wish/categories/get")
+    myaxiosprivate("/api/v1/users/categories/get")
       .then(({ data }) =>
         setData(data.data.map((obj) => ({ value: obj.id, label: obj.name })))
       )
@@ -1133,6 +1133,7 @@ const ProfileEdit = () => {
                         closeCalendar={true}
                         next2Label={false}
                         prev2Label={false}
+                        minDate={new Date(1921, 0, 1)}
                         maxDate={minDate}
                         onChange={handleCalendarChange}
                         value={new Date(userInfo.dob)}
