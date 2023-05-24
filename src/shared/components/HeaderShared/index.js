@@ -111,16 +111,16 @@ export const HeaderShared = ({ user, error }) => {
   let [loadMore, setLoadMore] = useState(0);
   const [lastPage, setLastPage] = useState(false);
   const fetchNotifications = async () => {
-      (await myaxiosprivate
-        .get(`/api/v1/notifications/list?skip=${loadMore}`)
-        .then(({ data }) => {
-          setUnreadNot(data.data.unread);
-          setNotifications(data.data.notifications);
-          setLastPage(data.data.last_page);
-          data.data.unread > 0 &&
-            enqueueSnackbar("You have unreaded notifications");
-        })
-        .catch((err) => enqueueSnackbar(err.message)));
+    await myaxiosprivate
+      .get(`/api/v1/notifications/list?skip=${loadMore}`)
+      .then(({ data }) => {
+        setUnreadNot(data.data.unread);
+        setNotifications(data.data.notifications);
+        setLastPage(data.data.last_page);
+        data.data.unread > 0 &&
+          enqueueSnackbar("You have unreaded notifications");
+      })
+      .catch((err) => enqueueSnackbar(err.message));
   };
 
   useEffect(() => {
@@ -369,7 +369,9 @@ export const HeaderShared = ({ user, error }) => {
       <MediaQuery largerThan="md" styles={{ display: "none" }}>
         <div>
           <div className="dots-icon">
-            <GridIcon />
+            <Link to={"/wish-list"}>
+              <GridIcon />
+            </Link>
             <DotsToggle />
           </div>
         </div>
