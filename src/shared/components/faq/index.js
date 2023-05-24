@@ -119,23 +119,43 @@ const FaqSection = () => {
       }
     });
   }
-
+  const [selected, setSelected] = useState();
   if (loading) {
     return <Loader />;
   }
-
   return (
     <FaqContainer p={0} fluid id="4">
       <h1 className="faq-txt">FAQ</h1>
       <Tabs defaultValue="return-refunds">
         <Grid className="main-container">
-          <Grid.Col md={4} className="left-col flex flex-col justify-between">
-            <TabList className="navigator-section">
+          <Grid.Col
+            md={4}
+            className="left-col flex flex-col justify-between md:overflow-hidden overflow-x-scroll"
+          >
+            <TabList
+              scrolling="true"
+              className="flex  md:overflow-hidden md:block w-fit md:mx-auto md:rounded-[8px] md:py-1 border-[2px] border-[#EBE5F7] px-2"
+              selected={0}
+            >
               {FaqData.map((button, index) => (
-                <Tab key={index} value={button}>
-                  <NavigatorSection button={button} />
+                <Tab
+                  key={index}
+                  className="w-[180px] p-[14px] text-[14px] text-center cursor-pointer"
+                  value={button.title}
+                >
+                  {button.title}
                 </Tab>
               ))}
+              {/* <button
+                    className={
+                      selected === button.id
+                        ? "outline-none border-[2px] border-[#3800B0] bg-[#EBE5F7] text-start p-[24px] rounded-[8px]"
+                        : "outline-none rounded-8px p-3"
+                    }
+                    onClick={() => setSelected(button.id)}
+                  >
+                    {button.title}
+                  </button> */}
             </TabList>
             <ImageSector>
               <img className="foto_faq" src={foto} />

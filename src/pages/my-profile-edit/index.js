@@ -1451,7 +1451,7 @@ const ProfileEdit = () => {
 
                 <SosialMediaButtons>
                   <button
-                    className="bg-[#3800B0] md:w-[440px] h-[56px] text-white rounded-md my-2 hover:shadow-md hover:bg-[#2D008D]"
+                    className="bg-[#3800B0] p-3 md:p-0 md:w-[440px] h-[56px] text-white rounded-md my-2 hover:shadow-md hover:bg-[#2D008D]"
                     onClick={handleStripeConnect}
                   >
                     <p className="apple-title" style={{ margin: "0" }}>

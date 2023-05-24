@@ -21,7 +21,7 @@ function NotificationItem({ item, setShow, setUnread, unread }) {
         .catch((err) => enqueueSnackbar(err.message)));
     // item.credentials.wish &&
     //   navigate(`/wish/${item.credentials.wish.wish_slug}`);
-    // setShow(false);
+    setShow(false);
   };
   return (
     <li
@@ -61,6 +61,7 @@ function NotificationItem({ item, setShow, setUnread, unread }) {
                   ? item?.credentials?.user?.user_slug
                   : item?.credentials?.user?.slug
               }`}
+              
             >
               <p className="text-[14px] !mb-0 text-[#3800B0]">
                 {item.credentials?.user?.full_name
@@ -69,11 +70,14 @@ function NotificationItem({ item, setShow, setUnread, unread }) {
               </p>
             </Link>
             <Link
-              to={item?.credentials?.wish && `/wish/${
-                item?.credentials?.wish?.wish_slug
-                  ? item?.credentials?.wish?.wish_slug
-                  : item?.credentials?.wish
-              }`}
+              to={
+                (item?.credentials?.wish || item.credentials?.wish_slug) &&
+                `/wish/${
+                  item?.credentials?.wish?.wish_slug
+                    ? item?.credentials?.wish?.wish_slug
+                    : item?.credentials?.wish_slug
+                }`
+              }
             >
               <p className=" text-[#3800B0] !mb-0 text-[14px]">
                 {item?.credentials?.text}

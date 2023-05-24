@@ -1,18 +1,29 @@
 import { Grid, Container } from "@mantine/core";
 import styled from "styled-components";
 
-export const FaqContainer = styled(Container) `
+export const FaqContainer = styled(Container)`
     padding-top: 120px;
     padding-bottom: 50px;
 
     height: auto;
+
+
+.react-tabs__tab--selected {
+    border:2px solid #3800B0;
+    border-radius:8px;
+    background-color:#EBE5F7;
+   
+   
+    color:#3800B0;
+}
 
   @media screen and (min-width: ${({ theme }) => theme.breakPoints.sm}) {
     padding-top: 80px;
   }
 
     .main-container{
-        // @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}){
+        // @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.md}){
         //    display: none;
         // }
 
@@ -50,7 +61,8 @@ export const FaqContainer = styled(Container) `
         width: auto;
       }
 
-      @media screen and (max-width: ${({ theme }) => theme.breakPoints.sm}) {        
+      @media screen and (max-width: ${({ theme }) =>
+        theme.breakPoints.sm}) {        
         margin: 0 0 0 16px;
         width: calc(100% + 2px);
       }
@@ -143,7 +155,8 @@ export const FaqContainer = styled(Container) `
         padding-bottom: 15px;
         padding-left: 20px;
 
-        // @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
+        // @media screen and (max-width: ${({ theme }) =>
+          theme.breakPoints.xs}) {
         //
         //     width: 210%;
         // }
@@ -175,7 +188,7 @@ export const FaqContainer = styled(Container) `
         align-items: center;
         font-feature-settings: 'liga'
 
-        @media screen and (max-width: ${({theme}) => theme.breakPoints.xs}) {
+        @media screen and (max-width: ${({ theme }) => theme.breakPoints.xs}) {
             font-size: 14px;
         }
     }  
@@ -283,21 +296,20 @@ export const FaqContainer = styled(Container) `
         color: #3800B0;
     }
 
-`
-
+`;
 
 export const ImageSector = styled(Container)`
-    width: 60%;
-    //position: absolute;
-    //width: 18%;
-    //margin-top: 140px;
-    //left: 26px;
+  width: 60%;
+  //position: absolute;
+  //width: 18%;
+  //margin-top: 140px;
+  //left: 26px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakPoints.md}) {
     display: none;
   }
-  
-    .foto_faq {
-        width: 100%;
-    }
-`
+
+  .foto_faq {
+    width: 100%;
+  }
+`;

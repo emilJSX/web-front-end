@@ -283,7 +283,7 @@ export const PaymentBody = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    background: #110035;
+    background: #3800b0;
     padding: 5px;
     display: flex;
     font-size: 25px;
