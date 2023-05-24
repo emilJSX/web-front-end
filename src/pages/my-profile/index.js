@@ -689,6 +689,17 @@ const MyProfile = () => {
                                 >
                                   ✨
                                 </span>
+                                <Raised className="!text-[#00FF9E] !text-[13px]">
+                                  ${userDataWish.donate.received} was received
+                                </Raised>
+                                <Targets className="!opacity-[70%] !text-[13px]">
+                                  {(
+                                    (+userDataWish.donate.received /
+                                      +userDataWish.price) *
+                                    100
+                                  ).toFixed(2)}%
+                                  of ${userDataWish.price} target
+                                </Targets>
                                 {!userDataWish?.payoutRequest.withdrawn && (
                                   <div
                                     className="w-[30%] h-[50px]"
@@ -704,10 +715,6 @@ const MyProfile = () => {
                                     />
                                   </div>
                                 )}
-
-                                <Targets>
-                                  120% of ${userDataWish.price} target
-                                </Targets>
                               </Lastdiv>
                             </div>
                           </div>
