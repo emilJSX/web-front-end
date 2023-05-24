@@ -68,11 +68,11 @@ export const Targets = styled.p`
   width: 50%;
   height: 100%;
   display: flex;
-  justify-content: flex-end;
+ 
   align-items: center;
   color: #ebe5f7;
   font-size: 14px;
-  padding-right: 30px;
+  padding-right: 15px;
 
   @media (max-width: 680px) {
     display: none;
