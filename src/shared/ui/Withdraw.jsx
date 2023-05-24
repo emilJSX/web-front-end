@@ -25,11 +25,14 @@ function Withdraw({ payoutRequest, id, isMyProfile }) {
       className={
         isMyProfile
           ? "md:flex hidden md:w-[130px]  h-[40px] p-[8px] md:mt-2 mb-0 ml-1 md:py-[12px] md:mr-2 md:px-[16px] border-[1px] border-[#6033C0] text-[13px]  shadow-md text-[white] hover:shadow-md hover:!bg-[#2D008D]  rounded-md"
-          : "w-full bg-white rounded-md p-4 md:p-8 text-center font-semibold flex items-center justify-between mb-4 shadow-md text-[#3800B0]"
+          : "w-full bg-white rounded-md p-4 md:p-8 text-center font-semibold flex items-center mb-4 shadow-md text-[#3800B0]"
       }
     >
       <BsArrowUpCircle className="md:mr-2 text-[14px]" />
-      <span className="md:block hidden"> Withdraw</span>
+      <span className={isMyProfile ? "md:block hidden" : "block ml-1"}>
+        {" "}
+        Withdraw
+      </span>
     </button>
   );
 }
