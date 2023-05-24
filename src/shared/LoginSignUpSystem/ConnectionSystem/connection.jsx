@@ -511,6 +511,7 @@ export function SignUp_ConnectionSystem({
   const [getUsernameRegex, setUsernameRegex] = useState();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getProfileUrl = () => {
     navigate("/my-profile");
@@ -838,14 +839,16 @@ export function SignUp_ConnectionSystem({
       );
       formData.append("provider", provider);
       formData.append("provider_id", provider_id);
+
       await myaxiosprivate
         .post("/api/v1/auth/social?", formData)
         .then((res) => {
           let token = res?.data?.data?.token;
           localStorage.setItem("token", JSON.stringify(token));
-          setShowes(false);
           dispatch(setUserToken(token));
-          navigate("/my-profile");
+          setregisterModal(false);
+          navigate("/profile-edit");
+          enqueueSnackbar("Please complete all required information");
           location.reload();
         })
         .catch((err) => setError(err.message));
