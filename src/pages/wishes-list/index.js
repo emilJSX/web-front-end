@@ -359,7 +359,11 @@ const WishList = () => {
                     <UserPhoto
                       id={getWishList.user.username}
                       onClick={(e) => getUserSlugForProfile(e.target.id)}
-                      src={`${getWishList.user.image}`}
+                      src={
+                        getWishList.user.image
+                          ? getWishList.user.image
+                          : "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+                      }
                     ></UserPhoto>
                   </UserWrapper>
 
