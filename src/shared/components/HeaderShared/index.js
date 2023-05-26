@@ -162,9 +162,9 @@ export const HeaderShared = ({ user, error }) => {
               <li className="all-wishes-btn pr-2">
                 <Link to="/faq">How it works</Link>
               </li>
-              <li className="all-wishes-btn pr-2">
+              {/* <li className="all-wishes-btn pr-2">
                 <Link to="/partners-coupon">Partners</Link>
-              </li>
+              </li> */}
               <li className="all-wishes-btn pr-1">
                 <Link to="/main-blog">Blog</Link>
               </li>
