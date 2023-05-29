@@ -58,8 +58,7 @@ const HowItWorks = ({ isHome = false }) => {
           </NavigationTop>
           <HowItWorksTxt>How it works</HowItWorksTxt>
           <Description>
-            The software offers complete campaign <br /> transparency, email
-            tracking, view success
+          In this section, you will find answers to frequently asked questions.
           </Description>
         </>
       ) : null}

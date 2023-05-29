@@ -49,10 +49,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
 import { myaxiosprivate } from "../../api/myaxios";
 import { enqueueSnackbar } from "notistack";
-// pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv
-const stripePromise = loadStripe(
-  "pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv"
-);
+
+
+const stripeKey = process.env.REACT_APP_STRIPE_TEST_KEY;
+const stripePromise = loadStripe(stripeKey);
 const Payment = () => {
   const navigate = useNavigate();
 
@@ -71,7 +71,7 @@ const Payment = () => {
         type: state && state.paymentType,
         wish_id: state && state.wishData.id,
         currency: "usd",
-        stripe: `pk_test_51N3xZaLOlAPVVM1WMKwN1XSivRkzdLysAtEETTo505UI7ze3Yvu1USFJzQ6AX4GhcF1OvKU10cPwCBC7GeRkhcRj00phSw8cOv`,
+        stripe: stripeKey,
       })
       .then(({ data }) => {
         setClientSecret(data.client_secret);
@@ -137,7 +137,6 @@ const Payment = () => {
                 <SubtotalSection>
                   <SalestaxTxt>Service fee</SalestaxTxt>
                   <SalesTxtCost>${state?.service_fee}</SalesTxtCost>
-
                 </SubtotalSection>
                 <hr className="line" />
                 <SubtotalSection>
